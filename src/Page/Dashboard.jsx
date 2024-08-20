@@ -23,7 +23,6 @@ export function Dashboard() {
       <Box flex="1" p={4}>
         <Navbar appName=
           {selectedNav === 1 && "Homepage"}
-          // {selectedNav === 2 && "Add Data"}
          />
         <Box mt={4}>
           <Breadcrumb mb={4}>
