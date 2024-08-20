@@ -1,12 +1,26 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Flex, Avatar, IconButton, Menu, MenuButton, MenuList, MenuItem, Text, HStack, useDisclosure, Button, MenuDivider } from '@chakra-ui/react';
 import { BellIcon, HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { FaRegClock } from 'react-icons/fa';
+import { useAuth } from '../../Auth/AuthContext';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const Navbar = ({ appName = "MyApp" }) => {
+
+const Navbar = ({ appName = "App" }) => {
+  const { logout } = useAuth();
+  const navigator = useNavigate();
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  
+
+  const logoutOnClick = () => {
+    logout();
+    
+    navigator('/')
+  }
   const [notifications] = useState([
     { 
       message: "You have a new message!", 
@@ -92,7 +106,7 @@ const Navbar = ({ appName = "MyApp" }) => {
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuDivider />
-              <MenuItem>Logout</MenuItem>
+              <MenuItem onClick={logoutOnClick}  >Logout</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

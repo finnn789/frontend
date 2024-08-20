@@ -58,6 +58,35 @@ const Sidebar = () => {
                   display="flex"
                   alignItems="center"
                   bg="#f9f9f9"
+                  onClick={() => setIsPageController('planning')}
+                >
+                  <Icon as={FaWrench} mr={2} />
+                  <Text>Submission</Text>
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link
+                  px={3}
+                  py={2}
+                  rounded="md"
+                  _hover={{ bg: "#e0e0e0" }}
+                  display="flex"
+                  alignItems="center"
+                  bg="#f9f9f9"
+                >
+                  <Icon as={FaWrench} mr={2} />
+                  <Text>Operations</Text>
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link
+                  px={3}
+                  py={2}
+                  rounded="md"
+                  _hover={{ bg: "#e0e0e0" }}
+                  display="flex"
+                  alignItems="center"
+                  bg="#f9f9f9"
                 >
                   <Icon as={FaWrench} mr={2} />
                   <Text>Submission</Text>
