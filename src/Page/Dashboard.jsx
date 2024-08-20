@@ -15,6 +15,7 @@ export function Dashboard() {
   return (
     <Flex>
       <Sidebar onClickNavItem={handleNavClick} selectedNav={selectedNav} />
+      {/* <SidebarResponsive selectedNav={selectedNav} /> */}
       <Box flex="1" p={4}>
         <Navbar appName=
           {selectedNav === 1 && "Homepage"}

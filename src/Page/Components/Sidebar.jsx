@@ -1,3 +1,4 @@
+// src/Components/Sidebar.jsx
 import React from "react";
 import { Box, VStack, Link, Image, List, ListItem, Collapse, Icon, Text } from "@chakra-ui/react";
 import { FaHome, FaTools, FaFileAlt, FaMap, FaChevronDown, FaChevronRight, FaWrench } from "react-icons/fa";
