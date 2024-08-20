@@ -1,10 +1,5 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 import { useAuth } from './Auth/AuthContext'
 import Register from './Auth/Register'
-
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
 import Login from './Auth/Login'

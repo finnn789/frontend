@@ -1,46 +1,57 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Box, Flex, Avatar, IconButton, Menu, MenuButton, MenuList, MenuItem, Text, HStack, useDisclosure, Button, MenuDivider } from '@chakra-ui/react';
-import { BellIcon, HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { FaRegClock } from 'react-icons/fa';
-import { useAuth } from '../../Auth/AuthContext';
-import { Navigate, useNavigate } from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import {
+  Box,
+  Flex,
+  Avatar,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Text,
+  HStack,
+  useDisclosure,
+  Button,
+  MenuDivider,
+} from "@chakra-ui/react";
+import { BellIcon, HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { FaRegClock } from "react-icons/fa";
+import { useAuth } from "../../Auth/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ appName = "App" }) => {
   const { logout } = useAuth();
   const navigator = useNavigate();
-  
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const logoutOnClick = () => {
     logout();
-    
-    navigator('/')
-  }
+
+    navigator("/");
+  };
   const [notifications] = useState([
-    { 
-      message: "You have a new message!", 
-      time: "2 mins ago", 
-      icon: "📩" 
+    {
+      message: "You have a new message!",
+      time: "2 mins ago",
+      icon: "📩",
     },
-    { 
-      message: "Your profile was updated.", 
-      time: "10 mins ago", 
-      icon: "🔄" 
+    {
+      message: "Your profile was updated.",
+      time: "10 mins ago",
+      icon: "🔄",
     },
-    { 
-      message: "New comment on your post.", 
-      time: "30 mins ago", 
-      icon: "💬" 
+    {
+      message: "New comment on your post.",
+      time: "30 mins ago",
+      icon: "💬",
     },
   ]);
 
   // Replace this with actual user data
-  const userName = "John Doe"; 
+  const userName = "John Doe";
 
   return (
     <Box bg="white" shadow={"md"} px={4} py={1} borderRadius={"lg"}>
@@ -49,11 +60,13 @@ const Navbar = ({ appName = "App" }) => {
           size="md"
           icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
           aria-label="Open Menu"
-          display={{ md: 'none' }}
+          display={{ md: "none" }}
           onClick={isOpen ? onClose : onOpen}
           color="#10042C"
         />
-        <Box color="#10042C" fontWeight="bold">{appName}</Box>
+        <Box color="#10042C" fontWeight="bold">
+          {appName}
+        </Box>
         <Flex alignItems="center" gap={4}>
           <Menu borderRadius={"lg"}>
             <MenuButton
@@ -89,31 +102,28 @@ const Navbar = ({ appName = "App" }) => {
           <Menu>
             <MenuButton
               as={Button}
-              rounded={'full'}
-              variant={'link'}
-              cursor={'pointer'}
+              rounded={"full"}
+              variant={"link"}
+              cursor={"pointer"}
               minW={0}
             >
               <HStack>
                 <Text>{userName}</Text>
-                <Avatar
-                  size={'sm'}
-                  src={'https://bit.ly/sage-adebayo'}
-                />
+                <Avatar size={"sm"} src={"https://bit.ly/sage-adebayo"} />
               </HStack>
             </MenuButton>
             <MenuList>
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuDivider />
-              <MenuItem onClick={logoutOnClick}  >Logout</MenuItem>
+              <MenuItem onClick={logoutOnClick}>Logout</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
       </Flex>
 
       {isOpen ? (
-        <Box pb={4} display={{ md: 'none' }}>
+        <Box pb={4} display={{ md: "none" }}>
           {/* Mobile menu can be added here */}
         </Box>
       ) : null}
