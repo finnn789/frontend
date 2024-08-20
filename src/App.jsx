@@ -6,6 +6,11 @@ import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
 import Login from './Auth/Login'
+import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
+import OperasiPengerjaan from './Page/WorkPlanning/OperasiPengerjaan'
+import PPP from './Page/WorkPlanning/PPP'
+import PengajuanPekerjaanForm from './Page/Forms/PengajuaanPekerjaanForm'
+
 
 
 
@@ -18,6 +23,22 @@ function App() {
     {
       path: "/dashboard",
       element: <Dashboard/>
+    },
+    {
+      path:"/pengajuanpekerjaan",
+      element:<PengajuanPekerjaan/>
+    },
+    {
+      path:"/operasipekerjaan",
+      element:<OperasiPengerjaan/>
+    },
+    {
+      path:"/ppp",
+      element:<PPP/>
+    },
+    {
+      path:"/pengajuanpekerjaanform",
+      element:<PengajuanPekerjaanForm/>
     }
   ])
   
