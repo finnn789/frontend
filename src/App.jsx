@@ -1,13 +1,9 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-
-
-
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
 import Login from './Auth/Login'
+import Register from './Auth/Register'
+import { useAuth } from './Auth/AuthContext'
 import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
 import OperasiPengerjaan from './Page/WorkPlanning/OperasiPengerjaan'
 import PPP from './Page/WorkPlanning/PPP'

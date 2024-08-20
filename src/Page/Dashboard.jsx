@@ -20,7 +20,7 @@ export function Dashboard() {
     <Flex>
       <Sidebar onClickNavItem={handleNavClick} selectedNav={selectedNav} />
       {/* <SidebarResponsive selectedNav={selectedNav} /> */}
-      <Box flex="1" p={4}>
+      <Box flex="1" p={8}>
         <Navbar appName=
           {selectedNav === 1 && "Homepage"}
          />
