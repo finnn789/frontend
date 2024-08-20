@@ -7,7 +7,7 @@ import { FaRegClock } from 'react-icons/fa';
 
 const Navbar = ({ appName = "MyApp" }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [notifications, setNotifications] = useState([
+  const [notifications] = useState([
     { 
       message: "You have a new message!", 
       time: "2 mins ago", 
