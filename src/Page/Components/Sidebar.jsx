@@ -4,9 +4,13 @@ import { Box, VStack, Link, Image, List, ListItem, Collapse, Icon, Text } from "
 import { FaHome, FaTools, FaFileAlt, FaMap, FaChevronDown, FaChevronRight, FaWrench } from "react-icons/fa";
 import Logo from '../../assets/logo.png';
 
-const Sidebar = () => {
+const Sidebar = ({pageController}) => {
   const [isPlanningOpen, setIsPlanningOpen] = React.useState(false);
+  const [isPageController, setIsPageController] = React.useState('');
 
+  
+
+  
   return (
     <Box bg="white" w="250px" h="100vh" p={4} color="#10042C" boxShadow="md">
       <Box flex={1} margin={"auto"} justifyItems={"center"} w={"fit-content"} marginBottom={"30px"}>
@@ -54,6 +58,7 @@ const Sidebar = () => {
                   display="flex"
                   alignItems="center"
                   bg="#f9f9f9"
+                  onClick={() => setIsPageController('planning')}
                 >
                   <Icon as={FaWrench} mr={2} />
                   <Text>Planning Drilling</Text>

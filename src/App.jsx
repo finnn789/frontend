@@ -2,6 +2,8 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useAuth } from './Auth/AuthContext'
+import Register from './Auth/Register'
 
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
@@ -21,7 +23,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Login/>
+      element:isAuthenticated ? <Dashboard/> : <Login/>
     },
     {
       path: "/register",
@@ -29,7 +31,7 @@ function App() {
     },
     {
       path: "/dashboard",
-      element: <Dashboard/>
+      element: isAuthenticated ? <Dashboard/> : <Navigate to="/"/>
     },
     {
       path:"/pengajuanpekerjaan",
