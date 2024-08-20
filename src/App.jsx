@@ -5,6 +5,7 @@ import './App.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
+import Login from './Auth/Login'
 
 
 
@@ -12,10 +13,14 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
+      element: <Login/>
+    },
+    {
+      path: "/dashboard",
       element: <Dashboard/>
     }
   ])
-  const [count, setCount] = useState(0)
+  
 
   return (
     <>
