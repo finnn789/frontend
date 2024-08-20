@@ -1,7 +1,27 @@
 import React from "react";
-import { Box, VStack, Link, Image, List, ListItem, Collapse, Icon, Text } from "@chakra-ui/react";
-import { FaHome, FaTools, FaFileAlt, FaMap, FaChevronDown, FaChevronRight, FaWrench } from "react-icons/fa";
-import Logo from '../../assets/logo.png';
+import {
+  Box,
+  VStack,
+  Link,
+  Image,
+  List,
+  ListItem,
+  Collapse,
+  Icon,
+  Text,
+} from "@chakra-ui/react";
+import {
+  FaHome,
+  FaTools,
+  FaMap,
+  FaToolbox,
+  FaCog,
+  FaHammer,
+  FaCogs,
+  FaChevronDown,
+  FaChevronRight,
+} from "react-icons/fa";
+import Logo from "../../assets/logo.png";
 
 const Sidebar = () => {
   const [openMenu, setOpenMenu] = React.useState(null);
@@ -12,7 +32,13 @@ const Sidebar = () => {
 
   return (
     <Box bg="white" w="250px" h="100vh" p={4} color="#10042C" boxShadow="md">
-      <Box flex={1} margin={"auto"} justifyItems={"center"} w={"fit-content"} marginBottom={"30px"}>
+      <Box
+        flex={1}
+        margin={"auto"}
+        justifyItems={"center"}
+        w={"fit-content"}
+        marginBottom={"30px"}
+      >
         <Image src={Logo} alt="SKK Migas" w={"120px"} />
       </Box>
       <VStack align="start" spacing={4}>
@@ -39,15 +65,19 @@ const Sidebar = () => {
             width="full"
             display="flex"
             alignItems="center"
-            onClick={() => handleMenuClick('exploration')}
+            onClick={() => handleMenuClick("exploration")}
           >
-            <Icon as={FaFileAlt} mr={2} />
+            <Icon as={FaMap} mr={2} />
             Exploration
             <Box ml="auto">
-              {openMenu === 'exploration' ? <FaChevronDown /> : <FaChevronRight />}
+              {openMenu === "exploration" ? (
+                <FaChevronDown />
+              ) : (
+                <FaChevronRight />
+              )}
             </Box>
           </Link>
-          <Collapse in={openMenu === 'exploration'}>
+          <Collapse in={openMenu === "exploration"}>
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
                 <Link
@@ -58,9 +88,8 @@ const Sidebar = () => {
                   display="flex"
                   alignItems="center"
                   bg="#f9f9f9"
-                  onClick={() => setIsPageController('planning')}
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaToolbox} mr={2} />
                   <Text>Submission</Text>
                 </Link>
               </ListItem>
@@ -74,7 +103,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
                 </Link>
               </ListItem>
@@ -88,35 +117,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
-                  <Text>Submission</Text>
-                </Link>
-              </ListItem>
-              <ListItem>
-                <Link
-                  px={3}
-                  py={2}
-                  rounded="md"
-                  _hover={{ bg: "#e0e0e0" }}
-                  display="flex"
-                  alignItems="center"
-                  bg="#f9f9f9"
-                >
-                  <Icon as={FaWrench} mr={2} />
-                  <Text>Operations</Text>
-                </Link>
-              </ListItem>
-              <ListItem>
-                <Link
-                  px={3}
-                  py={2}
-                  rounded="md"
-                  _hover={{ bg: "#e0e0e0" }}
-                  display="flex"
-                  alignItems="center"
-                  bg="#f9f9f9"
-                >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>
                 </Link>
               </ListItem>
@@ -130,7 +131,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaCog} mr={2} />
                   <Text>Close Out</Text>
                 </Link>
               </ListItem>
@@ -148,15 +149,19 @@ const Sidebar = () => {
             width="full"
             display="flex"
             alignItems="center"
-            onClick={() => handleMenuClick('exploitation')}
+            onClick={() => handleMenuClick("exploitation")}
           >
-            <Icon as={FaFileAlt} mr={2} />
+            <Icon as={FaTools} mr={2} />
             Exploitation
             <Box ml="auto">
-              {openMenu === 'exploitation' ? <FaChevronDown /> : <FaChevronRight />}
+              {openMenu === "exploitation" ? (
+                <FaChevronDown />
+              ) : (
+                <FaChevronRight />
+              )}
             </Box>
           </Link>
-          <Collapse in={openMenu === 'exploitation'}>
+          <Collapse in={openMenu === "exploitation"}>
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
                 <Link
@@ -168,7 +173,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaToolbox} mr={2} />
                   <Text>Submission</Text>
                 </Link>
               </ListItem>
@@ -182,7 +187,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
                 </Link>
               </ListItem>
@@ -196,7 +201,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>
                 </Link>
               </ListItem>
@@ -210,7 +215,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaCog} mr={2} />
                   <Text>Close Out</Text>
                 </Link>
               </ListItem>
@@ -228,15 +233,15 @@ const Sidebar = () => {
             width="full"
             display="flex"
             alignItems="center"
-            onClick={() => handleMenuClick('workover')}
+            onClick={() => handleMenuClick("workover")}
           >
-            <Icon as={FaFileAlt} mr={2} />
+            <Icon as={FaHammer} mr={2} />
             Work Over
             <Box ml="auto">
-              {openMenu === 'workover' ? <FaChevronDown /> : <FaChevronRight />}
+              {openMenu === "workover" ? <FaChevronDown /> : <FaChevronRight />}
             </Box>
           </Link>
-          <Collapse in={openMenu === 'workover'}>
+          <Collapse in={openMenu === "workover"}>
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
                 <Link
@@ -248,7 +253,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaToolbox} mr={2} />
                   <Text>Submission</Text>
                 </Link>
               </ListItem>
@@ -262,7 +267,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
                 </Link>
               </ListItem>
@@ -276,7 +281,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>
                 </Link>
               </ListItem>
@@ -290,7 +295,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaCog} mr={2} />
                   <Text>Close Out</Text>
                 </Link>
               </ListItem>
@@ -308,15 +313,19 @@ const Sidebar = () => {
             width="full"
             display="flex"
             alignItems="center"
-            onClick={() => handleMenuClick('wellservice')}
+            onClick={() => handleMenuClick("wellservice")}
           >
-            <Icon as={FaFileAlt} mr={2} />
+            <Icon as={FaCogs} mr={2} />
             Well Service
             <Box ml="auto">
-              {openMenu === 'wellservice' ? <FaChevronDown /> : <FaChevronRight />}
+              {openMenu === "wellservice" ? (
+                <FaChevronDown />
+              ) : (
+                <FaChevronRight />
+              )}
             </Box>
           </Link>
-          <Collapse in={openMenu === 'wellservice'}>
+          <Collapse in={openMenu === "wellservice"}>
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
                 <Link
@@ -328,7 +337,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaToolbox} mr={2} />
                   <Text>Submission</Text>
                 </Link>
               </ListItem>
@@ -342,7 +351,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
                 </Link>
               </ListItem>
@@ -356,7 +365,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>
                 </Link>
               </ListItem>
@@ -370,7 +379,7 @@ const Sidebar = () => {
                   alignItems="center"
                   bg="#f9f9f9"
                 >
-                  <Icon as={FaWrench} mr={2} />
+                  <Icon as={FaCog} mr={2} />
                   <Text>Close Out</Text>
                 </Link>
               </ListItem>
