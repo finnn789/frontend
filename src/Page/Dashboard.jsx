@@ -4,27 +4,37 @@ import { Box, Flex, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-u
 import Sidebar from "./Components/Sidebar";
 import Navbar from "./Components/Navbar";
 import HomePage from "./Components/HomeDash";
+import PengajuanPekerjaan from "./WorkPlanning/PengajuanPekerjaan";
+import OperasiPengerjaan from "./WorkPlanning/OperasiPengerjaan";
+import PPP from "./WorkPlanning/PPP";
+import PengajuanPekerjaanForm from "./Forms/PengajuaanPekerjaanForm";
 
 export function Dashboard() {
-  const [selectedNav, setSelectedNav] = useState(1);
+  const [selectedNav, setSelectedNav] = useState('homeDash');
   const [pageDashboard, setPageDashboard] = useState(1);
-  
-  
-  
+  const [pageForm, setPageForm] = useState('');
+
+
+  const ControllerButtonPageForm = (value) => {
+    setPageForm(value)
+  }
 
   const handleNavClick = (value) => {
     setSelectedNav(value);
+    setPageForm('');
+
+
   };
 
   return (
     <Flex>
-      <Sidebar onClickNavItem={handleNavClick} selectedNav={selectedNav} />
+      <Sidebar handleMenuValue={handleNavClick} selectedNav={selectedNav} />
       {/* <SidebarResponsive selectedNav={selectedNav} /> */}
       <Box flex="1" p={4}>
-        <Navbar appName=
-          {selectedNav === 1 && "Homepage"}
-          // {selectedNav === 2 && "Add Data"}
-         />
+        <Navbar 
+        // appName={selectedNav === 1 && "Homepage"}
+        // {selectedNav === 2 && "Add Data"}
+        />
         <Box mt={4}>
           <Breadcrumb mb={4}>
             <BreadcrumbItem>
@@ -52,7 +62,12 @@ export function Dashboard() {
 
 
           <Box>
-            {selectedNav === 1 && <HomePage />}
+            {selectedNav === 'homeDash' && <HomePage handleTambahData={setPageForm} />}
+            {selectedNav === 'submission' && <PengajuanPekerjaan handleTambahData={setPageForm} />}
+            {selectedNav === 'operations' && <OperasiPengerjaan handleTambahData={setPageForm} />}
+            {selectedNav === 'PPP' && <PPP handleTambahData={setPageForm} />}
+
+            {pageForm === 'addData' && <PengajuanPekerjaanForm />}
             {/* {selectedNav === 2 && <AddData />} */}
           </Box>
         </Box>

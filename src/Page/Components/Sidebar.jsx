@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   VStack,
@@ -9,6 +9,7 @@ import {
   Collapse,
   Icon,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import {
   FaHome,
@@ -23,8 +24,15 @@ import {
 } from "react-icons/fa";
 import Logo from "../../assets/logo.png";
 
-const Sidebar = () => {
+const Sidebar = ({handleMenuValue}) => {
   const [openMenu, setOpenMenu] = React.useState(null);
+
+  const [onClickPage, setOnClickPage] = useState("");
+
+  const ControlPageKlik = (value) => {
+    setOnClickPage(value);
+    handleMenuValue(value);
+  };
 
   const handleMenuClick = (menuName) => {
     setOpenMenu(openMenu === menuName ? null : menuName);
@@ -67,6 +75,7 @@ const Sidebar = () => {
             alignItems="center"
             onClick={() => handleMenuClick("exploration")}
           >
+
             <Icon as={FaMap} mr={2} />
             Exploration
             <Box ml="auto">
@@ -81,16 +90,19 @@ const Sidebar = () => {
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
                 <Link
+                  onClick={() => ControlPageKlik("submission")}
                   px={3}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   display="flex"
                   alignItems="center"
-                  bg="#f9f9f9"
-                >
+                  bg={onClickPage === 'submission' ? "#e0e0e0" : "#f9f9f9"}
+                > 
                   <Icon as={FaToolbox} mr={2} />
-                  <Text>Submission</Text>
+                 
+                    <Text>Submission</Text>
+                   
                 </Link>
               </ListItem>
               <ListItem>
@@ -101,7 +113,8 @@ const Sidebar = () => {
                   _hover={{ bg: "#e0e0e0" }}
                   display="flex"
                   alignItems="center"
-                  bg="#f9f9f9"
+                  bg={onClickPage === 'operations' ? "#e0e0e0" : "#f9f9f9"}
+                  onClick={() => ControlPageKlik("operations")}
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
@@ -115,7 +128,8 @@ const Sidebar = () => {
                   _hover={{ bg: "#e0e0e0" }}
                   display="flex"
                   alignItems="center"
-                  bg="#f9f9f9"
+                  bg={onClickPage === 'PPP' ? "#e0e0e0" : "#f9f9f9"}
+                  onClick={() => ControlPageKlik("PPP")}
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>

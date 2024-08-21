@@ -16,7 +16,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-const PengajuanPekerjaan = () => {
+const PengajuanPekerjaan = ({handleTambahData}) => {
   const warnabutton = "teal";
   return (
     <Box p={5}>
@@ -53,7 +53,7 @@ const PengajuanPekerjaan = () => {
         </Box>
 
         <HStack justify="flex-end">
-          <Button colorScheme="blue">Tambah Data</Button>
+          <Button colorScheme="blue" onClick={() => handleTambahData('addData')}>Tambah Data</Button>
         </HStack>
 
         <Box

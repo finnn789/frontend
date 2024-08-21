@@ -4,53 +4,64 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 
-
+import { useAuth } from './Auth/AuthContext'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
 import Login from './Auth/Login'
+import Register from './Auth/Register'
 import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
 import OperasiPengerjaan from './Page/WorkPlanning/OperasiPengerjaan'
 import PPP from './Page/WorkPlanning/PPP'
 import PengajuanPekerjaanForm from './Page/Forms/PengajuaanPekerjaanForm'
+import Root, { rootLoader } from "./routes/root";
+import Team, { teamLoader } from "./routes/team";
 
 
 
 
 function App() {
   const { isAuthenticated } = useAuth();
-  
+
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element:isAuthenticated ? <Dashboard/> : <Login/>
+      element: isAuthenticated ? <Dashboard /> : <Login />
     },
     {
       path: "/register",
-      element:<Register/>
+      element: <Register />,
+      
     },
     {
       path: "/dashboard",
-      element: isAuthenticated ? <Dashboard/> : <Navigate to="/"/>
+      element: isAuthenticated ? <Dashboard /> : <Navigate to="/" />,
+      children: [
+        {
+          path: "submission",
+          element: <PengajuanPekerjaan />,
+        }
+      ]
+      
     },
     {
-      path:"/pengajuanpekerjaan",
-      element:<PengajuanPekerjaan/>
+      path: "/pengajuanpekerjaan",
+      element: <PengajuanPekerjaan />
     },
     {
-      path:"/operasipekerjaan",
-      element:<OperasiPengerjaan/>
+      path: "/operasipekerjaan",
+      element: <OperasiPengerjaan />
     },
     {
-      path:"/ppp",
-      element:<PPP/>
+      path: "/ppp",
+      element: <PPP />
     },
     {
-      path:"/pengajuanpekerjaanform",
-      element:<PengajuanPekerjaanForm/>
+      path: "/pengajuanpekerjaanform",
+      element: <PengajuanPekerjaanForm />
     }
   ])
-  
+
 
   return (
     <>

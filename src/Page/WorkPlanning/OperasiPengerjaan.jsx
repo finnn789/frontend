@@ -16,7 +16,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-const OperasiPengerjaan = () => {
+const OperasiPengerjaan = ({handleTambahData}) => {
   const warnabutton = "teal";
   return (
     <Box p={5}>
@@ -52,7 +52,7 @@ const OperasiPengerjaan = () => {
           </ButtonGroup>
         </Box>
         <HStack justify="flex-end">
-          <Button colorScheme="blue">Tambah Data</Button>
+          <Button colorScheme="blue" onClick={() => handleTambahData('addData')}>Tambah Data</Button>
         </HStack>
 
         <Box
