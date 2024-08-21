@@ -10,8 +10,9 @@ import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
 import OperasiPengerjaan from './Page/WorkPlanning/OperasiPengerjaan'
 import PPP from './Page/WorkPlanning/PPP'
 import PengajuanPekerjaanForm from './Page/Forms/PengajuaanPekerjaanForm'
-import Root, { rootLoader } from "./routes/root";
-import Team, { teamLoader } from "./routes/team";
+import {useAuth} from "./Auth/AuthContext";
+import Register from "./Auth/Register";
+import PengajuanWowsForm from './Page/Forms/PengajuanWOWSForm'
 
 
 
@@ -49,8 +50,12 @@ function App() {
       element: <PPP />
     },
     {
-      path: "/pengajuanpekerjaanform",
-      element: <PengajuanPekerjaanForm />
+      path:"/pengajuanpekerjaanform",
+      element:<PengajuanPekerjaanForm/>
+    },
+    {
+      path:"/pengajuanwowsform",
+      element:<PengajuanWowsForm/>
     }
   ])
 

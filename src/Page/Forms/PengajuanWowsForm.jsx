@@ -20,9 +20,10 @@ import {
   Tbody,
   Td,
   Stack,
+  SimpleGrid
 } from "@chakra-ui/react";
 
-const CompleteSumurForm = () => {
+const PengajuanWowsForm = () => {
   const [casingData, setCasingData] = useState([]);
   const [depthData, setDepthData] = useState([]);
   const [scheduleData, setScheduleData] = useState([]);
@@ -551,6 +552,71 @@ const CompleteSumurForm = () => {
           </Table>
         </VStack>
 
+        <VStack spacing={4} align="stretch" borderWidth={1} borderRadius="lg" p={4}>
+          <Heading as="h2" size="lg">WOWS</Heading>
+          
+          <FormControl>
+            <FormLabel>Job Category</FormLabel>
+            <Input placeholder="Enter Job Category" />
+          </FormControl>
+
+          <SimpleGrid columns={2} spacing={4}>
+            <FormControl>
+              <FormLabel>Oil Saat ini</FormLabel>
+              <Input placeholder="Enter current oil" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Target Oil</FormLabel>
+              <Input placeholder="Enter target oil" />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Gas Saat ini</FormLabel>
+              <Input placeholder="Enter current gas" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Target Gas</FormLabel>
+              <Input placeholder="Enter target gas" />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Condensate saat ini</FormLabel>
+              <Input placeholder="Enter current condensate" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Target Condensate</FormLabel>
+              <Input placeholder="Enter target condensate" />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Current oil water cut</FormLabel>
+              <Input placeholder="Enter current oil water cut" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Target oil water cut</FormLabel>
+              <Input placeholder="Enter target oil water cut" />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Current gas water cut</FormLabel>
+              <Input placeholder="Enter current gas water cut" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Target gas water cut</FormLabel>
+              <Input placeholder="Enter target gas water cut" />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Current condensate water cut</FormLabel>
+              <Input placeholder="Enter current condensate water cut" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Target condensate water cut</FormLabel>
+              <Input placeholder="Enter target condensate water cut" />
+            </FormControl>
+          </SimpleGrid>
+        </VStack>
+
         {/* Schedule Section */}
         <VStack spacing={4} align="stretch" borderRadius="lg" borderWidth={1} p={4}>
           <Heading as="h2" size="lg">
@@ -919,4 +985,4 @@ const CompleteSumurForm = () => {
   );
 };
 
-export default CompleteSumurForm;
+export default PengajuanWowsForm;

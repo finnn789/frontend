@@ -16,7 +16,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-const OperasiPengerjaan = ({handleTambahData}) => {
+const CloseOut = () => {
   const warnabutton = "teal";
   return (
     <Box p={5}>
@@ -24,18 +24,19 @@ const OperasiPengerjaan = ({handleTambahData}) => {
         <Box mt={25}>
           <ButtonGroup variant="outline" spacing={2}>
             <Button colorScheme={warnabutton} variant={"solid"}>
-              Disetuji
+              Selesai PPP
             </Button>
             <Button colorScheme={warnabutton} variant={"solid"}>
-              Beroperasi
+              Diajukan
             </Button>
             <Button colorScheme={warnabutton} variant={"solid"}>
               Selesai
             </Button>
           </ButtonGroup>
         </Box>
+
         <HStack justify="flex-end">
-          <Button colorScheme="blue" onClick={() => handleTambahData('addData')}>Tambah Data</Button>
+          <Button colorScheme="blue">Tambah Data</Button>
         </HStack>
 
         <Box
@@ -47,7 +48,7 @@ const OperasiPengerjaan = ({handleTambahData}) => {
           <TableContainer>
             <Table variant="simple">
               <TableCaption placement="top">
-                Table Data Status Operasi Pekerjaan
+                Tabel Data Status CloseOut Pekerjaan
               </TableCaption>
               <Thead>
                 <Tr>
@@ -69,4 +70,4 @@ const OperasiPengerjaan = ({handleTambahData}) => {
   );
 };
 
-export default OperasiPengerjaan;
+export default CloseOut;
