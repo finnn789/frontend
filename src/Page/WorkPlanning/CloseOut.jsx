@@ -16,7 +16,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-const PPP = () => {
+const CloseOut = () => {
   const warnabutton = "teal";
   return (
     <Box p={5}>
@@ -24,13 +24,13 @@ const PPP = () => {
         <Box mt={25}>
           <ButtonGroup variant="outline" spacing={2}>
             <Button colorScheme={warnabutton} variant={"solid"}>
-              Pekerjaan Selesai
-            </Button>
-            <Button colorScheme={warnabutton} variant={"solid"}>
-              Diajukan PPP
-            </Button>
-            <Button colorScheme={warnabutton} variant={"solid"}>
               Selesai PPP
+            </Button>
+            <Button colorScheme={warnabutton} variant={"solid"}>
+              Diajukan
+            </Button>
+            <Button colorScheme={warnabutton} variant={"solid"}>
+              Selesai
             </Button>
           </ButtonGroup>
         </Box>
@@ -48,7 +48,7 @@ const PPP = () => {
           <TableContainer>
             <Table variant="simple">
               <TableCaption placement="top">
-                Table Data Status PPP Pekerjaan
+                Tabel Data Status CloseOut Pekerjaan
               </TableCaption>
               <Thead>
                 <Tr>
@@ -70,4 +70,4 @@ const PPP = () => {
   );
 };
 
-export default PPP;
+export default CloseOut;
