@@ -1,9 +1,10 @@
 import './App.css'
 
 
-import { useAuth } from './Auth/AuthContext'
+
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
+import {useAuth} from './Auth/AuthContext'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
 import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
@@ -32,12 +33,7 @@ function App() {
     {
       path: "/dashboard",
       element: isAuthenticated ? <Dashboard /> : <Navigate to="/" />,
-      children: [
-        {
-          path: "submission",
-          element: <PengajuanPekerjaan />,
-        }
-      ]
+      
       
     },
     {

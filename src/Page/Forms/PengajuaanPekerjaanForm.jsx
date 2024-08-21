@@ -1,4 +1,5 @@
 import React from "react";
+import { useState,useEffect } from "react";
 import {
   Box,
   Tabs,
@@ -16,6 +17,26 @@ import {
 } from "@chakra-ui/react";
 
 const WellForm = () => {
+
+  const [data, setData] = useState(null);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/utils/enum/all');
+      setData(response.data);
+      console.log(response);
+      
+      setLoading(false);
+    } catch (error) {
+      setError('Terjadi kesalahan saat mengambil data');
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
   return (
     <Box maxWidth="100%" margin="auto" padding={5}>
       <Tabs variant="enclosed" colorScheme="blue">
