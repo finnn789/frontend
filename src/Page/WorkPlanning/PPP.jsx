@@ -16,7 +16,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-const PPP = () => {
+const PPP = ({handleTambahData}) => {
   const warnabutton = "teal";
   return (
     <Box p={5}>
@@ -36,7 +36,7 @@ const PPP = () => {
         </Box>
 
         <HStack justify="flex-end">
-          <Button colorScheme="blue">Tambah Data</Button>
+          <Button colorScheme="blue" onClick={() => handleTambahData('addData')}>Tambah Data</Button>
         </HStack>
 
         <Box
