@@ -33,12 +33,7 @@ function App() {
     {
       path: "/dashboard",
       element: isAuthenticated ? <Dashboard /> : <Navigate to="/" />,
-      children: [
-        {
-          path: "submission",
-          element: <PengajuanPekerjaan />,
-        }
-      ]
+      
       
     },
     {
