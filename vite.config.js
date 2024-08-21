@@ -7,6 +7,11 @@ export default defineConfig({
   server: {
     watch: {
       usePolling: true,
-    }
-  }
+    },
+    cors: {
+      origin: '*', // Mengizinkan semua origin, atau kamu bisa menggantinya dengan domain yang spesifik
+      methods: ['GET', 'POST', 'PUT', 'DELETE'], // Metode HTTP yang diizinkan
+      allowedHeaders: ['Content-Type', 'Authorization'], // Header yang diizinkan
+    },
+  },
 })
