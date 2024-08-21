@@ -4,14 +4,13 @@ import './App.css'
 
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
+import {useAuth} from './Auth/AuthContext'
 import Login from './Auth/Login'
-
+import Register from './Auth/Register'
 import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
 import OperasiPengerjaan from './Page/WorkPlanning/OperasiPengerjaan'
 import PPP from './Page/WorkPlanning/PPP'
 import PengajuanPekerjaanForm from './Page/Forms/PengajuaanPekerjaanForm'
-import {useAuth} from "./Auth/AuthContext";
-import Register from "./Auth/Register";
 import PengajuanWowsForm from './Page/Forms/PengajuanWOWSForm'
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   VStack,
@@ -20,7 +20,11 @@ import {
   Tbody,
   Td,
   Stack,
-  SimpleGrid
+  SimpleGrid,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from "@chakra-ui/react";
 
 const PengajuanWowsForm = () => {
@@ -30,6 +34,69 @@ const PengajuanWowsForm = () => {
   const [personnelData, setPersonnelData] = useState([]);
   const [hazardData, setHazardData] = useState([]);
   const [otherFileData, setOtherFileData] = useState([]);
+  const [dates, setDates] = useState({
+    rencanaMulaiTajak: "",
+    rencanaSelesaiOperasi: "",
+    realisasiMulai: "",
+    realisasiSelesai: "",
+    startDate:"",
+    endDate:"",
+
+  });
+  const [minDates, setMinDates] = useState({
+    rencanaSelesaiOperasi: "",
+    realisasiSelesai: "",
+    endDate:"",
+  });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    const newMinDates = { ...minDates };
+    if (dates.rencanaMulaiTajak) {
+      const nextDay = new Date(dates.rencanaMulaiTajak);
+      nextDay.setDate(nextDay.getDate() + 1);
+      newMinDates.rencanaSelesaiOperasi = nextDay.toISOString().split("T")[0];
+    }
+    if (dates.realisasiMulai) {
+      const nextDay = new Date(dates.realisasiMulai);
+      nextDay.setDate(nextDay.getDate() + 1);
+      newMinDates.realisasiSelesai = nextDay.toISOString().split("T")[0];
+    }
+    if (dates.startDate) {
+      const nextDay = new Date(dates.startDate);
+      nextDay.setDate(nextDay.getDate() + 1);
+      newMinDates.endDate = nextDay.toISOString().split("T")[0];
+    }
+    setMinDates(newMinDates);
+  }, [dates.rencanaMulaiTajak, dates.realisasiMulai]);
+
+
+  const handleDateChange = (field, value) => {
+    setDates((prev) => {
+      const newDates = { ...prev, [field]: value };
+      // Reset end date if it becomes invalid
+      if (
+        field === "rencanaMulaiTajak" &&
+        new Date(newDates.rencanaSelesaiOperasi) <= new Date(value)
+      ) {
+        newDates.rencanaSelesaiOperasi = "";
+      }
+      if (
+        field === "realisasiMulai" &&
+        new Date(newDates.realisasiSelesai) <= new Date(value)
+      ) {
+        newDates.realisasiSelesai = "";
+      }
+      if (
+        field === "startDate" &&
+        new Date(newDates.endDate) <= new Date(value)
+      ) {
+        newDates.endDate = "";
+      }
+      return newDates;
+    });
+  };
 
   const [currentCasing, setCurrentCasing] = useState({
     type: "",
@@ -51,6 +118,8 @@ const PengajuanWowsForm = () => {
     endDate: "",
     keterangan: "",
   });
+
+  console.log(currentSchedule);
   const [currentPersonnel, setCurrentPersonnel] = useState({
     posisi: "",
     nama: "",
@@ -80,267 +149,331 @@ const PengajuanWowsForm = () => {
       borderWidth={1}
       borderRadius="lg"
     >
-      <VStack spacing={4} align="stretch" >
-        <VStack spacing={4} align="stretch" borderRadius="lg" borderWidth={1} p={4}>
-        <Heading as="h2" size="lg">
-          Sumur
-        </Heading>
+      <VStack spacing={4} align="stretch">
+        <VStack
+          spacing={4}
+          align="stretch"
+          borderRadius="lg"
+          borderWidth={1}
+          p={4}
+        >
+          <Heading as="h2" size="lg">
+            Sumur
+          </Heading>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>UWI</FormLabel>
-            <Input placeholder="UWI" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Field</FormLabel>
-            <Input placeholder="Field" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>UWI</FormLabel>
+              <Input placeholder="UWI" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Field</FormLabel>
+              <Input placeholder="Field" />
+            </FormControl>
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Nama Sumur</FormLabel>
-            <Input placeholder="Nama Sumur" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Nama Lengkap Sumur</FormLabel>
-            <Input placeholder="Nama Lengkap Sumur" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Nama Sumur</FormLabel>
+              <Input placeholder="Nama Sumur" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Nama Lengkap Sumur</FormLabel>
+              <Input placeholder="Nama Lengkap Sumur" />
+            </FormControl>
+          </HStack>
 
-        <FormControl as="fieldset">
-          <FormLabel as="legend">Pekerjaan</FormLabel>
-          <RadioGroup>
-            <HStack spacing={4}>
-              <Radio value="eksplorasi">Eksplorasi</Radio>
-              <Radio value="eksploitasi">Eksploitasi(Development)</Radio>
-            </HStack>
-          </RadioGroup>
-        </FormControl>
+          <FormControl as="fieldset">
+            <FormLabel as="legend">Pekerjaan</FormLabel>
+            <RadioGroup>
+              <HStack spacing={4}>
+                <Radio value="eksplorasi">Eksplorasi</Radio>
+                <Radio value="eksploitasi">Eksploitasi(Development)</Radio>
+              </HStack>
+            </RadioGroup>
+          </FormControl>
 
-        <FormControl as="fieldset">
-          <FormLabel as="legend">Type Well</FormLabel>
-          <RadioGroup>
-            <HStack spacing={4}>
-              <Radio value="wildcat">Wildcat</Radio>
-              <Radio value="delineasi">Delineasi</Radio>
-              <Radio value="infill">Infill</Radio>
-              <Radio value="produser">Produser</Radio>
-              <Radio value="stepout">Stepout</Radio>
-            </HStack>
-          </RadioGroup>
-        </FormControl>
+          <FormControl as="fieldset">
+            <FormLabel as="legend">Type Well</FormLabel>
+            <RadioGroup>
+              <HStack spacing={4}>
+                <Radio value="wildcat">Wildcat</Radio>
+                <Radio value="delineasi">Delineasi</Radio>
+                <Radio value="infill">Infill</Radio>
+                <Radio value="produser">Produser</Radio>
+                <Radio value="stepout">Stepout</Radio>
+              </HStack>
+            </RadioGroup>
+          </FormControl>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Well Status</FormLabel>
-            <Input placeholder="Well Status" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Profile_Type</FormLabel>
-            <Input placeholder="Profile_Type" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Well Status</FormLabel>
+              <Input placeholder="Well Status" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Profile_Type</FormLabel>
+              <Input placeholder="Profile_Type" />
+            </FormControl>
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Environment_Type</FormLabel>
-            <Input placeholder="Environment_Type" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Spud_date</FormLabel>
-            <Input placeholder="Spud_date" type="date" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Environment_Type</FormLabel>
+              <Input placeholder="Environment_Type" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Spud_date</FormLabel>
+              <Input placeholder="Spud_date" type="date" />
+            </FormControl>
+          </HStack>
 
-        <FormControl as="fieldset">
-          <FormLabel as="legend">Tipe Kontrak</FormLabel>
-          <RadioGroup>
-            <HStack spacing={4}>
-              <Radio value="grossSplit">Gross Split</Radio>
-              <Radio value="costRecovery">Cost Recovery</Radio>
-            </HStack>
-          </RadioGroup>
-        </FormControl>
+          <FormControl as="fieldset">
+            <FormLabel as="legend">Tipe Kontrak</FormLabel>
+            <RadioGroup>
+              <HStack spacing={4}>
+                <Radio value="grossSplit">Gross Split</Radio>
+                <Radio value="costRecovery">Cost Recovery</Radio>
+              </HStack>
+            </RadioGroup>
+          </FormControl>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>No AFE</FormLabel>
-            <Input placeholder="No AFE" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Status AFE</FormLabel>
-            <Input placeholder="Valid/Proses/Ditolak" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Total Cost AFE Approve</FormLabel>
-            <Input placeholder="Total Cost AFE Approve" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>No AFE</FormLabel>
+              <Input placeholder="No AFE" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Status AFE</FormLabel>
+              <Input placeholder="Valid/Proses/Ditolak" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Total Cost AFE Approve</FormLabel>
+              <Input placeholder="Total Cost AFE Approve" />
+            </FormControl>
+          </HStack>
 
-        <FormControl as="fieldset">
-          <FormLabel as="legend">Re-entry</FormLabel>
-          <RadioGroup>
-            <HStack spacing={4}>
-              <Radio value="ya">Ya</Radio>
-              <Radio value="tidak">Tidak</Radio>
-            </HStack>
-          </RadioGroup>
-        </FormControl>
+          <FormControl as="fieldset">
+            <FormLabel as="legend">Re-entry</FormLabel>
+            <RadioGroup>
+              <HStack spacing={4}>
+                <Radio value="ya">Ya</Radio>
+                <Radio value="tidak">Tidak</Radio>
+              </HStack>
+            </RadioGroup>
+          </FormControl>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Rencana Mulai Tajak</FormLabel>
-            <Input placeholder="Rencana Mulai Tajak" type="date" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Rencana Selesai Operasi</FormLabel>
-            <Input placeholder="Rencana Selesai Operasi" type="date" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Rencana Total Budget</FormLabel>
-            <Input placeholder="Rencana Total Budget" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Rencana Mulai Tajak</FormLabel>
+              <Input
+                placeholder="Rencana Mulai Tajak"
+                type="date"
+                value={dates.rencanaMulaiTajak}
+                onChange={(e) =>
+                  handleDateChange("rencanaMulaiTajak", e.target.value)
+                }
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Rencana Selesai Operasi</FormLabel>
+              <Input
+                placeholder="Rencana Selesai Operasi"
+                type="date"
+                value={dates.rencanaSelesaiOperasi}
+                onChange={(e) =>
+                  handleDateChange("rencanaSelesaiOperasi", e.target.value)
+                }
+                min={minDates.rencanaSelesaiOperasi}
+                disabled={!dates.rencanaMulaiTajak}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Rencana Total Budget</FormLabel>
+              <Input placeholder="Rencana Total Budget" />
+            </FormControl>
+            {error && (
+              <Alert status="error">
+                <AlertIcon />
+                <AlertTitle mr={2}>Error!</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            {success && (
+              <Alert status="success">
+                <AlertIcon />
+                <AlertTitle mr={2}>Sukses!</AlertTitle>
+                <AlertDescription>Form berhasil disubmit.</AlertDescription>
+              </Alert>
+            )}
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Realisasi Mulai</FormLabel>
-            <Input placeholder="Realisasi Mulai" type="date" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Realisasi Selesai</FormLabel>
-            <Input placeholder="Realisasi Selesai" type="date" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Realisasi Total Budget</FormLabel>
-            <Input placeholder="Realisasi Total Budget" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Realisasi Mulai</FormLabel>
+              <Input
+                placeholder="Realisasi Mulai"
+                type="date"
+                value={dates.realisasiMulai}
+                onChange={(e) =>
+                  handleDateChange("realisasiMulai", e.target.value)
+                }
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Realisasi Selesai</FormLabel>
+              <Input
+                placeholder="Realisasi Selesai"
+                type="date"
+                value={dates.realisasiSelesai}
+                onChange={(e) =>
+                  handleDateChange("realisasiSelesai", e.target.value)
+                }
+                min={minDates.realisasiSelesai}
+                disabled={!dates.realisasiMulai}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Realisasi Total Budget</FormLabel>
+              <Input placeholder="Realisasi Total Budget" />
+            </FormControl>
+          </HStack>
         </VStack>
 
-        <VStack spacing={4} align="stretch" borderRadius="lg" borderWidth={1} p={4}>
-        <Heading as="h2" size="lg" mt={6}>
-          Lokasi
-        </Heading>
+        <VStack
+          spacing={4}
+          align="stretch"
+          borderRadius="lg"
+          borderWidth={1}
+          p={4}
+        >
+          <Heading as="h2" size="lg" mt={6}>
+            Lokasi
+          </Heading>
 
-        <FormControl as="fieldset">
-          <FormLabel as="legend">Tujuan</FormLabel>
-          <RadioGroup>
-            <HStack spacing={4}>
-              <Radio value="offshore">Offshore</Radio>
-              <Radio value="onshore">Onshore</Radio>
-            </HStack>
-          </RadioGroup>
-        </FormControl>
+          <FormControl as="fieldset">
+            <FormLabel as="legend">Tujuan</FormLabel>
+            <RadioGroup>
+              <HStack spacing={4}>
+                <Radio value="offshore">Offshore</Radio>
+                <Radio value="onshore">Onshore</Radio>
+              </HStack>
+            </RadioGroup>
+          </FormControl>
 
-        <FormControl as="fieldset">
-          <FormLabel as="legend">Satuan</FormLabel>
-          <RadioGroup>
-            <HStack spacing={4}>
-              <Radio value="feet">Feet(Ft.)</Radio>
-              <Radio value="meter">Meter(M)</Radio>
-            </HStack>
-          </RadioGroup>
-        </FormControl>
+          <FormControl as="fieldset">
+            <FormLabel as="legend">Satuan</FormLabel>
+            <RadioGroup>
+              <HStack spacing={4}>
+                <Radio value="feet">Feet(Ft.)</Radio>
+                <Radio value="meter">Meter(M)</Radio>
+              </HStack>
+            </RadioGroup>
+          </FormControl>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Elevasi GL(Ground Level)</FormLabel>
-            <Input placeholder="Elevasi GL" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Elevasi RKB(Rotary Kelly Bushing)</FormLabel>
-            <Input placeholder="Elevasi RKB" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Elevasi GL(Ground Level)</FormLabel>
+              <Input placeholder="Elevasi GL" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Elevasi RKB(Rotary Kelly Bushing)</FormLabel>
+              <Input placeholder="Elevasi RKB" />
+            </FormControl>
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Elevasi MSL(Mean Sea Level)</FormLabel>
-            <Input placeholder="Elevasi MSL" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Elevasi Derrick Floor</FormLabel>
-            <Input placeholder="Elevasi Derrick Floor" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Elevasi MSL(Mean Sea Level)</FormLabel>
+              <Input placeholder="Elevasi MSL" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Elevasi Derrick Floor</FormLabel>
+              <Input placeholder="Elevasi Derrick Floor" />
+            </FormControl>
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Azimuth / Kemiringan Maks</FormLabel>
-            <Input placeholder="Azimuth / Kemiringan Maks" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Kick Off Point(KOP)</FormLabel>
-            <Input placeholder="KOP" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Azimuth / Kemiringan Maks</FormLabel>
+              <Input placeholder="Azimuth / Kemiringan Maks" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Kick Off Point(KOP)</FormLabel>
+              <Input placeholder="KOP" />
+            </FormControl>
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Depth Datum</FormLabel>
-            <Input placeholder="Depth Datum" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Drill Td</FormLabel>
-            <Input placeholder="Drill Td" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Depth Datum</FormLabel>
+              <Input placeholder="Depth Datum" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Drill Td</FormLabel>
+              <Input placeholder="Drill Td" />
+            </FormControl>
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Log Td</FormLabel>
-            <Input placeholder="Log Td" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Max TVD</FormLabel>
-            <Input placeholder="Max TVD" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Log Td</FormLabel>
+              <Input placeholder="Log Td" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Max TVD</FormLabel>
+              <Input placeholder="Max TVD" />
+            </FormControl>
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Project Depth</FormLabel>
-            <Input placeholder="Project Depth" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Final Td</FormLabel>
-            <Input placeholder="Final Td" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Project Depth</FormLabel>
+              <Input placeholder="Project Depth" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Final Td</FormLabel>
+              <Input placeholder="Final Td" />
+            </FormControl>
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Latitude Permukaan</FormLabel>
-            <Input placeholder="Latitude Permukaan" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Latitude Subsurface</FormLabel>
-            <Input placeholder="Latitude Subsurface" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Latitude Permukaan</FormLabel>
+              <Input placeholder="Latitude Permukaan" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Latitude Subsurface</FormLabel>
+              <Input placeholder="Latitude Subsurface" />
+            </FormControl>
+          </HStack>
 
-        <HStack>
-          <FormControl>
-            <FormLabel>Longitude Permukaan</FormLabel>
-            <Input placeholder="Longitude Permukaan" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Longitude Subsurface</FormLabel>
-            <Input placeholder="Longitude Subsurface" />
-          </FormControl>
-        </HStack>
+          <HStack>
+            <FormControl>
+              <FormLabel>Longitude Permukaan</FormLabel>
+              <Input placeholder="Longitude Permukaan" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Longitude Subsurface</FormLabel>
+              <Input placeholder="Longitude Subsurface" />
+            </FormControl>
+          </HStack>
 
-        <FormControl>
-          <FormLabel>Keterangan</FormLabel>
-          <Textarea placeholder="Keterangan" />
-        </FormControl>
+          <FormControl>
+            <FormLabel>Keterangan</FormLabel>
+            <Textarea placeholder="Keterangan" />
+          </FormControl>
         </VStack>
         {/* ... [Previous form sections remain unchanged] ... */}
 
         {/* Casing Section */}
-        <VStack spacing={4} align="stretch" borderRadius="lg" borderWidth={1} p={4}>
+        <VStack
+          spacing={4}
+          align="stretch"
+          borderRadius="lg"
+          borderWidth={1}
+          p={4}
+        >
           <Heading as="h2" size="lg">
             Casing
           </Heading>
@@ -483,7 +616,13 @@ const PengajuanWowsForm = () => {
         </VStack>
 
         {/* Depth vs Days Section */}
-        <VStack spacing={4} align="stretch" borderRadius="lg" borderWidth={1} p={4}>
+        <VStack
+          spacing={4}
+          align="stretch"
+          borderRadius="lg"
+          borderWidth={1}
+          p={4}
+        >
           <Heading as="h2" size="lg">
             Depth vs Days
           </Heading>
@@ -552,9 +691,17 @@ const PengajuanWowsForm = () => {
           </Table>
         </VStack>
 
-        <VStack spacing={4} align="stretch" borderWidth={1} borderRadius="lg" p={4}>
-          <Heading as="h2" size="lg">WOWS</Heading>
-          
+        <VStack
+          spacing={4}
+          align="stretch"
+          borderWidth={1}
+          borderRadius="lg"
+          p={4}
+        >
+          <Heading as="h2" size="lg">
+            WOWS
+          </Heading>
+
           <FormControl>
             <FormLabel>Job Category</FormLabel>
             <Input placeholder="Enter Job Category" />
@@ -618,7 +765,13 @@ const PengajuanWowsForm = () => {
         </VStack>
 
         {/* Schedule Section */}
-        <VStack spacing={4} align="stretch" borderRadius="lg" borderWidth={1} p={4}>
+        <VStack
+          spacing={4}
+          align="stretch"
+          borderRadius="lg"
+          borderWidth={1}
+          p={4}
+        >
           <Heading as="h2" size="lg">
             Schedule
           </Heading>
