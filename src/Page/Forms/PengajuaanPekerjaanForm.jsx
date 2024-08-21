@@ -29,7 +29,8 @@ const CompleteSumurForm = () => {
   const [personnelData, setPersonnelData] = useState([]);
   const [hazardData, setHazardData] = useState([]);
   const [otherFileData, setOtherFileData] = useState([]);
-
+  console.log(casingData, depthData, scheduleData, personnelData, hazardData);
+  
   const [currentCasing, setCurrentCasing] = useState({
     type: "",
     innerDiameter: "",

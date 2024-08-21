@@ -1,11 +1,11 @@
 import './App.css'
 
 
-import { useAuth } from './Auth/AuthContext'
+
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
 import Login from './Auth/Login'
-import Register from './Auth/Register'
+
 import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
 import OperasiPengerjaan from './Page/WorkPlanning/OperasiPengerjaan'
 import PPP from './Page/WorkPlanning/PPP'
