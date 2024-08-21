@@ -112,7 +112,7 @@ const Navbar = ({ appName = "App" }) => {
                 <Avatar size={"sm"} src={"https://bit.ly/sage-adebayo"} />
               </HStack>
             </MenuButton>
-            <MenuList>
+            <MenuList backgroundColor={'white'} zIndex={10} >
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuDivider />
