@@ -35,7 +35,7 @@ function App() {
       element: isAuthenticated ? <Dashboard /> : <Navigate to="/" />,
       children: [
         {
-          path: "/pengajuanpekerjaan",
+          path: "pengajuanpekerjaan",
           element: <PengajuanPekerjaan />,
         }
       ]

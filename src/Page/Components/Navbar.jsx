@@ -76,7 +76,7 @@ const Navbar = ({ appName = "App" }) => {
               variant="ghost"
               color="#10042C"
             />
-            <MenuList w={"300px"} px={4} py={4} borderRadius={"lg"}>
+            <MenuList w={"300px"} px={4} py={4} borderRadius={"lg"} zIndex={10}>
               {notifications.length > 0 ? (
                 notifications.map((notification, index) => (
                   <MenuItem key={index} borderRadius={"lg"}>
