@@ -35,13 +35,17 @@ export function Dashboard() {
     if (path.includes("/dashboard/submission")) {
       setPageForm("submission");
       setSelectedNav('submission');
-    } else if (path.includes("/dashboard/operasipekerjaan")) {
+    } else if (path.includes("/dashboard/operasi")) {
       setPageForm("operations");
       setSelectedNav("operations");
     } else if (path.includes("/dashboard/ppp")) {
       setPageForm("PPP");
       setSelectedNav("PPP");
-    } else {
+    }else if (path.includes("/dashboard")) {
+      setPageForm("homeDash");
+      setSelectedNav("homeDash");
+    }   
+     else {
       setPageForm(""); // Default or reset state
     }
   }, [location.pathname]);
@@ -118,7 +122,7 @@ export function Dashboard() {
 
 
           <Box>
-            {/* {selectedNav === 'homeDash' && <HomePage handleTambahData={setPageForm} />} */}
+            {selectedNav === 'homeDash' && <HomePage handleTambahData={setPageForm} />}
             {/* {selectedNav === 'submission' && <PengajuanPekerjaan handleTambahData={setPageForm} />} */}
             {/* {selectedNav === 'operations' && <OperasiPengerjaan handleTambahData={setPageForm} />} */}
             {/* {selectedNav === 'PPP' && <PPP handleTambahData={setPageForm} />} */}
