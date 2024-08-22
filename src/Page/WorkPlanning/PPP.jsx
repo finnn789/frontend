@@ -15,10 +15,12 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import { Outlet,Link } from "react-router-dom";
 
 const PPP = ({handleTambahData}) => {
   const warnabutton = "teal";
   return (
+    <>
     <Box p={5}>
       <VStack spacing={4} align="stretch">
         <Box mt={25}>
@@ -36,7 +38,7 @@ const PPP = ({handleTambahData}) => {
         </Box>
 
         <HStack justify="flex-end">
-          <Button colorScheme="blue" onClick={() => handleTambahData('addData')}>Tambah Data</Button>
+          <Button colorScheme="blue" as={Link} to={"/dashboard/ppp/pppform"} >Tambah Data</Button>
         </HStack>
 
         <Box
@@ -67,6 +69,8 @@ const PPP = ({handleTambahData}) => {
         </Box>
       </VStack>
     </Box>
+    <Outlet/>
+    </>
   );
 };
 

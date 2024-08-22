@@ -15,10 +15,13 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import { Outlet, useNavigate,Link } from "react-router-dom";
 
 const OperasiPengerjaan = ({handleTambahData}) => {
+  const navigate = useNavigate();
   const warnabutton = "teal";
   return (
+    <>
     <Box p={5}>
       <VStack spacing={4} align="stretch">
         <Box mt={25}>
@@ -35,7 +38,7 @@ const OperasiPengerjaan = ({handleTambahData}) => {
           </ButtonGroup>
         </Box>
         <HStack justify="flex-end">
-          <Button colorScheme="blue" onClick={() => handleTambahData('addData')}>Tambah Data</Button>
+          <Button colorScheme="blue" as={Link} to="/dashboard/operasi/operasiform">Tambah Data</Button>
         </HStack>
 
         <Box
@@ -66,6 +69,8 @@ const OperasiPengerjaan = ({handleTambahData}) => {
         </Box>
       </VStack>
     </Box>
+    <Outlet/>
+    </>
   );
 };
 

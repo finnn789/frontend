@@ -4,7 +4,7 @@ import './App.css'
 
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Dashboard from './Page/Dashboard'
-import {useAuth} from './Auth/AuthContext'
+import { useAuth } from './Auth/AuthContext'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
 import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
@@ -28,23 +28,50 @@ function App() {
     {
       path: "/register",
       element: <Register />,
-      
+
     },
     {
       path: "/dashboard",
       element: isAuthenticated ? <Dashboard /> : <Navigate to="/" />,
       children: [
         {
-          path: "pengajuanpekerjaan",
+          path: "submission",
           element: <PengajuanPekerjaan />,
-        }
+          children: [
+            {
+              path: "pengajuanform",
+              element: <PengajuanPekerjaanForm />,
+            }
+
+          ]
+        },
+        {
+          path: "operasi",
+          element: <OperasiPengerjaan />,
+          children: [
+            {
+              path: "operasiform",
+              element: <PengajuanPekerjaanForm />,
+            }
+          ]
+        },
+        {
+          path: "ppp",
+          element: <PPP />,
+          children: [
+            {
+              path: "pppform",
+              element: <PengajuanPekerjaanForm />,
+            }
+          ]
+        },
       ]
-      
+
     },
     {
       path: "/pengajuanpekerjaan",
       element: <PengajuanPekerjaan />,
-      
+
     },
     {
       path: "/operasipekerjaan",
@@ -55,12 +82,12 @@ function App() {
       element: <PPP />
     },
     {
-      path:"/pengajuanpekerjaanform",
-      element:<PengajuanPekerjaanForm/>
+      path: "/pengajuanpekerjaanform",
+      element: <PengajuanPekerjaanForm />
     },
     {
-      path:"/pengajuanwowsform",
-      element:<PengajuanWowsForm/>
+      path: "/pengajuanwowsform",
+      element: <PengajuanWowsForm />
     }
   ])
 
