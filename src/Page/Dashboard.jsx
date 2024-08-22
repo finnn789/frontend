@@ -51,7 +51,7 @@ export function Dashboard() {
 
   return (
     <Flex>
-      <Sidebar handleMenuValue={handleNavClick} selectedNav={selectedNav} appName={getAppName()} />
+      <Sidebar handleMenuValue={handleNavClick} selectedNav={selectedNav}  />
       <Box flex="1" p={4}>
         <Navbar
         // appName={selectedNav === 1 && "Homepage"}
