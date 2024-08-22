@@ -7,60 +7,54 @@ import HomePage from "./Components/HomeDash";
 import PengajuanPekerjaan from "./WorkPlanning/PengajuanPekerjaan";
 import OperasiPengerjaan from "./WorkPlanning/OperasiPengerjaan";
 import PPP from "./WorkPlanning/PPP";
-import PengajuanPekerjaanForm from "./Forms/PengajuaanPekerjaanForm";
+// import PengajuanPekerjaanForm from "./Forms/PengajuanPekerjaanForm";
 
 
 export function Dashboard() {
   const [selectedNav, setSelectedNav] = useState('homeDash');
-  const [pageDashboard, setPageDashboard] = useState(1);
   const [pageForm, setPageForm] = useState('');
 
-
   const ControllerButtonPageForm = (value) => {
-    setPageForm(value)
-  }
+    setPageForm(value);
+  };
 
   const handleNavClick = (value) => {
     setSelectedNav(value);
     setPageForm('');
+  };
 
-
+  const getAppName = () => {
+    switch (selectedNav) {
+      case 'homeDash':
+        return "Homepage";
+      case 'submission':
+        return "Pengajuan Pekerjaan";
+      case 'operations':
+        return "Operasi Pengerjaan";
+      case 'PPP':
+        return "PPP";
+      default:
+        return "Dashboard";
+    }
   };
 
   return (
     <Flex>
-      <Sidebar handleMenuValue={handleNavClick} selectedNav={selectedNav} />
-      {/* <SidebarResponsive selectedNav={selectedNav} /> */}
+      <Sidebar handleMenuValue={handleNavClick} selectedNav={selectedNav} appName={getAppName()} />
       <Box flex="1" p={4}>
-        <Navbar 
-        // appName={selectedNav === 1 && "Homepage"}
-        // {selectedNav === 2 && "Add Data"}
-        />
+        <Navbar appName={getAppName()} />
         <Box mt={4}>
           <Breadcrumb mb={4}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>Home</BreadcrumbLink>
             </BreadcrumbItem>
 
-            {selectedNav === 2 && (
-              <BreadcrumbItem>
-                <BreadcrumbLink href='#'>Add Data</BreadcrumbLink>
-              </BreadcrumbItem>
-            )}
-
-            {selectedNav === 1 && (
+            {selectedNav !== 'homeDash' && (
               <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink href='#'>Homepage</BreadcrumbLink>
-              </BreadcrumbItem>
-            )}
-
-            {selectedNav === 2 && (
-              <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink href='#'>Form</BreadcrumbLink>
+                <BreadcrumbLink href='#'>{getAppName()}</BreadcrumbLink>
               </BreadcrumbItem>
             )}
           </Breadcrumb>
-
 
           <Box>
             {selectedNav === 'homeDash' && <HomePage handleTambahData={setPageForm} />}
@@ -69,7 +63,6 @@ export function Dashboard() {
             {selectedNav === 'PPP' && <PPP handleTambahData={setPageForm} />}
 
             {pageForm === 'addData' && <PengajuanPekerjaanForm />}
-            {/* {selectedNav === 2 && <AddData />} */}
           </Box>
         </Box>
       </Box>

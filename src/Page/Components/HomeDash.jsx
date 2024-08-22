@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Box, Grid, GridItem, Text, Image } from "@chakra-ui/react";
 import Plot from "react-plotly.js";
@@ -14,7 +15,7 @@ const Calendar = () => {
       boxShadow="md"
       p={4}
       textAlign="center"
-      maxWidth="300px"
+      height="100%" // Memastikan tinggi sama dengan gambar di sebelahnya
     >
       <DayPicker />
     </Box>
@@ -73,12 +74,14 @@ const HomeDash = () => {
             boxShadow="md"
             overflow="hidden"
             position="relative"
+            height="100%" // Menentukan tinggi penuh untuk memastikan sesuai dengan grid
           >
             <Image
               src={Hero}
               alt="Background Image"
-              maxWidth={"100%"}
-              height="auto"
+              width="100%"
+              height="100%" // Memastikan gambar mengisi seluruh kontainer
+              objectFit="cover" // Menjaga aspek rasio gambar
             />
             <Box
               position="absolute"

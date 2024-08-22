@@ -10,8 +10,6 @@ import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
 import OperasiPengerjaan from './Page/WorkPlanning/OperasiPengerjaan'
 import PPP from './Page/WorkPlanning/PPP'
 import PengajuanPekerjaanForm from './Page/Forms/PengajuaanPekerjaanForm'
-import {useAuth} from "./Auth/AuthContext";
-import Register from "./Auth/Register";
 import PengajuanWowsForm from './Page/Forms/PengajuanWOWSForm'
 
 
