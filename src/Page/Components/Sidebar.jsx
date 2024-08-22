@@ -160,7 +160,7 @@ const Sidebar = ({ handleMenuValue }) => {
           </Collapse>
         </Box>
 
-        {/* Exploitation Section */}
+        {/* development Section */}
         <Box width="full">
           <ChakraLink
             px={4}
@@ -170,24 +170,24 @@ const Sidebar = ({ handleMenuValue }) => {
             width="full"
             display="flex"
             alignItems="center"
-            onClick={() => handleMenuClick("exploitation")}
+            onClick={() => handleMenuClick("development")}
           >
             <Icon as={FaTools} mr={2} />
-            Exploitation
+            Development
             <Box ml="auto">
-              {openMenu === "exploitation" ? (
+              {openMenu === "development" ? (
                 <FaChevronDown />
               ) : (
                 <FaChevronRight />
               )}
             </Box>
           </ChakraLink>
-          <Collapse in={openMenu === "exploitation"}>
+          <Collapse in={openMenu === "development"}>
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
                 <ChakraLink
                   as={Link}
-                  to="/dashboard/exploitation/submission"
+                  to="/dashboard/development/submission"
                   px={3}
                   py={2}
                   rounded="md"
@@ -203,7 +203,7 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <ChakraLink
                   as={Link}
-                  to="/dashboard/exploitation/operations"
+                  to="/dashboard/development/operations"
                   px={3}
                   py={2}
                   rounded="md"
@@ -219,7 +219,7 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <ChakraLink
                   as={Link}
-                  to="/dashboard/exploitation/p3"
+                  to="/dashboard/development/p3"
                   px={3}
                   py={2}
                   rounded="md"
@@ -235,7 +235,7 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <ChakraLink
                   as={Link}
-                  to="/dashboard/exploitation/closeout"
+                  to="/dashboard/development/closeout"
                   px={3}
                   py={2}
                   rounded="md"
