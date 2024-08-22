@@ -1,5 +1,5 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Tabs,
@@ -15,16 +15,174 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
+import axios from "axios";
+import TeknisForms from "./ChildForms/TeknisForms";
 
 const WellForm = () => {
 
-  const [data, setData] = useState(null);
+
+
+  const [allEnum, setAllEnum] = useState({});
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [handlingSendData, setHandlingSendData] = useState({
+    id: "string",
+    job: {
+      field_id: "string",
+      contract_type: "COST-RECOVERY",
+      afe_number: "string",
+      wpb_year: 0,
+      plan_start: "2024-08-22T00:01:22.270Z",
+      plan_end: "2024-08-22T00:01:22.270Z",
+      plan_total_budget: "string",
+      rig_name: "string",
+      rig_type: "JACK-UP",
+      rig_horse_power: 0,
+      job_activity: [
+        {
+          time: "2024-08-22T00:01:22.270Z",
+          measured_depth: 0,
+          measured_depth_uoum: "FEET",
+          measured_depth_datum: "RT",
+          true_vertical_depth: 0,
+          true_vertical_depth_uoum: "FEET",
+          true_vertical_depth_sub_sea: 0,
+          true_vertical_depth_sub_sea_uoum: "FEET",
+          daily_cost: "string",
+          summary: "string",
+          current_operations: "string",
+          next_operations: "string"
+        }
+      ],
+      work_breakdown_structure: [
+        {
+          event: "string",
+          start_date: "2024-08-22T00:01:22.270Z",
+          end_data: "2024-08-22T00:01:22.270Z",
+          remarks: "string"
+        }
+      ],
+      drilling_hazard: [
+        {
+          hazard_type: "GAS KICK",
+          hazard_description: "string",
+          severity: "LOW",
+          mitigation: "string",
+          remark: "string"
+        }
+      ],
+      job_documents: [
+        {
+          title: "string",
+          creator_name: "string",
+          create_date: "2024-08-22T00:01:22.270Z",
+          media_type: "EXTERNAL_HARDDISK",
+          document_type: "string",
+          item_category: "string",
+          item_sub_category: "string",
+          digital_format: "string",
+          original_file_name: "string",
+          digital_size: 0,
+          digital_size_uom: "BYTE",
+          remark: "string"
+        }
+      ],
+      drilling_class: "EXPLORATION",
+      id: "string",
+      planned_well: {
+        uwi: "string",
+        field_id: "string",
+        well_name: "string",
+        alias_long_name: "string",
+        well_type: "OIL",
+        well_class: "WILDCAT",
+        well_status: "Active",
+        profile_type: "DIRECTIONAL",
+        environment_type: "MARINE",
+        surface_longitude: 0,
+        surface_latitude: 0,
+        bottom_hole_longitude: 0,
+        bottom_hole_latitude: 0,
+        maximum_inclination: 0,
+        maximum_azimuth: 0,
+        line_name: "string",
+        spud_date: "2024-08-22T00:01:22.270Z",
+        final_drill_date: "2024-08-22T00:01:22.270Z",
+        completion_date: "2024-08-22T00:01:22.270Z",
+        rotary_table_elev: 0,
+        rotary_table_elev_ouom: "FEET",
+        kb_elev: 0,
+        kb_elev_ouom: "FEET",
+        derrick_floor_elev: 0,
+        derrick_floor_elev_ouom: "FEET",
+        ground_elev: 0,
+        ground_elev_ouom: "FEET",
+        mean_sea_level: 0,
+        mean_sea_level_ouom: "RT",
+        depth_datum: "RT",
+        kick_off_point: 0,
+        kick_off_point_ouom: "FEET",
+        drill_td: 0,
+        drill_td_ouom: "FEET",
+        log_td: 0,
+        log_td_ouom: "FEET",
+        max_tvd: 0,
+        max_tvd_ouom: "FEET",
+        projected_depth: 0,
+        projected_depth_ouom: "FEET",
+        final_td: 0,
+        final_td_ouom: "FEET",
+        remark: "string",
+        id: "string",
+        well_documents: [
+          {
+            id: "string"
+          }
+        ],
+        well_casings: [
+          {
+            id: "string"
+          }
+        ],
+        well_trajectories: [
+          {
+            id: "string"
+          }
+        ],
+        well_ppfgs: [
+          {
+            id: "string"
+          }
+        ],
+        well_logs: [
+          {
+            id: "string"
+          }
+        ],
+        well_drilling_parameters: [
+          {
+            id: "string"
+          }
+        ],
+        well_strat: [
+          {
+            id: "string"
+          }
+        ]
+      }
+    }
+  });
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/utils/enum/all');
-      setData(response.data);
-      console.log(response);
-      
+      const response = await axios.get('http://127.0.0.1:8000/utils/enum/all', {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      setAllEnum(response.data);
+
+
       setLoading(false);
     } catch (error) {
       setError('Terjadi kesalahan saat mengambil data');
@@ -34,17 +192,23 @@ const WellForm = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [setAllEnum]);
+
+
+
+
+
+
 
 
   return (
     <Box maxWidth="100%" margin="auto" padding={5}>
       <Tabs variant="enclosed" colorScheme="blue">
-      <TabList mb={4}>
-          <Tab 
-            _selected={{ 
-              color: 'blue.500', 
-              bg: 'white', 
+        <TabList mb={4}>
+          <Tab
+            _selected={{
+              color: 'blue.500',
+              bg: 'white',
               borderColor: 'blue.500',
               borderBottom: 'none',
             }}
@@ -55,10 +219,10 @@ const WellForm = () => {
           >
             Teknis
           </Tab>
-          <Tab 
-            _selected={{ 
-              color: 'green.500', 
-              bg: 'white', 
+          <Tab
+            _selected={{
+              color: 'green.500',
+              bg: 'white',
               borderColor: 'green.500',
               borderBottom: 'none',
             }}
@@ -69,10 +233,10 @@ const WellForm = () => {
           >
             Operasional
           </Tab>
-          <Tab 
-            _selected={{ 
-              color: 'purple.500', 
-              bg: 'white', 
+          <Tab
+            _selected={{
+              color: 'purple.500',
+              bg: 'white',
               borderColor: 'purple.500',
               borderBottom: 'none',
             }}
@@ -83,10 +247,10 @@ const WellForm = () => {
           >
             Well Summary
           </Tab>
-          <Tab 
-            _selected={{ 
-              color: 'red.500', 
-              bg: 'white', 
+          <Tab
+            _selected={{
+              color: 'red.500',
+              bg: 'white',
               borderColor: 'red.500',
               borderBottom: 'none',
             }}
@@ -105,180 +269,7 @@ const WellForm = () => {
           p={4}
         >
           <TabPanel>
-            <Box fontWeight="bold">Well</Box>
-            <SimpleGrid columns={2} spacing={4}>
-              <FormControl>
-                <FormLabel>UWI</FormLabel>
-                <Input placeholder="Well UWI" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Nama Sumur</FormLabel>
-                <Input placeholder="Nama Sumur" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Nama Lengkap Sumur</FormLabel>
-                <Input placeholder="Nama Lengkap Sumur" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Type Well</FormLabel>
-                <Select placeholder="Dropdown Get API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Well Status</FormLabel>
-                <Select placeholder="Dropdown Get API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Hydrocarbon Target</FormLabel>
-                <Select placeholder="Dropdown Get API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Well Profile Type</FormLabel>
-                <Select placeholder="Dropdown Get API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Environment Type</FormLabel>
-                <Input placeholder="Environment Type" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Surface Longitude</FormLabel>
-                <Input placeholder="Surface Longitude" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Surface Latitude</FormLabel>
-                <Input placeholder="Surface Latitude" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>bottom hole Longitude</FormLabel>
-                <Input placeholder="bottom hole Longitude" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>bottom hole Latitude</FormLabel>
-                <Input placeholder="bottom hole Latitude" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Maximum inclination</FormLabel>
-                <Input placeholder="Maximum inclination" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Azimuth</FormLabel>
-                <Input placeholder="Azimuth" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Line name</FormLabel>
-                <Input placeholder="Line name" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>spud date</FormLabel>
-                <Input type="date" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>final drill date</FormLabel>
-                <Input type="date" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>completion date</FormLabel>
-                <Input type="date" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Rotary table elev</FormLabel>
-                <Input placeholder="Rotary table elev" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Rotary table elev uom</FormLabel>
-                <Select placeholder="Dropdown gate API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Kb elev</FormLabel>
-                <Input placeholder="Kb elev" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Kb elev uom</FormLabel>
-                <Select placeholder="Dropdown gate API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Derrick floor elev</FormLabel>
-                <Input placeholder="Derrick floor elev" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>derrick floor elev uom</FormLabel>
-                <Select placeholder="Dropdown gate API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Ground elev</FormLabel>
-                <Input placeholder="Ground elev" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>ground elev uom</FormLabel>
-                <Select placeholder="Dropdown gate API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Mean sea level</FormLabel>
-                <Input placeholder="Mean sea level" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>mean sea level uom</FormLabel>
-                <Select placeholder="Dropdown gate API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>depth datum</FormLabel>
-                <Select placeholder="Dropdown Get API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <Box></Box> {/* Empty box for alignment */}
-              <FormControl>
-                <FormLabel>Kick Of point</FormLabel>
-                <Input placeholder="Kick Of point" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Kick of point uom</FormLabel>
-                <Select placeholder="Dropdown gate API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Maximum Tvd</FormLabel>
-                <Input placeholder="Maximum Tvd" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Maximum Tvd uom</FormLabel>
-                <Select placeholder="Dropdown gate API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Final md</FormLabel>
-                <Input placeholder="Final md" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>final md uom</FormLabel>
-                <Select placeholder="Dropdown gate API">
-                  {/* Options would be populated from API */}
-                </Select>
-              </FormControl>
-              <FormControl gridColumn="span 2">
-                <FormLabel>Remark</FormLabel>
-                <Textarea placeholder="Remark" />
-              </FormControl>
-            </SimpleGrid>
+            <TeknisForms />
           </TabPanel>
 
           <TabPanel>

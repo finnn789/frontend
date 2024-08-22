@@ -10,6 +10,9 @@ import {
   Heading,
   Text,
   Image,
+  HStack,
+  Center,
+  useRadio,
 } from "@chakra-ui/react";
 import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +27,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [handleFormUsername, setHandleFormUsername] = useState(false);
   const [handleFormPassword, setHandleFormPassword] = useState(false);
+  
+
+ 
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -54,6 +60,7 @@ const Login = () => {
             Authorization: `Bearer ${token}`,
           },
         }
+        
       );
       setHandleFormPassword(false);
       setHandleFormUsername(false);
@@ -64,7 +71,7 @@ const Login = () => {
       navigate("/dashboard"); // Redirect ke dashboard
     } catch (error) {
       if (error.response) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
 
         setErrorMessage(() => {
           const details = error.response.data.detail;
@@ -95,7 +102,7 @@ const Login = () => {
       alignItems="center"
       justifyContent="center"
       bg="gray.100"
-          p={8}
+      p={8}
     >
       <Flex
         maxW="150vh"
@@ -105,8 +112,8 @@ const Login = () => {
         p={8}
         borderRadius="2xl"
         boxShadow="md"
-              alignItems="center"
-              gap={4}
+        alignItems="center"
+        gap={4}
       >
         <Box w="50%" mr={6}>
           <Heading mb={2} textAlign="left">
@@ -151,6 +158,17 @@ const Login = () => {
                 Log In
               </Button>
             </VStack>
+            <HStack justifyContent={"Center"} mt={2}>
+              <Text>Don't have an account?</Text>
+              <Button
+                colorScheme="teal"
+                variant="link"
+                size={"lg"}
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </Button>
+            </HStack>
           </form>
         </Box>
         <Box w="50%" h="full" objectPosition="center">
