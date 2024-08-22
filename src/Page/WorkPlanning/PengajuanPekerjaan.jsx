@@ -15,10 +15,20 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import { useState} from "react";
 import PengajuanPekerjaanForm from "../Forms/PengajuaanPekerjaanForm";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const PengajuanPekerjaan = ({ handleTambahData }) => {
+
+  const [dataDrilling, setDataDrilling] = useState([]);
+  const sendData = (data) =>{
+    setDataDrilling(data);
+  }
+console.log(dataDrilling);
+
+
+  
   const navigate = useNavigate();
   const warnabutton = "teal";
   return (
@@ -70,7 +80,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
           </Box>
         </VStack>
       </Box>
-      <Outlet/>
+      <Outlet context={{ sendData }}/>
     </>
 
   );
