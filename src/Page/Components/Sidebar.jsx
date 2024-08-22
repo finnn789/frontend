@@ -44,7 +44,17 @@ const Sidebar = ({ handleMenuValue }) => {
   };
 
   return (
-    <Box bg="white" w="250px" h="100vh" p={4} color="#10042C" boxShadow="md">
+    <Box
+      bg="white"
+      w="250px"
+      h="100vh"
+      p={4}
+      color="#10042C"
+      boxShadow="md"
+      position="sticky" // Menggunakan position: sticky
+      top={0} // Menempelkan sidebar ke bagian atas viewport
+      overflowY="auto" // Mengaktifkan scrollbar jika konten sidebar melebihi tinggi viewport
+    >
       <Box
         flex={1}
         margin={"auto"}
