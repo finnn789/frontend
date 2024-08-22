@@ -74,6 +74,7 @@ const WellForm = () => {
 
   // Teknis Tab States
   const [wellData, setWellData] = useState({
+    uwi:"",
     namaSumur: "",
     namaLengkapSumur: "",
     typeWell: "",
@@ -466,7 +467,23 @@ const WellForm = () => {
                   <Text fontWeight="bold" fontSize="xl">
                     Well
                   </Text>
+                  <HStack>
                   <FormControl>
+                    <FormLabel>UWI</FormLabel>
+                    <Input
+                      placeholder="Uwi"
+                      value={wellData.uwi}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "teknis",
+                          "Well",
+                          "uwi",
+                          e.target.value
+                        )
+                      }
+                    />
+                    </FormControl>
+                    <FormControl>
                     <FormLabel>Nama Sumur</FormLabel>
                     <Input
                       placeholder="Nama Sumur"
@@ -481,6 +498,7 @@ const WellForm = () => {
                       }
                     />
                   </FormControl>
+                  </HStack>
                   <HStack>
                     <FormControl>
                       <FormLabel>Nama Lengkap Sumur</FormLabel>
