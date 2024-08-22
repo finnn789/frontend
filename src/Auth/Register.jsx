@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Flex, Card, CardBody, CardHeader, Center, Divider, Box, VStack, FormControl, FormLabel, Input, Button, Heading, Text
 } from '@chakra-ui/react';
@@ -20,7 +20,11 @@ const Register = () => {
     
     const navigate = useNavigate();
 
-
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/utils/db/all').then((response) => {
+            console.log(response.data);
+        })
+    })
 
     const handleDaftar = async (e) => {
         

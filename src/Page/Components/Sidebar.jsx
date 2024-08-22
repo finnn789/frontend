@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   VStack,
-  Link,
+  Link as ChakraLink,
   Image,
   List,
   ListItem,
   Collapse,
   Icon,
   Text,
-  Button,
 } from "@chakra-ui/react";
 import {
   FaHome,
@@ -23,16 +22,22 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import Logo from "../../assets/logo.png";
+import { useLocation, Link } from "react-router-dom"; // Import Link from react-router-dom
 
-const Sidebar = ({handleMenuValue}) => {
-  const [openMenu, setOpenMenu] = React.useState(null);
-
+const Sidebar = ({ handleMenuValue }) => {
+  const location = useLocation();
+  const [openMenu, setOpenMenu] = useState(null);
   const [onClickPage, setOnClickPage] = useState("");
 
-  const ControlPageKlik = (value) => {
-    setOnClickPage(value);
-    handleMenuValue(value);
-  };
+  useEffect(() => {
+    if (location.pathname.includes("/dashboard/submission")) {
+      setOnClickPage("submission");
+    } else if (location.pathname.includes("/dashboard/operasi")) {
+      setOnClickPage("operation");
+    } else if (location.pathname.includes("/dashboard/ppp")) {
+      setOnClickPage("ppp");
+    }
+  }, [location.pathname]);
 
   const handleMenuClick = (menuName) => {
     setOpenMenu(openMenu === menuName ? null : menuName);
@@ -50,7 +55,9 @@ const Sidebar = ({handleMenuValue}) => {
         <Image src={Logo} alt="SKK Migas" w={"120px"} />
       </Box>
       <VStack align="start" spacing={4}>
-        <Link
+        <ChakraLink
+          as={Link} // Use Link from react-router-dom
+          to="/dashboard"
           px={4}
           py={4}
           rounded="md"
@@ -61,11 +68,11 @@ const Sidebar = ({handleMenuValue}) => {
         >
           <Icon as={FaHome} mr={2} />
           Dashboard
-        </Link>
+        </ChakraLink>
 
         {/* Exploration Section */}
         <Box width="full">
-          <Link
+          <ChakraLink
             px={4}
             py={4}
             rounded="md"
@@ -75,7 +82,6 @@ const Sidebar = ({handleMenuValue}) => {
             alignItems="center"
             onClick={() => handleMenuClick("exploration")}
           >
-
             <Icon as={FaMap} mr={2} />
             Exploration
             <Box ml="auto">
@@ -85,58 +91,59 @@ const Sidebar = ({handleMenuValue}) => {
                 <FaChevronRight />
               )}
             </Box>
-          </Link>
+          </ChakraLink>
           <Collapse in={openMenu === "exploration"}>
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
-                <Link
-                  onClick={() => ControlPageKlik("submission")}
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/submission"
                   px={3}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   display="flex"
                   alignItems="center"
-                  bg={onClickPage === 'submission' ? "#e0e0e0" : "#f9f9f9"}
-                > 
+                  bg={onClickPage === 'submission' ? "#e0e0e0" : "none"}
+                >
                   <Icon as={FaToolbox} mr={2} />
-                 
-                    <Text>Submission</Text>
-                   
-                </Link>
+                  <Text>Submission</Text>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/operasi"
                   px={3}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   display="flex"
                   alignItems="center"
-                  bg={onClickPage === 'operations' ? "#e0e0e0" : "#f9f9f9"}
-                  onClick={() => ControlPageKlik("operations")}
+                  bg={onClickPage === 'operation' ? "#e0e0e0" : "none"}
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/ppp"
                   px={3}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   display="flex"
                   alignItems="center"
-                  bg={onClickPage === 'PPP' ? "#e0e0e0" : "#f9f9f9"}
-                  onClick={() => ControlPageKlik("PPP")}
+                  bg={onClickPage === 'ppp' ? "#e0e0e0" : "none"}
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
                   px={3}
                   py={2}
                   rounded="md"
@@ -147,15 +154,15 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Close Out</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
             </List>
           </Collapse>
         </Box>
 
-        {/* Exploitation Section */}
+        {/* development Section */}
         <Box width="full">
-          <Link
+          <ChakraLink
             px={4}
             py={4}
             rounded="md"
@@ -163,22 +170,24 @@ const Sidebar = ({handleMenuValue}) => {
             width="full"
             display="flex"
             alignItems="center"
-            onClick={() => handleMenuClick("exploitation")}
+            onClick={() => handleMenuClick("development")}
           >
             <Icon as={FaTools} mr={2} />
-            Exploitation
+            Development
             <Box ml="auto">
-              {openMenu === "exploitation" ? (
+              {openMenu === "development" ? (
                 <FaChevronDown />
               ) : (
                 <FaChevronRight />
               )}
             </Box>
-          </Link>
-          <Collapse in={openMenu === "exploitation"}>
+          </ChakraLink>
+          <Collapse in={openMenu === "development"}>
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/development/submission"
                   px={3}
                   py={2}
                   rounded="md"
@@ -189,10 +198,12 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>Submission</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/development/operations"
                   px={3}
                   py={2}
                   rounded="md"
@@ -203,10 +214,12 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/development/p3"
                   px={3}
                   py={2}
                   rounded="md"
@@ -217,10 +230,12 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/development/closeout"
                   px={3}
                   py={2}
                   rounded="md"
@@ -231,7 +246,7 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Close Out</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
             </List>
           </Collapse>
@@ -239,7 +254,7 @@ const Sidebar = ({handleMenuValue}) => {
 
         {/* Work Over Section */}
         <Box width="full">
-          <Link
+          <ChakraLink
             px={4}
             py={4}
             rounded="md"
@@ -254,11 +269,13 @@ const Sidebar = ({handleMenuValue}) => {
             <Box ml="auto">
               {openMenu === "workover" ? <FaChevronDown /> : <FaChevronRight />}
             </Box>
-          </Link>
+          </ChakraLink>
           <Collapse in={openMenu === "workover"}>
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/workover/submission"
                   px={3}
                   py={2}
                   rounded="md"
@@ -269,10 +286,12 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>Submission</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/workover/operations"
                   px={3}
                   py={2}
                   rounded="md"
@@ -283,10 +302,12 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/workover/p3"
                   px={3}
                   py={2}
                   rounded="md"
@@ -297,10 +318,12 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/workover/closeout"
                   px={3}
                   py={2}
                   rounded="md"
@@ -311,7 +334,7 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Close Out</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
             </List>
           </Collapse>
@@ -319,7 +342,7 @@ const Sidebar = ({handleMenuValue}) => {
 
         {/* Well Service Section */}
         <Box width="full">
-          <Link
+          <ChakraLink
             px={4}
             py={4}
             rounded="md"
@@ -338,11 +361,13 @@ const Sidebar = ({handleMenuValue}) => {
                 <FaChevronRight />
               )}
             </Box>
-          </Link>
+          </ChakraLink>
           <Collapse in={openMenu === "wellservice"}>
             <List spacing={2} pl={4} mt={2} styleType="none">
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/wellservice/submission"
                   px={3}
                   py={2}
                   rounded="md"
@@ -353,10 +378,12 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>Submission</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/wellservice/operations"
                   px={3}
                   py={2}
                   rounded="md"
@@ -367,10 +394,12 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/wellservice/p3"
                   px={3}
                   py={2}
                   rounded="md"
@@ -381,10 +410,12 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
               <ListItem>
-                <Link
+                <ChakraLink
+                  as={Link}
+                  to="/dashboard/wellservice/closeout"
                   px={3}
                   py={2}
                   rounded="md"
@@ -395,7 +426,7 @@ const Sidebar = ({handleMenuValue}) => {
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Close Out</Text>
-                </Link>
+                </ChakraLink>
               </ListItem>
             </List>
           </Collapse>
