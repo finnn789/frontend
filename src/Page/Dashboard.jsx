@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Flex, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import Sidebar from "./Components/Sidebar";
 import Navbar from "./Components/Navbar";
@@ -8,12 +8,14 @@ import PengajuanPekerjaan from "./WorkPlanning/PengajuanPekerjaan";
 import OperasiPengerjaan from "./WorkPlanning/OperasiPengerjaan";
 import PPP from "./WorkPlanning/PPP";
 import PengajuanPekerjaanForm from "./Forms/PengajuaanPekerjaanForm";
+import { Outlet, useLocation } from "react-router-dom";
 
 
 export function Dashboard() {
   const [selectedNav, setSelectedNav] = useState('homeDash');
   const [pageDashboard, setPageDashboard] = useState(1);
   const [pageForm, setPageForm] = useState('');
+  const location = useLocation();
 
 
   const ControllerButtonPageForm = (value) => {
@@ -27,20 +29,73 @@ export function Dashboard() {
 
   };
 
+  useEffect(() => {
+    // Update the state based on the current URL path
+    const path = location.pathname;
+    if (path.includes("/dashboard/submission")) {
+      setPageForm("submission");
+      setSelectedNav('submission');
+    } else if (path.includes("/dashboard/operasipekerjaan")) {
+      setPageForm("operations");
+      setSelectedNav("operations");
+    } else if (path.includes("/dashboard/ppp")) {
+      setPageForm("PPP");
+      setSelectedNav("PPP");
+    } else {
+      setPageForm(""); // Default or reset state
+    }
+  }, [location.pathname]);
+
   return (
     <Flex>
       <Sidebar handleMenuValue={handleNavClick} selectedNav={selectedNav} />
       {/* <SidebarResponsive selectedNav={selectedNav} /> */}
       <Box flex="1" p={4}>
-        <Navbar 
+        <Navbar
         // appName={selectedNav === 1 && "Homepage"}
         // {selectedNav === 2 && "Add Data"}
         />
         <Box mt={4}>
           <Breadcrumb mb={4}>
             <BreadcrumbItem>
-              <BreadcrumbLink href='#'>Home</BreadcrumbLink>
+              <BreadcrumbLink href='/'>Home</BreadcrumbLink>
             </BreadcrumbItem>
+            {pageForm === 'submission' && (
+              <>
+                <Breadcrumb>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href='/dashboard'>Exploration</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem >
+                    <BreadcrumbLink href='#' fontWeight={'bold'}>Submission</BreadcrumbLink>
+                  </BreadcrumbItem>
+                </Breadcrumb>
+              </>
+            )}
+            {pageForm === 'operations' && (
+              <>
+                <Breadcrumb>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href='/dashboard'>Exploration</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem >
+                    <BreadcrumbLink href='#' fontWeight={'bold'}>Operasi</BreadcrumbLink>
+                  </BreadcrumbItem>
+                </Breadcrumb>
+              </>
+            )}
+            {pageForm === 'PPP' && (
+              <>
+                <Breadcrumb>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href='/dashboard'>Exploration</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem >
+                    <BreadcrumbLink href='#' fontWeight={'bold'}>PPP</BreadcrumbLink>
+                  </BreadcrumbItem>
+                </Breadcrumb>
+              </>
+            )}
 
             {selectedNav === 2 && (
               <BreadcrumbItem>
@@ -63,13 +118,15 @@ export function Dashboard() {
 
 
           <Box>
-            {selectedNav === 'homeDash' && <HomePage handleTambahData={setPageForm} />}
-            {selectedNav === 'submission' && <PengajuanPekerjaan handleTambahData={setPageForm} />}
-            {selectedNav === 'operations' && <OperasiPengerjaan handleTambahData={setPageForm} />}
-            {selectedNav === 'PPP' && <PPP handleTambahData={setPageForm} />}
+            {/* {selectedNav === 'homeDash' && <HomePage handleTambahData={setPageForm} />} */}
+            {/* {selectedNav === 'submission' && <PengajuanPekerjaan handleTambahData={setPageForm} />} */}
+            {/* {selectedNav === 'operations' && <OperasiPengerjaan handleTambahData={setPageForm} />} */}
+            {/* {selectedNav === 'PPP' && <PPP handleTambahData={setPageForm} />} */}
 
-            {pageForm === 'addData' && <PengajuanPekerjaanForm />}
+
             {/* {selectedNav === 2 && <AddData />} */}
+            {/* <PengajuanPekerjaan /> */}
+            <Outlet />
           </Box>
         </Box>
       </Box>
