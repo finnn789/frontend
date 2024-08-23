@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -15,20 +15,78 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
-import { useState} from "react";
+import { useState } from "react";
 import PengajuanPekerjaanForm from "../Forms/PengajuaanPekerjaanForm";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const PengajuanPekerjaan = ({ handleTambahData }) => {
 
   const [dataDrilling, setDataDrilling] = useState([]);
-  const sendData = (data) =>{
+  const sendData = (data) => {
     setDataDrilling(data);
   }
-console.log(dataDrilling);
 
 
+  const [dataSubmit, setdataSumbit] = useState({
+    planned_well: {
+
+    }
+  })
+
+  useEffect(() => {
+    if (dataDrilling?.teknisData) {
+      const { unit, ...wellWithoutUnit } = dataDrilling.teknisData.elevasi;
+
+      const plannedWellData = {
+        ...dataDrilling.teknisData.well,
+        ...dataDrilling.teknisData.koordinat, // Contoh jika ada data dari koordinat
+        ...wellWithoutUnit, // Contoh jika ada data dari elevasi
+        // Tambahkan sumber data lainnya jika diperlukan
+      };
+
+
+      const jobData = {
+        ...dataDrilling.operasionalData.proposedJob
+      }
+      const {totalBudget, ...newJobData} = jobData
+      setdataSumbit({
+        job: {
+          ...newJobData,
+          planned_well: plannedWellData,
+        }
+        
+
+      });
+    }
+  }, [dataDrilling])
+
+  console.log(dataSubmit);
   
+  // useEffect(() => {
+  //   if (dataDrilling?.teknisData) {
+  //     const { unit, ...wellWithoutUnit } = dataDrilling.teknisData.elevasi;
+  //     console.log(wellWithoutUnit);
+      
+  //     const plannedWellData = {
+  //       ...dataDrilling.teknisData.well,
+  //       ...dataDrilling.teknisData.koordinat, // Contoh jika ada data dari koordinat
+  //       ...wellWithoutUnit, // Contoh jika ada data dari elevasi
+  //       // Tambahkan sumber data lainnya jika diperlukan
+  //     };
+
+  //     setdataSumbit({
+  //       planned_well: plannedWellData
+  //     });
+  //   }
+  // }, [dataDrilling])
+
+
+
+  // console.log(dataSubmit);
+  
+
+
+
   const navigate = useNavigate();
   const warnabutton = "teal";
   return (
@@ -80,7 +138,7 @@ console.log(dataDrilling);
           </Box>
         </VStack>
       </Box>
-      <Outlet context={{ sendData }}/>
+      <Outlet context={{ sendData }} />
     </>
 
   );
