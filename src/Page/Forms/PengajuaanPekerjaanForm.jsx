@@ -24,6 +24,8 @@ import {
   Tr,
   Th,
   Td,
+  InputGroup,
+  InputRightAddon
 } from "@chakra-ui/react";
 import { ChevronRightIcon, CheckIcon } from "@chakra-ui/icons";
 import { AllEnums } from "./API/AllEnums";
@@ -52,11 +54,8 @@ const NavigationMenu = ({ completedSections, activeTab }) => (
 );
 
 // Main WellForm Component
-const WellForm = ({ }) => {
-
+const WellForm = ({}) => {
   const { sendData } = useOutletContext();
-
-
 
   const [fetchingData, setFetchingData] = useState(null);
 
@@ -65,25 +64,18 @@ const WellForm = ({ }) => {
       const data = await AllEnums();
       if (data) {
         setFetchingData(data);
-
-
-
-
-      }
-      else {
+        console.log(data);
+      } else {
         console.error("Error fetching data");
       }
     }
 
     fetchData();
-  }, [setFetchingData])
-
+  }, [setFetchingData]);
 
   const [formHandlingWell, setformHandlingWell] = useState({
-    planning_well: {
-
-    }
-  })
+    planning_well: {},
+  });
   const [activeTab, setActiveTab] = useState(0);
   const [completedSections, setCompletedSections] = useState({
     teknis: {
@@ -191,14 +183,14 @@ const WellForm = ({ }) => {
   const [proposedJob, setProposedJob] = useState({
     areaId: "",
     fieldId: "",
-    afe_number: "",
+    afeNumber: "",
     totalBudget: "",
-    wpb_year: "",
-    plan_start: "",
-    plan_end: "",
-    rig_name: "",
-    rig_type: "",
-    rig_horse_power: "",
+    wpbYear: "",
+    startDate: "",
+    endDate: "",
+    rigName: "",
+    rigType: "",
+    rigHorsePower: "",
   });
 
   const [workBreakdown, setWorkBreakdown] = useState([]);
@@ -251,15 +243,8 @@ const WellForm = ({ }) => {
         ...seismicData,
         ...keydatesData,
       },
-      job: {
-        ...proposedJob,
-      }
-    })
-  }, [setformHandlingWell])
-
-
-
-
+    });
+  }, [setformHandlingWell]);
 
   // Handle Input Change
   const handleInputChange = (tab, section, field, value) => {
@@ -531,8 +516,6 @@ const WellForm = ({ }) => {
       },
     };
 
-
-
     sendData(allData);
   }, [
     wellData,
@@ -549,8 +532,6 @@ const WellForm = ({ }) => {
     jobOperationDays,
     jobHazard,
     ,
-
-
   ]);
 
   useEffect(() => {
@@ -560,36 +541,24 @@ const WellForm = ({ }) => {
         rotary_table_elev_ouom: "FEET",
         derrick_floor_elev_ouom: "FEET",
         ground_elev_ouom: "FEET",
+        mean_sea_level_ouom: "FEET",
         kick_off_point_ouom: "FEET",
         max_tvd_ouom: "FEET",
         final_td_ouom: "FEET",
-      }
-      ));
-
+      }));
     } else if (elevasiData.unit === "meters") {
       setElevasiData((prev) => ({
         ...prev,
         rotary_table_elev_ouom: "METER",
         derrick_floor_elev_ouom: "METER",
         ground_elev_ouom: "METER",
+        mean_sea_level_ouom: "METER",
         kick_off_point_ouom: "METER",
         max_tvd_ouom: "METER",
         final_td_ouom: "METER",
-      }))
-
+      }));
     }
-  }, [elevasiData.unit]);
-
-  useEffect(() => {
-    if (elevasiData.depth_datum === "RT") {
-      setElevasiData((prev) => ({
-        ...prev,
-        mean_sea_level_ouom: "RT",
-
-      }))
-    }
-  }, [elevasiData.depth_datum])
-
+  }, []);
 
   return (
     <Grid templateColumns="1fr 250px" gap={8}>
@@ -722,9 +691,11 @@ const WellForm = ({ }) => {
                     <FormControl>
                       <FormLabel>Environment Type</FormLabel>
                       <Select>
-                        {fetchingData ? fetchingData.environment.map((item) => (
-                          <option value={item}>{item}</option>
-                        )) : null}
+                        {fetchingData
+                          ? fetchingData.environment.map((item) => (
+                              <option value={item}>{item}</option>
+                            ))
+                          : null}
                       </Select>
                     </FormControl>
                   </HStack>
@@ -740,7 +711,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Surface Longitude</FormLabel>
                       <Input
                         placeholder="Surface Longitude"
-
+                        value={koordinatData.surface_longitude}
                         type="number"
                         onChange={(e) =>
                           handleInputChange(
@@ -756,7 +727,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Surface Latitude</FormLabel>
                       <Input
                         placeholder="Surface Latitude"
-
+                        value={koordinatData.surface_latitude}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -773,7 +744,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Bottom Hole Longitude</FormLabel>
                       <Input
                         placeholder="Bottom Hole Longitude"
-
+                        value={koordinatData.bottom_hole_longititude}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -788,7 +759,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Bottom Hole Latitude</FormLabel>
                       <Input
                         placeholder="Bottom Hole Latitude"
-
+                        value={koordinatData.bottom_hole_latitude}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -805,7 +776,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Maximum Inclination</FormLabel>
                       <Input
                         placeholder="Maximum Inclination"
-
+                        value={koordinatData.maximum_inclination}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -820,7 +791,7 @@ const WellForm = ({ }) => {
                       <FormLabel>maximum_azimuth</FormLabel>
                       <Input
                         placeholder="maximum_azimuth"
-
+                        value={koordinatData.maximum_azimuth}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -938,7 +909,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Rotary Table Elev</FormLabel>
                       <Input
                         placeholder="Rotary Table Elev"
-
+                        value={elevasiData.rotary_table_elev}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -953,7 +924,7 @@ const WellForm = ({ }) => {
                       <FormLabel>KB Elev</FormLabel>
                       <Input
                         placeholder="KB Elev"
-
+                        value={elevasiData.kb_elev}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -970,7 +941,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Derrick Floor Elev</FormLabel>
                       <Input
                         placeholder="Derrick Floor Elev"
-
+                        value={elevasiData.derrick_floor_elev}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -985,7 +956,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Ground Elev</FormLabel>
                       <Input
                         placeholder="Ground Elev"
-
+                        value={elevasiData.ground_elev}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -1001,7 +972,7 @@ const WellForm = ({ }) => {
                     <FormLabel>Mean Sea Level</FormLabel>
                     <Input
                       placeholder="Mean Sea Level"
-
+                      value={elevasiData.mean_sea_level}
                       onChange={(e) =>
                         handleInputChange(
                           "teknis",
@@ -1016,7 +987,7 @@ const WellForm = ({ }) => {
                     <FormLabel>Depth Datum</FormLabel>
                     <Select
                       placeholder="Select Depth Datum"
-
+                      value={elevasiData.depth_datum}
                       onChange={(e) =>
                         handleInputChange(
                           "teknis",
@@ -1026,9 +997,9 @@ const WellForm = ({ }) => {
                         )
                       }
                     >
-                      <option value="MSL">MSL</option>
-                      <option value="RT">RT</option>
-                      <option value="KB">KB</option>
+                      <option value="msl">MSL</option>
+                      <option value="rt">RT</option>
+                      <option value="kb">KB</option>
                     </Select>
                   </FormControl>
                   <HStack>
@@ -1036,7 +1007,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Kick Off Point</FormLabel>
                       <Input
                         placeholder="Kick Off Point"
-
+                        value={elevasiData.kick_off_point}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -1051,13 +1022,13 @@ const WellForm = ({ }) => {
                       <FormLabel>Maximum TVD</FormLabel>
                       <Input
                         placeholder="Maximum TVD"
-
+                        value={elevasiData.max_tvd}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
                             "Elevasi",
                             "max_tvd",
-                            parseInt(e.target.value)
+                            e.target.value
                           )
                         }
                       />
@@ -1068,7 +1039,7 @@ const WellForm = ({ }) => {
                       <FormLabel>Final MD</FormLabel>
                       <Input
                         placeholder="Final MD"
-
+                        value={elevasiData.final_td}
                         onChange={(e) =>
                           handleInputChange(
                             "teknis",
@@ -1340,46 +1311,54 @@ const WellForm = ({ }) => {
                   </Button>
 
                   {wellSummary.length > 0 && (
-                    <Table variant="simple" mt={4}>
-                      <Thead>
-                        <Tr>
-                          <Th>Depth Datum</Th>
-                          <Th>Unit</Th>
-                          <Th>Depth</Th>
-                          <Th>Hole Diameter</Th>
-                          <Th>Bit</Th>
-                          <Th>Casing Diameter</Th>
-                          <Th>Casing Grade</Th>
-                          <Th>Casing Weight</Th>
-                          <Th>Logging</Th>
-                          <Th>Mud Program</Th>
-                          <Th>Cementing Program</Th>
-                          <Th>Bottom Hole Temperature</Th>
-                          <Th>Rate of Penetration</Th>
-                          <Th>Remarks</Th>
-                        </Tr>
-                      </Thead>
-                      <Tbody>
-                        {wellSummary.map((summary, index) => (
-                          <Tr key={index}>
-                            <Td>{summary.depth_datum}</Td>
-                            <Td>{summary.unit}</Td>
-                            <Td>{summary.depth}</Td>
-                            <Td>{summary.holeDiameter}</Td>
-                            <Td>{summary.bit}</Td>
-                            <Td>{summary.casingDiameter}</Td>
-                            <Td>{summary.casingGrade}</Td>
-                            <Td>{summary.casingWeight}</Td>
-                            <Td>{summary.logging}</Td>
-                            <Td>{summary.mudProgram}</Td>
-                            <Td>{summary.cementingProgram}</Td>
-                            <Td>{summary.bottomHoleTemperature}</Td>
-                            <Td>{summary.rateOfPenetration}</Td>
-                            <Td>{summary.remarks}</Td>
+                    <Box
+                      overflowX="auto"
+                      width="1400px"
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      mt={4}
+                    >
+                      <Table variant="simple" size="sm">
+                        <Thead>
+                          <Tr>
+                            <Th>Depth Datum</Th>
+                            <Th>Unit</Th>
+                            <Th>Depth</Th>
+                            <Th>Hole Diameter</Th>
+                            <Th>Bit</Th>
+                            <Th>Casing Diameter</Th>
+                            <Th>Casing Grade</Th>
+                            <Th>Casing Weight</Th>
+                            <Th>Logging</Th>
+                            <Th>Mud Program</Th>
+                            <Th>Cementing Program</Th>
+                            <Th>Bottom Hole Temperature</Th>
+                            <Th>Rate of Penetration</Th>
+                            <Th>Remarks</Th>
                           </Tr>
-                        ))}
-                      </Tbody>
-                    </Table>
+                        </Thead>
+                        <Tbody>
+                          {wellSummary.map((summary, index) => (
+                            <Tr key={index}>
+                              <Td>{summary.depth_datum}</Td>
+                              <Td>{summary.unit}</Td>
+                              <Td>{summary.depth}</Td>
+                              <Td>{summary.holeDiameter}</Td>
+                              <Td>{summary.bit}</Td>
+                              <Td>{summary.casingDiameter}</Td>
+                              <Td>{summary.casingGrade}</Td>
+                              <Td>{summary.casingWeight}</Td>
+                              <Td>{summary.logging}</Td>
+                              <Td>{summary.mudProgram}</Td>
+                              <Td>{summary.cementingProgram}</Td>
+                              <Td>{summary.bottomHoleTemperature}</Td>
+                              <Td>{summary.rateOfPenetration}</Td>
+                              <Td>{summary.remarks}</Td>
+                            </Tr>
+                          ))}
+                        </Tbody>
+                      </Table>
+                    </Box>
                   )}
                 </Box>
 
@@ -1575,12 +1554,12 @@ const WellForm = ({ }) => {
                       <FormLabel>AFE Number</FormLabel>
                       <Input
                         placeholder="AFE Number"
-                        value={proposedJob.afe_number}
+                        value={proposedJob.afeNumber}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "afe_number",
+                            "afeNumber",
                             e.target.value
                           )
                         }
@@ -1607,12 +1586,12 @@ const WellForm = ({ }) => {
                       <FormLabel>WPB Year</FormLabel>
                       <Input
                         placeholder="WPB Year"
-                        value={proposedJob.wpb_year}
+                        value={proposedJob.wpbYear}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "wpb_year",
+                            "wpbYear",
                             e.target.value
                           )
                         }
@@ -1622,12 +1601,12 @@ const WellForm = ({ }) => {
                       <FormLabel>Start Date</FormLabel>
                       <Input
                         type="date"
-                        value={proposedJob.plan_start}
+                        value={proposedJob.startDate}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "plan_start",
+                            "startDate",
                             e.target.value
                           )
                         }
@@ -1639,12 +1618,12 @@ const WellForm = ({ }) => {
                       <FormLabel>End Date</FormLabel>
                       <Input
                         type="date"
-                        value={proposedJob.plan_end}
+                        value={proposedJob.endDate}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "plan_end",
+                            "endDate",
                             e.target.value
                           )
                         }
@@ -1654,12 +1633,12 @@ const WellForm = ({ }) => {
                       <FormLabel>Rig Name</FormLabel>
                       <Input
                         placeholder="Rig Name"
-                        value={proposedJob.rig_name}
+                        value={proposedJob.rigName}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "rig_name",
+                            "rigName",
                             e.target.value
                           )
                         }
@@ -1671,37 +1650,43 @@ const WellForm = ({ }) => {
                       <FormLabel>Rig Type</FormLabel>
                       <Select
                         placeholder="Select Rig Type"
-                        value={proposedJob.rig_type}
+                        value={proposedJob.rigType}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "rig_type",
+                            "rigType",
                             e.target.value
                           )
                         }
                       >
-                        {fetchingData?.rig_type.map((rigType) => (
-                          <option key={rigType} value={rigType}>
-                            {rigType}
-                          </option>
-                        ))}
+                        <option value="jackup">Jackup</option>
+                        <option value="floater">Floater</option>
                       </Select>
                     </FormControl>
                     <FormControl>
                       <FormLabel>Rig Horse Power</FormLabel>
-                      <Input
-                        placeholder="Rig Horse Power"
-                        value={proposedJob.rig_horse_power}
-                        onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Proposed Job",
-                            "rig_horse_power",
-                            parseInt(e.target.value)
-                          )
-                        }
-                      />
+                      <InputGroup size="md">
+                        <Input
+                          placeholder="Rig Horse Power"
+                          value={proposedJob.rigHorsePower}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "operasional",
+                              "Proposed Job",
+                              "rigHorsePower",
+                              e.target.value
+                            )
+                          }
+                         
+                        />
+                        <InputRightAddon
+                          children="HorsePower"
+                          bg="gray.400"
+                          color="gray.700"
+                          border="none"
+                        />
+                      </InputGroup>
                     </FormControl>
                   </HStack>
                 </Box>
