@@ -1,9 +1,11 @@
-import React from "react";
 import { Box, Button, Badge } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import './../../../assets/css/ag-grid-theme-builder.css';
+import PropTypes from 'prop-types';
+
 
 // Komponen StatusBadge
 function StatusBadge({ value }) {
@@ -26,12 +28,17 @@ function StatusBadge({ value }) {
       borderRadius={"6px"}
       width={100}
       textAlign={"center"}
+      variant='solid'
     >
       {/* style={{ whiteSpace: 'normal', lineHeight: '1.2', padding: '4px 8px' }} */}
       {value}
     </Badge>
   );
 }
+
+StatusBadge.propTypes = {
+  value: PropTypes.string.isRequired,
+};
 
 // Komponen ActionButtons
 function ActionButtons() {
