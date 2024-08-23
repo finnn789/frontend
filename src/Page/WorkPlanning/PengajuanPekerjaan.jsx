@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Box, VStack, HStack, SimpleGrid, Button } from "@chakra-ui/react";
 import { FaClipboardCheck, FaTimesCircle, FaCheckCircle } from "react-icons/fa";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -54,7 +55,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
               bgColor="white"
               iconBgColor="#ECF2FE"
               iconColor="#3478ff"
-              />
+            />
             <CustomCard
               icon={FaTimesCircle}
               count={5}
@@ -62,7 +63,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
               bgColor="white"
               iconBgColor="#FEE2E2"
               iconColor="#bd0808"
-              />
+            />
             <CustomCard
               icon={FaCheckCircle}
               count={20}
