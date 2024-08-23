@@ -16,12 +16,19 @@ import {
   Button,
   CircularProgress,
   CircularProgressLabel,
+  Badge,
 } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import Plot from "react-plotly.js";
-import { CheckIcon, EditIcon, SettingsIcon, CloseIcon } from "@chakra-ui/icons";
+import {
+  CheckIcon,
+  EditIcon,
+  DeleteIcon,
+  SettingsIcon,
+  CloseIcon,
+} from "@chakra-ui/icons";
 import "react-day-picker/dist/style.css"; // Import style untuk DayPicker
 import Hero from "../../assets/Hero.jpg";
 import PropTypes from "prop-types";
@@ -105,13 +112,19 @@ const CombinedBarLineChart = () => {
         },
       ]}
       layout={{
-        width: "1100",  
+        width: "1100",
         title: "",
-        paper_bgcolor: 'transparent',
-        plot_bgcolor: 'transparent',
-        barmode: 'group',
+        paper_bgcolor: "transparent",
+        plot_bgcolor: "transparent",
+        barmode: "group",
         xaxis: { automargin: true },
-        yaxis: { title: "Jumlah", side: "left", automargin: true, showgrid: true, zeroline: true },
+        yaxis: {
+          title: "Jumlah",
+          side: "left",
+          automargin: true,
+          showgrid: true,
+          zeroline: true,
+        },
         yaxis2: {
           title: "Jumlah Kumulatif",
           overlaying: "y",
@@ -227,6 +240,48 @@ SummaryBox.propTypes = {
   iconColor: PropTypes.string.isRequired,
 };
 
+// Fungsi untuk merender StatusBadge
+function StatusBadge({ value }) {
+  let colorScheme = "gray";
+
+  if (value === "Selesai") {
+    colorScheme = "green";
+  } else if (value === "Proses") {
+    colorScheme = "yellow";
+  } else if (value === "Menunggu") {
+    colorScheme = "orange";
+  }
+
+  return (
+    <Badge
+      colorScheme={colorScheme}
+      whiteSpace={"normal"}
+      lineHeight={"1.2"}
+      padding={"4px 8px"}
+      borderRadius={"6px"}
+      width={100}
+      textAlign={'center'}
+    >
+      {/* style={{ whiteSpace: 'normal', lineHeight: '1.2', padding: '4px 8px' }} */}
+      {value}
+    </Badge>
+  );
+}
+
+// Fungsi untuk merender tombol Edit dan Delete
+function ActionButtons() {
+  return (
+    <Box display="flex" gap="2">
+      <Button leftIcon={<EditIcon />} colorScheme="blue" size="sm"  variant='solid'>
+        Edit
+      </Button>
+      <Button leftIcon={<DeleteIcon />} colorScheme="red" size="sm">
+        Delete
+      </Button>
+    </Box>
+  );
+}
+
 // Komponen untuk AG Grid Table
 const WellTable = () => {
   const columnDefs = [
@@ -250,15 +305,14 @@ const WellTable = () => {
       headerName: "Status",
       field: "status",
       filter: "agTextColumnFilter",
+      width: 150, // Atur lebar kolom agar cukup untuk badge
+      cellRenderer: StatusBadge,
+      cellStyle: { overflow: "visible" }, // Pastikan overflow visible
     },
     {
       headerName: "Aksi",
       field: "aksi",
-      cellRendererFramework: () => (
-        <Button leftIcon={<EditIcon />} colorScheme="blue" size="sm">
-          Edit
-        </Button>
-      ),
+      cellRenderer: ActionButtons,
     },
   ];
 
@@ -412,8 +466,8 @@ const HomeDash = () => {
                 <Grid templateColumns="3fr 1fr" gap={4}>
                   <GridItem colSpan={1}>
                     <Box
-                      backgroundColor={'red'}
-                      width={'100%'}
+                      backgroundColor={"red"}
+                      width={"100%"}
                       borderRadius="2xl"
                       bg="white"
                       boxShadow="md"
@@ -428,7 +482,7 @@ const HomeDash = () => {
                       {progressData.map((data, index) => (
                         <CircularProgressBar
                           marginBottom={"45px"}
-                          backgroundColor={'red'}
+                          backgroundColor={"red"}
                           key={index}
                           label={data.label}
                           value={data.value}
