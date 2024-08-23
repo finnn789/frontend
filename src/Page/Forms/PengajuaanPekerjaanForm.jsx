@@ -78,15 +78,6 @@ const WellForm = ({ }) => {
   }, [setFetchingData])
 
 
-
-
-
-
-
-
-
-
-
   const [formHandlingWell, setformHandlingWell] = useState({
     planning_well: {
 
