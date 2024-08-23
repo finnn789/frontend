@@ -11,7 +11,8 @@ import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
 import OperasiPengerjaan from './Page/WorkPlanning/OperasiPengerjaan'
 import PPP from './Page/WorkPlanning/PPP'
 import PengajuanPekerjaanForm from './Page/Forms/PengajuaanPekerjaanForm'
-import PengajuanWowsForm from './Page/Forms/PengajuanWOWSForm'
+import PengajuanOperasiForm from './Page/Forms/OperasiPengajuaanForm'
+import PlanningWows from './Page/Forms/PlanningWows'
 
 
 
@@ -86,8 +87,12 @@ function App() {
       element: <PengajuanPekerjaanForm />
     },
     {
+      path: "/pengajuanoperasiform",
+      element: <PengajuanOperasiForm />
+    },
+    {
       path: "/pengajuanwowsform",
-      element: <PengajuanWowsForm />
+      element: <PlanningWows/>
     }
   ])
 
