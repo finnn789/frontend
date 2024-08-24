@@ -20,6 +20,7 @@ import OperasiPengajuaanForm from "./Page/Forms/OperasiPengajuaanForm";
 import ProtectedRoute from "./Auth/ProtectedUser";
 import DashboardSKK from "./Page/PageKKKS/DashboardKKS";
 import HomeDashKKKS from "./Page/PageKKKS/Components/HomeDashKKS";
+import ViewPlanning from "./Page/WorkPlanning/ViewPlanning";
 
 function App() {
   const { isAuthenticated } = useAuth();
