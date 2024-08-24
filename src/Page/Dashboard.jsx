@@ -4,10 +4,6 @@ import { Box, Flex, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-u
 import Sidebar from "./Components/Sidebar";
 import Navbar from "./Components/Navbar";
 import HomePage from "./Components/HomeDash";
-import PengajuanPekerjaan from "./WorkPlanning/PengajuanPekerjaan";
-import OperasiPengerjaan from "./WorkPlanning/OperasiPengerjaan";
-import PPP from "./WorkPlanning/PPP";
-import PengajuanPekerjaanForm from "./Forms/PengajuaanPekerjaanForm";
 import { Outlet, useLocation } from "react-router-dom";
 
 
@@ -16,10 +12,6 @@ export function Dashboard() {
   const [pageForm, setPageForm] = useState('');
   const location = useLocation();
 
-
-  const ControllerButtonPageForm = (value) => {
-    setPageForm(value);
-  };
 
   const handleNavClick = (value) => {
     setSelectedNav(value);

@@ -1,37 +1,20 @@
-import React, { useEffect } from "react";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Heading,
-  VStack,
-  HStack,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from "@chakra-ui/react";
-import { useState } from "react";
-import PengajuanPekerjaanForm from "../Forms/PengajuaanPekerjaanForm";
+import { useEffect, useState } from "react";
+import { Box, VStack, HStack, SimpleGrid, Button } from "@chakra-ui/react";
+import { FaClipboardCheck, FaTimesCircle, FaCheckCircle } from "react-icons/fa";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import CustomCard from "./../Components/Card/CustomCard"; // Path yang sesuai
+import WellTable from "./../Components/Card/WellTable"; // Path yang sesuai
 
 const PengajuanPekerjaan = ({ handleTambahData }) => {
-
   const [dataDrilling, setDataDrilling] = useState([]);
+
   const sendData = (data) => {
     setDataDrilling(data);
-  }
-
+  };
 
   const [dataSubmit, setdataSumbit] = useState({
-    planned_well: {
-
-    }
-  })
+    planned_well: {},
+  });
 
   useEffect(() => {
     if (dataDrilling?.teknisData) {
@@ -39,9 +22,8 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
 
       const plannedWellData = {
         ...dataDrilling.teknisData.well,
-        ...dataDrilling.teknisData.koordinat, // Contoh jika ada data dari koordinat
-        ...wellWithoutUnit, // Contoh jika ada data dari elevasi
-        // Tambahkan sumber data lainnya jika diperlukan
+        ...dataDrilling.teknisData.koordinat,
+        ...wellWithoutUnit,
       };
 
       //Filter Data
@@ -109,58 +91,58 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
 
   const navigate = useNavigate();
   const warnabutton = "teal";
+
   return (
     <>
       <Box p={5}>
         <VStack spacing={4} align="stretch">
-          <Box mt={25}>
-            <ButtonGroup variant="outline" spacing={2}>
-              <Button colorScheme={warnabutton} variant={"solid"}>
-                Diajukan
-              </Button>
-              <Button colorScheme={warnabutton} variant={"solid"}>
-                Ditolak
-              </Button>
-              <Button colorScheme={warnabutton} variant={"solid"}>
-                Disetujui
-              </Button>
-            </ButtonGroup>
-          </Box>
+          {/* Section Cards */}
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} mt={5}>
+            <CustomCard
+              icon={FaClipboardCheck}
+              count={12}
+              label="Diajukan"
+              bgColor="white"
+              iconBgColor="#ECF2FE"
+              iconColor="#3478ff"
+            />
+            <CustomCard
+              icon={FaTimesCircle}
+              count={5}
+              label="Ditolak"
+              bgColor="white"
+              iconBgColor="#FEE2E2"
+              iconColor="#bd0808"
+            />
+            <CustomCard
+              icon={FaCheckCircle}
+              count={20}
+              label="Disetujui"
+              bgColor="white"
+              iconBgColor="#E6FFFA"
+              iconColor="#00c9a1"
+            />
+          </SimpleGrid>
 
-          <HStack justify="flex-end">
-            <Button colorScheme="blue" as={Link} to={"/dashboard/submission/pengajuanform"} >Tambah Data</Button>
+          {/* Tombol Tambah Data */}
+          <HStack justify="flex-end" mt={4} mb={4}>
+            <Button
+              colorScheme="blue"
+              as={Link}
+              to={"/dashboard/submission/pengajuanform"}
+            >
+              Tambah Data
+            </Button>
           </HStack>
-          <Box
-            borderWidth="1px"
-            borderRadius="lg"
-            overflow="hidden"
-            boxShadow="sm"
-          >
-            <TableContainer>
-              <Table variant="simple">
-                <TableCaption placement="top">
-                  Table data Status Pengajuan Pekerjaan
-                </TableCaption>
-                <Thead>
-                  <Tr>
-                    <Th>Status</Th>
-                    <Th>Count</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  <Tr>
-                    <Td>Status 1</Td>
-                    <Td>10</Td>
-                  </Tr>
-                </Tbody>
-              </Table>
-            </TableContainer>
+
+          {/* Tabel */}
+          <Box>
+            <WellTable />
           </Box>
+          <Outlet context={{ sendData }} />
         </VStack>
       </Box>
-      <Outlet context={{ sendData }} />
     </>
-
   );
 };
 

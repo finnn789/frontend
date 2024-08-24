@@ -25,6 +25,7 @@ import Logo from "../../assets/logo.png";
 import { useLocation, Link } from "react-router-dom"; // Import Link from react-router-dom
 
 const Sidebar = ({ handleMenuValue }) => {
+  
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
   const [onClickPage, setOnClickPage] = useState("");
