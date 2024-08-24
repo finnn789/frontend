@@ -2,20 +2,17 @@ import React,{ useEffect, useState } from "react";
 import {
   Box,
   Button,
-  ButtonGroup,
-  Heading,
+  SimpleGrid,
   VStack,
   HStack,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
+ 
 } from "@chakra-ui/react";
 import { Outlet, useNavigate, Link } from "react-router-dom";
+import CustomCard from "./../Components/Card/CustomCard"; // Path yang sesuai
+import WellTable from "./../Components/Card/WellTable"; // Path yang sesuai
+import { FaCheckCircle, FaCogs, FaFlagCheckered } from "react-icons/fa";
+
+
 
 const OperasiPengerjaan = ({ handleTambahData }) => {
   const [dataDrilling, setDataDrilling] = useState([]);
@@ -46,35 +43,35 @@ const OperasiPengerjaan = ({ handleTambahData }) => {
             <Button colorScheme="blue" as={Link} to="/dashboard/operasi/operasiform">Tambah Data</Button>
           </HStack>
 
-          <Box
-            borderWidth="1px"
-            borderRadius="lg"
-            overflow="hidden"
-            boxShadow="sm"
-          >
-            <TableContainer>
-              <Table variant="simple">
-                <TableCaption placement="top">
-                  Table Data Status Operasi Pekerjaan
-                </TableCaption>
-                <Thead>
-                  <Tr>
-                    <Th>Status</Th>
-                    <Th>Count</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  <Tr>
-                    <Td>Status 1</Td>
-                    <Td>10</Td>
-                  </Tr>
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </Box>
-        </VStack>
-      </Box>
-      <Outlet context={{ sendData }} />
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          boxShadow="sm"
+        >
+          <TableContainer>
+            <Table variant="simple">
+              <TableCaption placement="top">
+                Table Data Status Operasi Pekerjaan
+              </TableCaption>
+              <Thead>
+                <Tr>
+                  <Th>Status</Th>
+                  <Th>Count</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr>
+                  <Td>Status 1</Td>
+                  <Td>10</Td>
+                </Tr>
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </VStack>
+    </Box>
+    <Outlet/>
     </>
   );
 };

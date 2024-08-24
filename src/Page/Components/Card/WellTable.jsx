@@ -133,7 +133,7 @@ const WellTable = () => {
   ];
 
   return (
-    <Box className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+    <Box className="ag-theme-alpine" style={{ height: 400, width: "100%" }} shadow={"md"} rounded={"2xl"} p={2}>
       <AgGridReact
         columnDefs={columnDefs}
         rowData={rowData}

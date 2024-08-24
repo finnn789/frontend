@@ -243,7 +243,7 @@ const HomeDash = () => {
                 <Grid templateColumns="repeat(3, 1fr)" gap={4} mb={4}>
                   <CustomCard
                     icon={FaCalendarDay}
-                    count={"20/20"}
+                    count={20/20}
                     label="Rencana/Realisasi"
                     bgColor="white"
                     iconBgColor="#E6FFFA"
