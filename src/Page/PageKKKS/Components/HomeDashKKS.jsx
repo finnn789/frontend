@@ -18,7 +18,7 @@ import { CheckIcon, EditIcon, SettingsIcon, CloseIcon } from "@chakra-ui/icons";
 import WellTable from "../Components/Card/WellTable";
 import FilterBar from "./Card/FilterBar";
 import SummaryBox from "./Card/SummaryBox";
-import Hero from "../../../assets/hero.jpg";
+import Hero from "../../../assets/Hero.jpg";
 import CustomCard from "./Card/CustomCard";
 import { FaCalendarDay, FaChartLine, FaChartPie } from "react-icons/fa";
 import PropTypes from "prop-types";
