@@ -13,6 +13,8 @@ import PPP from './Page/WorkPlanning/PPP'
 import PengajuanPekerjaanForm from './Page/Forms/PengajuaanPekerjaanForm'
 import PengajuanOperasiForm from './Page/Forms/OperasiPengajuaanForm'
 import PlanningWows from './Page/Forms/PlanningWows'
+import WowsForm from './Page/Forms/OperasiPengajuaanForm'
+import OperasiPengajuaanForm from './Page/Forms/OperasiPengajuaanForm'
 
 
 
@@ -52,7 +54,7 @@ function App() {
           children: [
             {
               path: "operasiform",
-              element: <PengajuanPekerjaanForm />,
+              element:<OperasiPengajuaanForm/>,
             }
           ]
         },
