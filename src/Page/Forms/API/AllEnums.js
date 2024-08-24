@@ -15,3 +15,20 @@ export async function AllEnums() {
         return null; // Atau bisa mengembalikan default value jika perlu
     }
 }
+
+
+export async function getUtilsdb() {
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/utils/db/all',{
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+
+        return response.data
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return null;
+    }
+}

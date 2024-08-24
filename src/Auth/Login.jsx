@@ -27,9 +27,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [handleFormUsername, setHandleFormUsername] = useState(false);
   const [handleFormPassword, setHandleFormPassword] = useState(false);
-  
 
- 
+
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -52,7 +52,6 @@ const Login = () => {
       const token = response.data.access_token;
       localStorage.setItem("token", token);
 
-      // Ambil detail pengguna
       const userResponse = await axios.get(
         "http://localhost:8000/auth/user/me",
         {
@@ -60,19 +59,14 @@ const Login = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-        
       );
-      setHandleFormPassword(false);
-      setHandleFormUsername(false);
-      const userDetails = userResponse.data;
-      localStorage.setItem("user", JSON.stringify(userDetails));
 
-      login(); // Update state autentikasi di context
-      navigate("/dashboard"); // Redirect ke dashboard
+      const userDetails = userResponse.data;
+      login(userDetails, token); // Kirim userDetails dan token ke fungsi login di AuthContext
+
+      navigate("/dashboard");
     } catch (error) {
       if (error.response) {
-        // console.log(error.response.data);
-
         setErrorMessage(() => {
           const details = error.response.data.detail;
 

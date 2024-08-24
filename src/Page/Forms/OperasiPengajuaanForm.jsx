@@ -50,7 +50,7 @@ const NavigationMenu = ({ completedSections, activeTab }) => (
 );
 
 // Main WellForm Component
-const WowsForm = () => {
+const OperasiPengajuaanForm = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [completedSections, setCompletedSections] = useState({
     teknis: {
@@ -2294,4 +2294,4 @@ const WowsForm = () => {
   );
 };
 
-export default WowsForm;
+export default OperasiPengajuaanForm;

@@ -28,7 +28,7 @@ import {
   InputRightAddon
 } from "@chakra-ui/react";
 import { ChevronRightIcon, CheckIcon } from "@chakra-ui/icons";
-import { AllEnums } from "./API/AllEnums";
+import { AllEnums, getUtilsdb } from "./API/AllEnums";
 import { useOutletContext } from "react-router-dom";
 
 // NavigationMenu Component
@@ -54,24 +54,39 @@ const NavigationMenu = ({ completedSections, activeTab }) => (
 );
 
 // Main WellForm Component
-const WellForm = ({}) => {
+const WellForm = ({ }) => {
   const { sendData } = useOutletContext();
 
   const [fetchingData, setFetchingData] = useState(null);
+  const [utilsDb, setUtilsDb] = useState();
 
   useEffect(() => {
     async function fetchData() {
       const data = await AllEnums();
       if (data) {
         setFetchingData(data);
-        console.log(data);
+        // console.log(data);
+      } else {
+        console.error("Error fetching data");
+      }
+    }
+    async function fetchingUtils() {
+      const data = await getUtilsdb();
+      if (data) {
+        setUtilsDb(data);
+
+        // console.log(Object.keys(data.area));
       } else {
         console.error("Error fetching data");
       }
     }
 
+    fetchingUtils();
     fetchData();
-  }, [setFetchingData]);
+  }, [setFetchingData, setUtilsDb]);
+  // console.log(utilsDb);
+
+
 
   const [formHandlingWell, setformHandlingWell] = useState({
     planning_well: {},
@@ -182,15 +197,15 @@ const WellForm = ({}) => {
   // Operasional Tab States
   const [proposedJob, setProposedJob] = useState({
     areaId: "",
-    fieldId: "",
-    afeNumber: "",
+    field_id: "",
+    afe_number: "",
     totalBudget: "",
-    wpbYear: "",
-    startDate: "",
-    endDate: "",
-    rigName: "",
-    rigType: "",
-    rigHorsePower: "",
+    wpb_year: 0,
+    plan_start: "",
+    plan_end: "",
+    rig_name: "",
+    rig_type: "",
+    rig_horse_power: 0,
   });
 
   const [workBreakdown, setWorkBreakdown] = useState([]);
@@ -204,14 +219,15 @@ const WellForm = ({}) => {
   const [jobDocument, setJobDocument] = useState([]);
   const [jobDocumentForm, setJobDocumentForm] = useState({
     title: "",
-    creatorName: "",
-    createDate: "",
-    documentType: "",
-    itemCategory: "",
-    itemSubCategory: "",
-    digitalFormat: "",
-    originalFileName: "",
-    digitalSize: "",
+    creator_name: "",
+    creator_date: "",
+    document_type: "",
+    item_category: "",
+    item_sub_category: "",
+    digital_format: "",
+    original_file_name: "",
+    digital_size: "",
+    digital_size_uom: "BYTE", 
     remark: "",
   });
 
@@ -242,6 +258,9 @@ const WellForm = ({}) => {
         ...koordinatData,
         ...seismicData,
         ...keydatesData,
+        ...workBreakdown,
+        ...jobDocument,
+        ...wellSummary,
       },
     });
   }, [setformHandlingWell]);
@@ -349,14 +368,14 @@ const WellForm = ({}) => {
           setJobDocument((prev) => [...prev, jobDocumentForm]);
           setJobDocumentForm({
             title: "",
-            creatorName: "",
-            createDate: "",
-            documentType: "",
-            itemCategory: "",
-            itemSubCategory: "",
-            digitalFormat: "",
-            originalFileName: "",
-            digitalSize: "",
+            creator_name: "",
+            creator_date: "",
+            document_type: "",
+            item_category: "",
+            item_sub_category: "",
+            digital_format: "",
+            original_file_name: "",
+            digital_size: "",
             remark: "",
           });
           break;
@@ -693,8 +712,8 @@ const WellForm = ({}) => {
                       <Select>
                         {fetchingData
                           ? fetchingData.environment.map((item) => (
-                              <option value={item}>{item}</option>
-                            ))
+                            <option value={item}>{item}</option>
+                          ))
                           : null}
                       </Select>
                     </FormControl>
@@ -788,7 +807,7 @@ const WellForm = ({}) => {
                       />
                     </FormControl>
                     <FormControl>
-                      <FormLabel>maximum_azimuth</FormLabel>
+                      <FormLabel>Azimuth</FormLabel>
                       <Input
                         placeholder="maximum_azimuth"
                         value={koordinatData.maximum_azimuth}
@@ -1524,28 +1543,47 @@ const WellForm = ({}) => {
                           )
                         }
                       >
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                        {utilsDb?.area && Object.entries(utilsDb.area).length > 0 ? (
+                          Object.entries(utilsDb.area).map(([key, value]) => (
+                            <option key={key} value={value}>
+                              {key}
+                            </option>
+                          ))
+                        ) : (
+                          <option value="" disabled>
+                            No fields available
+                          </option>
+                        )}
+
+
+
                       </Select>
                     </FormControl>
                     <FormControl>
                       <FormLabel>Field ID</FormLabel>
                       <Select
                         placeholder="Select Field ID"
-                        value={proposedJob.fieldId}
+                        value={proposedJob.field_id}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "fieldId",
+                            "field_id",
                             e.target.value
                           )
                         }
                       >
-                        <option value="PHR">PHR</option>
-                        <option value="PHM">PHM</option>
-                        <option value="PHE">PHE</option>
+                        {utilsDb?.field && Object.entries(utilsDb.field).length > 0 ? (
+                          Object.entries(utilsDb.field).map(([key, value]) => (
+                            <option key={key} value={value}>
+                              {key}
+                            </option>
+                          ))
+                        ) : (
+                          <option value="" disabled>
+                            No fields available
+                          </option>
+                        )}
                       </Select>
                     </FormControl>
                   </HStack>
@@ -1554,13 +1592,13 @@ const WellForm = ({}) => {
                       <FormLabel>AFE Number</FormLabel>
                       <Input
                         placeholder="AFE Number"
-                        value={proposedJob.afeNumber}
+                        value={proposedJob.afe_number}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "afeNumber",
-                            e.target.value
+                            "afe_number",
+                            parseInt(e.target.value)
                           )
                         }
                       />
@@ -1584,29 +1622,34 @@ const WellForm = ({}) => {
                   <HStack>
                     <FormControl>
                       <FormLabel>WPB Year</FormLabel>
-                      <Input
-                        placeholder="WPB Year"
-                        value={proposedJob.wpbYear}
+                      <Select
+                        value={proposedJob.wpb_year}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "wpbYear",
-                            e.target.value
+                            "wpb_year",
+                            parseInt(e.target.value)
                           )
                         }
-                      />
+                      >
+                        {Array.from({ length: 12 }, (_, i) => 2019 + i).map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </Select>
                     </FormControl>
                     <FormControl>
                       <FormLabel>Start Date</FormLabel>
                       <Input
                         type="date"
-                        value={proposedJob.startDate}
+                        value={proposedJob.plan_start}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "startDate",
+                            "plan_start",
                             e.target.value
                           )
                         }
@@ -1618,12 +1661,12 @@ const WellForm = ({}) => {
                       <FormLabel>End Date</FormLabel>
                       <Input
                         type="date"
-                        value={proposedJob.endDate}
+                        value={proposedJob.plan_end}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "endDate",
+                            "plan_end",
                             e.target.value
                           )
                         }
@@ -1633,12 +1676,12 @@ const WellForm = ({}) => {
                       <FormLabel>Rig Name</FormLabel>
                       <Input
                         placeholder="Rig Name"
-                        value={proposedJob.rigName}
+                        value={proposedJob.rig_name}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "rigName",
+                            "rig_name",
                             e.target.value
                           )
                         }
@@ -1650,18 +1693,21 @@ const WellForm = ({}) => {
                       <FormLabel>Rig Type</FormLabel>
                       <Select
                         placeholder="Select Rig Type"
-                        value={proposedJob.rigType}
+                        value={proposedJob.rig_type}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Proposed Job",
-                            "rigType",
+                            "rig_type",
                             e.target.value
                           )
                         }
                       >
-                        <option value="jackup">Jackup</option>
-                        <option value="floater">Floater</option>
+                        {fetchingData
+                          ? fetchingData.rig_type.map((item) => (
+                            <option value={item}>{item}</option>
+                          ))
+                          : null}
                       </Select>
                     </FormControl>
                     <FormControl>
@@ -1669,16 +1715,18 @@ const WellForm = ({}) => {
                       <InputGroup size="md">
                         <Input
                           placeholder="Rig Horse Power"
-                          value={proposedJob.rigHorsePower}
+                          value={proposedJob.rig_horse_power}
+                          type="number"
+                          min={0}
                           onChange={(e) =>
                             handleInputChange(
                               "operasional",
                               "Proposed Job",
-                              "rigHorsePower",
-                              e.target.value
+                              "rig_horse_power",
+                              parseInt(e.target.value)
                             )
                           }
-                         
+
                         />
                         <InputRightAddon
                           children="HorsePower"
@@ -1819,12 +1867,12 @@ const WellForm = ({}) => {
                       <FormLabel>Creator Name</FormLabel>
                       <Input
                         placeholder="Creator Name"
-                        value={jobDocumentForm.creatorName}
+                        value={jobDocumentForm.creator_name}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Job document",
-                            "creatorName",
+                            "creator_name",
                             e.target.value
                           )
                         }
@@ -1836,12 +1884,12 @@ const WellForm = ({}) => {
                       <FormLabel>Create Date</FormLabel>
                       <Input
                         type="date"
-                        value={jobDocumentForm.createDate}
+                        value={jobDocumentForm.creator_date}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Job document",
-                            "createDate",
+                            "creator_date",
                             e.target.value
                           )
                         }
@@ -1851,12 +1899,12 @@ const WellForm = ({}) => {
                       <FormLabel>Document Type</FormLabel>
                       <Input
                         placeholder="Document Type"
-                        value={jobDocumentForm.documentType}
+                        value={jobDocumentForm.document_type}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Job document",
-                            "documentType",
+                            "document_type",
                             e.target.value
                           )
                         }
@@ -1868,12 +1916,12 @@ const WellForm = ({}) => {
                       <FormLabel>Item Category</FormLabel>
                       <Input
                         placeholder="Item Category"
-                        value={jobDocumentForm.itemCategory}
+                        value={jobDocumentForm.item_category}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Job document",
-                            "itemCategory",
+                            "item_category",
                             e.target.value
                           )
                         }
@@ -1883,12 +1931,12 @@ const WellForm = ({}) => {
                       <FormLabel>Item Sub Category</FormLabel>
                       <Input
                         placeholder="Item Sub Category"
-                        value={jobDocumentForm.itemSubCategory}
+                        value={jobDocumentForm.item_sub_category}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Job document",
-                            "itemSubCategory",
+                            "item_sub_category",
                             e.target.value
                           )
                         }
@@ -1900,12 +1948,12 @@ const WellForm = ({}) => {
                       <FormLabel>Digital Format</FormLabel>
                       <Input
                         placeholder="Digital Format"
-                        value={jobDocumentForm.digitalFormat}
+                        value={jobDocumentForm.digital_format}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Job document",
-                            "digitalFormat",
+                            "digital_format",
                             e.target.value
                           )
                         }
@@ -1915,12 +1963,12 @@ const WellForm = ({}) => {
                       <FormLabel>Original File Name</FormLabel>
                       <Input
                         placeholder="Original File Name"
-                        value={jobDocumentForm.originalFileName}
+                        value={jobDocumentForm.original_file_name}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Job document",
-                            "originalFileName",
+                            "original_file_name",
                             e.target.value
                           )
                         }
@@ -1932,13 +1980,13 @@ const WellForm = ({}) => {
                       <FormLabel>Digital Size</FormLabel>
                       <Input
                         placeholder="Digital Size"
-                        value={jobDocumentForm.digitalSize}
+                        value={jobDocumentForm.digital_size}
                         onChange={(e) =>
                           handleInputChange(
                             "operasional",
                             "Job document",
-                            "digitalSize",
-                            e.target.value
+                            "digital_size",
+                            parseInt(e.target.value)
                           )
                         }
                       />
@@ -1989,14 +2037,14 @@ const WellForm = ({}) => {
                         {jobDocument.map((doc, index) => (
                           <Tr key={index}>
                             <Td>{doc.title}</Td>
-                            <Td>{doc.creatorName}</Td>
-                            <Td>{doc.createDate}</Td>
-                            <Td>{doc.documentType}</Td>
-                            <Td>{doc.itemCategory}</Td>
-                            <Td>{doc.itemSubCategory}</Td>
-                            <Td>{doc.digitalFormat}</Td>
-                            <Td>{doc.originalFileName}</Td>
-                            <Td>{doc.digitalSize}</Td>
+                            <Td>{doc.creator_name}</Td>
+                            <Td>{doc.creator_date}</Td>
+                            <Td>{doc.document_type}</Td>
+                            <Td>{doc.item_category}</Td>
+                            <Td>{doc.item_sub_category}</Td>
+                            <Td>{doc.digital_format}</Td>
+                            <Td>{doc.original_file_name}</Td>
+                            <Td>{doc.digital_size}</Td>
                             <Td>{doc.remark}</Td>
                           </Tr>
                         ))}
@@ -2151,7 +2199,7 @@ const WellForm = ({}) => {
                 {/* Job Hazard section */}
                 <Box>
                   <Text fontWeight="bold" fontSize="xl">
-                    Job Hazard
+                    Drilling Hazard
                   </Text>
                   <FormControl>
                     <FormLabel>Hazard Type</FormLabel>
@@ -2167,8 +2215,11 @@ const WellForm = ({}) => {
                         )
                       }
                     >
-                      <option value="Gas Kick">Gas Kick</option>
-                      {/* Add more hazard types as needed */}
+                      {fetchingData
+                        ? fetchingData.hazard_type.map((item) => (
+                          <option value={item}>{item}</option>
+                        ))
+                        : null}
                     </Select>
                   </FormControl>
                   <FormControl>

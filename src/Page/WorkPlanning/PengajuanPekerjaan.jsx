@@ -26,18 +26,68 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
         ...wellWithoutUnit,
       };
 
+      //Filter Data
+
       const jobData = {
-        ...dataDrilling.operasionalData.proposedJob,
-      };
-      const { totalBudget, ...newJobData } = jobData;
+        ...dataDrilling.operasionalData.proposedJob
+      }
+
+      const work_breakdown = {
+        ...dataDrilling.operasionalData.workBreakdown
+      }
+      const jobDocument = {
+        ...dataDrilling.operasionalData.jobDocument
+      }
+      const well_casing = {
+        ...dataDrilling.teknisData.wellSummary
+      }
+
+      
+      
+      const {totalBudget, ...newJobData} = jobData
       setdataSumbit({
         job: {
           ...newJobData,
           planned_well: plannedWellData,
-        },
+          work_breakdown_structure: work_breakdown,
+          drilling_class:"EXPLORATION",
+          well_casing: well_casing,
+          job_document: jobDocument
+        }
+        
+
       });
     }
-  }, [dataDrilling]);
+  }, [dataDrilling])
+
+  // console.log(dataDrilling);
+  console.log(dataSubmit);
+  
+  
+  // useEffect(() => {
+  //   if (dataDrilling?.teknisData) {
+  //     const { unit, ...wellWithoutUnit } = dataDrilling.teknisData.elevasi;
+  //     console.log(wellWithoutUnit);
+      
+  //     const plannedWellData = {
+  //       ...dataDrilling.teknisData.well,
+  //       ...dataDrilling.teknisData.koordinat, // Contoh jika ada data dari koordinat
+  //       ...wellWithoutUnit, // Contoh jika ada data dari elevasi
+  //       // Tambahkan sumber data lainnya jika diperlukan
+  //     };
+
+  //     setdataSumbit({
+  //       planned_well: plannedWellData
+  //     });
+  //   }
+  // }, [dataDrilling])
+
+
+
+  // console.log(dataSubmit);
+  
+
+
 
   const navigate = useNavigate();
   const warnabutton = "teal";

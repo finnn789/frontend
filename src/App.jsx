@@ -13,6 +13,9 @@ import PPP from './Page/WorkPlanning/PPP'
 import PengajuanPekerjaanForm from './Page/Forms/PengajuaanPekerjaanForm'
 import PengajuanOperasiForm from './Page/Forms/OperasiPengajuaanForm'
 import PlanningWows from './Page/Forms/PlanningWows'
+import WowsForm from './Page/Forms/OperasiPengajuaanForm'
+import OperasiPengajuaanForm from './Page/Forms/OperasiPengajuaanForm'
+import ProtectedRoute from './Auth/ProtectedUser'
 
 
 
@@ -20,31 +23,30 @@ import PlanningWows from './Page/Forms/PlanningWows'
 function App() {
   const { isAuthenticated } = useAuth();
 
-
   const router = createBrowserRouter([
     {
       path: "/",
-      element: isAuthenticated ? <Dashboard /> : <Login />
+      element: isAuthenticated ? <Dashboard /> : <Login />,
     },
     {
       path: "/register",
       element: <Register />,
-
     },
     {
       path: "/dashboard",
-      element: isAuthenticated ? <Dashboard /> : <Navigate to="/" />,
+      element: (
+        <ProtectedRoute element={<Dashboard />} allowedRoles={["Admin"]} />
+      ),
       children: [
         {
           path: "submission",
-          element: <PengajuanPekerjaan />,
+          element:<ProtectedRoute element={<PengajuanPekerjaan />} allowedRoles={["Admin"]} />  ,
           children: [
             {
               path: "pengajuanform",
               element: <PengajuanPekerjaanForm />,
-            }
-
-          ]
+            },
+          ],
         },
         {
           path: "operasi",
@@ -52,9 +54,9 @@ function App() {
           children: [
             {
               path: "operasiform",
-              element: <PengajuanPekerjaanForm />,
-            }
-          ]
+              element: <OperasiPengajuaanForm />,
+            },
+          ],
         },
         {
           path: "ppp",
@@ -63,39 +65,36 @@ function App() {
             {
               path: "pppform",
               element: <PengajuanPekerjaanForm />,
-            }
-          ]
+            },
+          ],
         },
-      ]
-
+      ],
     },
     {
       path: "/pengajuanpekerjaan",
       element: <PengajuanPekerjaan />,
-
     },
     {
       path: "/operasipekerjaan",
-      element: <OperasiPengerjaan />
+      element: <OperasiPengerjaan />,
     },
     {
       path: "/ppp",
-      element: <PPP />
+      element: <PPP />,
     },
     {
       path: "/pengajuanpekerjaanform",
-      element: <PengajuanPekerjaanForm />
+      element: <PengajuanPekerjaanForm />,
     },
     {
       path: "/pengajuanoperasiform",
-      element: <PengajuanOperasiForm />
+      element: <PengajuanOperasiForm />,
     },
     {
       path: "/pengajuanwowsform",
-      element: <PlanningWows/>
-    }
-  ])
-
+      element: <PlanningWows />,
+    },
+  ]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext(null);
 
@@ -7,26 +7,34 @@ export const AuthProvider = ({ children }) => {
     !!localStorage.getItem("token")
   );
   
-  // Mendapatkan user dari localStorage atau bisa juga dari API
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")));
+  const [role, setRole] = useState(() => user?.role);
 
-  const login = () => {
-    // Set user ketika login
-    const userData = user; // Contoh data
+  const login = (userData, token) => {
     localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("token", token);
     setUser(userData);
+    setRole(userData.role);  // Mengatur role di state
     setIsAuthenticated(true);
+
+    
+    
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
+    setRole(null);
     setIsAuthenticated(false);
   };
 
+  const hasRole = (role) => {
+    return user?.role === role;
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, role, login, logout, hasRole }}>
       {children}
     </AuthContext.Provider>
   );
