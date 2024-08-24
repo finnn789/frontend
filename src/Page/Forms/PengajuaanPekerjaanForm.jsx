@@ -226,7 +226,7 @@ const WellForm = ({}) => {
   });
 
   const [jobHazard, setJobHazard] = useState([]);
-  const [jobHazardForm, setJobHazardForm] = useState({
+  const [jobHazanprdForm, setJobHazardForm] = useState({
     hazardType: "",
     hazardDescription: "",
     severity: "",
