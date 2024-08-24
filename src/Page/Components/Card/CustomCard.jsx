@@ -1,9 +1,10 @@
+// eslint-disable-next-line no-unused-vars
+import React from "react";
 import { Box, Icon, Text } from "@chakra-ui/react";
 import PropTypes from 'prop-types';
 
-
 // Komponen CustomCard
-const CustomCard = ({ icon, count, label, bgColor, iconColor ,iconBgColor }) => {
+const CustomCard = ({ icon, count, label, bgColor, iconColor, iconBgColor }) => {
   return (
     <Box
       p={6}
@@ -24,7 +25,7 @@ const CustomCard = ({ icon, count, label, bgColor, iconColor ,iconBgColor }) => 
         justifyContent="center"
         alignItems="center"
       >
-        <Icon as={icon} boxSize={8} color={iconColor}/>
+        <Icon as={icon} boxSize={8} color={iconColor} />
       </Box>
       <Box>
         <Text fontSize="35px" fontWeight="bold">
@@ -39,7 +40,7 @@ const CustomCard = ({ icon, count, label, bgColor, iconColor ,iconBgColor }) => 
 };
 
 CustomCard.propTypes = {
-  icon: PropTypes.node.isRequired, // Define the type of the icon prop
+  icon: PropTypes.elementType.isRequired, // Menggunakan elementType untuk Chakra UI icon
   count: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   bgColor: PropTypes.string.isRequired,
