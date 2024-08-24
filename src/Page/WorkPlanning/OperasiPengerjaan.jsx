@@ -1,21 +1,10 @@
-import React,{ useEffect, useState } from "react";
+import React ,{ useState } from "react";
 import {
   Box,
   Button,
   SimpleGrid,
   VStack,
   HStack,
-  ButtonGroup,
-  TableContainer,
-  Table,
-  TableCaption,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Tfoot,
-  
  
 } from "@chakra-ui/react";
 import { Outlet, useNavigate, Link } from "react-router-dom";
@@ -27,62 +16,59 @@ import { FaCheckCircle, FaCogs, FaFlagCheckered } from "react-icons/fa";
 
 const OperasiPengerjaan = ({ handleTambahData }) => {
   const [dataDrilling, setDataDrilling] = useState([]);
+
   const sendData = (data) => {
     setDataDrilling(data);
-  }
-
+  };
   const navigate = useNavigate();
   const warnabutton = "teal";
   return (
     <>
       <Box p={5}>
         <VStack spacing={4} align="stretch">
-          <Box mt={25}>
-            <ButtonGroup variant="outline" spacing={2}>
-              <Button colorScheme={warnabutton} variant={"solid"}>
-                Disetuji
-              </Button>
-              <Button colorScheme={warnabutton} variant={"solid"}>
-                Beroperasi
-              </Button>
-              <Button colorScheme={warnabutton} variant={"solid"}>
-                Selesai
-              </Button>
-            </ButtonGroup>
-          </Box>
-          <HStack justify="flex-end">
-            <Button colorScheme="blue" as={Link} to="/dashboard/operasi/operasiform">Tambah Data</Button>
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} mt={5}>
+            <CustomCard
+              icon={FaCheckCircle}
+              count={12}
+              label="Disetujui"
+              bgColor="white"
+              iconBgColor="#ECF2FE"
+              iconColor="#3478ff"
+            />
+            <CustomCard
+              icon={FaCogs}
+              count={5}
+              label="Beroperasi"
+              bgColor="white"
+              iconBgColor="#FEE2E2"
+              iconColor="#bd0808"
+            />
+            <CustomCard
+              icon={FaFlagCheckered}
+              count={20}
+              label="Selesai"
+              bgColor="white"
+              iconBgColor="#E6FFFA"
+              iconColor="#00c9a1"
+            />
+          </SimpleGrid>
+          <HStack justify="flex-end" mt={4} mb={4}>
+            <Button
+              colorScheme="blue"
+              as={Link}
+              to="/dashboard/operasi/operasiform"
+            >
+              Tambah Data
+            </Button>
           </HStack>
 
-        <Box
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          boxShadow="sm"
-        >
-          <TableContainer>
-            <Table variant="simple">
-              <TableCaption placement="top">
-                Table Data Status Operasi Pekerjaan
-              </TableCaption>
-              <Thead>
-                <Tr>
-                  <Th>Status</Th>
-                  <Th>Count</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>Status 1</Td>
-                  <Td>10</Td>
-                </Tr>
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Box>
-      </VStack>
-    </Box>
-    <Outlet/>
+          {/* Tabel */}
+          <Box>
+            <WellTable />
+          </Box>
+        </VStack>
+      </Box>
+      <Outlet context={{ sendData }} />
     </>
   );
 };
