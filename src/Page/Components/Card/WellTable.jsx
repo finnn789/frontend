@@ -4,6 +4,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import './../../../assets/css/ag-grid-theme-builder.css';
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 
@@ -30,7 +31,6 @@ function StatusBadge({ value }) {
       textAlign={"center"}
       variant='solid'
     >
-      {/* style={{ whiteSpace: 'normal', lineHeight: '1.2', padding: '4px 8px' }} */}
       {value}
     </Badge>
   );
@@ -41,10 +41,12 @@ StatusBadge.propTypes = {
 };
 
 // Komponen ActionButtons
-function ActionButtons() {
+function ActionButtons({ id }) {
   return (
     <Box display="flex" gap="2">
       <Button
+        as={Link} // Gunakan Link dari react-router-dom
+        to={`/viewplanning/${id}/`} 
         leftIcon={<EditIcon />}
         colorScheme="blue"
         size="sm"
@@ -58,6 +60,10 @@ function ActionButtons() {
     </Box>
   );
 }
+
+ActionButtons.propTypes = {
+  id: PropTypes.number.isRequired, // Prop untuk id
+};
 
 // Komponen WellTable
 const WellTable = () => {
@@ -88,8 +94,9 @@ const WellTable = () => {
     },
     {
       headerName: "Aksi",
-      field: "aksi",
-      cellRenderer: ActionButtons,
+      field: "id", // Kolom id untuk diteruskan ke ActionButtons
+      cellRenderer: (params) => <ActionButtons id={params.value} />, // Kirim id ke ActionButtons
+      // cellRenderer: ActionButtons,
     },
   ];
 
@@ -99,36 +106,42 @@ const WellTable = () => {
       namaSumur: "Sumur A",
       tanggalMulai: "2024-08-01 08:00",
       status: "Selesai",
+      id: 1, // id yang sesuai untuk tiap item
     },
     {
       no: 2,
       namaSumur: "Sumur B",
       tanggalMulai: "2024-08-02 09:00",
       status: "Proses",
+      id: 2,
     },
     {
       no: 3,
       namaSumur: "Sumur C",
       tanggalMulai: "2024-08-03 07:30",
       status: "Menunggu",
+      id: 3,
     },
     {
       no: 4,
       namaSumur: "Sumur D",
       tanggalMulai: "2024-08-04 10:00",
       status: "Proses",
+      id: 4,
     },
     {
       no: 5,
       namaSumur: "Sumur E",
       tanggalMulai: "2024-08-05 11:00",
       status: "Selesai",
+      id: 5,
     },
     {
       no: 6,
       namaSumur: "Sumur F",
       tanggalMulai: "2024-08-06 06:00",
       status: "Menunggu",
+      id: 6,
     },
   ];
 

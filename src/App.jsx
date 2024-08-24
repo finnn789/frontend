@@ -16,6 +16,7 @@ import PlanningWows from './Page/Forms/PlanningWows'
 import WowsForm from './Page/Forms/OperasiPengajuaanForm'
 import OperasiPengajuaanForm from './Page/Forms/OperasiPengajuaanForm'
 import ProtectedRoute from './Auth/ProtectedUser'
+import ViewPlanning from './Page/WorkPlanning/ViewPlanning'
 
 
 
@@ -68,6 +69,7 @@ function App() {
             },
           ],
         },
+        
       ],
     },
     {
@@ -94,6 +96,10 @@ function App() {
       path: "/pengajuanwowsform",
       element: <PlanningWows />,
     },
+    {
+      path: "viewplanning/:id",
+      element: < ViewPlanning/>,
+    }
   ]);
 
   return (
