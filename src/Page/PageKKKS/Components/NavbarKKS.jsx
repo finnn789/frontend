@@ -18,10 +18,10 @@ import {
 } from "@chakra-ui/react";
 import { BellIcon, HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { FaRegClock } from "react-icons/fa";
-import { useAuth } from "../../Auth/AuthContext";
+import { useAuth } from "../../../Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ appName = "App",nameUser }) => {
+const NavbarKKKS = ({ appName = "App",nameUser }) => {
   const { logout } = useAuth();
   const navigator = useNavigate();
 
@@ -131,8 +131,8 @@ const Navbar = ({ appName = "App",nameUser }) => {
   );
 };
 
-Navbar.propTypes = {
+NavbarKKKS.propTypes = {
   appName: PropTypes.string, // Ensure appName is a string
 };
 
-export default Navbar;
+export default NavbarKKKS;
