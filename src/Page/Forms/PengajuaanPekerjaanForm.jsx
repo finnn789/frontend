@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Grid,
@@ -25,14 +25,14 @@ import {
   Th,
   Td,
   InputGroup,
-  InputRightAddon
+  InputRightAddon,
 } from "@chakra-ui/react";
 import { ChevronRightIcon, CheckIcon } from "@chakra-ui/icons";
 import { AllEnums, getUtilsdb } from "./API/AllEnums";
 import { useOutletContext } from "react-router-dom";
 
 // NavigationMenu Component
-const NavigationMenu = ({ completedSections, activeTab }) => (
+const NavigationMenu = ({ completedSections, activeTab, onNavigate }) => (
   <VStack align="stretch" spacing={2} position="sticky" top="20px">
     <Text fontWeight="bold" fontSize="xl" mb={2}>
       Navigasi
@@ -40,7 +40,13 @@ const NavigationMenu = ({ completedSections, activeTab }) => (
     <List spacing={2}>
       {Object.entries(completedSections[activeTab]).map(
         ([section, isCompleted]) => (
-          <ListItem key={section} display="flex" alignItems="center">
+          <ListItem
+            key={section}
+            display="flex"
+            alignItems="center"
+            cursor="pointer"
+            onClick={() => onNavigate(section)}
+          >
             <ListIcon
               as={isCompleted ? CheckIcon : ChevronRightIcon}
               color={isCompleted ? "green.500" : "blue.500"}
@@ -54,7 +60,7 @@ const NavigationMenu = ({ completedSections, activeTab }) => (
 );
 
 // Main WellForm Component
-const WellForm = ({ }) => {
+const WellForm = ({}) => {
   const { sendData } = useOutletContext();
 
   const [fetchingData, setFetchingData] = useState(null);
@@ -85,8 +91,6 @@ const WellForm = ({ }) => {
     fetchData();
   }, [setFetchingData, setUtilsDb]);
   // console.log(utilsDb);
-
-
 
   const [formHandlingWell, setformHandlingWell] = useState({
     planning_well: {},
@@ -125,12 +129,12 @@ const WellForm = ({ }) => {
   });
 
   const [koordinatData, setKoordinatData] = useState({
-    surface_longitude: 0,
-    surface_latitude: 0,
-    bottom_hole_longititude: 0,
-    bottom_hole_latitude: 0,
-    maximum_inclination: 0,
-    maximum_azimuth: 0,
+    surface_longitude: null,
+    surface_latitude: null,
+    bottom_hole_longititude: null,
+    bottom_hole_latitude: null,
+    maximum_inclination: null,
+    maximum_azimuth: null,
   });
 
   const [seismicData, setSeismicData] = useState({
@@ -227,7 +231,7 @@ const WellForm = ({ }) => {
     digital_format: "",
     original_file_name: "",
     digital_size: "",
-    digital_size_uom: "BYTE", 
+    digital_size_uom: "BYTE",
     remark: "",
   });
 
@@ -248,6 +252,29 @@ const WellForm = ({ }) => {
     severity: "",
     mitigation: "",
     remark: "",
+  });
+
+  const [wellCasing, setWellCasing] = useState([]);
+  const [wellCasingForm, setWellCasingForm] = useState({
+    depth_datum: "",
+    depth: "",
+    length: "",
+    hole_diameter: "",
+    casing_outer_diameter: "",
+    casing_inner_diameter: "",
+    casing_grade: "",
+    casing_weight: "",
+    connection: "",
+    description: "",
+  });
+
+  // New state for Stratigraphy
+  const [stratigraphy, setStratigraphy] = useState([]);
+  const [stratigraphyForm, setStratigraphyForm] = useState({
+    depth_datum: "",
+    top_depth: "",
+    bottom_depth: "",
+    stratigraphy_id: "",
   });
 
   useEffect(() => {
@@ -579,6 +606,78 @@ const WellForm = ({ }) => {
     }
   }, []);
 
+  const sectionRefs = useRef({});
+
+  // Initialize refs for each section
+  useEffect(() => {
+    Object.keys(completedSections.teknis).forEach((section) => {
+      sectionRefs.current[section] = React.createRef();
+    });
+    Object.keys(completedSections.operasional).forEach((section) => {
+      sectionRefs.current[section] = React.createRef();
+    });
+  }, []);
+
+  const handleNavigate = (section) => {
+    const sectionRef = sectionRefs.current[section];
+    if (sectionRef && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleWellCasingChange = (field, value) => {
+    setWellCasingForm((prev) => ({ ...prev, [field]: value }));
+    updateSectionCompletion("teknis", "Well Casing");
+  };
+
+  // Handler for Stratigraphy form
+  const handleStratigraphyChange = (field, value) => {
+    setStratigraphyForm((prev) => ({ ...prev, [field]: value }));
+    updateSectionCompletion("teknis", "Stratigraphy");
+  };
+
+  // Function to add Well Casing
+  const addWellCasing = () => {
+    setWellCasing((prev) => [...prev, wellCasingForm]);
+    setWellCasingForm({
+      depth_datum: "",
+      depth: "",
+      length: "",
+      hole_diameter: "",
+      casing_outer_diameter: "",
+      casing_inner_diameter: "",
+      casing_grade: "",
+      casing_weight: "",
+      connection: "",
+      description: "",
+    });
+    updateSectionCompletion("teknis", "Well Casing");
+  };
+
+  // Function to add Stratigraphy
+  const addStratigraphy = () => {
+    setStratigraphy((prev) => [...prev, stratigraphyForm]);
+    setStratigraphyForm({
+      depth_datum: "",
+      top_depth: "",
+      bottom_depth: "",
+      stratigraphy_id: "",
+    });
+    updateSectionCompletion("teknis", "Stratigraphy");
+  };
+
+  // Update completedSections state
+  useEffect(() => {
+    setCompletedSections((prev) => ({
+      ...prev,
+      teknis: {
+        ...prev.teknis,
+        "Well Casing": wellCasing.length > 0,
+        Stratigraphy: stratigraphy.length > 0,
+      },
+    }));
+  }, [wellCasing, stratigraphy]);
+
   return (
     <Grid templateColumns="1fr 250px" gap={8}>
       <Box>
@@ -591,7 +690,7 @@ const WellForm = ({ }) => {
             <TabPanel>
               <VStack align="stretch" spacing={8}>
                 {/* Well section */}
-                <Box>
+                <Box ref={sectionRefs.current["Well"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Well
                   </Text>
@@ -712,8 +811,8 @@ const WellForm = ({ }) => {
                       <Select>
                         {fetchingData
                           ? fetchingData.environment.map((item) => (
-                            <option value={item}>{item}</option>
-                          ))
+                              <option value={item}>{item}</option>
+                            ))
                           : null}
                       </Select>
                     </FormControl>
@@ -721,7 +820,7 @@ const WellForm = ({ }) => {
                 </Box>
 
                 {/* Koordinat section */}
-                <Box>
+                <Box ref={sectionRefs.current["Koordinat"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Koordinat
                   </Text>
@@ -825,7 +924,7 @@ const WellForm = ({ }) => {
                 </Box>
 
                 {/* Seismic section */}
-                <Box>
+                <Box ref={sectionRefs.current["Seismic"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Seismic
                   </Text>
@@ -847,7 +946,7 @@ const WellForm = ({ }) => {
                 </Box>
 
                 {/* Keydates section */}
-                <Box>
+                <Box ref={sectionRefs.current["Keydates"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Keydates
                   </Text>
@@ -901,7 +1000,7 @@ const WellForm = ({ }) => {
                 </Box>
 
                 {/* Elevasi section */}
-                <Box>
+                <Box ref={sectionRefs.current["Elevasi"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Elevasi
                   </Text>
@@ -1088,7 +1187,7 @@ const WellForm = ({ }) => {
                 </Box>
 
                 {/* Well Summary section */}
-                <Box>
+                <Box ref={sectionRefs.current["Well Summary"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Well Summary
                   </Text>
@@ -1382,7 +1481,7 @@ const WellForm = ({ }) => {
                 </Box>
 
                 {/* Well Test section */}
-                <Box>
+                <Box ref={sectionRefs.current["Well Test"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Well Test
                   </Text>
@@ -1504,8 +1603,267 @@ const WellForm = ({ }) => {
                   )}
                 </Box>
 
+                <Box ref={sectionRefs.current["Well Casing"]}>
+                  <Text fontWeight="bold" fontSize="xl">
+                    Well Casing
+                  </Text>
+                  <FormControl>
+                    <FormLabel>Depth Datum</FormLabel>
+                    <Select
+                      value={wellCasingForm.depth_datum}
+                      onChange={(e) =>
+                        handleWellCasingChange("depth_datum", e.target.value)
+                      }
+                    >
+                      <option value="MSL">MSL</option>
+                      <option value="RT">RT</option>
+                      <option value="KB">KB</option>
+                    </Select>
+                  </FormControl>
+                  <HStack>
+                    <FormControl>
+                      <FormLabel>Depth</FormLabel>
+                      <Input
+                        value={wellCasingForm.depth}
+                        onChange={(e) =>
+                          handleWellCasingChange("depth", e.target.value)
+                        }
+                        placeholder="Depth"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Length</FormLabel>
+                      <Input
+                        value={wellCasingForm.length}
+                        onChange={(e) =>
+                          handleWellCasingChange("length", e.target.value)
+                        }
+                        placeholder="Length"
+                      />
+                    </FormControl>
+                  </HStack>
+                  <HStack>
+                    <FormControl>
+                      <FormLabel>Hole Diameter</FormLabel>
+                      <Input
+                        value={wellCasingForm.hole_diameter}
+                        onChange={(e) =>
+                          handleWellCasingChange(
+                            "hole_diameter",
+                            e.target.value
+                          )
+                        }
+                        placeholder="Hole Diameter"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Casing Outer Diameter</FormLabel>
+                      <Input
+                        value={wellCasingForm.casing_outer_diameter}
+                        onChange={(e) =>
+                          handleWellCasingChange(
+                            "casing_outer_diameter",
+                            e.target.value
+                          )
+                        }
+                        placeholder="Casing Outer Diameter"
+                      />
+                    </FormControl>
+                  </HStack>
+                  <HStack>
+                    <FormControl>
+                      <FormLabel>Casing Inner Diameter</FormLabel>
+                      <Input
+                        value={wellCasingForm.casing_inner_diameter}
+                        onChange={(e) =>
+                          handleWellCasingChange(
+                            "casing_inner_diameter",
+                            e.target.value
+                          )
+                        }
+                        placeholder="Casing Inner Diameter"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Casing Grade</FormLabel>
+                      <Input
+                        value={wellCasingForm.casing_grade}
+                        onChange={(e) =>
+                          handleWellCasingChange("casing_grade", e.target.value)
+                        }
+                        placeholder="Casing Grade"
+                      />
+                    </FormControl>
+                  </HStack>
+                  <HStack>
+                    <FormControl>
+                      <FormLabel>Casing Weight</FormLabel>
+                      <Input
+                        value={wellCasingForm.casing_weight}
+                        onChange={(e) =>
+                          handleWellCasingChange(
+                            "casing_weight",
+                            e.target.value
+                          )
+                        }
+                        placeholder="Casing Weight"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Connection</FormLabel>
+                      <Input
+                        value={wellCasingForm.connection}
+                        onChange={(e) =>
+                          handleWellCasingChange("connection", e.target.value)
+                        }
+                        placeholder="Connection"
+                      />
+                    </FormControl>
+                  </HStack>
+                  <FormControl>
+                    <FormLabel>Description</FormLabel>
+                    <Input
+                      value={wellCasingForm.description}
+                      onChange={(e) =>
+                        handleWellCasingChange("description", e.target.value)
+                      }
+                      placeholder="Description"
+                    />
+                  </FormControl>
+                  <Button mt={4} colorScheme="blue" onClick={addWellCasing}>
+                    Add Well Casing
+                  </Button>
+
+                  {wellCasing.length > 0 && (
+                    <Box
+                      overflowX="auto"
+                      width="1200px"
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      mt={4}
+                    >
+                      <Table variant="simple" size={"sm"} mt={4}>
+                        <Thead>
+                          <Tr>
+                            <Th>Depth Datum</Th>
+                            <Th>Depth</Th>
+                            <Th>Length</Th>
+                            <Th>Hole Diameter</Th>
+                            <Th>Casing Outer Diameter</Th>
+                            <Th>Casing Inner Diameter</Th>
+                            <Th>Casing Grade</Th>
+                            <Th>Casing Weight</Th>
+                            <Th>Connection</Th>
+                            <Th>Description</Th>
+                          </Tr>
+                        </Thead>
+                        <Tbody>
+                          {wellCasing.map((casing, index) => (
+                            <Tr key={index}>
+                              <Td>{casing.depth_datum}</Td>
+                              <Td>{casing.depth}</Td>
+                              <Td>{casing.length}</Td>
+                              <Td>{casing.hole_diameter}</Td>
+                              <Td>{casing.casing_outer_diameter}</Td>
+                              <Td>{casing.casing_inner_diameter}</Td>
+                              <Td>{casing.casing_grade}</Td>
+                              <Td>{casing.casing_weight}</Td>
+                              <Td>{casing.connection}</Td>
+                              <Td>{casing.description}</Td>
+                            </Tr>
+                          ))}
+                        </Tbody>
+                      </Table>
+                    </Box>
+                  )}
+                </Box>
+
+                {/* Stratigraphy section */}
+                <Box ref={sectionRefs.current["Stratigraphy"]}>
+                  <Text fontWeight="bold" fontSize="xl">
+                    Stratigraphy
+                  </Text>
+                  <FormControl>
+                    <FormLabel>Depth Datum</FormLabel>
+                    <Select
+                      value={stratigraphyForm.depth_datum}
+                      onChange={(e) =>
+                        handleStratigraphyChange("depth_datum", e.target.value)
+                      }
+                    >
+                      <option value="MSL">MSL</option>
+                      <option value="RT">RT</option>
+                      <option value="KB">KB</option>
+                    </Select>
+                  </FormControl>
+                  <HStack>
+                    <FormControl>
+                      <FormLabel>Top Depth</FormLabel>
+                      <Input
+                        value={stratigraphyForm.top_depth}
+                        onChange={(e) =>
+                          handleStratigraphyChange("top_depth", e.target.value)
+                        }
+                        placeholder="Top Depth"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Bottom Depth</FormLabel>
+                      <Input
+                        value={stratigraphyForm.bottom_depth}
+                        onChange={(e) =>
+                          handleStratigraphyChange(
+                            "bottom_depth",
+                            e.target.value
+                          )
+                        }
+                        placeholder="Bottom Depth"
+                      />
+                    </FormControl>
+                  </HStack>
+                  <FormControl>
+                    <FormLabel>Stratigraphy ID</FormLabel>
+                    <Input
+                      value={stratigraphyForm.stratigraphy_id}
+                      onChange={(e) =>
+                        handleStratigraphyChange(
+                          "stratigraphy_id",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Stratigraphy ID"
+                    />
+                  </FormControl>
+                  <Button mt={4} colorScheme="blue" onClick={addStratigraphy}>
+                    Add Stratigraphy
+                  </Button>
+
+                  {stratigraphy.length > 0 && (
+                    <Table variant="simple" mt={4}>
+                      <Thead>
+                        <Tr>
+                          <Th>Depth Datum</Th>
+                          <Th>Top Depth</Th>
+                          <Th>Bottom Depth</Th>
+                          <Th>Stratigraphy ID</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {stratigraphy.map((strat, index) => (
+                          <Tr key={index}>
+                            <Td>{strat.depth_datum}</Td>
+                            <Td>{strat.top_depth}</Td>
+                            <Td>{strat.bottom_depth}</Td>
+                            <Td>{strat.stratigraphy_id}</Td>
+                          </Tr>
+                        ))}
+                      </Tbody>
+                    </Table>
+                  )}
+                </Box>
+
                 {/* Well Trajectory section */}
-                <Box>
+                <Box ref={sectionRefs.current["Well Trajectory"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Well Trajectory
                   </Text>
@@ -1524,7 +1882,7 @@ const WellForm = ({ }) => {
             <TabPanel>
               <VStack align="stretch" spacing={8}>
                 {/* Proposed Job section */}
-                <Box>
+                <Box ref={sectionRefs.current["Proposed Job"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Proposed Job
                   </Text>
@@ -1543,7 +1901,8 @@ const WellForm = ({ }) => {
                           )
                         }
                       >
-                        {utilsDb?.area && Object.entries(utilsDb.area).length > 0 ? (
+                        {utilsDb?.area &&
+                        Object.entries(utilsDb.area).length > 0 ? (
                           Object.entries(utilsDb.area).map(([key, value]) => (
                             <option key={key} value={value}>
                               {key}
@@ -1554,9 +1913,6 @@ const WellForm = ({ }) => {
                             No fields available
                           </option>
                         )}
-
-
-
                       </Select>
                     </FormControl>
                     <FormControl>
@@ -1573,7 +1929,8 @@ const WellForm = ({ }) => {
                           )
                         }
                       >
-                        {utilsDb?.field && Object.entries(utilsDb.field).length > 0 ? (
+                        {utilsDb?.field &&
+                        Object.entries(utilsDb.field).length > 0 ? (
                           Object.entries(utilsDb.field).map(([key, value]) => (
                             <option key={key} value={value}>
                               {key}
@@ -1633,11 +1990,13 @@ const WellForm = ({ }) => {
                           )
                         }
                       >
-                        {Array.from({ length: 12 }, (_, i) => 2019 + i).map((year) => (
-                          <option key={year} value={year}>
-                            {year}
-                          </option>
-                        ))}
+                        {Array.from({ length: 12 }, (_, i) => 2019 + i).map(
+                          (year) => (
+                            <option key={year} value={year}>
+                              {year}
+                            </option>
+                          )
+                        )}
                       </Select>
                     </FormControl>
                     <FormControl>
@@ -1705,8 +2064,8 @@ const WellForm = ({ }) => {
                       >
                         {fetchingData
                           ? fetchingData.rig_type.map((item) => (
-                            <option value={item}>{item}</option>
-                          ))
+                              <option value={item}>{item}</option>
+                            ))
                           : null}
                       </Select>
                     </FormControl>
@@ -1726,7 +2085,6 @@ const WellForm = ({ }) => {
                               parseInt(e.target.value)
                             )
                           }
-
                         />
                         <InputRightAddon
                           children="HorsePower"
@@ -1740,7 +2098,7 @@ const WellForm = ({ }) => {
                 </Box>
 
                 {/* Work breakdown structure section */}
-                <Box>
+                <Box ref={sectionRefs.current["Work breakdown structure"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Work breakdown structure
                   </Text>
@@ -2054,7 +2412,7 @@ const WellForm = ({ }) => {
                 </Box>
 
                 {/* Job Operation Days section */}
-                <Box>
+                <Box ref={sectionRefs.current["Job Operation Days"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Job Operation Days
                   </Text>
@@ -2197,7 +2555,7 @@ const WellForm = ({ }) => {
                 </Box>
 
                 {/* Job Hazard section */}
-                <Box>
+                <Box ref={sectionRefs.current["Job Hazard"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Drilling Hazard
                   </Text>
@@ -2217,8 +2575,8 @@ const WellForm = ({ }) => {
                     >
                       {fetchingData
                         ? fetchingData.hazard_type.map((item) => (
-                          <option value={item}>{item}</option>
-                        ))
+                            <option value={item}>{item}</option>
+                          ))
                         : null}
                     </Select>
                   </FormControl>
@@ -2327,6 +2685,7 @@ const WellForm = ({ }) => {
         <NavigationMenu
           completedSections={completedSections}
           activeTab={activeTab === 0 ? "teknis" : "operasional"}
+          onNavigate={handleNavigate}
         />
       </Box>
     </Grid>

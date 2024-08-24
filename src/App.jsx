@@ -1,25 +1,25 @@
-import './App.css'
+import "./App.css";
 
-
-
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
-import Dashboard from './Page/Dashboard'
-import { useAuth } from './Auth/AuthContext'
-import Login from './Auth/Login'
-import Register from './Auth/Register'
-import PengajuanPekerjaan from './Page/WorkPlanning/PengajuanPekerjaan'
-import OperasiPengerjaan from './Page/WorkPlanning/OperasiPengerjaan'
-import PPP from './Page/WorkPlanning/PPP'
-import PengajuanPekerjaanForm from './Page/Forms/PengajuaanPekerjaanForm'
-import PengajuanOperasiForm from './Page/Forms/OperasiPengajuaanForm'
-import PlanningWows from './Page/Forms/PlanningWows'
-import WowsForm from './Page/Forms/OperasiPengajuaanForm'
-import OperasiPengajuaanForm from './Page/Forms/OperasiPengajuaanForm'
-import ProtectedRoute from './Auth/ProtectedUser'
-import ViewPlanning from './Page/WorkPlanning/ViewPlanning'
-
-
-
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
+import Dashboard from "./Page/Dashboard";
+import { useAuth } from "./Auth/AuthContext";
+import Login from "./Auth/Login";
+import Register from "./Auth/Register";
+import PengajuanPekerjaan from "./Page/WorkPlanning/PengajuanPekerjaan";
+import OperasiPengerjaan from "./Page/WorkPlanning/OperasiPengerjaan";
+import PPP from "./Page/WorkPlanning/PPP";
+import PengajuanPekerjaanForm from "./Page/Forms/PengajuaanPekerjaanForm";
+import PengajuanOperasiForm from "./Page/Forms/OperasiPengajuaanForm";
+import PlanningWows from "./Page/Forms/PlanningWows";
+import WowsForm from "./Page/Forms/OperasiPengajuaanForm";
+import OperasiPengajuaanForm from "./Page/Forms/OperasiPengajuaanForm";
+import ProtectedRoute from "./Auth/ProtectedUser";
+import DashboardSKK from "./Page/PageKKKS/DashboardKKS";
+import HomeDashKKKS from "./Page/PageKKKS/Components/HomeDashKKS";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -38,10 +38,16 @@ function App() {
       element: (
         <ProtectedRoute element={<Dashboard />} allowedRoles={["Admin"]} />
       ),
+
       children: [
         {
           path: "submission",
-          element:<ProtectedRoute element={<PengajuanPekerjaan />} allowedRoles={["Admin"]} />  ,
+          element: (
+            <ProtectedRoute
+              element={<PengajuanPekerjaan />}
+              allowedRoles={["Admin"]}
+            />
+          ),
           children: [
             {
               path: "pengajuanform",
@@ -69,7 +75,16 @@ function App() {
             },
           ],
         },
-        
+      ],
+    },
+    {
+      path: "/skk",
+      element: <DashboardSKK />,
+      children: [
+        {
+          path: "dashboard",
+          element: <HomeDashKKKS/>,
+        },
       ],
     },
     {
@@ -106,7 +121,7 @@ function App() {
     <>
       <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
