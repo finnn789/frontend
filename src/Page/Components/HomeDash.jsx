@@ -209,7 +209,7 @@ const HomeDash = () => {
                   />
                   <SummaryBox
                     icon={<EditIcon />} // Pisau bedah
-                    value="102"
+                    value="101"
                     label="Operasi"
                     percentage="+2,36%"
                     gradient="linear(to-r, #9BE3FC, #53B4EB)"
@@ -219,7 +219,7 @@ const HomeDash = () => {
                     icon={<SettingsIcon />} // Gear
                     value="102"
                     label="P3"
-                    percentage="+2,36%"
+                    percentage={"+2,36%"}
                     gradient="linear(to-r, #74A7FB, #397BFE)"
                     iconColor="#397BFE"
                   />
