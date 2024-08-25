@@ -5,17 +5,33 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import CustomCard from "./../Components/Card/CustomCard"; // Path yang sesuai
 import WellTable from "./../Components/Card/WellTable"; // Path yang sesuai
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const PengajuanPekerjaan = ({ handleTambahData }) => {
-  const [dataDrilling, setDataDrilling] = useState([]);
+  const location = useLocation();
+  const [dataDrilling, setDataDrilling] = useState(null);
+
+  const [showPengajuanPekerjaan, setShowPengajuanPekerjaan] = useState(true);
 
   const sendData = (data) => {
     setDataDrilling(data);
   };
-
+  const ShowButtonSubmit = () => {
+    return (
+      <Button colorScheme="blue" onClick={HandleSubmit}>
+        Submit Data
+      </Button>
+    );
+  };
   const [dataSubmit, setdataSumbit] = useState({
     planned_well: {},
   });
+
+  useEffect(() => {
+    if (location.pathname === "/dashboard/submission/pengajuanform") {
+      setShowPengajuanPekerjaan(!showPengajuanPekerjaan);
+    }
+  },[location.pathname]);
 
   useEffect(() => {
     if (dataDrilling?.teknisData) {
@@ -152,7 +168,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
   }, [dataDrilling]);
 
   // console.log(dataDrilling);
-  console.log(dataSubmit);
+  // console.log(location);
 
   const HandleSubmit = () => {
     try {
@@ -167,7 +183,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
         }
       );
 
-      if(response){
+      if (response) {
         alert("Data Berhasil Disimpan");
       }
     } catch (error) {
@@ -195,59 +211,68 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
 
   // console.log(dataSubmit);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const warnabutton = "teal";
+  // console.log(showPengajuanPekerjaan);
+  
+  const PengajuanPekerjaanItems = () => {
+    return (
+      <>
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} mt={5}>
+          <CustomCard
+            icon={FaClipboardCheck}
+            count={12}
+            label="Diajukan"
+            bgColor="white"
+            iconBgColor="#ECF2FE"
+            iconColor="#3478ff"
+          />
+          <CustomCard
+            icon={FaTimesCircle}
+            count={5}
+            label="Ditolak"
+            bgColor="white"
+            iconBgColor="#FEE2E2"
+            iconColor="#bd0808"
+          />
+          <CustomCard
+            icon={FaCheckCircle}
+            count={20}
+            label="Disetujui"
+            bgColor="white"
+            iconBgColor="#E6FFFA"
+            iconColor="#00c9a1"
+          />
+        </SimpleGrid>
+
+        {/* Tombol Tambah Data */}
+        <HStack justify="flex-end" mt={4} mb={4}>
+          <Button
+            colorScheme="blue"
+            as={Link}
+            to={"/dashboard/submission/pengajuanform"}
+          >
+            Tambah Data
+          </Button>
+        </HStack>
+
+        {/* Tabel */}
+        <Box>
+          <WellTable />
+        </Box>
+      </>
+    );
+  };
 
   return (
     <>
       <Box p={5}>
         <VStack spacing={4} align="stretch">
           {/* Section Cards */}
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} mt={5}>
-            <CustomCard
-              icon={FaClipboardCheck}
-              count={12}
-              label="Diajukan"
-              bgColor="white"
-              iconBgColor="#ECF2FE"
-              iconColor="#3478ff"
-            />
-            <CustomCard
-              icon={FaTimesCircle}
-              count={5}
-              label="Ditolak"
-              bgColor="white"
-              iconBgColor="#FEE2E2"
-              iconColor="#bd0808"
-            />
-            <CustomCard
-              icon={FaCheckCircle}
-              count={20}
-              label="Disetujui"
-              bgColor="white"
-              iconBgColor="#E6FFFA"
-              iconColor="#00c9a1"
-            />
-          </SimpleGrid>
-
-          {/* Tombol Tambah Data */}
-          <HStack justify="flex-end" mt={4} mb={4}>
-            <Button
-              colorScheme="blue"
-              as={Link}
-              to={"/dashboard/submission/pengajuanform"}
-            >
-              Tambah Data
-            </Button>
-          </HStack>
-
-          {/* Tabel */}
-          <Box>
-            <WellTable />
-          </Box>
+          {showPengajuanPekerjaan ? <PengajuanPekerjaanItems/> : null}
           <Outlet context={{ sendData }} />
 
-          <Button  colorScheme="blue" onClick={HandleSubmit}>Submit Data</Button>
+          {dataDrilling ? <ShowButtonSubmit /> : null}
         </VStack>
       </Box>
     </>

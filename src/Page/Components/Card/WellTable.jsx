@@ -2,11 +2,10 @@ import { Box, Button, Badge } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import './../../../assets/css/ag-grid-theme-builder.css';
+import { EditIcon, DeleteIcon, ViewIcon } from "@chakra-ui/icons";
+import "./../../../assets/css/ag-grid-theme-builder.css";
 import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
-
+import PropTypes from "prop-types";
 
 // Komponen StatusBadge
 function StatusBadge({ value }) {
@@ -29,7 +28,7 @@ function StatusBadge({ value }) {
       borderRadius={"6px"}
       width={100}
       textAlign={"center"}
-      variant='solid'
+      variant="solid"
     >
       {value}
     </Badge>
@@ -45,8 +44,6 @@ function ActionButtons({ id }) {
   return (
     <Box display="flex" gap="2">
       <Button
-        as={Link} // Gunakan Link dari react-router-dom
-        to={`/viewplanning/${id}/`} 
         leftIcon={<EditIcon />}
         colorScheme="blue"
         size="sm"
@@ -56,6 +53,15 @@ function ActionButtons({ id }) {
       </Button>
       <Button leftIcon={<DeleteIcon />} colorScheme="red" size="sm">
         Delete
+      </Button>
+      <Button
+        as={Link} // Gunakan Link dari react-router-dom
+        to={`/viewplanning/${id}/`}
+        leftIcon={<ViewIcon />}
+        colorScheme="green"
+        size="sm"
+      >
+        View
       </Button>
     </Box>
   );
@@ -71,7 +77,7 @@ const WellTable = () => {
     {
       headerName: "No",
       field: "no",
-      width: 70,
+      width: 0,
       filter: "agNumberColumnFilter",
     },
     {
@@ -146,13 +152,19 @@ const WellTable = () => {
   ];
 
   return (
-    <Box className="ag-theme-alpine" style={{ height: 400, width: "100%" }} shadow={"md"} rounded={"2xl"} p={2}>
+    <Box
+      className="ag-theme-alpine"
+      style={{ height: 400, width: "100%" }}
+      shadow={"md"}
+      rounded={"2xl"}
+      p={2}
+    >
       <AgGridReact
         columnDefs={columnDefs}
         rowData={rowData}
         defaultColDef={{
           flex: 1,
-          minWidth: 150,
+          minWidth: 100,
           filter: true,
           sortable: true,
         }}

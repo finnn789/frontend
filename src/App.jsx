@@ -1,5 +1,4 @@
 import "./App.css";
-
 import {
   createBrowserRouter,
   Navigate,
@@ -56,6 +55,7 @@ function App() {
             },
           ],
         },
+
         {
           path: "operasi",
           element: <OperasiPengerjaan />,
@@ -84,7 +84,7 @@ function App() {
       children: [
         {
           path: "dashboard",
-          element: <HomeDashKKKS/>,
+          element: <HomeDashKKKS />,
         },
       ],
     },
@@ -114,8 +114,8 @@ function App() {
     },
     {
       path: "viewplanning/:id",
-      element: < ViewPlanning/>,
-    }
+      element: <ViewPlanning />,
+    },
   ]);
 
   return (
