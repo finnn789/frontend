@@ -4,6 +4,7 @@ import { FaClipboardCheck, FaTimesCircle, FaCheckCircle } from "react-icons/fa";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import CustomCard from "./../Components/Card/CustomCard"; // Path yang sesuai
 import WellTable from "./../Components/Card/WellTable"; // Path yang sesuai
+import axios from "axios";
 
 const PengajuanPekerjaan = ({ handleTambahData }) => {
   const [dataDrilling, setDataDrilling] = useState([]);
@@ -18,7 +19,17 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
 
   useEffect(() => {
     if (dataDrilling?.teknisData) {
-      const { unit, ...wellWithoutUnit } = dataDrilling.teknisData.elevasi;
+      const filterObject = (obj, keysToRemove) => {
+        return Object.keys(obj)
+          .filter((key) => !keysToRemove.includes(key)) // Hanya simpan kunci yang tidak diinginkan
+          .reduce((result, key) => {
+            result[key] = obj[key];
+            return result;
+          }, {});
+      };
+      const wellWithoutUnit = filterObject(dataDrilling.teknisData.elevasi, [
+        "unit",
+      ]);
 
       const plannedWellData = {
         ...dataDrilling.teknisData.well,
@@ -29,46 +40,146 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
       //Filter Data
 
       const jobData = {
-        ...dataDrilling.operasionalData.proposedJob
-      }
+        ...dataDrilling.operasionalData.proposedJob,
+      };
 
       const work_breakdown = {
-        ...dataDrilling.operasionalData.workBreakdown
-      }
+        ...dataDrilling.operasionalData.workBreakdown,
+      };
       const jobDocument = {
-        ...dataDrilling.operasionalData.jobDocument
-      }
+        ...dataDrilling.operasionalData.jobDocument,
+      };
       const well_casing = {
-        ...dataDrilling.teknisData.wellSummary
-      }
-
-      
-      
-      const {totalBudget, ...newJobData} = jobData
+        ...dataDrilling.teknisData.wellSummary,
+      };
+      const job_Operation_Days = {
+        ...dataDrilling.operasionalData.jobOperationDays,
+      };
+      const newjobOperationDays = filterObject(
+        dataDrilling.operasionalData.jobOperationDays,
+        ["unit"]
+      );
+      const { totalBudget, ...newJobData } = jobData;
       setdataSumbit({
-        job: {
+        proposed_job: {
           ...newJobData,
-          planned_well: plannedWellData,
+          well: plannedWellData,
           work_breakdown_structure: work_breakdown,
-          drilling_class:"EXPLORATION",
-          well_casing: well_casing,
-          job_document: jobDocument
-        }
-        
-
+          contract_type: "COST-RECOVERY",
+          drilling_class: "EXPLORATION",
+          job_instance_type: "INITIAL PROPOSAL",
+          job_operation_days: newjobOperationDays,
+          total_budget: 0,
+          well: {
+            uwi: "string",
+            field_id: "string",
+            area_id: "string",
+            kkks_id: "string",
+            data_phase: "PROPOSED",
+            well_name: "string",
+            alias_long_name: "string",
+            well_type: "WILDCAT",
+            well_status: "Active",
+            well_profile_type: "DIRECTIONAL",
+            hydrocarbon_target: "OIL",
+            environment_type: "MARINE",
+            surface_longitude: 0,
+            surface_latitude: 0,
+            bottom_hole_longitude: 0,
+            bottom_hole_latitude: 0,
+            maximum_inclination: 0,
+            azimuth: 0,
+            line_name: "string",
+            spud_date: "2024-08-24T13:38:32.114Z",
+            final_drill_date: "2024-08-24T13:38:32.114Z",
+            completion_date: "2024-08-24T13:38:32.114Z",
+            rotary_table_elev: 0,
+            rotary_table_elev_uom: "FEET",
+            kb_elev: 0,
+            kb_elev_uom: "FEET",
+            derrick_floor_elev: 0,
+            derrick_floor_elev_uom: "FEET",
+            ground_elev: 0,
+            ground_elev_uom: "FEET",
+            mean_sea_level: 0,
+            mean_sea_level_uom: "FEET",
+            depth_datum: "RT",
+            kick_off_point: 0,
+            kick_off_point_uom: "FEET",
+            maximum_tvd: 0,
+            maximum_tvd_uom: "FEET",
+            final_md: 0,
+            final_md_uom: "FEET",
+            remark: "string",
+            well_summary: dataDrilling.teknisData.wellSummary,
+            well_stratigraphy: dataDrilling.teknisData.stratigraphy,
+            well_casing: dataDrilling.teknisData.wellCasing,
+            well_test: dataDrilling.teknisData.wellTest,
+            well_casing: well_casing,
+            well_document: jobDocument,
+            well_trajectories: [
+              {
+                file_id: "string",
+                data_format: "IMAGE",
+                data_class: "WELL TRAJECTORY",
+              },
+            ],
+            well_ppfgs: [
+              {
+                file_id: "string",
+                data_format: "IMAGE",
+                data_class: "PPFG",
+              },
+            ],
+            well_logs: [
+              {
+                file_id: "string",
+                data_format: "IMAGE",
+                data_class: "WELL LOG",
+              },
+            ],
+            well_drilling_parameters: [
+              {
+                file_id: "string",
+                data_format: "IMAGE",
+                data_class: "DRILLING PARAMETER",
+              },
+            ],
+          },
+        },
       });
     }
-  }, [dataDrilling])
+  }, [dataDrilling]);
 
   // console.log(dataDrilling);
   console.log(dataSubmit);
-  
-  
+
+  const HandleSubmit = () => {
+    try {
+      const response = axios.post(
+        "http://127.0.0.1:8000/job/planning/create/exploration",
+        JSON.stringify(dataSubmit),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if(response){
+        alert("Data Berhasil Disimpan");
+      }
+    } catch (error) {
+      console.log("Error Dalam Kirim Data", error);
+    }
+  };
+
   // useEffect(() => {
   //   if (dataDrilling?.teknisData) {
   //     const { unit, ...wellWithoutUnit } = dataDrilling.teknisData.elevasi;
   //     console.log(wellWithoutUnit);
-      
+
   //     const plannedWellData = {
   //       ...dataDrilling.teknisData.well,
   //       ...dataDrilling.teknisData.koordinat, // Contoh jika ada data dari koordinat
@@ -82,12 +193,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
   //   }
   // }, [dataDrilling])
 
-
-
   // console.log(dataSubmit);
-  
-
-
 
   const navigate = useNavigate();
   const warnabutton = "teal";
@@ -140,6 +246,8 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
             <WellTable />
           </Box>
           <Outlet context={{ sendData }} />
+
+          <Button  colorScheme="blue" onClick={HandleSubmit}>Submit Data</Button>
         </VStack>
       </Box>
     </>
