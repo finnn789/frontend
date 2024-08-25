@@ -25,6 +25,8 @@ const ViewPlanning = () => {
   const [wellCasingImage, setWellCasingImage] = useState(null);
   const location = useLocation();
 
+
+  
   const handleNavClick = (value) => {
     setSelectedNav(value);
     setPageForm("");
@@ -62,6 +64,10 @@ const ViewPlanning = () => {
         );
 
         const data = await response.json();
+
+        
+        console.log(data.technical.well_name);
+        
         setApiData(data);
 
         if (data.well_casing && data.well_casing.path) {

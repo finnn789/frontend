@@ -72,6 +72,7 @@ const Sidebar = ({ handleMenuValue }) => {
           as={Link} // Use Link from react-router-dom
           to="/dashboard"
           px={4}
+          fontSize={"20px"}
           py={4}
           rounded="md"
           _hover={{ bg: "#f5f5f5" }}
@@ -87,6 +88,7 @@ const Sidebar = ({ handleMenuValue }) => {
         <Box width="full">
           <ChakraLink
             px={4}
+            fontSize={"20px"}
             py={4}
             rounded="md"
             _hover={{ bg: "#f5f5f5" }}
@@ -112,6 +114,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/submission"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -128,6 +131,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/operasi"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -144,6 +148,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/ppp"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -158,6 +163,7 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <ChakraLink
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -177,6 +183,7 @@ const Sidebar = ({ handleMenuValue }) => {
         <Box width="full">
           <ChakraLink
             px={4}
+            fontSize={"20px"}
             py={4}
             rounded="md"
             _hover={{ bg: "#f5f5f5" }}
@@ -202,6 +209,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/development/submission"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -218,6 +226,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/development/operations"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -234,6 +243,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/development/p3"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -250,6 +260,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/development/closeout"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -269,6 +280,7 @@ const Sidebar = ({ handleMenuValue }) => {
         <Box width="full">
           <ChakraLink
             px={4}
+            fontSize={"20px"}
             py={4}
             rounded="md"
             _hover={{ bg: "#f5f5f5" }}
@@ -290,6 +302,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/workover/submission"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -306,6 +319,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/workover/operations"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -322,6 +336,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/workover/p3"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -338,6 +353,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/workover/closeout"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -357,6 +373,7 @@ const Sidebar = ({ handleMenuValue }) => {
         <Box width="full">
           <ChakraLink
             px={4}
+            fontSize={"20px"}
             py={4}
             rounded="md"
             _hover={{ bg: "#f5f5f5" }}
@@ -382,6 +399,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/wellservice/submission"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -398,6 +416,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/wellservice/operations"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -414,6 +433,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/wellservice/p3"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -430,6 +450,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   as={Link}
                   to="/dashboard/wellservice/closeout"
                   px={3}
+                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}

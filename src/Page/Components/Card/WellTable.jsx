@@ -11,11 +11,11 @@ import PropTypes from "prop-types";
 function StatusBadge({ value }) {
   let colorScheme = "gray";
 
-  if (value === "Selesai") {
+  if (value === "Clear") {
     colorScheme = "green";
-  } else if (value === "Proses") {
+  } else if (value ===  "Suspended") {
     colorScheme = "yellow";
-  } else if (value === "Menunggu") {
+  } else if (value ===  "Pending") {
     colorScheme = "orange";
   }
 
@@ -24,9 +24,10 @@ function StatusBadge({ value }) {
       colorScheme={colorScheme}
       whiteSpace={"normal"}
       lineHeight={"1.2"}
-      padding={"4px 8px"}
+      padding={"6px 8px"}
       borderRadius={"6px"}
-      width={100}
+      width={150}
+      fontSize={"14px"}
       textAlign={"center"}
       variant="solid"
     >
@@ -46,16 +47,18 @@ function ActionButtons({ id }) {
       <Button
         leftIcon={<EditIcon />}
         colorScheme="blue"
-        size="sm"
+        width={"80px"}
         variant="solid"
       >
         Edit
       </Button>
-      <Button leftIcon={<DeleteIcon />} colorScheme="red" size="sm">
+      <Button leftIcon={<DeleteIcon />} colorScheme="red"width={"80px"}  >
         Delete
       </Button>
       <Button
-        as={Link} // Gunakan Link dari react-router-dom
+        as={Link} 
+        width={"90px"}
+        height={"40px"}// Gunakan Link dari react-router-dom
         to={`/viewplanning/${id}/`}
         leftIcon={<ViewIcon />}
         colorScheme="green"
@@ -79,16 +82,26 @@ const WellTable = () => {
       field: "no",
       width: 0,
       filter: "agNumberColumnFilter",
+      cellStyle: {
+        fontSize:'18px'
+      }
+      
     },
     {
       headerName: "Nama Sumur",
       field: "namaSumur",
       filter: "agTextColumnFilter",
+      cellStyle: {
+        fontSize:'18px'
+      }
     },
     {
       headerName: "Tanggal & Mulai",
       field: "tanggalMulai",
       filter: "agDateColumnFilter",
+      cellStyle: {
+        fontSize:'18px'
+      }
     },
     {
       headerName: "Status",
@@ -101,7 +114,8 @@ const WellTable = () => {
     {
       headerName: "Aksi",
       field: "id", // Kolom id untuk diteruskan ke ActionButtons
-      cellRenderer: (params) => <ActionButtons id={params.value} />, // Kirim id ke ActionButtons
+      cellRenderer: (params) => <ActionButtons id={params.value} />, 
+      // Kirim id ke ActionButtons
       // cellRenderer: ActionButtons,
     },
   ];
@@ -109,45 +123,38 @@ const WellTable = () => {
   const rowData = [
     {
       no: 1,
-      namaSumur: "Sumur A",
+      namaSumur: "WELL000",
       tanggalMulai: "2024-08-01 08:00",
-      status: "Selesai",
-      id: 1, // id yang sesuai untuk tiap item
+      status: "Suspended",
+      id: "b220d532-334f-4f28-9afc-c0c03db1db35", // id yang sesuai untuk tiap item
     },
     {
       no: 2,
-      namaSumur: "Sumur B",
+      namaSumur: "WELL011",
       tanggalMulai: "2024-08-02 09:00",
-      status: "Proses",
-      id: 2,
+      status: "Suspended",
+      id: "85e089d0-e4cc-4471-bc9e-5ba095d6be40",
     },
     {
       no: 3,
-      namaSumur: "Sumur C",
+      namaSumur: "WELL022",
       tanggalMulai: "2024-08-03 07:30",
-      status: "Menunggu",
-      id: 3,
+      status: "Abandoned Junked",
+      id: "a6eb7c4f-7b2a-4a98-9882-03f1f909c0bd",
     },
     {
       no: 4,
-      namaSumur: "Sumur D",
+      namaSumur: "WELL033",
       tanggalMulai: "2024-08-04 10:00",
-      status: "Proses",
-      id: 4,
+      status: "Not Drilled",
+      id: "62cd785a-e50a-4e7a-a832-a29a6db88ae3",
     },
     {
       no: 5,
-      namaSumur: "Sumur E",
+      namaSumur: "WELL010",
       tanggalMulai: "2024-08-05 11:00",
-      status: "Selesai",
-      id: 5,
-    },
-    {
-      no: 6,
-      namaSumur: "Sumur F",
-      tanggalMulai: "2024-08-06 06:00",
-      status: "Menunggu",
-      id: 6,
+      status: "Abandoned Whipstocked",
+      id: "c985f999-fc41-4a8f-85cd-5be332b32444",
     },
   ];
 
