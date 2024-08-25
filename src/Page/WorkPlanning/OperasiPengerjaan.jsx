@@ -1,4 +1,4 @@
-import React ,{ useState } from "react";
+import React ,{ useState,useEffect } from "react";
 import {
   Box,
   Button,
@@ -7,7 +7,7 @@ import {
   HStack,
  
 } from "@chakra-ui/react";
-import { Outlet, useNavigate, Link } from "react-router-dom";
+import { Outlet, useNavigate, Link, useLocation } from "react-router-dom";
 import CustomCard from "./../Components/Card/CustomCard"; // Path yang sesuai
 import WellTable from "./../Components/Card/WellTable"; // Path yang sesuai
 import { FaCheckCircle, FaCogs, FaFlagCheckered } from "react-icons/fa";
@@ -16,6 +16,15 @@ import { FaCheckCircle, FaCogs, FaFlagCheckered } from "react-icons/fa";
 
 const OperasiPengerjaan = ({ handleTambahData }) => {
   const [dataDrilling, setDataDrilling] = useState([]);
+
+  const location = useLocation();
+
+  const [showPengajuanPekerjaan, setShowPengajuanPekerjaan] = useState(true);
+  useEffect(() => {
+    if (location.pathname === "/dashboard/submission/pengajuanform") {
+      setShowPengajuanPekerjaan(!showPengajuanPekerjaan);
+    }
+  },[location.pathname]);
 
   const sendData = (data) => {
     setDataDrilling(data);
