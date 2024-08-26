@@ -126,7 +126,7 @@ const WellTable = () => {
       namaSumur: "WELL000",
       tanggalMulai: "2024-08-01 08:00",
       status: "Suspended",
-      id: "b220d532-334f-4f28-9afc-c0c03db1db35", // id yang sesuai untuk tiap item
+        id: "8fcf592a-e579-49ce-898c-9a3a9d08a51b", // id yang sesuai untuk tiap item
     },
     {
       no: 2,
