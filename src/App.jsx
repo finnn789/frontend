@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import {
   createBrowserRouter,
@@ -14,21 +15,39 @@ import PPP from "./Page/WorkPlanning/PPP";
 import PengajuanPekerjaanForm from "./Page/Forms/PengajuaanPekerjaanForm";
 import PengajuanOperasiForm from "./Page/Forms/OperasiPengajuaanForm";
 import PlanningWows from "./Page/Forms/PlanningWows";
-import WowsForm from "./Page/Forms/OperasiPengajuaanForm";
 import OperasiPengajuaanForm from "./Page/Forms/OperasiPengajuaanForm";
 import ProtectedRoute from "./Auth/ProtectedUser";
 import DashboardSKK from "./Page/PageKKKS/DashboardKKS";
 import HomeDashKKKS from "./Page/PageKKKS/Components/HomeDashKKS";
 import ViewPlanning from "./Page/WorkPlanning/ViewPlanning";
 import HomeExploitation from "./Page/Components/PageExploitasi/HomeDashExplo";
+import SplashScreen from "./Page/Components/SplashScreen"; // Import SplashScreen
 
 function App() {
   const { isAuthenticated } = useAuth();
+  const [showSplashScreen, setShowSplashScreen] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const splashScreenShown = localStorage.getItem("splashScreenShown");
+
+      if (!splashScreenShown) {
+        setShowSplashScreen(true);
+        localStorage.setItem("splashScreenShown", "true");
+
+        const timer = setTimeout(() => {
+          setShowSplashScreen(false);
+        }, 3000); // Tampilkan splash screen selama 3 detik
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isAuthenticated]);
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: isAuthenticated ? <Dashboard /> : <Login />,
+      element: isAuthenticated ? <Navigate to="/dashboard" /> : <Login />,
     },
     {
       path: "/register",
@@ -36,10 +55,11 @@ function App() {
     },
     {
       path: "/dashboard",
-      element: (
+      element: showSplashScreen ? (
+        <SplashScreen />
+      ) : (
         <ProtectedRoute element={<Dashboard />} allowedRoles={["Admin"]} />
       ),
-
       children: [
         {
           path: "submission",
@@ -76,19 +96,17 @@ function App() {
             },
           ],
         },
-        
       ],
     },
-
     {
       path: "development",
       element: <Dashboard />,
       children: [
         {
           path: "perencanaan",
-          element: <HomeExploitation/>
-        }
-      ]
+          element: <HomeExploitation />,
+        },
+      ],
     },
     {
       path: "/skk",
