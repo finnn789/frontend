@@ -174,7 +174,6 @@ const WellTable = () => {
         rowData={rowData}
         defaultColDef={{
           flex: 1,
-
           filter: false,
           sortable: true,
         }}

@@ -2,15 +2,12 @@ import {
   Box,
   Grid,
   GridItem,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  SimpleGrid,
   CircularProgress,
   CircularProgressLabel,
   Text,
+  Tr,
+  Td,
+  Flex,
   Image,
 } from "@chakra-ui/react";
 import Plot from "react-plotly.js";
@@ -23,6 +20,10 @@ import CustomCard from "./Card/CustomCard";
 import { FaCalendarDay, FaChartLine, FaChartPie } from "react-icons/fa";
 import PropTypes from "prop-types";
 import HeaderTitle from "./Card/HeaderTitle";
+import TableDashboard from "./Card/TableDashboard";
+import DashboardBarChart from "./Card/DashboardBarChart";
+import { FiArrowUp, FiInfo } from "react-icons/fi";
+import { useState } from "react";
 
 // Data yang dibutuhkan
 const progressData = [
@@ -102,8 +103,9 @@ const CombinedBarLineChart = () => (
       },
     ]}
     layout={{
-      width: "1100",
+      width: "800",
       title: "",
+      height: "300",
       paper_bgcolor: "transparent",
       plot_bgcolor: "transparent",
       barmode: "group",
@@ -150,18 +152,204 @@ CircularProgressBar.propTypes = {
 };
 
 const HomeDash = () => {
+  const dateNow = new Date();
+  const formatter = new Intl.DateTimeFormat("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
+  const titlePekerjaanKUPS = [
+    "Info",
+    "Rencana",
+    "Realisasi",
+    "Percentage",
+    "Change",
+  ];
+  const data = [
+    {
+      info: "Exploration",
+      rencana: 50,
+      realisasi: 12,
+      percentage: 24,
+      change: 1,
+    },
+    {
+      info: "Development",
+      rencana: 990,
+      realisasi: 150,
+      percentage: 15,
+      change: 15,
+    },
+    {
+      info: "Workover",
+      rencana: 906,
+      realisasi: 197,
+      percentage: 22,
+      change: null,
+    },
+    {
+      info: "Well Service",
+      rencana: 35690,
+      realisasi: 7559,
+      percentage: 21,
+      change: 562,
+    },
+  ];
+
+  const dataKKKS = [
+    {
+      kkks: "KKKS1",
+      exploration: 50,
+      development: 12,
+      workover: 45,
+      wellservice: 80,
+    },
+    {
+      kkks: "KKKS1",
+      exploration: 50,
+      development: 12,
+      workover: 24,
+      wellservice: 100,
+    },
+    {
+      kkks: "KKKS1",
+      exploration: 50,
+      development: 12,
+      workover: 24,
+      wellservice: 100,
+    },
+  ];
+
+  const titlePekerjaanKUPSKKS = [
+    "Info",
+    "KKKS",
+    "Explorasi",
+    "Development",
+    "Workover",
+    "Well Service",
+  ];
+
+  const formattedDate = formatter.format(dateNow);
   return (
     <Box p={4}>
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
         <GridItem colSpan={5}>
-          <HeaderTitle />
+          <HeaderTitle
+            title={"Realisasi Kegiatan Pengeboran & KUPS"}
+            subtitle={formattedDate}
+          >
+            <Grid templateColumns={"repeat(2, 1fr)"} gap={8}>
+              <TableDashboard headers={titlePekerjaanKUPS}>
+                {data.map((row, index) => (
+                  <Tr key={index}>
+                    <Td textAlign={"center"}>
+                      <Flex>
+                        <FiInfo color="" size={"30px"} />
+                      </Flex>
+                    </Td>
+                    <Td>
+                      <Text>{row.info}</Text>
+                    </Td>
+                    <Td>{row.rencana.toLocaleString()}</Td>
+                    <Td>
+                      <Flex justifyContent="flex-start" alignItems="center">
+                        {row.realisasi}
+                        {row.change && (
+                          <Box ml={2} color="green.500">
+                            <Flex alignItems="center">
+                              <FiArrowUp />
+                              <Text fontSize="xs" ml={1}>
+                                {row.change}
+                              </Text>
+                            </Flex>
+                          </Box>
+                        )}
+                      </Flex>
+                    </Td>
+                    <Td>{row.percentage}%</Td>
+                  </Tr>
+                ))}
+              </TableDashboard>
+              <DashboardBarChart />
+            </Grid>
+          </HeaderTitle>
+        </GridItem>
+        <GridItem colSpan={5}>
+          <HeaderTitle
+            title={"Rencana Kegiatan Pengeboran & KUPS KKKS"}
+            subtitle={"Realisasi pekerjaan tiap KKKS"}
+          >
+            <TableDashboard headers={titlePekerjaanKUPSKKS}>
+              {dataKKKS.map((row, index) => {
+                return (
+                  <Tr key={index}>
+                    <Td>
+                      <Flex>
+                        <FiInfo color="" size={"30px"} />
+                      </Flex>
+                    </Td>
+                    <Td width={"40%"}>{row.kkks}</Td>
+                    <Td
+                      bg={
+                        row.exploration < 45
+                          ? "red.500"
+                          : row.exploration < 60
+                          ? "orange.500"
+                          : row.exploration < 100
+                          ? "yellow.500"
+                          : "green.500"
+                      }
+                    >
+                      {row.exploration}
+                    </Td>
+                    <Td
+                      bg={
+                        row.development < 45
+                          ? "red.500"
+                          : row.development < 60
+                          ? "orange.500"
+                          : row.development < 100
+                          ? "yellow.500"
+                          : "green.500"
+                      }
+                    >
+                      {row.development}
+                    </Td>
+                    <Td
+                      bg={
+                        row.workover < 45
+                          ? "red.500"
+                          : row.workover < 60
+                          ? "orange.500"
+                          : row.workover < 100
+                          ? "yellow.500"
+                          : "green.500"
+                      }
+                    >
+                      {row.workover}
+                    </Td>
+                    <Td
+                      bg={
+                        row.wellservice < 45
+                          ? "red.500"
+                          : row.wellservice < 60
+                          ? "orange.500"
+                          : row.wellservice < 100
+                          ? "yellow.500"
+                          : "green.500"
+                      }
+                    >
+                      {row.wellservice}
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </TableDashboard>
+          </HeaderTitle>
         </GridItem>
 
-        <GridItem colSpan={5}>
-        
-            <WellTable />
-          
-
+        {/* <GridItem colSpan={5}>
           <FilterBar />
 
           <Grid templateColumns="repeat(3, 1fr)" gap={4} mb={4}>
@@ -200,9 +388,7 @@ const HomeDash = () => {
                 boxShadow="md"
                 p={5}
                 height="100%"
-              >
-                <CombinedBarLineChart />
-              </Box>
+              ></Box>
             </GridItem>
             <GridItem>
               <SimpleGrid columns={1} spacing={4}>
@@ -217,7 +403,7 @@ const HomeDash = () => {
               </SimpleGrid>
             </GridItem>
           </Grid>
-        </GridItem>
+        </GridItem> */}
       </Grid>
     </Box>
   );
