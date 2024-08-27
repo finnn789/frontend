@@ -20,6 +20,7 @@ import ProtectedRoute from "./Auth/ProtectedUser";
 import DashboardSKK from "./Page/PageKKKS/DashboardKKS";
 import HomeDashKKKS from "./Page/PageKKKS/Components/HomeDashKKS";
 import ViewPlanning from "./Page/WorkPlanning/ViewPlanning";
+import HomeExploitation from "./Page/Components/PageExploitasi/HomeDashExplo";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -82,7 +83,12 @@ function App() {
     {
       path: "development",
       element: <Dashboard />,
-      
+      children: [
+        {
+          path: "perencanaan",
+          element: <HomeExploitation/>
+        }
+      ]
     },
     {
       path: "/skk",
