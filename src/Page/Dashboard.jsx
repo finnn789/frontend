@@ -29,6 +29,9 @@ export function Dashboard() {
     } else if (path.includes("/dashboard")) {
       setPageForm("homeDash");
       setSelectedNav("homeDash");
+    } else if (path.includes("/development")) {
+      setPageForm("");
+      setSelectedNav("");
     } else {
       setPageForm(""); // Default or reset state
     }
@@ -52,6 +55,30 @@ export function Dashboard() {
                   </BreadcrumbItem>
                   <BreadcrumbItem >
                     <BreadcrumbLink href='#' fontWeight={'bold'}>Submission</BreadcrumbLink>
+                  </BreadcrumbItem>
+                </Breadcrumb>
+              </>
+            )}
+            {pageForm === 'operations' && (
+              <>
+                <Breadcrumb>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href='/dashboard'>Exploration</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem >
+                    <BreadcrumbLink href='#' fontWeight={'bold'}>Operation</BreadcrumbLink>
+                  </BreadcrumbItem>
+                </Breadcrumb>
+              </>
+            )}
+            {pageForm === 'PPP' && (
+              <>
+                <Breadcrumb>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href='/dashboard'>Exploration</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem >
+                    <BreadcrumbLink href='#' fontWeight={'bold'}>P3</BreadcrumbLink>
                   </BreadcrumbItem>
                 </Breadcrumb>
               </>

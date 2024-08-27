@@ -207,7 +207,7 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <ChakraLink
                   as={Link}
-                  to="/dashboard/development/submission"
+                  to="/development"
                   px={3}
                   fontSize={"18px"}
                   py={2}
@@ -218,7 +218,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   bg="#f9f9f9"
                 >
                   <Icon as={FaToolbox} mr={2} />
-                  <Text>Submission</Text>
+                  <Text>Perencanaan</Text>
                 </ChakraLink>
               </ListItem>
               <ListItem>
@@ -235,7 +235,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   bg="#f9f9f9"
                 >
                   <Icon as={FaCog} mr={2} />
-                  <Text>Operations</Text>
+                  <Text>Operasi</Text>
                 </ChakraLink>
               </ListItem>
               <ListItem>

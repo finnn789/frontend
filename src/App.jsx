@@ -55,7 +55,6 @@ function App() {
             },
           ],
         },
-
         {
           path: "operasi",
           element: <OperasiPengerjaan />,
@@ -76,7 +75,14 @@ function App() {
             },
           ],
         },
+        
       ],
+    },
+
+    {
+      path: "development",
+      element: <Dashboard />,
+      
     },
     {
       path: "/skk",
