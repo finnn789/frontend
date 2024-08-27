@@ -37,8 +37,12 @@ const Sidebar = ({ handleMenuValue }) => {
       setOnClickPage("operation");
     } else if (location.pathname.includes("/dashboard/ppp")) {
       setOnClickPage("ppp");
-    } else if (location.pathname.includes("/dashboard")) {
+    } 
+    else if (location.pathname.includes("/dashboard")) {
       setOnClickPage("homeDash");
+    }
+    else if (location.pathname.includes("/development")) {
+      setOnClickPage("development");
     }
   }, [location.pathname]);
 

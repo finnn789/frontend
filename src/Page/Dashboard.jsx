@@ -30,8 +30,8 @@ export function Dashboard() {
       setPageForm("homeDash");
       setSelectedNav("homeDash");
     } else if (path.includes("/development")) {
-      setPageForm("");
-      setSelectedNav("");
+      setPageForm("development");
+      setSelectedNav("development");
     } else {
       setPageForm(""); // Default or reset state
     }
