@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import Plot from "react-plotly.js";
 import { CheckIcon, EditIcon, SettingsIcon, CloseIcon } from "@chakra-ui/icons";
-import WellTable from "../Components/Card/WellTable";
+import WellTable from "./Card/WellTable";
 import FilterBar from "./Card/FilterBar";
 import SummaryBox from "./Card/SummaryBox";
 import Hero from "../../../assets/Hero.jpg";

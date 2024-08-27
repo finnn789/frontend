@@ -16,6 +16,7 @@ import WellTable from "../Components/Card/WellTable";
 import FilterBar from "./Card/FilterBar";
 import SummaryBox from "./Card/SummaryBox";
 import Hero from "../../assets/Hero.jpg";
+import { SimpleGrid } from "@chakra-ui/react";
 import CustomCard from "./Card/CustomCard";
 import { FaCalendarDay, FaChartLine, FaChartPie } from "react-icons/fa";
 import PropTypes from "prop-types";
@@ -103,9 +104,9 @@ const CombinedBarLineChart = () => (
       },
     ]}
     layout={{
-      width: "800",
+      width: "1100",
       title: "",
-      height: "300",
+      height: "600",
       paper_bgcolor: "transparent",
       plot_bgcolor: "transparent",
       barmode: "group",
@@ -234,7 +235,7 @@ const HomeDash = () => {
   return (
     <Box p={4}>
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-        <GridItem colSpan={5}>
+        {/* <GridItem colSpan={5}>
           <HeaderTitle
             title={"Realisasi Kegiatan Pengeboran & KUPS"}
             subtitle={formattedDate}
@@ -259,7 +260,7 @@ const HomeDash = () => {
                           <Box ml={2} color="green.500">
                             <Flex alignItems="center">
                               <FiArrowUp />
-                              <Text fontSize="xs" ml={1}>
+                              <Text fontSize="md" ml={1}>
                                 {row.change}
                               </Text>
                             </Flex>
@@ -347,11 +348,10 @@ const HomeDash = () => {
               })}
             </TableDashboard>
           </HeaderTitle>
-        </GridItem>
+        </GridItem> */}
 
-        {/* <GridItem colSpan={5}>
+        <GridItem colSpan={5}>
           <FilterBar />
-
           <Grid templateColumns="repeat(3, 1fr)" gap={4} mb={4}>
             <CustomCard
               icon={FaCalendarDay}
@@ -388,7 +388,9 @@ const HomeDash = () => {
                 boxShadow="md"
                 p={5}
                 height="100%"
-              ></Box>
+              >
+                <CombinedBarLineChart/>
+              </Box>
             </GridItem>
             <GridItem>
               <SimpleGrid columns={1} spacing={4}>
@@ -401,9 +403,10 @@ const HomeDash = () => {
                   />
                 ))}
               </SimpleGrid>
+              
             </GridItem>
           </Grid>
-        </GridItem> */}
+        </GridItem>
       </Grid>
     </Box>
   );

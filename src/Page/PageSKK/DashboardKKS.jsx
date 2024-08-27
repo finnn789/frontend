@@ -11,8 +11,8 @@ import {
 // import Navbar from "../Components/Navbar";
 // import HomePage from "./Components/HomeDash";
 import { Outlet, useLocation } from "react-router-dom";
-import SidebarKKS from "./Components/SidebarKKS";
-import NavbarKKKS from "./Components/NavbarKKS";
+import SidebarKKS from "./Components/SidebarSKK";
+import NavbarKKKS from "./Components/NavbarSKK";
 
 export function DashboardSKK() {
   const [selectedNav, setSelectedNav] = useState("homeDash");

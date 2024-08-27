@@ -17,8 +17,8 @@ import PlanningWows from "./Page/Forms/PlanningWows";
 import WowsForm from "./Page/Forms/OperasiPengajuaanForm";
 import OperasiPengajuaanForm from "./Page/Forms/OperasiPengajuaanForm";
 import ProtectedRoute from "./Auth/ProtectedUser";
-import DashboardSKK from "./Page/PageKKKS/DashboardKKS";
-import HomeDashKKKS from "./Page/PageKKKS/Components/HomeDashKKS";
+import DashboardSKK from "./Page/PageSKK/DashboardKKS";
+import HomeDashKKKS from "./Page/PageSKK/Components/HomeDashSKK";
 import ViewPlanning from "./Page/WorkPlanning/ViewPlanning";
 import HomeExploitation from "./Page/Components/PageExploitasi/HomeDashExplo";
 
