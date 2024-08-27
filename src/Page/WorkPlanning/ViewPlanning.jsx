@@ -8,6 +8,9 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   SimpleGrid,
+  Card,
+  CardBody,
+  CardHeader,
 } from "@chakra-ui/react";
 import Sidebar from "./../Components/Sidebar";
 import Navbar from "./../Components/Navbar";
@@ -25,8 +28,6 @@ const ViewPlanning = () => {
   const [wellCasingImage, setWellCasingImage] = useState(null);
   const location = useLocation();
 
-
-  
   const handleNavClick = (value) => {
     setSelectedNav(value);
     setPageForm("");
@@ -64,10 +65,6 @@ const ViewPlanning = () => {
         );
 
         const data = await response.json();
-
-        
-        console.log(data.technical.well_name);
-        
         setApiData(data);
 
         if (data.well_casing && data.well_casing.path) {
@@ -100,42 +97,50 @@ const ViewPlanning = () => {
   );
 
   const renderDetails = (title, data) => (
-    <Box flex="1" mr={4} mb={8}>
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
-        {title}
-      </Text>
-      {data && Object.keys(data).length > 0 ? (
-        <SimpleGrid columns={2}>
-          {Object.entries(data).map(([key, value]) =>
-            renderCardItem(key, value)
-          )}
-        </SimpleGrid>
-      ) : (
-        <Text>Data tidak tersedia</Text>
-      )}
-    </Box>
+    <Card mb={4} w={"full"}>
+      <CardHeader>
+        <Text fontSize="xl" fontWeight="bold">
+          {title}
+        </Text>
+      </CardHeader>
+      <CardBody>
+        {data && Object.keys(data).length > 0 ? (
+          <SimpleGrid columns={2}>
+            {Object.entries(data).map(([key, value]) =>
+              renderCardItem(key, value)
+            )}
+          </SimpleGrid>
+        ) : (
+          <Text>Data tidak tersedia</Text>
+        )}
+      </CardBody>
+    </Card>
   );
 
   const renderPlot = (title, plotData, layout) => (
-    <Box mb={8} w="100%">
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
-        {title}
-      </Text>
-      {plotData && plotData.length > 0 ? (
-        <Plot
-          data={plotData}
-          layout={{
-            ...layout,
-            width: undefined, // Gunakan lebar penuh dari kontainer komponen
-            autosize: true, // Mengaktifkan autosize
-          }}
-          useResizeHandler
-          style={{ width: "100%", height: "100%" }} // Memastikan plot memenuhi lebar kontainer
-        />
-      ) : (
-        <Text>Data plot tidak tersedia</Text>
-      )}
-    </Box>
+    <Card mb={4}>
+      <CardHeader>
+        <Text fontSize="xl" fontWeight="bold">
+          {title}
+        </Text>
+      </CardHeader>
+      <CardBody>
+        {plotData && plotData.length > 0 ? (
+          <Plot
+            data={plotData}
+            layout={{
+              ...layout,
+              width: undefined,
+              autosize: true,
+            }}
+            useResizeHandler
+            style={{ width: "100%", height: "100%" }}
+          />
+        ) : (
+          <Text>Data plot tidak tersedia</Text>
+        )}
+      </CardBody>
+    </Card>
   );
 
   const transformJobOperationData = (tableData) => {
@@ -156,24 +161,28 @@ const ViewPlanning = () => {
   };
 
   const renderAgGrid = (title, rowData, columnDefs) => (
-    <Box flex="1" mb={8}>
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
-        {title}
-      </Text>
-      {rowData && rowData.length > 0 ? (
-        <div
-          className="ag-theme-alpine"
-          style={{ height: "400px", width: "100%" }}
-        >
-          <AgGridReact
-            rowData={rowData}
-            columnDefs={columnDefs.map((colDef) => ({ ...colDef, flex: 1 }))}
-          />
-        </div>
-      ) : (
-        <Text>Data tabel tidak tersedia</Text>
-      )}
-    </Box>
+    <Card mb={4}>
+      <CardHeader>
+        <Text fontSize="xl" fontWeight="bold">
+          {title}
+        </Text>
+      </CardHeader>
+      <CardBody>
+        {rowData && rowData.length > 0 ? (
+          <div
+            className="ag-theme-alpine"
+            style={{ height: "400px", width: "100%" }}
+          >
+            <AgGridReact
+              rowData={rowData}
+              columnDefs={columnDefs.map((colDef) => ({ ...colDef, flex: 1 }))}
+            />
+          </div>
+        ) : (
+          <Text>Data tabel tidak tersedia</Text>
+        )}
+      </CardBody>
+    </Card>
   );
 
   return (
@@ -201,7 +210,7 @@ const ViewPlanning = () => {
           {apiData && (
             <>
               {/* Row 1: Operational and Technical Cards */}
-              <Flex mb={4}>
+              <Flex mb={4} justifyContent={"space-between"} gap={8}>
                 {renderDetails("Operational Details", apiData.operational)}
                 {renderDetails("Technical Details", apiData.technical)}
               </Flex>
@@ -263,18 +272,22 @@ const ViewPlanning = () => {
                   )}
                 </Box>
 
-                <Box flex="1" minW="40%">
+                <Box flex="1" minW="40%" justifyContent={"space-between"} gap={8}>
                   {apiData.well_casing && apiData.well_casing.path ? (
-                    <Box>
-                      <Text fontSize="xl" fontWeight="bold" mb={4}>
-                        Well Casing
-                      </Text>
-                      <img
-                        src={wellCasingImage}
-                        alt="Well Casing"
-                        style={{ width: "100%" }}
-                      />
-                    </Box>
+                    <Card>
+                      <CardHeader>
+                        <Text fontSize="xl" fontWeight="bold" mb={4}>
+                          Well Casing
+                        </Text>
+                      </CardHeader>
+                      <CardBody>
+                        <img
+                          src={wellCasingImage}
+                          alt="Well Casing"
+                          style={{ width: "100%" }}
+                        />
+                      </CardBody>
+                    </Card>
                   ) : (
                     <Text>Data Well Casing tidak tersedia</Text>
                   )}
