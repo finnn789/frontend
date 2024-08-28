@@ -30,7 +30,7 @@ export function DashboardSKK() {
       <SidebarKKS handleMenuValue={handleNavClick} selectedNav={selectedNav} />
       <Box flex="1" p={4}>
         <NavbarKKKS
-          appName="Dashboard KKS"
+          appName="Dashboard SKK MIGAS"
           nameUser={username}
 
           // appName={selectedNav === 1 && "Homepage"}

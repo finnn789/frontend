@@ -22,6 +22,7 @@ import HomeDashKKKS from "./Page/PageSKK/Components/HomeDashSKK";
 import ViewPlanning from "./Page/WorkPlanning/ViewPlanning";
 import HomeExploitation from "./Page/Components/PageExploitasi/HomeDashExplo";
 import SplashScreen from "./Page/Components/SplashScreen"; // Import SplashScreen
+import RoleRedirect from "./Auth/RoleRedirect";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -46,8 +47,12 @@ function App() {
 
   const router = createBrowserRouter([
     {
+      path: "/login",
+      element: <Login />,
+    },
+    {
       path: "/",
-      element: isAuthenticated ? <Navigate to="/dashboard" /> : <Login />,
+      element:<RoleRedirect/>,
     },
     {
       path: "/register",
@@ -58,7 +63,7 @@ function App() {
       element: showSplashScreen ? (
         <SplashScreen />
       ) : (
-        <ProtectedRoute element={<Dashboard />} allowedRoles={["Admin"]} />
+        <ProtectedRoute element={<Dashboard />} allowedRoles={["KKKS"]} />
       ),
       children: [
         {
@@ -66,7 +71,7 @@ function App() {
           element: (
             <ProtectedRoute
               element={<PengajuanPekerjaan />}
-              allowedRoles={["Admin"]}
+              allowedRoles={["KKKS"]}
             />
           ),
           children: [
@@ -110,11 +115,11 @@ function App() {
     },
     {
       path: "/skk",
-      element: <DashboardSKK />,
+      element: (<ProtectedRoute element={<DashboardSKK />} allowedRoles={["Admin"]} />),
       children: [
         {
           path: "dashboard",
-          element: <HomeDashKKKS />,
+          element: (<ProtectedRoute element={<HomeDashKKKS />} allowedRoles={["Admin"]} />),
         },
       ],
     },
