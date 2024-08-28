@@ -24,6 +24,7 @@ import HomeExploitation from "./Page/Components/PageExploitasi/HomeDashExplo";
 import SplashScreen from "./Page/Components/SplashScreen"; // Import SplashScreen
 import RoleRedirect from "./Auth/RoleRedirect";
 import GraphTable from "./Page/Components/PageExploitasi/GraphTable";
+import Exploration from "./Page/PageSKK/Exploration";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -125,6 +126,10 @@ function App() {
         {
           path: "dashboard",
           element: (<ProtectedRoute element={<HomeDashKKKS />} allowedRoles={["Admin"]} />),
+        },
+        {
+          path: "exploration",
+          element: (<ProtectedRoute element={<Exploration />} allowedRoles={["Admin"]} />),
         },
       ],
     },

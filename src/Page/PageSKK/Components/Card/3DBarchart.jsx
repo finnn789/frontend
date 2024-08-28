@@ -65,6 +65,7 @@ const ThreeDBarChartComponent = () => {
 
   return (
     <Plot
+      background="rgba(0,0,0,0)"
       data={data}
       layout={layout}
       config={config}

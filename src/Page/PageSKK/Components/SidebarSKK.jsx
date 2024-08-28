@@ -22,12 +22,13 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import Logo from "../../../assets/logo.png";
-import { useLocation, Link } from "react-router-dom"; // Import Link from react-router-dom
+import { useLocation, Link, useNavigate} from "react-router-dom"; // Import Link from react-router-dom
 
 const SidebarKKS = ({ handleMenuValue }) => {
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
   const [onClickPage, setOnClickPage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.pathname.includes("/dashboard/submission")) {
@@ -45,6 +46,10 @@ const SidebarKKS = ({ handleMenuValue }) => {
     setOpenMenu(openMenu === menuName ? null : menuName);
   };
 
+  const handleExplorationClick = () => {
+    navigate('/skk/exploration');
+    handleMenuClick('exploration'); // Jika fungsi ini digunakan untuk mengelola state menu
+  };
   return (
     <Box
       bg="white"
@@ -94,7 +99,9 @@ const SidebarKKS = ({ handleMenuValue }) => {
             width="full"
             display="flex"
             alignItems="center"
-            onClick={() => handleMenuClick("exploration")}
+            onClick={handleExplorationClick}
+
+            // onClick={() => handleMenuClick("exploration")}
           >
             <Icon as={FaMap} mr={2} />
             Exploration
