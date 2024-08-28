@@ -99,9 +99,9 @@ const SidebarKKS = ({ handleMenuValue }) => {
             width="full"
             display="flex"
             alignItems="center"
-            onClick={handleExplorationClick}
-
-            // onClick={() => handleMenuClick("exploration")}
+            onClick={() => handleMenuClick("exploration")}
+            as={Link}
+            to={"/skk/exploration"}
           >
             <Icon as={FaMap} mr={2} />
             Exploration
@@ -191,6 +191,8 @@ const SidebarKKS = ({ handleMenuValue }) => {
             width="full"
             display="flex"
             alignItems="center"
+            as={Link}
+            to={"/skk/development"}
             onClick={() => handleMenuClick("development")}
           >
             <Icon as={FaTools} mr={2} />
