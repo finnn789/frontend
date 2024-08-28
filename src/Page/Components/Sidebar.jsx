@@ -187,7 +187,7 @@ const Sidebar = ({ handleMenuValue }) => {
         <Box width="full">
           <ChakraLink
           as={Link}
-          to="/development"
+          to="/development/grafikexploitasi"
             px={4}
             fontSize={"20px"}
             py={4}
