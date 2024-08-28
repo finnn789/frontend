@@ -9,6 +9,7 @@ const HeaderCard = ({children, title ,subtitle, icon}) => {
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <Icon as={icon} w={12} h={12} color="gray.800" mr={3} />
+          {/* {icon} */}
           <Flex flexDirection={"column"}>
             <Text fontSize="xl" fontWeight="bold" color="gray.700">
               {title}
