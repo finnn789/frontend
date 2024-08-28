@@ -23,6 +23,7 @@ import ViewPlanning from "./Page/WorkPlanning/ViewPlanning";
 import HomeExploitation from "./Page/Components/PageExploitasi/HomeDashExplo";
 import SplashScreen from "./Page/Components/SplashScreen"; // Import SplashScreen
 import RoleRedirect from "./Auth/RoleRedirect";
+import GraphTable from "./Page/Components/PageExploitasi/GraphTable";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -107,6 +108,10 @@ function App() {
       path: "development",
       element: <Dashboard />,
       children: [
+        {
+          path: "grafikexploitasi",
+          element: <GraphTable/>,
+        },
         {
           path: "perencanaan",
           element: <HomeExploitation />,
