@@ -79,7 +79,7 @@ const PlanningDevelopment = () => {
   return (
     <div>
       <Text fontSize={"3em"} fontWeight={"bold"}>
-        Planning Exploration
+        Planning Eksploitasi
       </Text>
       <Flex gap={6}>
         <PerhitunganCard

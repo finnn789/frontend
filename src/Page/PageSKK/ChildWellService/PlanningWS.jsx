@@ -79,7 +79,7 @@ const PlanningWellService = () => {
   return (
     <div>
       <Text fontSize={"3em"} fontWeight={"bold"}>
-        Planning Exploration
+        Planning Well Service
       </Text>
       <Flex gap={6}>
         <PerhitunganCard

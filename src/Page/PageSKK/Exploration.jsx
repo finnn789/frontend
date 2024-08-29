@@ -3,7 +3,7 @@ import HeaderCard from "./Components/Card/HeaderCard";
 import { FaBriefcase } from "react-icons/fa";
 // import AmCharts from '@amcharts/amcharts3-react';
 import BarChartComponent from "./Components/Card/3DBarchart";
-import { Flex } from "@chakra-ui/react";
+import { Flex,Text } from "@chakra-ui/react";
 import PieChart3D from "./Components/Card/3DPieChart";
 import TableComponent from "./Components/Card/AGGridCustom";
 import Footer from "./Components/Card/Footer";
@@ -56,7 +56,10 @@ const Exploration = () => {
 
   return (
     <>
-      <Flex gap={6} mb={5}>
+    <Text fontSize={"3em"} fontWeight={"bold"}>
+        Eksplorasi
+      </Text>
+      <Flex gap={6}>
         <PerhitunganCard
           number={5}
           icon={FaCopy}
@@ -68,12 +71,12 @@ const Exploration = () => {
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
-          label="Total SKK"
+          label="Realisasi"
           subLabel="Total SKK"
         />
         <PerhitunganCard
           number={5}
-          label="Total SKK"
+          label="Selesai"
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
