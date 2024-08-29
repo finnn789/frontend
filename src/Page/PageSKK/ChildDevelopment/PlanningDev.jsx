@@ -7,7 +7,7 @@ import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
-const PlanningExp = () => {
+const PlanningDevelopment = () => {
   const headerstable1 = [
     "NO.",
     "NAMA SUMUR",
@@ -146,4 +146,4 @@ const PlanningExp = () => {
   );
 };
 
-export default PlanningExp;
+export default PlanningDevelopment;
