@@ -64,7 +64,7 @@ const NavbarKKKS = ({ appName = "App",nameUser }) => {
           onClick={isOpen ? onClose : onOpen}
           color="#10042C"
         />
-        <Box color="#10042C" fontWeight="bold">
+        <Box color="#10042C" fontSize={"2xl"} textTransform={"uppercase"} fontWeight="bold">
           {appName}
         </Box>
         <Flex alignItems="center" gap={4}>

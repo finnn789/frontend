@@ -10,7 +10,7 @@ import Footer from "./Components/Card/Footer";
 import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
-const Exploration = () => {
+const DevelopmentSKK = () => {
   const data = [
     {
       type: "pie",
@@ -82,7 +82,7 @@ const Exploration = () => {
       </Flex>
 
       <HeaderCard
-        title="Realisasi Kegiatan Eksplorasi"
+        title="Realisasi Kegiatan Eksploitasi"
         subtitle="Realisasi pekerjaan tiap bulan"
         icon={FaBriefcase}
       >
@@ -127,4 +127,4 @@ const Exploration = () => {
   );
 };
 
-export default Exploration;
+export default DevelopmentSKK;

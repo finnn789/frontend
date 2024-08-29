@@ -5,7 +5,7 @@ const ThreeDBarChartComponent = () => {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nop', 'Des'];
   
   const rencanaData = [51, 46, 56, 53, 61, 56, 51, 56, 60, 50, 45, 53];
-  const realisasiData = [49, 48, 53, 56, 59, 51, 46, 42, 0, 0, 0, 0];
+  const realisasiData = [49, 48, 53, 56, 59, 51, 46, 42, 55, 66, 75, 90];
 
   const trace1 = {
     x: months,
@@ -69,7 +69,7 @@ const ThreeDBarChartComponent = () => {
       data={data}
       layout={layout}
       config={config}
-      style={{ width: '100%', height: '200px' }}
+      style={{ width: '100%', height: '500px' }}
     />
   );
 };

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import {
   createBrowserRouter,
-  Navigate,
   RouterProvider,
 } from "react-router-dom";
 import Dashboard from "./Page/Dashboard";
@@ -25,6 +24,9 @@ import SplashScreen from "./Page/Components/SplashScreen"; // Import SplashScree
 import RoleRedirect from "./Auth/RoleRedirect";
 import GraphTable from "./Page/Components/PageExploitasi/GraphTable";
 import Exploration from "./Page/PageSKK/Exploration";
+import DevelopmentSKK from "./Page/PageSKK/DevelopmentSKK";
+import WellServiceSKK from "./Page/PageSKK/WellServiceSKK";
+import WorkOverSKK from "./Page/PageSKK/WorkOverSKK";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -130,6 +132,18 @@ function App() {
         {
           path: "exploration",
           element: (<ProtectedRoute element={<Exploration />} allowedRoles={["Admin"]} />),
+        },
+        {
+          path: "development",
+          element: (<ProtectedRoute element={<DevelopmentSKK />} allowedRoles={["Admin"]} />),
+        },
+        {
+          path: "workover",
+          element: (<ProtectedRoute element={<WellServiceSKK />} allowedRoles={["Admin"]} />),
+        },
+        {
+          path: "wellservice",
+          element: (<ProtectedRoute element={<WorkOverSKK />} allowedRoles={["Admin"]} />),
         },
       ],
     },

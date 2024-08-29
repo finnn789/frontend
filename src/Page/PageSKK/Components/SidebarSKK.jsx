@@ -22,7 +22,7 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import Logo from "../../../assets/logo.png";
-import { useLocation, Link, useNavigate} from "react-router-dom"; // Import Link from react-router-dom
+import { useLocation, Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 
 const SidebarKKS = ({ handleMenuValue }) => {
   const location = useLocation();
@@ -47,8 +47,8 @@ const SidebarKKS = ({ handleMenuValue }) => {
   };
 
   const handleExplorationClick = () => {
-    navigate('/skk/exploration');
-    handleMenuClick('exploration'); // Jika fungsi ini digunakan untuk mengelola state menu
+    navigate("/skk/exploration");
+    handleMenuClick("exploration"); // Jika fungsi ini digunakan untuk mengelola state menu
   };
   return (
     <Box
@@ -82,8 +82,6 @@ const SidebarKKS = ({ handleMenuValue }) => {
           width="full"
           display="flex"
           alignItems="center"
-
-        
         >
           <Icon as={FaHome} mr={2} />
           Dashboard
@@ -128,7 +126,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
                   bg={onClickPage === "submission" ? "#e0e0e0" : "none"}
                 >
                   <Icon as={FaToolbox} mr={2} />
-                  <Text>Submission</Text>
+                  <Text>Planning</Text>
                 </ChakraLink>
               </ListItem>
               <ListItem>
@@ -144,7 +142,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
                   bg={onClickPage === "operation" ? "#e0e0e0" : "none"}
                 >
                   <Icon as={FaCog} mr={2} />
-                  <Text>Operations</Text>
+                  <Text>Operasional</Text>
                 </ChakraLink>
               </ListItem>
               <ListItem>
@@ -160,7 +158,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
                   bg={onClickPage === "ppp" ? "#e0e0e0" : "none"}
                 >
                   <Icon as={FaToolbox} mr={2} />
-                  <Text>P3</Text>
+                  <Text>PPP</Text>
                 </ChakraLink>
               </ListItem>
               <ListItem>
@@ -174,7 +172,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
                   bg="#f9f9f9"
                 >
                   <Icon as={FaCog} mr={2} />
-                  <Text>Close Out</Text>
+                  <Text>AFE Close Out</Text>
                 </ChakraLink>
               </ListItem>
             </List>
@@ -278,6 +276,8 @@ const SidebarKKS = ({ handleMenuValue }) => {
         {/* Work Over Section */}
         <Box width="full">
           <ChakraLink
+            as={Link}
+            to="/skk/workover"
             px={4}
             py={4}
             rounded="md"

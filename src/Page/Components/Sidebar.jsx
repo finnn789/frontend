@@ -25,7 +25,6 @@ import Logo from "../../assets/logo.png";
 import { useLocation, Link } from "react-router-dom"; // Import Link from react-router-dom
 
 const Sidebar = ({ handleMenuValue }) => {
-  
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
   const [onClickPage, setOnClickPage] = useState("");
@@ -37,11 +36,9 @@ const Sidebar = ({ handleMenuValue }) => {
       setOnClickPage("operation");
     } else if (location.pathname.includes("/dashboard/ppp")) {
       setOnClickPage("ppp");
-    } 
-    else if (location.pathname.includes("/dashboard")) {
+    } else if (location.pathname.includes("/dashboard")) {
       setOnClickPage("homeDash");
-    }
-    else if (location.pathname.includes("/development")) {
+    } else if (location.pathname.includes("/development")) {
       setOnClickPage("development");
     }
   }, [location.pathname]);
@@ -124,7 +121,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   _hover={{ bg: "#e0e0e0" }}
                   display="flex"
                   alignItems="center"
-                  bg={onClickPage === 'submission' ? "#e0e0e0" : "none"}
+                  bg={onClickPage === "submission" ? "#e0e0e0" : "none"}
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>Submission</Text>
@@ -141,7 +138,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   _hover={{ bg: "#e0e0e0" }}
                   display="flex"
                   alignItems="center"
-                  bg={onClickPage === 'operation' ? "#e0e0e0" : "none"}
+                  bg={onClickPage === "operation" ? "#e0e0e0" : "none"}
                 >
                   <Icon as={FaCog} mr={2} />
                   <Text>Operations</Text>
@@ -158,7 +155,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   _hover={{ bg: "#e0e0e0" }}
                   display="flex"
                   alignItems="center"
-                  bg={onClickPage === 'ppp' ? "#e0e0e0" : "none"}
+                  bg={onClickPage === "ppp" ? "#e0e0e0" : "none"}
                 >
                   <Icon as={FaToolbox} mr={2} />
                   <Text>P3</Text>
@@ -186,8 +183,8 @@ const Sidebar = ({ handleMenuValue }) => {
         {/* development Section */}
         <Box width="full">
           <ChakraLink
-          as={Link}
-          to="/development/grafikexploitasi"
+            as={Link}
+            to="/development/grafikexploitasi"
             px={4}
             fontSize={"20px"}
             py={4}
@@ -286,6 +283,8 @@ const Sidebar = ({ handleMenuValue }) => {
         <Box width="full">
           <ChakraLink
             px={4}
+            as={Link}
+            to="/skk/workover"
             fontSize={"20px"}
             py={4}
             rounded="md"
@@ -381,6 +380,8 @@ const Sidebar = ({ handleMenuValue }) => {
             px={4}
             fontSize={"20px"}
             py={4}
+            as={Link}
+            to="/skk/wellservice"
             rounded="md"
             _hover={{ bg: "#f5f5f5" }}
             width="full"
