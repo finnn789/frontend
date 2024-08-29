@@ -56,7 +56,7 @@ const Exploration = () => {
 
   return (
     <>
-      <Flex gap={6}>
+      <Flex gap={6} mb={5}>
         <PerhitunganCard
           number={5}
           icon={FaCopy}
@@ -88,7 +88,7 @@ const Exploration = () => {
       >
         <BarChartComponent />
       </HeaderCard>
-      <Flex flexDirection={"row"} width={"100%"} mt={10} gap={4}>
+      <Flex flexDirection={"row"} width={"100%"} mt={5} gap={4}>
         <HeaderCard
           title="Plan vs Actual Cost"
           subtitle="million US$ - field estimate"
@@ -111,7 +111,7 @@ const Exploration = () => {
           <PieChart3D data={data} layout={layout} />
         </HeaderCard>
       </Flex>
-      <Flex mt={10}>
+      <Flex mt={5}>
         <HeaderCard
           title="Realisasi Kegiatan Eksplorasi"
           subtitle="Realisasi pekerjaan tiap bulan"
@@ -120,7 +120,7 @@ const Exploration = () => {
           <TableComponent data={tableData} />
         </HeaderCard>
       </Flex>
-      <Flex mt={10}>
+      <Flex mt={5}>
         <Footer />
       </Flex>
     </>

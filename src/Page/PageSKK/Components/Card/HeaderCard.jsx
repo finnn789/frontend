@@ -5,7 +5,7 @@ import { FaRegClock } from "react-icons/fa";
 
 const HeaderCard = ({children, title ,subtitle, icon}) => {
   return (
-    <Box bg="white" p={6} w={'100%'} borderRadius="2xl" boxShadow="sm" shadow={'md'}>
+    <Box bg="white" p={6} w={'100%'} borderRadius="2xl" shadow={'md'}>
       <Flex alignItems="center" justifyContent="space-between" mb={4}>
         <Flex alignItems="center">
           <Icon as={icon} w={12} h={12} color="gray.800" mr={3} />
