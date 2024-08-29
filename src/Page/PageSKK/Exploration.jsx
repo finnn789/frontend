@@ -1,15 +1,18 @@
 import React from "react";
 import HeaderCard from "./Components/Card/HeaderCard";
-import { FaBriefcase } from "react-icons/fa";
-// import AmCharts from '@amcharts/amcharts3-react';
+import { FaBriefcase, FaChartLine } from "react-icons/fa";
+import { GiChemicalTank } from "react-icons/gi";
 import BarChartComponent from "./Components/Card/3DBarchart";
-import { Flex } from "@chakra-ui/react";
 import PieChart3D from "./Components/Card/3DPieChart";
 import TableComponent from "./Components/Card/AGGridCustom";
 import Footer from "./Components/Card/Footer";
 import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
+import { RiArrowRightUpLine } from "react-icons/ri";
+import {  Flex, Text, Icon } from "@chakra-ui/react";
+
+
 const Exploration = () => {
   const data = [
     {
@@ -58,26 +61,45 @@ const Exploration = () => {
     <>
       <Flex gap={6} mb={5}>
         <PerhitunganCard
-          number={5}
+          number={200}
           icon={FaCopy}
           label="Rencana"
           subLabel="WP&B Year 2024"
+          
         />
         <PerhitunganCard
-          number={5}
+          number={100}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
-          label="Total SKK"
-          subLabel="Total SKK"
+          label="Realisasi"
+          subLabel="Sejak kemarin"
+          percentage={
+            <Flex>
+              {/* <Icon color="green.500" as={RiArrowRightUpLine} /> */}
+              <Icon boxSize={8} color="green.500" as={RiArrowRightUpLine} />
+              <Text fontSize="xl" color="green.500">
+              3.46% 
+              </Text>
+            </Flex>
+          }
         />
         <PerhitunganCard
-          number={5}
-          label="Total SKK"
+          number={1}
+          label="Selesai"
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
-          subLabel="Total SKK"
+          subLabel="Sejak kemarin"
+          percentage={
+            <Flex>
+              {/* <Icon color="green.500" as={RiArrowRightUpLine} /> */}
+              <Icon boxSize={8} color="green.500" as={RiArrowRightUpLine} />
+              <Text fontSize="xl" color="green.500">
+              1% 
+              </Text>
+            </Flex>
+          }
         />
       </Flex>
 
@@ -92,21 +114,21 @@ const Exploration = () => {
         <HeaderCard
           title="Plan vs Actual Cost"
           subtitle="million US$ - field estimate"
-          icon={FaBriefcase}
+          icon={FaChartLine}
         >
           <PieChart3D data={data} layout={layout} />
         </HeaderCard>
         <HeaderCard
           title="Status Akhir"
           subtitle="Status akhir sumur"
-          icon={FaBriefcase}
+          icon={FaCheck}
         >
           <PieChart3D data={data} layout={layout} />
         </HeaderCard>
         <HeaderCard
           title="Total Rig"
           subtitle="Total rig yang beroperasi"
-          icon={FaBriefcase}
+          icon={GiChemicalTank}
         >
           <PieChart3D data={data} layout={layout} />
         </HeaderCard>
