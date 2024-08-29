@@ -28,7 +28,7 @@ import {
   InputRightAddon,
 } from "@chakra-ui/react";
 import { ChevronRightIcon, CheckIcon } from "@chakra-ui/icons";
-import { AllEnums, getUtilsdb } from "./API/AllEnums";
+import { AllEnums, getUtilsdb } from "../API/AllEnums";
 import { useOutletContext } from "react-router-dom";
 
 // NavigationMenu Component

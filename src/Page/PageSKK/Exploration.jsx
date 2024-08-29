@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useEffect } from "react";
 import HeaderCard from "./Components/Card/HeaderCard";
 import { FaBriefcase, FaChartLine } from "react-icons/fa";
 import { GiChemicalTank } from "react-icons/gi";
@@ -10,11 +10,22 @@ import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import { RiArrowRightUpLine } from "react-icons/ri";
-import {  Flex, Text, Icon } from "@chakra-ui/react";
+import {  Flex, Text, Icon } from "@chakra-ui/react"
+import { getBarChartDataSKK } from "../API/APISKK";
 
 
 const Exploration = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataCharts,setDataCharts] = React.useState(null);
+  useEffect(()=> {
+    const getData = async () => {
+      const dataChart = await getBarChartDataSKK();
+      setDataCharts(dataChart);
+    }
+    getData();
+  },[])
+
+ 
+  
 
   const data = [
     {
@@ -121,7 +132,7 @@ const Exploration = () => {
           subtitle="million US$ - field estimate"
           icon={FaChartLine}
         >
-          <PieChart3D data={data} layout={layout} />
+          <PieChart3D data={dataCharts  ? dataCharts.charts.exploration.data : data} layout={dataCharts ? dataCharts.charts.exploration.layout : layout} />
         </HeaderCard>
         <HeaderCard
           title="Status Akhir"
