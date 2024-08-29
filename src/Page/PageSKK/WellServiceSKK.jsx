@@ -3,14 +3,23 @@ import HeaderCard from "./Components/Card/HeaderCard";
 import { FaBriefcase } from "react-icons/fa";
 // import AmCharts from '@amcharts/amcharts3-react';
 import BarChartComponent from "./Components/Card/3DBarchart";
-import { Flex,Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import PieChart3D from "./Components/Card/3DPieChart";
 import TableComponent from "./Components/Card/AGGridCustom";
 import Footer from "./Components/Card/Footer";
 import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
+import { getBarChartDataSKK } from "../API/APISKK";
 const WellServiceSKK = () => {
+  const [dataCharts, setDataCharts] = React.useState(null);
+  React.useEffect(() => {
+    const getData = async () => {
+      const dataChart = await getBarChartDataSKK();
+      setDataCharts(dataChart);
+    };
+    getData();
+  }, []);
   const data = [
     {
       type: "pie",
@@ -56,7 +65,7 @@ const WellServiceSKK = () => {
 
   return (
     <>
-    <Text fontSize={"3em"} fontWeight={"bold"}>
+      <Text fontSize={"3em"} fontWeight={"bold"}>
         Well Service
       </Text>
       <Flex gap={6}>
@@ -97,7 +106,10 @@ const WellServiceSKK = () => {
           subtitle="million US$ - field estimate"
           icon={FaBriefcase}
         >
-          <PieChart3D data={data} layout={layout} />
+          <PieChart3D
+            data={dataCharts ? dataCharts.charts.wellservice.data : data}
+            layout={dataCharts ? dataCharts.charts.wellservice.layout : layout}
+          />
         </HeaderCard>
         <HeaderCard
           title="Status Akhir"

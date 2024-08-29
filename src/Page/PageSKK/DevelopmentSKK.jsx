@@ -10,7 +10,16 @@ import Footer from "./Components/Card/Footer";
 import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
+import { getBarChartDataSKK } from "../API/APISKK";
 const DevelopmentSKK = () => {
+  const [dataCharts, setDataCharts] = React.useState(null);
+  React.useEffect(() => {
+    const getData = async () => {
+      const dataChart = await getBarChartDataSKK();
+      setDataCharts(dataChart);
+    };
+    getData();
+  }, []);
   const data = [
     {
       type: "pie",
@@ -97,7 +106,10 @@ const DevelopmentSKK = () => {
           subtitle="million US$ - field estimate"
           icon={FaBriefcase}
         >
-          <PieChart3D data={data} layout={layout} />
+          <PieChart3D
+            data={dataCharts ? dataCharts.charts.development.data :data}
+            layout={dataCharts ? dataCharts.charts.development.layout :layout}
+          />
         </HeaderCard>
         <HeaderCard
           title="Status Akhir"
