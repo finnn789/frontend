@@ -65,7 +65,7 @@ const NavbarKKKS = ({ appName = "App",nameUser }) => {
           color="#10042C"
         />
         <Box color="#10042C" fontSize={"2xl"} textTransform={"uppercase"} fontWeight="bold">
-          {appName}
+          {/* {appName} */}
         </Box>
         <Flex alignItems="center" gap={4}>
           <Menu borderRadius={"lg"}>

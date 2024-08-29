@@ -29,13 +29,13 @@ const StatusBadge = ({ status }) => {
     status === 'RETURNED' ? 'red' : 'gray';
 
   return (
-    <Badge colorScheme={colorScheme} variant="subtle" px={2} py={1}>
+    <Badge colorScheme={colorScheme} variant="subtle" px={4} py={2} rounded={'full'}>
       {status}
     </Badge>
   );
 };
 
-const ProposedWorkTable = () => {
+const ProposedWorkTable = ({headers, datas}) => {
   return (
     <Box bg="white" borderRadius="lg" boxShadow="md" p={4}>
       <Flex justifyContent="space-between" alignItems="center" mb={4}>

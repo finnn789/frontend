@@ -30,7 +30,7 @@ export function DashboardSKK() {
       <SidebarKKS handleMenuValue={handleNavClick} selectedNav={selectedNav} />
       <Box flex="1" p={4}>
         <NavbarKKKS
-          appName={location.pathname === "/skk/dashboard" && "Dashboard" || location.pathname === "/skk/exploration" && "Eksplorasi" || location.pathname === "/skk/development" && "Eksploitasi" || location.pathname === "/skk/workover" && "Work Over" || location.pathname === "/skk/wellservice" && "Well Service"}
+          appName={location.pathname === "/skk/dashboard" && "Dashboard" || location.pathname === "/skk/exploration" && "Eksplorasi" || location.pathname === "/skk/development" && "Eksploitasi" || location.pathname === "/skk/workover" && "Work Over" || location.pathname === "/skk/wellservice" && "Well Service" || location.pathname === "/skk/exploration/planningexploration" && "Planning Exploration"}
           nameUser={username}
 
           // appName={selectedNav === 1 && "Homepage"}
