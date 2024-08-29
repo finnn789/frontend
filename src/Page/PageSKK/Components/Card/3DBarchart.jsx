@@ -1,7 +1,7 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 
-const ThreeDBarChartComponent = () => {
+const ThreeDBarChartComponent = ({datas,layouts}) => {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nop', 'Des'];
   
   const rencanaData = [51, 46, 56, 53, 61, 56, 51, 56, 60, 50, 45, 53];
@@ -66,8 +66,8 @@ const ThreeDBarChartComponent = () => {
   return (
     <Plot
       background="rgb(255, 255, 255)"
-      data={data}
-      layout={layout}
+      data={datas}
+      layout={layouts}
       config={config}
       style={{ width: '100%', height: '300px' }}
     />

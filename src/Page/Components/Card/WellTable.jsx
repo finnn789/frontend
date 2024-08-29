@@ -7,7 +7,7 @@ import "./../../../assets/css/ag-grid-theme-builder.css";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { FaInfoCircle } from "react-icons/fa";
-import { AllEnums, getDataPlanningExploration } from "../../Forms/API/AllEnums";
+import { AllEnums, getDataPlanningExploration } from "../../API/AllEnums";
 import { useEffect, useState } from "react";
 // Komponen StatusBadge
 function StatusBadge({ value }) {

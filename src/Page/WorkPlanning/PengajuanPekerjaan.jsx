@@ -13,7 +13,7 @@ import CustomCard from "./../Components/Card/CustomCard"; // Path yang sesuai
 import WellTable from "./../Components/Card/WellTable"; // Path yang sesuai
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { getDataPlanningExploration } from "../Forms/API/AllEnums";
+import { getDataPlanningExploration } from "../API/AllEnums";
 
 const PengajuanPekerjaan = ({ handleTambahData }) => {
   const location = useLocation();
