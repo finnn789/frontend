@@ -29,6 +29,8 @@ import WellServiceSKK from "./Page/PageSKK/WellServiceSKK";
 import WorkOverSKK from "./Page/PageSKK/WorkOverSKK";
 import PlanningExp from "./Page/PageSKK/ChildExploration/PlanningExp";
 import PlanningDevelopment from "./Page/PageSKK/ChildDevelopment/PlanningDev";
+import PlanningWellService from "./Page/PageSKK/ChildWellService/PlanningWS";
+import PlanningWorkOver from "./Page/PageSKK/ChildWorkOver/PlanningWO";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -148,12 +150,20 @@ function App() {
           element: (<ProtectedRoute element={<PlanningDevelopment/>} allowedRoles={["Admin"]} />),
         },
         {
-          path: "workover",
+          path: "wellservice",
           element: (<ProtectedRoute element={<WellServiceSKK />} allowedRoles={["Admin"]} />),
         },
         {
-          path: "wellservice",
+          path: "wellservice/planningwellservice",
+          element: (<ProtectedRoute element={<PlanningWellService/>} allowedRoles={["Admin"]} />),
+        },
+        {
+          path: "workover",
           element: (<ProtectedRoute element={<WorkOverSKK />} allowedRoles={["Admin"]} />),
+        },
+        {
+          path: "workover/planningworkover",
+          element: (<ProtectedRoute element={<PlanningWorkOver/>} allowedRoles={["Admin"]} />),
         },
       ],
     },

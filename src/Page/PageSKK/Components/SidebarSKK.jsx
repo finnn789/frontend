@@ -315,7 +315,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/workover/submission"
+                  to="/skk/workover/planningworkover"
                   
                   px={3}
                   py={2}
@@ -417,7 +417,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/wellservice/submission"
+                  to="/skk/wellservice/planningwellservice"
                   px={3}
                   py={2}
                   rounded="md"
