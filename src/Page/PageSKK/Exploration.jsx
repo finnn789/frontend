@@ -59,7 +59,10 @@ const Exploration = () => {
 
   return (
     <>
-      <Flex gap={6} mb={5}>
+    <Text fontSize={"3em"} fontWeight={"bold"}>
+        Eksplorasi
+      </Text>
+      <Flex gap={6}>
         <PerhitunganCard
           number={200}
           icon={FaCopy}

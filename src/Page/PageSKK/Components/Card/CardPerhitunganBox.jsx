@@ -16,6 +16,8 @@ const PerhitunganCard = ({
       <Flex alignItems="center" mb={2} gap={5}>
         <Flex borderRadius="full" bg={bgIcon} p={4} mr={2}>
           <Icon as={icon} boxSize={10} color={iconColor} />
+        <Flex borderRadius="full" bg={bgIcon} p={4} mr={2}>
+          <Icon as={icon} boxSize={10} color={iconColor} />
         </Flex>
         <Flex flexDirection={"column"}>
           <Text
