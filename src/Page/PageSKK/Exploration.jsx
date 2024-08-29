@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import HeaderCard from "./Components/Card/HeaderCard";
 import { FaBriefcase, FaChartLine } from "react-icons/fa";
 import { GiChemicalTank } from "react-icons/gi";
@@ -14,6 +14,8 @@ import {  Flex, Text, Icon } from "@chakra-ui/react";
 
 
 const Exploration = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const data = [
     {
       type: "pie",

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
+import ModalDetailK3S from './ModalDetailK3S';
 
 const TableComponent = ({ data = [] }) => {  // Default nilai data menjadi array kosong
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     // Fungsi untuk menentukan warna latar belakang berdasarkan nilai persentase
     const getBackgroundColor = (value) => {
         if (value >= 70) {
@@ -46,6 +49,8 @@ const TableComponent = ({ data = [] }) => {  // Default nilai data menjadi array
                             >
                                 <AiOutlineInfoCircle color="#007bff" />
                             </button>
+                                <button onClick={() => setIsModalOpen(true)}>View KKKS Info</button>
+                                <ModalDetailK3S isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
                         </td>
                         <td style={{ padding: '8px', textAlign: 'center' }}>{item.kkks}</td>
                         <td style={{ padding: '8px', textAlign: 'center' }}>{item.rencana}</td>
