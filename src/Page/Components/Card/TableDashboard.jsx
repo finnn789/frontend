@@ -1,38 +1,19 @@
-import React from "react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Box,
-  Flex,
-  Text,
-} from "@chakra-ui/react";
-import { FiInfo, FiArrowUp } from "react-icons/fi";
-import { Button } from "react-day-picker";
+import { Table, Thead, Tbody, Tr, Th, TableContainer } from "@chakra-ui/react";
 
-const TableDashboard = ({ datas,headers=[],children,props }) => {
-    
-  
-
+const TableDashboard = ({ datas, headers = [], children, props }) => {
   return (
-    <TableContainer >
-      <Table variant="simple" {...props} mt={2} colorScheme="teal" size={"sm"}  >
+    <TableContainer>
+      <Table variant="simple" {...props} mt={2} colorScheme="teal" size={"sm"}>
         <Thead bg={"gray.200"} fontWeight={"bold"} borderRadius="lg">
           <Tr>
             {headers.map((head, index) => (
-              <Th key={index} fontSize={"18px"} >
+              <Th key={index} backgroundColor={'white'} textTransform={'capitalize'} fontSize={"18px"} p={3} py={6}>
                 {head}
               </Th>
             ))}
           </Tr>
         </Thead>
-        <Tbody>
-          {children}
-        </Tbody>
+        <Tbody>{children}</Tbody>
       </Table>
     </TableContainer>
   );

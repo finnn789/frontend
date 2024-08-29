@@ -65,11 +65,11 @@ const ThreeDBarChartComponent = () => {
 
   return (
     <Plot
-      background="rgba(0,0,0,0)"
+      background="rgb(255, 255, 255)"
       data={data}
       layout={layout}
       config={config}
-      style={{ width: '100%', height: '500px' }}
+      style={{ width: '100%', height: '300px' }}
     />
   );
 };
