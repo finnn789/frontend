@@ -42,7 +42,7 @@ const DevelopmentSKK = () => {
   ];
   const layout = {
     height: 400,
-    width: 500,
+    width: 400,
     showlegend: true,
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",

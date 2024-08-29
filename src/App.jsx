@@ -27,6 +27,7 @@ import Exploration from "./Page/PageSKK/Exploration";
 import DevelopmentSKK from "./Page/PageSKK/DevelopmentSKK";
 import WellServiceSKK from "./Page/PageSKK/WellServiceSKK";
 import WorkOverSKK from "./Page/PageSKK/WorkOverSKK";
+import PlanningExp from "./Page/PageSKK/ChildExploration/PlanningExp";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -132,6 +133,10 @@ function App() {
         {
           path: "exploration",
           element: (<ProtectedRoute element={<Exploration />} allowedRoles={["Admin"]} />),
+        },
+        {
+          path: "exploration/planningexploration",
+          element: (<ProtectedRoute element={<PlanningExp/>} allowedRoles={["Admin"]} />),
         },
         {
           path: "development",

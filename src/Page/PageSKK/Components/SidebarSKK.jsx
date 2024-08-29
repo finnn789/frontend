@@ -116,7 +116,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <ChakraLink
                   as={Link}
-                  to="/dashboard/submission"
+                  to="/skk/exploration/planningexploration"
                   px={3}
                   py={2}
                   rounded="md"
@@ -132,7 +132,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <ChakraLink
                   as={Link}
-                  to="/dashboard/operasi"
+                  to="skk/exploration/planningexploration"
                   px={3}
                   py={2}
                   rounded="md"
@@ -369,6 +369,8 @@ const SidebarKKS = ({ handleMenuValue }) => {
             px={4}
             py={4}
             rounded="md"
+            as={Link}
+            to="/skk/wellservice"
             _hover={{ bg: "#f5f5f5" }}
             width="full"
             display="flex"

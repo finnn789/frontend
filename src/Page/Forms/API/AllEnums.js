@@ -3,7 +3,7 @@ import axios from "axios";
 // Ubah fungsi AllEnums menjadi asinkron
 export async function AllEnums() {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/utils/enum/all', {
+        const response = await axios.get(`${process.env.APP_URL}/utils/enum/all`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem('token')}`
@@ -19,7 +19,7 @@ export async function AllEnums() {
 
 export async function getUtilsdb() {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/utils/db/all',{
+        const response = await axios.get(`${process.env.APP_URL}/utils/db/all`,{
             headers:{
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem('token')}`
@@ -35,7 +35,7 @@ export async function getUtilsdb() {
 
 export async function getWellName() {
     try {
-         const response = await axios.get('http://127.0.0.1:8000/dashboard/job-well-data')
+         const response = await axios.get(`${process.env.APP_URL}/dashboard/job-well-data`)
 
          return response.data 
          
@@ -47,7 +47,7 @@ export async function getWellName() {
  
 export async function getDataPlanningExploration() {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/dashboard/combined-data')
+        const response = await axios.get(`${process.env.APP_URL}/dashboard/combined-data`)
         return response.data
 
     } catch (error) {

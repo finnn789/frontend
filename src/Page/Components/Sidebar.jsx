@@ -377,11 +377,11 @@ const Sidebar = ({ handleMenuValue }) => {
         {/* Well Service Section */}
         <Box width="full">
           <ChakraLink
+            as={Link}
+            to={"/skk/wellservice"}
             px={4}
             fontSize={"20px"}
             py={4}
-            as={Link}
-            to="/skk/wellservice"
             rounded="md"
             _hover={{ bg: "#f5f5f5" }}
             width="full"
