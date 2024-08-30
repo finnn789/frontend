@@ -49,3 +49,41 @@ export async function getBarChartDataSKK() {
         return null
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export async function getDataJobCountPlanningEx() {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/job-counts/planning`)
+        console.log(response.data);
+        
+        return response.data
+
+    } catch (error) {
+        console.error("Error get Data Well", error);
+        return null
+    }
+}

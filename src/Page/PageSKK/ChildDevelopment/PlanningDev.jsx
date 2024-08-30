@@ -1,13 +1,26 @@
 import React from "react";
 import ProposedWorkTable from "./Components/ProposedWork";
-import { Box,Badge, Flex, Text,Tr,Td,Button,Icon } from "@chakra-ui/react";
+import { Box, Badge, Flex, Text, Tr, Td, Button, Icon } from "@chakra-ui/react";
 import PerhitunganCard from "../Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
+import { getDataJobCountPlanningEx } from "../../API/APISKK";
 const PlanningDevelopment = () => {
+  const [countStatus, setCountStatus] = React.useState(null);
+
+  React.useEffect(() => {
+    const getData = async () => {
+      const data = await getDataJobCountPlanningEx();
+      setCountStatus(data);
+    };
+    getData();
+  }, []);
+
+  // console.log(countStatus);
+  
   const headerstable1 = [
     "NO.",
     "NAMA SUMUR",
@@ -83,26 +96,26 @@ const PlanningDevelopment = () => {
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={5}
+          number={countStatus ? countStatus[1].count : 0}
           icon={FaCopy}
-          label="Rencana"
-          subLabel="WP&B Year 2024"
+          label={countStatus ? countStatus[1].status : ""}
+          subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-          number={5}
+          number={countStatus ? countStatus[0].count : 0}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
-          label="Total SKK"
-          subLabel="Total SKK"
+          label={countStatus ? countStatus[0].status : ""}
+          subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={5}
-          label="Total SKK"
+          number={countStatus ? countStatus[2].count : 0}
+          label={countStatus ? countStatus[2].status : ""}
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
-          subLabel="Total SKK"
+          subLabel="Pekerjaan Dikembalikan"
         />
       </Flex>
       <Box my={6}>
