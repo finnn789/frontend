@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./Page/Dashboard";
 import { useAuth } from "./Auth/AuthContext";
 import Login from "./Auth/Login";
@@ -60,7 +57,7 @@ function App() {
     },
     {
       path: "/",
-      element:<RoleRedirect/>,
+      element: <RoleRedirect />,
     },
     {
       path: "/register",
@@ -75,7 +72,7 @@ function App() {
       ),
       children: [
         {
-          path: "submission",
+          path: "planning",
           element: (
             <ProtectedRoute
               element={<PengajuanPekerjaan />}
@@ -117,7 +114,7 @@ function App() {
       children: [
         {
           path: "grafikexploitasi",
-          element: <GraphTable/>,
+          element: <GraphTable />,
         },
         {
           path: "perencanaan",
@@ -127,43 +124,90 @@ function App() {
     },
     {
       path: "/skk",
-      element: (<ProtectedRoute element={<DashboardSKK />} allowedRoles={["Admin"]} />),
+      element: (
+        <ProtectedRoute element={<DashboardSKK />} allowedRoles={["Admin"]} />
+      ),
       children: [
         {
           path: "dashboard",
-          element: (<ProtectedRoute element={<HomeDashKKKS />} allowedRoles={["Admin"]} />),
+          element: (
+            <ProtectedRoute
+              element={<HomeDashKKKS />}
+              allowedRoles={["Admin"]}
+            />
+          ),
         },
         {
           path: "exploration",
-          element: (<ProtectedRoute element={<Exploration />} allowedRoles={["Admin"]} />),
+          element: (
+            <ProtectedRoute
+              element={<Exploration />}
+              allowedRoles={["Admin"]}
+            />
+          ),
         },
         {
           path: "exploration/planningexploration",
-          element: (<ProtectedRoute element={<PlanningExp/>} allowedRoles={["Admin"]} />),
+          element: (
+            <ProtectedRoute
+              element={<PlanningExp />}
+              allowedRoles={["Admin"]}
+            />
+          ),
         },
         {
           path: "development",
-          element: (<ProtectedRoute element={<DevelopmentSKK />} allowedRoles={["Admin"]} />),
+          element: (
+            <ProtectedRoute
+              element={<DevelopmentSKK />}
+              allowedRoles={["Admin"]}
+            />
+          ),
         },
         {
           path: "development/planningdevelopment",
-          element: (<ProtectedRoute element={<PlanningDevelopment/>} allowedRoles={["Admin"]} />),
+          element: (
+            <ProtectedRoute
+              element={<PlanningDevelopment />}
+              allowedRoles={["Admin"]}
+            />
+          ),
         },
         {
           path: "wellservice",
-          element: (<ProtectedRoute element={<WellServiceSKK />} allowedRoles={["Admin"]} />),
+          element: (
+            <ProtectedRoute
+              element={<WellServiceSKK />}
+              allowedRoles={["Admin"]}
+            />
+          ),
         },
         {
           path: "wellservice/planningwellservice",
-          element: (<ProtectedRoute element={<PlanningWellService/>} allowedRoles={["Admin"]} />),
+          element: (
+            <ProtectedRoute
+              element={<PlanningWellService />}
+              allowedRoles={["Admin"]}
+            />
+          ),
         },
         {
           path: "workover",
-          element: (<ProtectedRoute element={<WorkOverSKK />} allowedRoles={["Admin"]} />),
+          element: (
+            <ProtectedRoute
+              element={<WorkOverSKK />}
+              allowedRoles={["Admin"]}
+            />
+          ),
         },
         {
           path: "workover/planningworkover",
-          element: (<ProtectedRoute element={<PlanningWorkOver/>} allowedRoles={["Admin"]} />),
+          element: (
+            <ProtectedRoute
+              element={<PlanningWorkOver />}
+              allowedRoles={["Admin"]}
+            />
+          ),
         },
       ],
     },
