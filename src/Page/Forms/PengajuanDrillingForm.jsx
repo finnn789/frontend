@@ -31,7 +31,6 @@ import { ChevronRightIcon, CheckIcon } from "@chakra-ui/icons";
 import { AllEnums, getUtilsdb } from "../API/AllEnums";
 import { useOutletContext } from "react-router-dom";
 
-// NavigationMenu Component
 const NavigationMenu = ({ completedSections, activeTab, onNavigate }) => (
   <VStack align="stretch" spacing={2} position="sticky" top="20px">
     <Text fontWeight="bold" fontSize="xl" mb={2}>
@@ -59,42 +58,87 @@ const NavigationMenu = ({ completedSections, activeTab, onNavigate }) => (
   </VStack>
 );
 
-// Main WellForm Component
-const WellForm = ({}) => {
-  // const { sendData } = useOutletContext();
+const PengajuanDrillingForm = () => {
+  const [proposedJob, setProposedJob] = useState({
+    kkks_id: "",
+    area_id: "",
+    field_id: "",
+    contract_type: "COST-RECOVERY",
+    afe_number: "",
+    wpb_year: 0,
+    start_date: "",
+    end_date: "",
+    total_budget: 0,
+    rig_name: "",
+    rig_type: "JACK-UP",
+    rig_horse_power: 0,
+    job_operation_days: [],
+    work_breakdown_structure: [],
+    job_hazards: [],
+    job_documents: [],
+    well: {
+      uwi: "",
+      field_id: "",
+      area_id: "",
+      kkks_id: "",
+      well_name: "",
+      alias_long_name: "",
+      well_type: "WILDCAT",
+      well_status: "Active",
+      well_profile_type: "DIRECTIONAL",
+      hydrocarbon_target: "OIL",
+      environment_type: "MARINE",
+      surface_longitude: 0,
+      surface_latitude: 0,
+      bottom_hole_longitude: 0,
+      bottom_hole_latitude: 0,
+      maximum_inclination: 0,
+      azimuth: 0,
+      line_name: "",
+      spud_date: "",
+      final_drill_date: "",
+      completion_date: "",
+      rotary_table_elev: 0,
+      rotary_table_elev_uom: "FEET",
+      kb_elev: 0,
+      kb_elev_uom: "FEET",
+      derrick_floor_elev: 0,
+      derrick_floor_elev_uom: "FEET",
+      ground_elev: 0,
+      ground_elev_uom: "FEET",
+      mean_sea_level: 0,
+      mean_sea_level_uom: "FEET",
+      depth_datum: "RT",
+      kick_off_point: 0,
+      kick_off_point_uom: "FEET",
+      maximum_tvd: 0,
+      maximum_tvd_uom: "FEET",
+      final_md: 0,
+      final_md_uom: "FEET",
+      remark: "",
+      well_documents: [],
+      well_summary: [],
+      well_test: [],
+      well_trajectory: {
+        file_id: "",
+        data_format: "IMAGE",
+      },
+      well_ppfg: {
+        file_id: "",
+        data_format: "IMAGE",
+      },
+      well_logs: [],
+      well_drilling_parameter: {
+        file_id: "",
+        data_format: "IMAGE",
+      },
+      well_casing: [],
+      well_stratigraphy: [],
+    },
+  });
 
   const [fetchingData, setFetchingData] = useState(null);
   const [utilsDb, setUtilsDb] = useState();
-
-  useEffect(() => {
-    async function fetchData() {
-      const data = await AllEnums();
-      if (data) {
-        setFetchingData(data);
-        // console.log(data);
-      } else {
-        console.error("Error fetching data");
-      }
-    }
-    async function fetchingUtils() {
-      const data = await getUtilsdb();
-      if (data) {
-        setUtilsDb(data);
-
-        // console.log(Object.keys(data.area));
-      } else {
-        console.error("Error fetching data");
-      }
-    }
-
-    fetchingUtils();
-    fetchData();
-  }, [setFetchingData, setUtilsDb]);
-  // console.log(utilsDb);
-
-  const [formHandlingWell, setformHandlingWell] = useState({
-    planning_well: {},
-  });
   const [activeTab, setActiveTab] = useState(0);
   const [completedSections, setCompletedSections] = useState({
     teknis: {
@@ -106,6 +150,8 @@ const WellForm = ({}) => {
       "Well Summary": false,
       "Well Test": false,
       "Well Trajectory": false,
+      "Well Casing": false,
+      Stratigraphy: false,
     },
     operasional: {
       "Proposed Job": false,
@@ -116,514 +162,122 @@ const WellForm = ({}) => {
     },
   });
 
-  // Teknis Tab States
-  const [wellData, setWellData] = useState({
-    uwi: "",
-    well_name: "",
-    alias_long_name: "",
-    well_type: "",
-    well_status: "",
-    profile_type: "",
-    hydrocarbonTarget: "",
-    environment_type: "",
-  });
-
-  const [koordinatData, setKoordinatData] = useState({
-    surface_longitude: null,
-    surface_latitude: null,
-    bottom_hole_longititude: null,
-    bottom_hole_latitude: null,
-    maximum_inclination: null,
-    maximum_azimuth: null,
-  });
-
-  const [seismicData, setSeismicData] = useState({
-    line_name: "",
-  });
-
-  const [keydatesData, setKeydatesData] = useState({
-    spud_date: "",
-    final_drill_date: "",
-    completion_date: "",
-  });
-
-  const [elevasiData, setElevasiData] = useState({
-    unit: "",
-    rotary_table_elev: 0,
-    rotary_table_elev_ouom: "",
-    kb_elev: 0,
-    kb_elev_ouom: "",
-    derrick_floor_elev: 0,
-    derrick_floor_elev_ouom: "",
-    ground_elev: 0,
-    ground_elev_ouom: "",
-    mean_sea_level: 0,
-    mean_sea_level_ouom: "",
-    depth_datum: 0,
-    kick_off_point: 0,
-    kick_off_point_ouom: "",
-    max_tvd_ouom: "",
-    max_tvd: 0,
-    final_td: 0,
-    final_td_ouom: "",
-    remark: "",
-  });
-
-  const [wellSummary, setWellSummary] = useState([]);
-  const [wellSummaryForm, setWellSummaryForm] = useState({
-    depth_datum: "",
-    
-    depth: 0,
-    depth_oum: "FEET",
-    hole_diameter: "",
-    hole_diameter_oum: "INCH",
-    bit: "",
-    casing_outer_diameter: "",
-    casing_outer_diameter_uom: "INCH",
-    logging: "",
-    mud_program: "",
-    cementing_program: "",
-    bottom_hole_temperature: "",
-    bottom_hole_temperature_uom: "C",
-    rate_of_penetration: 0,
-    remarks: "",
-  });
-
-  const [wellTest, setWellTest] = useState([]);
-  const [wellTestForm, setWellTestForm] = useState({
-    depth_datum: "",
-    zone_name: "",
-    zone_top_depth: 0,
-    zone_bottom_depth: 0,
-    depth_uom: "FEET",
-  });
-
-  const [wellTrajectoryFile, setWellTrajectoryFile] = useState(null);
-
-  // Operasional Tab States
-  const [proposedJob, setProposedJob] = useState({
-    area_id: "",
-    field_id: "",
-    afe_number: "",
-    totalBudget: "",
-    wpb_year: 0,
-    plan_start: "",
-    plan_end: "",
-    rig_name: "",
-    rig_type: "",
-    rig_horse_power: 0,
-  });
-
-  const [workBreakdown, setWorkBreakdown] = useState([]);
-  const [workBreakdownForm, setWorkBreakdownForm] = useState({
-    event: "",
-    startDate: "",
-    endDate: "",
-    remark: "",
-  });
-
-  const [jobDocument, setJobDocument] = useState([]);
-  const [jobDocumentForm, setJobDocumentForm] = useState({
-    title: "",
-    creator_name: "",
-    creator_date: "",
-    document_type: "",
-    item_category: "",
-    media_type: "EXTERNAL_HARDDISK",
-    item_sub_category: "",
-    digital_format: "",
-    original_file_name: "",
-    digital_size: "",
-    digital_size_uom: "BYTE",
-    remark: "",
-  });
-
-  const [jobOperationDays, setJobOperationDays] = useState([]);
-  const [jobOperationDaysForm, setJobOperationDaysForm] = useState({
-    phase: "",
-    depth_datum: "",
-
-    depthIn: "",
-    depthOut: "",
-    operationDays: "",
-  });
-
-  const [jobHazard, setJobHazard] = useState([]);
-  const [jobHazardForm, setJobHazardForm] = useState({
-    hazardType: "",
-    hazardDescription: "",
-    severity: "",
-    mitigation: "",
-    remark: "",
-  });
-
-  const [wellCasing, setWellCasing] = useState([]);
-  const [wellCasingForm, setWellCasingForm] = useState({
-    depth_datum: "",
-    depth: 0,
-    depth_oum: "FEET",
-    length: 0,
-    hole_diameter: 0,
-    casing_outer_diameter: 0,
-    casing_outer_diameter_uom: "",
-    casing_inner_diameter: 0,
-    casing_inner_diameter_uom: "",
-    casing_grade: "",
-    casing_weight: 0,
-    casing_weight_uom: "PPF",
-    connection: "",
-    description: "",
-  });
-
-  // New state for Stratigraphy
-  const [stratigraphy, setStratigraphy] = useState([]);
-  const [stratigraphyForm, setStratigraphyForm] = useState({
-    depth_datum: "RT",
-    depth_oum: "FEET",
-    depth: "",
-    stratigraphy_id: "",
-  });
+  console.log(proposedJob);
 
   useEffect(() => {
-    setformHandlingWell({
-      ...formHandlingWell,
-      planning_well: {
-        ...wellData,
-        ...koordinatData,
-        ...seismicData,
-        ...keydatesData,
-        ...workBreakdown,
-        ...jobDocument,
-        ...wellSummary,
-        ...stratigraphy,
-      },
-    });
-  }, [setformHandlingWell]);
-  
-  // Handle Input Change
-  const handleInputChange = (tab, section, field, value) => {
-    if (tab === "teknis") {
-      switch (section) {
-        case "Well":
-          setWellData((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Koordinat":
-          setKoordinatData((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Seismic":
-          setSeismicData((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Keydates":
-          setKeydatesData((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Elevasi":
-          setElevasiData((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Well Summary":
-          setWellSummaryForm((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Well Test":
-          setWellTestForm((prev) => ({ ...prev, [field]: value }));
-          break;
-        default:
-          break;
-      }
-    } else if (tab === "operasional") {
-      switch (section) {
-        case "Proposed Job":
-          setProposedJob((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Work breakdown structure":
-          setWorkBreakdownForm((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Job document":
-          setJobDocumentForm((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Job Operation Days":
-          setJobOperationDaysForm((prev) => ({ ...prev, [field]: value }));
-          break;
-        case "Job Hazard":
-          setJobHazardForm((prev) => ({ ...prev, [field]: value }));
-          break;
-        default:
-          break;
+    async function fetchData() {
+      const data = await AllEnums();
+      if (data) {
+        setFetchingData(data);
+      } else {
+        console.error("Error fetching data");
       }
     }
-    updateSectionCompletion(tab, section);
-  };
-
-  // Handle Add Batch
-  const handleAddBatch = (tab, section) => {
-    if (tab === "teknis") {
-      switch (section) {
-        case "Well Summary":
-          setWellSummary((prev) => [...prev, wellSummaryForm]);
-          setWellSummaryForm({
-            depth_datum: "",
-            unit: "",
-            depth: "",
-            hole_diameter: "",
-            bit: "",
-            casing_outer_diameter: "",
-      
-      
-            logging: "",
-            mud_program: "",
-            cementing_program: "",
-            bottom_hole_temperature: "",
-            rate_of_penetration: "",
-            remarks: "",
-          });
-          break;
-        case "Well Test":
-          setWellTest((prev) => [...prev, wellTestForm]);
-          setWellTestForm({
-            depth_datum: "",
-            unit: "",
-            zone_name: "",
-            zone_top_depth: "",
-            zone_bottom_depth: "",
-          });
-          break;
-        default:
-          break;
-      }
-    } else if (tab === "operasional") {
-      switch (section) {
-        case "Work breakdown structure":
-          setWorkBreakdown((prev) => [...prev, workBreakdownForm]);
-          setWorkBreakdownForm({
-            event: "",
-            startDate: "",
-            endDate: "",
-            remark: "",
-          });
-          break;
-        case "Job document":
-          setJobDocument((prev) => [...prev, jobDocumentForm]);
-          setJobDocumentForm({
-            title: "",
-            creator_name: "",
-            creator_date: "",
-            document_type: "",
-            item_category: "",
-            item_sub_category: "",
-            digital_format: "",
-            original_file_name: "",
-            digital_size: "",
-            remark: "",
-          });
-          break;
-        case "Job Operation Days":
-          setJobOperationDays((prev) => [...prev, jobOperationDaysForm]);
-          setJobOperationDaysForm({
-            phase: "",
-            depth_datum: "",
-            unit: "",
-            depthIn: "",
-            depthOut: "",
-            operationDays: "",
-          });
-          break;
-        case "Job Hazard":
-          setJobHazard((prev) => [...prev, jobHazardForm]);
-          setJobHazardForm({
-            hazardType: "",
-            hazardDescription: "",
-            severity: "",
-            mitigation: "",
-            remark: "",
-          });
-          break;
-        default:
-          break;
+    async function fetchingUtils() {
+      const data = await getUtilsdb();
+      if (data) {
+        setUtilsDb(data);
+      } else {
+        console.error("Error fetching data");
       }
     }
-    updateSectionCompletion(tab, section);
-  };
 
-  // Handle File Upload for Well Trajectory
-  const handleFileUpload = (event) => {
-    setWellTrajectoryFile(event.target.files[0]);
-    updateSectionCompletion("teknis", "Well Trajectory");
-  };
+    fetchingUtils();
+    fetchData();
+  }, []);
 
-  // Update Section Completion
-  const updateSectionCompletion = (tab, section) => {
-    let isCompleted = false;
-    if (tab === "teknis") {
-      switch (section) {
-        case "Well":
-          isCompleted = Object.values(wellData).every((value) => value !== "");
-          break;
-        case "Koordinat":
-          isCompleted = Object.values(koordinatData).every(
-            (value) => value !== ""
-          );
-          break;
-        case "Seismic":
-          isCompleted = seismicData.line_name !== "";
-          break;
-        case "Keydates":
-          isCompleted = Object.values(keydatesData).every(
-            (value) => value !== ""
-          );
-          break;
-        case "Elevasi":
-          isCompleted = Object.values(elevasiData).every(
-            (value) => value !== ""
-          );
-          break;
-        case "Well Summary":
-          isCompleted = wellSummary.length > 0;
-          break;
-        case "Well Test":
-          isCompleted = wellTest.length > 0;
-          break;
-        case "Well Trajectory":
-          isCompleted = wellTrajectoryFile !== null;
-          break;
-        default:
-          break;
-      }
-    } else if (tab === "operasional") {
-      switch (section) {
-        case "Proposed Job":
-          isCompleted = Object.values(proposedJob).every(
-            (value) => value !== ""
-          );
-          break;
-        case "Work breakdown structure":
-          isCompleted = workBreakdown.length > 0;
-          break;
-        case "Job document":
-          isCompleted = jobDocument.length > 0;
-          break;
-        case "Job Operation Days":
-          isCompleted = jobOperationDays.length > 0;
-          break;
-        case "Job Hazard":
-          isCompleted = jobHazard.length > 0;
-          break;
-        default:
-          break;
-      }
-    }
-    setCompletedSections((prev) => ({
-      ...prev,
-      [tab]: {
-        ...prev[tab],
-        [section]: isCompleted,
+  const handleInputChange = (section, field, value) => {
+    setProposedJob((prevState) => ({
+      ...prevState,
+      [section]: {
+        ...prevState[section],
+        [field]: value,
       },
     }));
+    updateSectionCompletion(section);
   };
 
-  // UseEffect to check completion status
-  useEffect(() => {
-    updateSectionCompletion("teknis", "Well");
-    updateSectionCompletion("teknis", "Koordinat");
-    updateSectionCompletion("teknis", "Seismic");
-    updateSectionCompletion("teknis", "Keydates");
-    updateSectionCompletion("teknis", "Elevasi");
-    updateSectionCompletion("teknis", "Well Summary");
-    updateSectionCompletion("teknis", "Well Test");
-    updateSectionCompletion("teknis", "Well Trajectory");
+  const handleWellInputChange = (field, value) => {
+    setProposedJob((prevState) => ({
+      ...prevState,
+      well: {
+        ...prevState.well,
+        [field]: value,
+      },
+    }));
+    updateSectionCompletion("Well");
+  };
 
-    updateSectionCompletion("operasional", "Proposed Job");
-    updateSectionCompletion("operasional", "Work breakdown structure");
-    updateSectionCompletion("operasional", "Job document");
-    updateSectionCompletion("operasional", "Job Operation Days");
-    updateSectionCompletion("operasional", "Job Hazard");
-  }, [
-    wellData,
-    koordinatData,
-    seismicData,
-    keydatesData,
-    elevasiData,
-    wellSummary,
-    wellTest,
-    wellTrajectoryFile,
-    proposedJob,
-    workBreakdown,
-    jobDocument,
-    jobOperationDays,
-    jobHazard,
-  ]);
-  // useEffect(() => {
-  //   const allData = {
-  //     teknisData: {
-  //       well: wellData,
-  //       koordinat: koordinatData,
-  //       seismic: seismicData,
-  //       keydates: keydatesData,
-  //       elevasi: elevasiData,
-  //       wellSummary: wellSummary,
-  //       wellTest: wellTest,
-  //       wellTrajectoryFile: wellTrajectoryFile,
-  //       stratigraphy:stratigraphy,
-  //       wellCasing:wellCasing,
-  //       koordinatData:koordinatData,
-        
-        
-  //     },
-  //     operasionalData: {
-  //       proposedJob: proposedJob,
-  //       workBreakdown: workBreakdown,
-  //       jobDocument: jobDocument,
-  //       jobOperationDays: jobOperationDays,
-  //       jobHazard: jobHazard,
-  //     },
-  //   };
+  const handleArrayInputChange = (section, field, value, index) => {
+    setProposedJob((prevState) => {
+      // Ensure the section exists and is an array
+      const sectionArray = Array.isArray(prevState[section])
+        ? prevState[section]
+        : [];
 
-  //   sendData(allData);
-  // }, [
-  //   wellData,
-  //   koordinatData,
-  //   seismicData,
-  //   keydatesData,
-  //   elevasiData,
-  //   wellSummary,
-  //   wellTest,
-  //   wellTrajectoryFile,
-  //   proposedJob,
-  //   workBreakdown,
-  //   jobDocument,
-  //   jobOperationDays,
-  //   jobHazard,
-  //   stratigraphy,
-  //   wellCasing
-  //   ,
-  // ]);
+      // Create a new array with the updated item
+      const updatedSection = sectionArray.map((item, i) =>
+        i === index ? { ...item, [field]: value } : item
+      );
 
-  useEffect(() => {
-    if (elevasiData.unit === "feet") {
-      setElevasiData((prev) => ({
-        ...prev,
-        rotary_table_elev_ouom: "FEET",
-        derrick_floor_elev_ouom: "FEET",
-        ground_elev_ouom: "FEET",
-        mean_sea_level_ouom: "FEET",
-        kick_off_point_ouom: "FEET",
-        max_tvd_ouom: "FEET",
-        final_td_ouom: "FEET",
-      }));
-    } else if (elevasiData.unit === "meters") {
-      setElevasiData((prev) => ({
-        ...prev,
-        rotary_table_elev_ouom: "METER",
-        derrick_floor_elev_ouom: "METER",
-        ground_elev_ouom: "METER",
-        mean_sea_level_ouom: "METER",
-        kick_off_point_ouom: "METER",
-        max_tvd_ouom: "METER",
-        final_td_ouom: "METER",
-      }));
-    }
-  }, []);
+      // If the index is out of bounds, add a new item
+      if (index >= sectionArray.length) {
+        updatedSection.push({ [field]: value });
+      }
+
+      // Return the new state with the updated section
+      return {
+        ...prevState,
+        [section]: updatedSection,
+      };
+    });
+
+    updateSectionCompletion(section);
+  };
+
+  const handleAddBatch = (section) => {
+    setProposedJob((prevState) => {
+      const sectionArray = Array.isArray(prevState[section])
+        ? prevState[section]
+        : [];
+      return {
+        ...prevState,
+        [section]: [...sectionArray, {}],
+      };
+    });
+    updateSectionCompletion(section);
+  };
+
+  const handleFileUpload = (event, section) => {
+    const file = event.target.files[0];
+    setProposedJob((prevState) => ({
+      ...prevState,
+      well: {
+        ...prevState.well,
+        [section]: {
+          file_id: file.name,
+          data_format: "IMAGE",
+        },
+      },
+    }));
+    updateSectionCompletion("Well Trajectory");
+  };
+
+  const updateSectionCompletion = (section) => {
+    setCompletedSections((prevState) => {
+      const tab = section in prevState.teknis ? "teknis" : "operasional";
+      return {
+        ...prevState,
+        [tab]: {
+          ...prevState[tab],
+          [section]: true,
+        },
+      };
+    });
+  };
 
   const sectionRefs = useRef({});
 
-  // Initialize refs for each section
   useEffect(() => {
     Object.keys(completedSections.teknis).forEach((section) => {
       sectionRefs.current[section] = React.createRef();
@@ -640,59 +294,6 @@ const WellForm = ({}) => {
     }
   };
 
-  const handleWellCasingChange = (field, value) => {
-    setWellCasingForm((prev) => ({ ...prev, [field]: value }));
-    updateSectionCompletion("teknis", "Well Casing");
-  };
-
-  // Handler for Stratigraphy form
-  const handleStratigraphyChange = (field, value) => {
-    setStratigraphyForm((prev) => ({ ...prev, [field]: value }));
-    updateSectionCompletion("teknis", "Stratigraphy");
-  };
-
-  // Function to add Well Casing
-  const addWellCasing = () => {
-    setWellCasing((prev) => [...prev, wellCasingForm]);
-    setWellCasingForm({
-      depth_datum: "",
-      depth: "",
-      length: "",
-      hole_diameter: "",
-      casing_outer_diameter: "",
-      casing_inner_diameter: "",
-      casing_grade: "",
-      casing_weight: "",
-      connection: "",
-      description: "",
-    });
-    updateSectionCompletion("teknis", "Well Casing");
-  };
-
-  // Function to add Stratigraphy
-  const addStratigraphy = () => {
-    setStratigraphy((prev) => [...prev, stratigraphyForm]);
-    setStratigraphyForm({
-      depth_datum: "",
-      top_depth: "",
-      depth: "",
-      stratigraphy_id: "",
-    });
-    updateSectionCompletion("teknis", "Stratigraphy");
-  };
-
-  // Update completedSections state
-  useEffect(() => {
-    setCompletedSections((prev) => ({
-      ...prev,
-      teknis: {
-        ...prev.teknis,
-        "Well Casing": wellCasing.length > 0,
-        Stratigraphy: stratigraphy.length > 0,
-      },
-    }));
-  }, [wellCasing, stratigraphy]);
-
   return (
     <Grid templateColumns="1fr 250px" gap={8}>
       <Box>
@@ -704,7 +305,6 @@ const WellForm = ({}) => {
           <TabPanels>
             <TabPanel>
               <VStack align="stretch" spacing={8}>
-                {/* Well section */}
                 <Box ref={sectionRefs.current["Well"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Well
@@ -713,30 +313,20 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>UWI</FormLabel>
                       <Input
-                        placeholder="Uwi"
-                        value={wellData.uwi}
+                        placeholder="UWI"
+                        value={proposedJob.well.uwi}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well",
-                            "uwi",
-                            e.target.value
-                          )
+                          handleWellInputChange("uwi", e.target.value)
                         }
                       />
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Nama Sumur</FormLabel>
+                      <FormLabel>Well Name</FormLabel>
                       <Input
-                        placeholder="Nama Sumur"
-                        value={wellData.well_name}
+                        placeholder="Well Name"
+                        value={proposedJob.well.well_name}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well",
-                            "well_name",
-                            e.target.value
-                          )
+                          handleWellInputChange("well_name", e.target.value)
                         }
                       />
                     </FormControl>
@@ -746,11 +336,9 @@ const WellForm = ({}) => {
                       <FormLabel>Nama Lengkap Sumur</FormLabel>
                       <Input
                         placeholder="Nama Lengkap Sumur"
-                        value={wellData.alias_long_name}
+                        value={proposedJob.well.alias_long_name}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well",
+                          handleWellInputChange(
                             "alias_long_name",
                             e.target.value
                           )
@@ -761,14 +349,9 @@ const WellForm = ({}) => {
                       <FormLabel>Type Well</FormLabel>
                       <Input
                         placeholder="Type Well"
-                        value={wellData.well_type}
+                        value={proposedJob.well.well_type}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well",
-                            "well_type",
-                            e.target.value
-                          )
+                          handleWellInputChange("well_type", e.target.value)
                         }
                       />
                     </FormControl>
@@ -778,14 +361,9 @@ const WellForm = ({}) => {
                       <FormLabel>Well Status</FormLabel>
                       <Input
                         placeholder="Well Status"
-                        value={wellData.well_status}
+                        value={proposedJob.well.well_status}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well",
-                            "well_status",
-                            e.target.value
-                          )
+                          handleWellInputChange("well_status", e.target.value)
                         }
                       />
                     </FormControl>
@@ -793,12 +371,10 @@ const WellForm = ({}) => {
                       <FormLabel>Well Profile Type</FormLabel>
                       <Input
                         placeholder="Well Profile Type"
-                        value={wellData.profile_type}
+                        value={proposedJob.well.well_profile_type}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well",
-                            "profile_type",
+                          handleWellInputChange(
+                            "well_profile_type",
                             e.target.value
                           )
                         }
@@ -810,12 +386,10 @@ const WellForm = ({}) => {
                       <FormLabel>Hydrocarbon Target</FormLabel>
                       <Input
                         placeholder="Hydrocarbon Target"
-                        value={wellData.hydrocarbonTarget}
+                        value={proposedJob.well.hydrocarbon_target}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well",
-                            "hydrocarbonTarget",
+                          handleWellInputChange(
+                            "hydrocarbon_target",
                             e.target.value
                           )
                         }
@@ -825,29 +399,24 @@ const WellForm = ({}) => {
                       <FormLabel>Environment Type</FormLabel>
                       <Select
                         placeholder="Environment Type"
+                        value={proposedJob.well.environment_type}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well",
+                          handleWellInputChange(
                             "environment_type",
                             e.target.value
                           )
                         }
                       >
-                        {" "}
-                        {fetchingData
-                          ? fetchingData.environment.map((item, key) => (
-                              <option key={key} value={item}>
-                                {item}
-                              </option>
-                            ))
-                          : null}
+                        {fetchingData?.environment.map((item, key) => (
+                          <option key={key} value={item}>
+                            {item}
+                          </option>
+                        ))}
                       </Select>
                     </FormControl>
                   </HStack>
                 </Box>
 
-                {/* Koordinat section */}
                 <Box ref={sectionRefs.current["Koordinat"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Koordinat
@@ -857,14 +426,12 @@ const WellForm = ({}) => {
                       <FormLabel>Surface Longitude</FormLabel>
                       <Input
                         placeholder="Surface Longitude"
-                        value={koordinatData.surface_longitude}
+                        value={proposedJob.well.surface_longitude}
                         type="number"
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Koordinat",
+                          handleWellInputChange(
                             "surface_longitude",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value)
                           )
                         }
                       />
@@ -874,13 +441,11 @@ const WellForm = ({}) => {
                       <Input
                         placeholder="Surface Latitude"
                         type="number"
-                        value={koordinatData.surface_latitude}
+                        value={proposedJob.well.surface_latitude}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Koordinat",
+                          handleWellInputChange(
                             "surface_latitude",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value)
                           )
                         }
                       />
@@ -891,14 +456,12 @@ const WellForm = ({}) => {
                       <FormLabel>Bottom Hole Longitude</FormLabel>
                       <Input
                         placeholder="Bottom Hole Longitude"
-                        value={koordinatData.bottom_hole_longititude}
+                        value={proposedJob.well.bottom_hole_longitude}
                         type="number"
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Koordinat",
-                            "bottom_hole_longititude",
-                            parseInt(e.target.value)
+                          handleWellInputChange(
+                            "bottom_hole_longitude",
+                            parseFloat(e.target.value)
                           )
                         }
                       />
@@ -907,14 +470,12 @@ const WellForm = ({}) => {
                       <FormLabel>Bottom Hole Latitude</FormLabel>
                       <Input
                         placeholder="Bottom Hole Latitude"
-                        value={koordinatData.bottom_hole_latitude}
+                        value={proposedJob.well.bottom_hole_latitude}
                         type="number"
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Koordinat",
+                          handleWellInputChange(
                             "bottom_hole_latitude",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value)
                           )
                         }
                       />
@@ -925,14 +486,12 @@ const WellForm = ({}) => {
                       <FormLabel>Maximum Inclination</FormLabel>
                       <Input
                         placeholder="Maximum Inclination"
-                        value={koordinatData.maximum_inclination}
+                        value={proposedJob.well.maximum_inclination}
                         type="number"
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Koordinat",
+                          handleWellInputChange(
                             "maximum_inclination",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value)
                           )
                         }
                       />
@@ -941,14 +500,12 @@ const WellForm = ({}) => {
                       <FormLabel>Azimuth</FormLabel>
                       <Input
                         placeholder="Azimuth"
-                        value={koordinatData.maximum_azimuth}
+                        value={proposedJob.well.azimuth}
                         type="number"
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Koordinat",
-                            "maximum_azimuth",
-                            parseInt(e.target.value)
+                          handleWellInputChange(
+                            "azimuth",
+                            parseFloat(e.target.value)
                           )
                         }
                       />
@@ -956,7 +513,6 @@ const WellForm = ({}) => {
                   </HStack>
                 </Box>
 
-                {/* Seismic section */}
                 <Box ref={sectionRefs.current["Seismic"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Seismic
@@ -965,20 +521,14 @@ const WellForm = ({}) => {
                     <FormLabel>Line Name</FormLabel>
                     <Input
                       placeholder="Line Name"
-                      value={seismicData.line_name}
+                      value={proposedJob.well.line_name}
                       onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Seismic",
-                          "line_name",
-                          e.target.value
-                        )
+                        handleWellInputChange("line_name", e.target.value)
                       }
                     />
                   </FormControl>
                 </Box>
 
-                {/* Keydates section */}
                 <Box ref={sectionRefs.current["Keydates"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Keydates
@@ -988,14 +538,9 @@ const WellForm = ({}) => {
                       <FormLabel>Spud Date</FormLabel>
                       <Input
                         type="date"
-                        value={keydatesData.spud_date}
+                        value={proposedJob.well.spud_date}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Keydates",
-                            "spud_date",
-                            e.target.value
-                          )
+                          handleWellInputChange("spud_date", e.target.value)
                         }
                       />
                     </FormControl>
@@ -1003,11 +548,9 @@ const WellForm = ({}) => {
                       <FormLabel>Final Drill Date</FormLabel>
                       <Input
                         type="date"
-                        value={keydatesData.final_drill_date}
+                        value={proposedJob.well.final_drill_date}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Keydates",
+                          handleWellInputChange(
                             "final_drill_date",
                             e.target.value
                           )
@@ -1019,20 +562,14 @@ const WellForm = ({}) => {
                     <FormLabel>Completion Date</FormLabel>
                     <Input
                       type="date"
-                      value={keydatesData.completion_date}
+                      value={proposedJob.well.completion_date}
                       onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Keydates",
-                          "completion_date",
-                          e.target.value
-                        )
+                        handleWellInputChange("completion_date", e.target.value)
                       }
                     />
                   </FormControl>
                 </Box>
 
-                {/* Elevasi section */}
                 <Box ref={sectionRefs.current["Elevasi"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Elevasi
@@ -1041,18 +578,21 @@ const WellForm = ({}) => {
                     <FormLabel>Unit</FormLabel>
                     <Select
                       placeholder="Select Unit"
-                      value={elevasiData.unit}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Elevasi",
-                          "unit",
-                          e.target.value
-                        )
-                      }
+                      value={proposedJob.well.rotary_table_elev_uom}
+                      onChange={(e) => {
+                        const unit = e.target.value;
+                        handleWellInputChange("rotary_table_elev_uom", unit);
+                        handleWellInputChange("kb_elev_uom", unit);
+                        handleWellInputChange("derrick_floor_elev_uom", unit);
+                        handleWellInputChange("ground_elev_uom", unit);
+                        handleWellInputChange("mean_sea_level_uom", unit);
+                        handleWellInputChange("kick_off_point_uom", unit);
+                        handleWellInputChange("maximum_tvd_uom", unit);
+                        handleWellInputChange("final_md_uom", unit);
+                      }}
                     >
-                      <option value="meters">Meters</option>
-                      <option value="feet">Feet</option>
+                      <option value="FEET">Feet</option>
+                      <option value="METER">Meters</option>
                     </Select>
                   </FormControl>
                   <HStack>
@@ -1060,30 +600,28 @@ const WellForm = ({}) => {
                       <FormLabel>Rotary Table Elev</FormLabel>
                       <Input
                         placeholder="Rotary Table Elev"
-                        value={elevasiData.rotary_table_elev}
+                        value={proposedJob.well.rotary_table_elev}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Elevasi",
+                          handleWellInputChange(
                             "rotary_table_elev",
-                            e.target.value
+                            parseFloat(e.target.value)
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>KB Elev</FormLabel>
                       <Input
                         placeholder="KB Elev"
-                        value={elevasiData.kb_elev}
+                        value={proposedJob.well.kb_elev}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Elevasi",
+                          handleWellInputChange(
                             "kb_elev",
-                            e.target.value
+                            parseFloat(e.target.value)
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                   </HStack>
@@ -1092,30 +630,28 @@ const WellForm = ({}) => {
                       <FormLabel>Derrick Floor Elev</FormLabel>
                       <Input
                         placeholder="Derrick Floor Elev"
-                        value={elevasiData.derrick_floor_elev}
+                        value={proposedJob.well.derrick_floor_elev}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Elevasi",
+                          handleWellInputChange(
                             "derrick_floor_elev",
-                            e.target.value
+                            parseFloat(e.target.value)
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Ground Elev</FormLabel>
                       <Input
                         placeholder="Ground Elev"
-                        value={elevasiData.ground_elev}
+                        value={proposedJob.well.ground_elev}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Elevasi",
+                          handleWellInputChange(
                             "ground_elev",
-                            e.target.value
+                            parseFloat(e.target.value)
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                   </HStack>
@@ -1123,34 +659,28 @@ const WellForm = ({}) => {
                     <FormLabel>Mean Sea Level</FormLabel>
                     <Input
                       placeholder="Mean Sea Level"
-                      value={elevasiData.mean_sea_level}
+                      value={proposedJob.well.mean_sea_level}
                       onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Elevasi",
+                        handleWellInputChange(
                           "mean_sea_level",
-                          e.target.value
+                          parseFloat(e.target.value)
                         )
                       }
+                      type="number"
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Depth Datum</FormLabel>
                     <Select
                       placeholder="Select Depth Datum"
-                      value={elevasiData.depth_datum}
+                      value={proposedJob.well.depth_datum}
                       onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Elevasi",
-                          "depth_datum",
-                          e.target.value
-                        )
+                        handleWellInputChange("depth_datum", e.target.value)
                       }
                     >
-                      <option value="msl">MSL</option>
-                      <option value="rt">RT</option>
-                      <option value="kb">KB</option>
+                      <option value="MSL">MSL</option>
+                      <option value="RT">RT</option>
+                      <option value="KB">KB</option>
                     </Select>
                   </FormControl>
                   <HStack>
@@ -1158,30 +688,28 @@ const WellForm = ({}) => {
                       <FormLabel>Kick Off Point</FormLabel>
                       <Input
                         placeholder="Kick Off Point"
-                        value={elevasiData.kick_off_point}
+                        value={proposedJob.well.kick_off_point}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Elevasi",
+                          handleWellInputChange(
                             "kick_off_point",
-                            e.target.value
+                            parseFloat(e.target.value)
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Maximum TVD</FormLabel>
                       <Input
                         placeholder="Maximum TVD"
-                        value={elevasiData.max_tvd}
+                        value={proposedJob.well.maximum_tvd}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Elevasi",
-                            "max_tvd",
-                            e.target.value
+                          handleWellInputChange(
+                            "maximum_tvd",
+                            parseFloat(e.target.value)
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                   </HStack>
@@ -1190,36 +718,29 @@ const WellForm = ({}) => {
                       <FormLabel>Final MD</FormLabel>
                       <Input
                         placeholder="Final MD"
-                        value={elevasiData.final_td}
+                        value={proposedJob.well.final_md}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Elevasi",
-                            "final_td",
-                            e.target.value
+                          handleWellInputChange(
+                            "final_md",
+                            parseFloat(e.target.value)
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Remark</FormLabel>
                       <Input
                         placeholder="Remark"
-                        value={elevasiData.remark}
+                        value={proposedJob.well.remark}
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Elevasi",
-                            "remark",
-                            e.target.value
-                          )
+                          handleWellInputChange("remark", e.target.value)
                         }
                       />
                     </FormControl>
                   </HStack>
                 </Box>
 
-                {/* Well Summary section */}
                 <Box ref={sectionRefs.current["Well Summary"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Well Summary
@@ -1228,13 +749,17 @@ const WellForm = ({}) => {
                     <FormLabel>Depth Datum</FormLabel>
                     <Select
                       placeholder="Select Depth Datum"
-                      value={wellSummaryForm.depth_datum}
+                      value={
+                        proposedJob.well.well_summary[
+                          proposedJob.well.well_summary.length - 1
+                        ]?.depth_datum || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Well Summary",
+                        handleArrayInputChange(
+                          "well_summary",
                           "depth_datum",
-                          e.target.value
+                          e.target.value,
+                          proposedJob.well.well_summary.length - 1
                         )
                       }
                     >
@@ -1243,53 +768,45 @@ const WellForm = ({}) => {
                       <option value="KB">KB</option>
                     </Select>
                   </FormControl>
-                  <FormControl>
-                    <FormLabel>Unit</FormLabel>
-                    <Select
-                      placeholder="Select Unit"
-                      value={wellSummaryForm.unit}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Well Summary",
-                          "unit",
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option value="meters">Meters</option>
-                      <option value="feet">Feet</option>
-                    </Select>
-                  </FormControl>
                   <HStack>
                     <FormControl>
                       <FormLabel>Depth</FormLabel>
                       <Input
                         placeholder="Depth"
-                        value={wellSummaryForm.depth}
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.depth || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "depth",
-                            e.target.value
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Hole Diameter</FormLabel>
                       <Input
                         placeholder="Hole Diameter"
-                        value={wellSummaryForm.hole_diameter}
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.hole_diameter || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "hole_diameter",
-                            e.target.value
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                   </HStack>
@@ -1298,62 +815,39 @@ const WellForm = ({}) => {
                       <FormLabel>Bit</FormLabel>
                       <Input
                         placeholder="Bit"
-                        value={wellSummaryForm.bit}
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.bit || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "bit",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
                       />
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Casing Diameter</FormLabel>
+                      <FormLabel>Casing Outer Diameter</FormLabel>
                       <Input
-                        placeholder="Casing Diameter"
-                        value={wellSummaryForm.casing_outer_diameter}
+                        placeholder="Casing Outer Diameter"
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.casing_outer_diameter || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "casing_outer_diameter",
-                            e.target.value
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
-                      />
-                    </FormControl>
-                  </HStack>
-                  <HStack>
-                    <FormControl>
-                      <FormLabel>Casing Grade</FormLabel>
-                      <Input
-                        placeholder="Casing Grade"
-                        value={wellSummaryForm.casingGrade}
-                        onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
-                            "casingGrade",
-                            e.target.value
-                          )
-                        }
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Casing Weight</FormLabel>
-                      <Input
-                        placeholder="Casing Weight"
-                        value={wellSummaryForm.casingWeight}
-                        onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
-                            "casingWeight",
-                            e.target.value
-                          )
-                        }
+                        type="number"
                       />
                     </FormControl>
                   </HStack>
@@ -1362,13 +856,17 @@ const WellForm = ({}) => {
                       <FormLabel>Logging</FormLabel>
                       <Input
                         placeholder="Logging"
-                        value={wellSummaryForm.logging}
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.logging || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "logging",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
                       />
@@ -1377,13 +875,17 @@ const WellForm = ({}) => {
                       <FormLabel>Mud Program</FormLabel>
                       <Input
                         placeholder="Mud Program"
-                        value={wellSummaryForm.mud_program}
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.mud_program || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "mud_program",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
                       />
@@ -1394,13 +896,17 @@ const WellForm = ({}) => {
                       <FormLabel>Cementing Program</FormLabel>
                       <Input
                         placeholder="Cementing Program"
-                        value={wellSummaryForm.cementing_program}
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.cementing_program || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "cementing_program",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
                       />
@@ -1409,15 +915,20 @@ const WellForm = ({}) => {
                       <FormLabel>Bottom Hole Temperature</FormLabel>
                       <Input
                         placeholder="Bottom Hole Temperature"
-                        value={wellSummaryForm.bottom_hole_temperature}
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.bottom_hole_temperature || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "bottom_hole_temperature",
-                            e.target.value
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                   </HStack>
@@ -1426,28 +937,37 @@ const WellForm = ({}) => {
                       <FormLabel>Rate of Penetration</FormLabel>
                       <Input
                         placeholder="Rate of Penetration"
-                        value={wellSummaryForm.rate_of_penetration}
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.rate_of_penetration || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "rate_of_penetration",
-                            e.target.value
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Remarks</FormLabel>
                       <Input
                         placeholder="Remarks"
-                        value={wellSummaryForm.remarks}
+                        value={
+                          proposedJob.well.well_summary[
+                            proposedJob.well.well_summary.length - 1
+                          ]?.remarks || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Summary",
+                          handleArrayInputChange(
+                            "well_summary",
                             "remarks",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.well.well_summary.length - 1
                           )
                         }
                       />
@@ -1456,12 +976,12 @@ const WellForm = ({}) => {
                   <Button
                     mt={4}
                     colorScheme="blue"
-                    onClick={() => handleAddBatch("teknis", "Well Summary")}
+                    onClick={() => handleAddBatch("well_summary")}
                   >
                     Tambah Batch
                   </Button>
 
-                  {wellSummary.length > 0 && (
+                  {proposedJob.well.well_summary.length > 0 && (
                     <Box
                       overflowX="auto"
                       width="1400px"
@@ -1473,13 +993,10 @@ const WellForm = ({}) => {
                         <Thead>
                           <Tr>
                             <Th>Depth Datum</Th>
-                            <Th>Unit</Th>
                             <Th>Depth</Th>
                             <Th>Hole Diameter</Th>
                             <Th>Bit</Th>
-                            <Th>Casing Diameter</Th>
-                            <Th>Casing Grade</Th>
-                            <Th>Casing Weight</Th>
+                            <Th>Casing Outer Diameter</Th>
                             <Th>Logging</Th>
                             <Th>Mud Program</Th>
                             <Th>Cementing Program</Th>
@@ -1489,31 +1006,29 @@ const WellForm = ({}) => {
                           </Tr>
                         </Thead>
                         <Tbody>
-                          {wellSummary.map((summary, index) => (
-                            <Tr key={index}>
-                              <Td>{summary.depth_datum}</Td>
-                              <Td>{summary.unit}</Td>
-                              <Td>{summary.depth}</Td>
-                              <Td>{summary.hole_diameter}</Td>
-                              <Td>{summary.bit}</Td>
-                              <Td>{summary.casing_outer_diameter}</Td>
-                              <Td>{summary.casingGrade}</Td>
-                              <Td>{summary.casingWeight}</Td>
-                              <Td>{summary.logging}</Td>
-                              <Td>{summary.mud_program}</Td>
-                              <Td>{summary.cementing_program}</Td>
-                              <Td>{summary.bottom_hole_temperature}</Td>
-                              <Td>{summary.rate_of_penetration}</Td>
-                              <Td>{summary.remarks}</Td>
-                            </Tr>
-                          ))}
+                          {proposedJob.well.well_summary.map(
+                            (summary, index) => (
+                              <Tr key={index}>
+                                <Td>{summary.depth_datum}</Td>
+                                <Td>{summary.depth}</Td>
+                                <Td>{summary.hole_diameter}</Td>
+                                <Td>{summary.bit}</Td>
+                                <Td>{summary.casing_outer_diameter}</Td>
+                                <Td>{summary.logging}</Td>
+                                <Td>{summary.mud_program}</Td>
+                                <Td>{summary.cementing_program}</Td>
+                                <Td>{summary.bottom_hole_temperature}</Td>
+                                <Td>{summary.rate_of_penetration}</Td>
+                                <Td>{summary.remarks}</Td>
+                              </Tr>
+                            )
+                          )}
                         </Tbody>
                       </Table>
                     </Box>
                   )}
                 </Box>
 
-                {/* Well Test section */}
                 <Box ref={sectionRefs.current["Well Test"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Well Test
@@ -1522,13 +1037,17 @@ const WellForm = ({}) => {
                     <FormLabel>Depth Datum</FormLabel>
                     <Select
                       placeholder="Select Depth Datum"
-                      value={wellTestForm.depth_datum}
+                      value={
+                        proposedJob.well.well_test[
+                          proposedJob.well.well_test.length - 1
+                        ]?.depth_datum || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Well Test",
+                        handleArrayInputChange(
+                          "well_test",
                           "depth_datum",
-                          e.target.value
+                          e.target.value,
+                          proposedJob.well.well_test.length - 1
                         )
                       }
                     >
@@ -1537,36 +1056,22 @@ const WellForm = ({}) => {
                       <option value="KB">KB</option>
                     </Select>
                   </FormControl>
-                  <FormControl>
-                    <FormLabel>Unit</FormLabel>
-                    <Select
-                      placeholder="Select Unit"
-                      value={wellTestForm.unit}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Well Test",
-                          "unit",
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option value="meters">Meters</option>
-                      <option value="feet">Feet</option>
-                    </Select>
-                  </FormControl>
                   <HStack>
                     <FormControl>
                       <FormLabel>Zone Name</FormLabel>
                       <Input
                         placeholder="Zone Name"
-                        value={wellTestForm.zone_name}
+                        value={
+                          proposedJob.well.well_test[
+                            proposedJob.well.well_test.length - 1
+                          ]?.zone_name || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Test",
+                          handleArrayInputChange(
+                            "well_test",
                             "zone_name",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.well.well_test.length - 1
                           )
                         }
                       />
@@ -1575,16 +1080,20 @@ const WellForm = ({}) => {
                       <FormLabel>Zone Top Depth</FormLabel>
                       <Input
                         placeholder="Zone Top Depth"
-                        value={wellTestForm.zone_top_depth}
-                        type="number"
+                        value={
+                          proposedJob.well.well_test[
+                            proposedJob.well.well_test.length - 1
+                          ]?.zone_top_depth || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "teknis",
-                            "Well Test",
+                          handleArrayInputChange(
+                            "well_test",
                             "zone_top_depth",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_test.length - 1
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                   </HStack>
@@ -1592,42 +1101,44 @@ const WellForm = ({}) => {
                     <FormLabel>Zone Bottom Depth</FormLabel>
                     <Input
                       placeholder="Zone Bottom Depth"
-                      value={wellTestForm.zone_bottom_depth}
-                      type="number"
+                      value={
+                        proposedJob.well.well_test[
+                          proposedJob.well.well_test.length - 1
+                        ]?.zone_bottom_depth || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "teknis",
-                          "Well Test",
+                        handleArrayInputChange(
+                          "well_test",
                           "zone_bottom_depth",
-                          parseInt(e.target.value)
+                          parseFloat(e.target.value),
+                          proposedJob.well.well_test.length - 1
                         )
                       }
+                      type="number"
                     />
                   </FormControl>
                   <Button
                     mt={4}
                     colorScheme="blue"
-                    onClick={() => handleAddBatch("teknis", "Well Test")}
+                    onClick={() => handleAddBatch("well_test")}
                   >
                     Tambah Batch
                   </Button>
 
-                  {wellTest.length > 0 && (
+                  {proposedJob.well.well_test.length > 0 && (
                     <Table variant="simple" mt={4}>
                       <Thead>
                         <Tr>
                           <Th>Depth Datum</Th>
-                          <Th>Unit</Th>
                           <Th>Zone Name</Th>
                           <Th>Zone Top Depth</Th>
                           <Th>Zone Bottom Depth</Th>
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {wellTest.map((test, index) => (
+                        {proposedJob.well.well_test.map((test, index) => (
                           <Tr key={index}>
                             <Td>{test.depth_datum}</Td>
-                            <Td>{test.unit}</Td>
                             <Td>{test.zone_name}</Td>
                             <Td>{test.zone_top_depth}</Td>
                             <Td>{test.zone_bottom_depth}</Td>
@@ -1638,6 +1149,24 @@ const WellForm = ({}) => {
                   )}
                 </Box>
 
+                <Box ref={sectionRefs.current["Well Trajectory"]}>
+                  <Text fontWeight="bold" fontSize="xl">
+                    Well Trajectory
+                  </Text>
+                  <FormControl>
+                    <FormLabel>Upload Well Trajectory File</FormLabel>
+                    <Input
+                      type="file"
+                      onChange={(e) => handleFileUpload(e, "well_trajectory")}
+                    />
+                  </FormControl>
+                  {proposedJob.well.well_trajectory.file_id && (
+                    <Text mt={2}>
+                      File uploaded: {proposedJob.well.well_trajectory.file_id}
+                    </Text>
+                  )}
+                </Box>
+
                 <Box ref={sectionRefs.current["Well Casing"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Well Casing
@@ -1645,9 +1174,18 @@ const WellForm = ({}) => {
                   <FormControl>
                     <FormLabel>Depth Datum</FormLabel>
                     <Select
-                      value={wellCasingForm.depth_datum}
+                      value={
+                        proposedJob.well.well_casing[
+                          proposedJob.well.well_casing.length - 1
+                        ]?.depth_datum || ""
+                      }
                       onChange={(e) =>
-                        handleWellCasingChange("depth_datum", e.target.value)
+                        handleArrayInputChange(
+                          "well_casing",
+                          "depth_datum",
+                          e.target.value,
+                          proposedJob.well.well_casing.length - 1
+                        )
                       }
                     >
                       <option value="MSL">MSL</option>
@@ -1659,10 +1197,19 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>Depth</FormLabel>
                       <Input
-                        value={wellCasingForm.depth}
+                        value={
+                          proposedJob.well.well_casing[
+                            proposedJob.well.well_casing.length - 1
+                          ]?.depth || ""
+                        }
                         type="number"
                         onChange={(e) =>
-                          handleWellCasingChange("depth", parseInt(e.target.value))
+                          handleArrayInputChange(
+                            "well_casing",
+                            "depth",
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_casing.length - 1
+                          )
                         }
                         placeholder="Depth"
                       />
@@ -1670,10 +1217,19 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>Length</FormLabel>
                       <Input
-                        value={wellCasingForm.length}
+                        value={
+                          proposedJob.well.well_casing[
+                            proposedJob.well.well_casing.length - 1
+                          ]?.length || ""
+                        }
                         type="number"
                         onChange={(e) =>
-                          handleWellCasingChange("length", e.target.value)
+                          handleArrayInputChange(
+                            "well_casing",
+                            "length",
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_casing.length - 1
+                          )
                         }
                         placeholder="Length"
                       />
@@ -1683,12 +1239,18 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>Hole Diameter</FormLabel>
                       <Input
-                        value={wellCasingForm.hole_diameter}
+                        value={
+                          proposedJob.well.well_casing[
+                            proposedJob.well.well_casing.length - 1
+                          ]?.hole_diameter || ""
+                        }
                         type="number"
                         onChange={(e) =>
-                          handleWellCasingChange(
+                          handleArrayInputChange(
+                            "well_casing",
                             "hole_diameter",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_casing.length - 1
                           )
                         }
                         placeholder="Hole Diameter"
@@ -1697,12 +1259,18 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>Casing Outer Diameter</FormLabel>
                       <Input
-                        value={wellCasingForm.casing_outer_diameter}
+                        value={
+                          proposedJob.well.well_casing[
+                            proposedJob.well.well_casing.length - 1
+                          ]?.casing_outer_diameter || ""
+                        }
                         type="number"
                         onChange={(e) =>
-                          handleWellCasingChange(
+                          handleArrayInputChange(
+                            "well_casing",
                             "casing_outer_diameter",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_casing.length - 1
                           )
                         }
                         placeholder="Casing Outer Diameter"
@@ -1713,12 +1281,18 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>Casing Inner Diameter</FormLabel>
                       <Input
-                        value={wellCasingForm.casing_inner_diameter}
+                        value={
+                          proposedJob.well.well_casing[
+                            proposedJob.well.well_casing.length - 1
+                          ]?.casing_inner_diameter || ""
+                        }
                         type="number"
                         onChange={(e) =>
-                          handleWellCasingChange(
+                          handleArrayInputChange(
+                            "well_casing",
                             "casing_inner_diameter",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_casing.length - 1
                           )
                         }
                         placeholder="Casing Inner Diameter"
@@ -1727,9 +1301,18 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>Casing Grade</FormLabel>
                       <Input
-                        value={wellCasingForm.casing_grade}
+                        value={
+                          proposedJob.well.well_casing[
+                            proposedJob.well.well_casing.length - 1
+                          ]?.casing_grade || ""
+                        }
                         onChange={(e) =>
-                          handleWellCasingChange("casing_grade", e.target.value)
+                          handleArrayInputChange(
+                            "well_casing",
+                            "casing_grade",
+                            e.target.value,
+                            proposedJob.well.well_casing.length - 1
+                          )
                         }
                         placeholder="Casing Grade"
                       />
@@ -1739,12 +1322,18 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>Casing Weight</FormLabel>
                       <Input
-                      type="number"
-                        value={wellCasingForm.casing_weight}
+                        type="number"
+                        value={
+                          proposedJob.well.well_casing[
+                            proposedJob.well.well_casing.length - 1
+                          ]?.casing_weight || ""
+                        }
                         onChange={(e) =>
-                          handleWellCasingChange(
+                          handleArrayInputChange(
+                            "well_casing",
                             "casing_weight",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_casing.length - 1
                           )
                         }
                         placeholder="Casing Weight"
@@ -1753,9 +1342,18 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>Connection</FormLabel>
                       <Input
-                        value={wellCasingForm.connection}
+                        value={
+                          proposedJob.well.well_casing[
+                            proposedJob.well.well_casing.length - 1
+                          ]?.connection || ""
+                        }
                         onChange={(e) =>
-                          handleWellCasingChange("connection", e.target.value)
+                          handleArrayInputChange(
+                            "well_casing",
+                            "connection",
+                            e.target.value,
+                            proposedJob.well.well_casing.length - 1
+                          )
                         }
                         placeholder="Connection"
                       />
@@ -1764,18 +1362,31 @@ const WellForm = ({}) => {
                   <FormControl>
                     <FormLabel>Description</FormLabel>
                     <Input
-                      value={wellCasingForm.description}
+                      value={
+                        proposedJob.well.well_casing[
+                          proposedJob.well.well_casing.length - 1
+                        ]?.description || ""
+                      }
                       onChange={(e) =>
-                        handleWellCasingChange("description", e.target.value)
+                        handleArrayInputChange(
+                          "well_casing",
+                          "description",
+                          e.target.value,
+                          proposedJob.well.well_casing.length - 1
+                        )
                       }
                       placeholder="Description"
                     />
                   </FormControl>
-                  <Button mt={4} colorScheme="blue" onClick={addWellCasing}>
+                  <Button
+                    mt={4}
+                    colorScheme="blue"
+                    onClick={() => handleAddBatch("well_casing")}
+                  >
                     Add Well Casing
                   </Button>
 
-                  {wellCasing.length > 0 && (
+                  {proposedJob.well.well_casing.length > 0 && (
                     <Box
                       overflowX="auto"
                       width="1200px"
@@ -1799,7 +1410,7 @@ const WellForm = ({}) => {
                           </Tr>
                         </Thead>
                         <Tbody>
-                          {wellCasing.map((casing, index) => (
+                          {proposedJob.well.well_casing.map((casing, index) => (
                             <Tr key={index}>
                               <Td>{casing.depth_datum}</Td>
                               <Td>{casing.depth}</Td>
@@ -1819,7 +1430,6 @@ const WellForm = ({}) => {
                   )}
                 </Box>
 
-                {/* Stratigraphy section */}
                 <Box ref={sectionRefs.current["Stratigraphy"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Stratigraphy
@@ -1827,9 +1437,18 @@ const WellForm = ({}) => {
                   <FormControl>
                     <FormLabel>Depth Datum</FormLabel>
                     <Select
-                      value={stratigraphyForm.depth_datum}
+                      value={
+                        proposedJob.well.well_stratigraphy[
+                          proposedJob.well.well_stratigraphy.length - 1
+                        ]?.depth_datum || ""
+                      }
                       onChange={(e) =>
-                        handleStratigraphyChange("depth_datum", e.target.value)
+                        handleArrayInputChange(
+                          "well_stratigraphy",
+                          "depth_datum",
+                          e.target.value,
+                          proposedJob.well.well_stratigraphy.length - 1
+                        )
                       }
                     >
                       <option value="MSL">MSL</option>
@@ -1841,36 +1460,52 @@ const WellForm = ({}) => {
                     <FormControl>
                       <FormLabel>Depth</FormLabel>
                       <Input
-                      type="number"
-                        value={stratigraphyForm.depth}
+                        type="number"
+                        value={
+                          proposedJob.well.well_stratigraphy[
+                            proposedJob.well.well_stratigraphy.length - 1
+                          ]?.depth || ""
+                        }
                         onChange={(e) =>
-                          handleStratigraphyChange(
+                          handleArrayInputChange(
+                            "well_stratigraphy",
                             "depth",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value),
+                            proposedJob.well.well_stratigraphy.length - 1
                           )
                         }
-                        placeholder="Bottom Depth"
+                        placeholder="Depth"
                       />
                     </FormControl>
                   </HStack>
                   <FormControl>
                     <FormLabel>Stratigraphy ID</FormLabel>
                     <Input
-                      value={stratigraphyForm.stratigraphy_id}
+                      value={
+                        proposedJob.well.well_stratigraphy[
+                          proposedJob.well.well_stratigraphy.length - 1
+                        ]?.stratigraphy_id || ""
+                      }
                       onChange={(e) =>
-                        handleStratigraphyChange(
+                        handleArrayInputChange(
+                          "well_stratigraphy",
                           "stratigraphy_id",
-                          e.target.value
+                          e.target.value,
+                          proposedJob.well.well_stratigraphy.length - 1
                         )
                       }
                       placeholder="Stratigraphy ID"
                     />
                   </FormControl>
-                  <Button mt={4} colorScheme="blue" onClick={addStratigraphy}>
+                  <Button
+                    mt={4}
+                    colorScheme="blue"
+                    onClick={() => handleAddBatch("well_stratigraphy")}
+                  >
                     Add Stratigraphy
                   </Button>
 
-                  {stratigraphy.length > 0 && (
+                  {proposedJob.well.well_stratigraphy.length > 0 && (
                     <Table variant="simple" mt={4}>
                       <Thead>
                         <Tr>
@@ -1880,38 +1515,24 @@ const WellForm = ({}) => {
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {stratigraphy.map((strat, index) => (
-                          <Tr key={index}>
-                            <Td>{strat.depth_datum}</Td>
-                            <Td>{strat.depth}</Td>
-                            <Td>{strat.stratigraphy_id}</Td>
-                          </Tr>
-                        ))}
+                        {proposedJob.well.well_stratigraphy.map(
+                          (strat, index) => (
+                            <Tr key={index}>
+                              <Td>{strat.depth_datum}</Td>
+                              <Td>{strat.depth}</Td>
+                              <Td>{strat.stratigraphy_id}</Td>
+                            </Tr>
+                          )
+                        )}
                       </Tbody>
                     </Table>
-                  )}
-                </Box>
-
-                {/* Well Trajectory section */}
-                <Box ref={sectionRefs.current["Well Trajectory"]}>
-                  <Text fontWeight="bold" fontSize="xl">
-                    Well Trajectory
-                  </Text>
-                  <FormControl>
-                    <FormLabel>Upload Well Trajectory File</FormLabel>
-                    <Input type="file" onChange={handleFileUpload} />
-                  </FormControl>
-                  {wellTrajectoryFile && (
-                    <Text mt={2}>File uploaded: {wellTrajectoryFile.name}</Text>
                   )}
                 </Box>
               </VStack>
             </TabPanel>
 
-            {/* Operasional Tab */}
             <TabPanel>
               <VStack align="stretch" spacing={8}>
-                {/* Proposed Job section */}
                 <Box ref={sectionRefs.current["Proposed Job"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Proposed Job
@@ -1923,26 +1544,15 @@ const WellForm = ({}) => {
                         placeholder="Select Area ID"
                         value={proposedJob.area_id}
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Proposed Job",
-                            "area_id",
-                            e.target.value
-                          )
+                          handleInputChange("area_id", e.target.value)
                         }
                       >
                         {utilsDb?.area &&
-                        Object.entries(utilsDb.area).length > 0 ? (
                           Object.entries(utilsDb.area).map(([key, value]) => (
                             <option key={key} value={value}>
                               {key}
                             </option>
-                          ))
-                        ) : (
-                          <option value="" disabled>
-                            No fields available
-                          </option>
-                        )}
+                          ))}
                       </Select>
                     </FormControl>
                     <FormControl>
@@ -1951,26 +1561,15 @@ const WellForm = ({}) => {
                         placeholder="Select Field ID"
                         value={proposedJob.field_id}
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Proposed Job",
-                            "field_id",
-                            e.target.value
-                          )
+                          handleInputChange("field_id", e.target.value)
                         }
                       >
                         {utilsDb?.field &&
-                        Object.entries(utilsDb.field).length > 0 ? (
                           Object.entries(utilsDb.field).map(([key, value]) => (
                             <option key={key} value={value}>
                               {key}
                             </option>
-                          ))
-                        ) : (
-                          <option value="" disabled>
-                            No fields available
-                          </option>
-                        )}
+                          ))}
                       </Select>
                     </FormControl>
                   </HStack>
@@ -1981,12 +1580,7 @@ const WellForm = ({}) => {
                         placeholder="AFE Number"
                         value={proposedJob.afe_number}
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Proposed Job",
-                            "afe_number",
-                            parseInt(e.target.value)
-                          )
+                          handleInputChange("afe_number", e.target.value)
                         }
                       />
                     </FormControl>
@@ -1994,15 +1588,14 @@ const WellForm = ({}) => {
                       <FormLabel>Total Budget</FormLabel>
                       <Input
                         placeholder="Total Budget"
-                        value={proposedJob.totalBudget}
+                        value={proposedJob.total_budget}
                         onChange={(e) =>
                           handleInputChange(
-                            "operasional",
-                            "Proposed Job",
-                            "totalBudget",
-                            e.target.value
+                            "total_budget",
+                            parseFloat(e.target.value)
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                   </HStack>
@@ -2013,8 +1606,6 @@ const WellForm = ({}) => {
                         value={proposedJob.wpb_year}
                         onChange={(e) =>
                           handleInputChange(
-                            "operasional",
-                            "Proposed Job",
                             "wpb_year",
                             parseInt(e.target.value)
                           )
@@ -2033,14 +1624,9 @@ const WellForm = ({}) => {
                       <FormLabel>Start Date</FormLabel>
                       <Input
                         type="date"
-                        value={proposedJob.plan_start}
+                        value={proposedJob.start_date}
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Proposed Job",
-                            "plan_start",
-                            e.target.value
-                          )
+                          handleInputChange("start_date", e.target.value)
                         }
                       />
                     </FormControl>
@@ -2050,14 +1636,9 @@ const WellForm = ({}) => {
                       <FormLabel>End Date</FormLabel>
                       <Input
                         type="date"
-                        value={proposedJob.plan_end}
+                        value={proposedJob.end_date}
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Proposed Job",
-                            "plan_end",
-                            e.target.value
-                          )
+                          handleInputChange("end_date", e.target.value)
                         }
                       />
                     </FormControl>
@@ -2067,12 +1648,7 @@ const WellForm = ({}) => {
                         placeholder="Rig Name"
                         value={proposedJob.rig_name}
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Proposed Job",
-                            "rig_name",
-                            e.target.value
-                          )
+                          handleInputChange("rig_name", e.target.value)
                         }
                       />
                     </FormControl>
@@ -2084,19 +1660,14 @@ const WellForm = ({}) => {
                         placeholder="Select Rig Type"
                         value={proposedJob.rig_type}
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Proposed Job",
-                            "rig_type",
-                            e.target.value
-                          )
+                          handleInputChange("rig_type", e.target.value)
                         }
                       >
-                        {fetchingData
-                          ? fetchingData.rig_type.map((item) => (
-                              <option value={item}>{item}</option>
-                            ))
-                          : null}
+                        {fetchingData?.rig_type.map((item, index) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        ))}
                       </Select>
                     </FormControl>
                     <FormControl>
@@ -2109,8 +1680,6 @@ const WellForm = ({}) => {
                           min={0}
                           onChange={(e) =>
                             handleInputChange(
-                              "operasional",
-                              "Proposed Job",
                               "rig_horse_power",
                               parseInt(e.target.value)
                             )
@@ -2127,7 +1696,6 @@ const WellForm = ({}) => {
                   </HStack>
                 </Box>
 
-                {/* Work breakdown structure section */}
                 <Box ref={sectionRefs.current["Work breakdown structure"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Work breakdown structure
@@ -2137,13 +1705,17 @@ const WellForm = ({}) => {
                       <FormLabel>Event</FormLabel>
                       <Input
                         placeholder="Event"
-                        value={workBreakdownForm.event}
+                        value={
+                          proposedJob.work_breakdown_structure[
+                            proposedJob.work_breakdown_structure.length - 1
+                          ]?.event || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Work breakdown structure",
+                          handleArrayInputChange(
+                            "work_breakdown_structure",
                             "event",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.work_breakdown_structure.length - 1
                           )
                         }
                       />
@@ -2152,13 +1724,17 @@ const WellForm = ({}) => {
                       <FormLabel>Start Date</FormLabel>
                       <Input
                         type="date"
-                        value={workBreakdownForm.startDate}
+                        value={
+                          proposedJob.work_breakdown_structure[
+                            proposedJob.work_breakdown_structure.length - 1
+                          ]?.start_date || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Work breakdown structure",
-                            "startDate",
-                            e.target.value
+                          handleArrayInputChange(
+                            "work_breakdown_structure",
+                            "start_date",
+                            e.target.value,
+                            proposedJob.work_breakdown_structure.length - 1
                           )
                         }
                       />
@@ -2169,28 +1745,36 @@ const WellForm = ({}) => {
                       <FormLabel>End Date</FormLabel>
                       <Input
                         type="date"
-                        value={workBreakdownForm.endDate}
+                        value={
+                          proposedJob.work_breakdown_structure[
+                            proposedJob.work_breakdown_structure.length - 1
+                          ]?.end_date || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Work breakdown structure",
-                            "endDate",
-                            e.target.value
+                          handleArrayInputChange(
+                            "work_breakdown_structure",
+                            "end_date",
+                            e.target.value,
+                            proposedJob.work_breakdown_structure.length - 1
                           )
                         }
                       />
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Remark</FormLabel>
+                      <FormLabel>Remarks</FormLabel>
                       <Input
-                        placeholder="Remark"
-                        value={workBreakdownForm.remark}
+                        placeholder="Remarks"
+                        value={
+                          proposedJob.work_breakdown_structure[
+                            proposedJob.work_breakdown_structure.length - 1
+                          ]?.remarks || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Work breakdown structure",
-                            "remark",
-                            e.target.value
+                          handleArrayInputChange(
+                            "work_breakdown_structure",
+                            "remarks",
+                            e.target.value,
+                            proposedJob.work_breakdown_structure.length - 1
                           )
                         }
                       />
@@ -2199,39 +1783,38 @@ const WellForm = ({}) => {
                   <Button
                     mt={4}
                     colorScheme="blue"
-                    onClick={() =>
-                      handleAddBatch("operasional", "Work breakdown structure")
-                    }
+                    onClick={() => handleAddBatch("work_breakdown_structure")}
                   >
                     Tambah Batch
                   </Button>
 
-                  {workBreakdown.length > 0 && (
+                  {proposedJob.work_breakdown_structure.length > 0 && (
                     <Table variant="simple" mt={4}>
                       <Thead>
                         <Tr>
                           <Th>Event</Th>
                           <Th>Start Date</Th>
                           <Th>End Date</Th>
-                          <Th>Remark</Th>
+                          <Th>Remarks</Th>
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {workBreakdown.map((item, index) => (
-                          <Tr key={index}>
-                            <Td>{item.event}</Td>
-                            <Td>{item.startDate}</Td>
-                            <Td>{item.endDate}</Td>
-                            <Td>{item.remark}</Td>
-                          </Tr>
-                        ))}
+                        {proposedJob.work_breakdown_structure.map(
+                          (item, index) => (
+                            <Tr key={index}>
+                              <Td>{item.event}</Td>
+                              <Td>{item.start_date}</Td>
+                              <Td>{item.end_date}</Td>
+                              <Td>{item.remarks}</Td>
+                            </Tr>
+                          )
+                        )}
                       </Tbody>
                     </Table>
                   )}
                 </Box>
 
-                {/* Job Document section */}
-                <Box>
+                <Box ref={sectionRefs.current["Job document"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Job Document
                   </Text>
@@ -2240,13 +1823,17 @@ const WellForm = ({}) => {
                       <FormLabel>Title</FormLabel>
                       <Input
                         placeholder="Title"
-                        value={jobDocumentForm.title}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.title || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
+                          handleArrayInputChange(
+                            "job_documents",
                             "title",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.job_documents.length - 1
                           )
                         }
                       />
@@ -2255,13 +1842,17 @@ const WellForm = ({}) => {
                       <FormLabel>Creator Name</FormLabel>
                       <Input
                         placeholder="Creator Name"
-                        value={jobDocumentForm.creator_name}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.creator_name || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
+                          handleArrayInputChange(
+                            "job_documents",
                             "creator_name",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.job_documents.length - 1
                           )
                         }
                       />
@@ -2272,13 +1863,17 @@ const WellForm = ({}) => {
                       <FormLabel>Create Date</FormLabel>
                       <Input
                         type="date"
-                        value={jobDocumentForm.creator_date}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.create_date || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
-                            "creator_date",
-                            e.target.value
+                          handleArrayInputChange(
+                            "job_documents",
+                            "create_date",
+                            e.target.value,
+                            proposedJob.job_documents.length - 1
                           )
                         }
                       />
@@ -2287,13 +1882,17 @@ const WellForm = ({}) => {
                       <FormLabel>Document Type</FormLabel>
                       <Input
                         placeholder="Document Type"
-                        value={jobDocumentForm.document_type}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.document_type || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
+                          handleArrayInputChange(
+                            "job_documents",
                             "document_type",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.job_documents.length - 1
                           )
                         }
                       />
@@ -2304,13 +1903,17 @@ const WellForm = ({}) => {
                       <FormLabel>Item Category</FormLabel>
                       <Input
                         placeholder="Item Category"
-                        value={jobDocumentForm.item_category}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.item_category || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
+                          handleArrayInputChange(
+                            "job_documents",
                             "item_category",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.job_documents.length - 1
                           )
                         }
                       />
@@ -2319,13 +1922,17 @@ const WellForm = ({}) => {
                       <FormLabel>Item Sub Category</FormLabel>
                       <Input
                         placeholder="Item Sub Category"
-                        value={jobDocumentForm.item_sub_category}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.item_sub_category || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
+                          handleArrayInputChange(
+                            "job_documents",
                             "item_sub_category",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.job_documents.length - 1
                           )
                         }
                       />
@@ -2336,13 +1943,17 @@ const WellForm = ({}) => {
                       <FormLabel>Digital Format</FormLabel>
                       <Input
                         placeholder="Digital Format"
-                        value={jobDocumentForm.digital_format}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.digital_format || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
+                          handleArrayInputChange(
+                            "job_documents",
                             "digital_format",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.job_documents.length - 1
                           )
                         }
                       />
@@ -2351,13 +1962,17 @@ const WellForm = ({}) => {
                       <FormLabel>Original File Name</FormLabel>
                       <Input
                         placeholder="Original File Name"
-                        value={jobDocumentForm.original_file_name}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.original_file_name || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
+                          handleArrayInputChange(
+                            "job_documents",
                             "original_file_name",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.job_documents.length - 1
                           )
                         }
                       />
@@ -2368,28 +1983,37 @@ const WellForm = ({}) => {
                       <FormLabel>Digital Size</FormLabel>
                       <Input
                         placeholder="Digital Size"
-                        value={jobDocumentForm.digital_size}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.digital_size || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
+                          handleArrayInputChange(
+                            "job_documents",
                             "digital_size",
-                            parseInt(e.target.value)
+                            parseFloat(e.target.value),
+                            proposedJob.job_documents.length - 1
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Remark</FormLabel>
                       <Input
                         placeholder="Remark"
-                        value={jobDocumentForm.remark}
+                        value={
+                          proposedJob.job_documents[
+                            proposedJob.job_documents.length - 1
+                          ]?.remark || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job document",
+                          handleArrayInputChange(
+                            "job_documents",
                             "remark",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.job_documents.length - 1
                           )
                         }
                       />
@@ -2398,14 +2022,12 @@ const WellForm = ({}) => {
                   <Button
                     mt={4}
                     colorScheme="blue"
-                    onClick={() =>
-                      handleAddBatch("operasional", "Job document")
-                    }
+                    onClick={() => handleAddBatch("job_documents")}
                   >
                     Tambah Batch
                   </Button>
 
-                  {jobDocument.length > 0 && (
+                  {proposedJob.job_documents.length > 0 && (
                     <Table variant="simple" mt={4}>
                       <Thead>
                         <Tr>
@@ -2422,11 +2044,11 @@ const WellForm = ({}) => {
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {jobDocument.map((doc, index) => (
+                        {proposedJob.job_documents.map((doc, index) => (
                           <Tr key={index}>
                             <Td>{doc.title}</Td>
                             <Td>{doc.creator_name}</Td>
-                            <Td>{doc.creator_date}</Td>
+                            <Td>{doc.create_date}</Td>
                             <Td>{doc.document_type}</Td>
                             <Td>{doc.item_category}</Td>
                             <Td>{doc.item_sub_category}</Td>
@@ -2441,7 +2063,6 @@ const WellForm = ({}) => {
                   )}
                 </Box>
 
-                {/* Job Operation Days section */}
                 <Box ref={sectionRefs.current["Job Operation Days"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Job Operation Days
@@ -2450,13 +2071,17 @@ const WellForm = ({}) => {
                     <FormLabel>Phase</FormLabel>
                     <Input
                       placeholder="Phase"
-                      value={jobOperationDaysForm.phase}
+                      value={
+                        proposedJob.job_operation_days[
+                          proposedJob.job_operation_days.length - 1
+                        ]?.phase || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "operasional",
-                          "Job Operation Days",
+                        handleArrayInputChange(
+                          "job_operation_days",
                           "phase",
-                          e.target.value
+                          e.target.value,
+                          proposedJob.job_operation_days.length - 1
                         )
                       }
                     />
@@ -2466,13 +2091,17 @@ const WellForm = ({}) => {
                       <FormLabel>Depth Datum</FormLabel>
                       <Select
                         placeholder="Select Depth Datum"
-                        value={jobOperationDaysForm.depth_datum}
+                        value={
+                          proposedJob.job_operation_days[
+                            proposedJob.job_operation_days.length - 1
+                          ]?.depth_datum || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job Operation Days",
+                          handleArrayInputChange(
+                            "job_operation_days",
                             "depth_datum",
-                            e.target.value
+                            e.target.value,
+                            proposedJob.job_operation_days.length - 1
                           )
                         }
                       >
@@ -2486,30 +2115,40 @@ const WellForm = ({}) => {
                       <FormLabel>Depth In</FormLabel>
                       <Input
                         placeholder="Depth In"
-                        value={jobOperationDaysForm.depthIn}
+                        value={
+                          proposedJob.job_operation_days[
+                            proposedJob.job_operation_days.length - 1
+                          ]?.depth_in || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job Operation Days",
-                            "depthIn",
-                            e.target.value
+                          handleArrayInputChange(
+                            "job_operation_days",
+                            "depth_in",
+                            parseFloat(e.target.value),
+                            proposedJob.job_operation_days.length - 1
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Depth Out</FormLabel>
                       <Input
                         placeholder="Depth Out"
-                        value={jobOperationDaysForm.depthOut}
+                        value={
+                          proposedJob.job_operation_days[
+                            proposedJob.job_operation_days.length - 1
+                          ]?.depth_out || ""
+                        }
                         onChange={(e) =>
-                          handleInputChange(
-                            "operasional",
-                            "Job Operation Days",
-                            "depthOut",
-                            e.target.value
+                          handleArrayInputChange(
+                            "job_operation_days",
+                            "depth_out",
+                            parseFloat(e.target.value),
+                            proposedJob.job_operation_days.length - 1
                           )
                         }
+                        type="number"
                       />
                     </FormControl>
                   </HStack>
@@ -2517,28 +2156,31 @@ const WellForm = ({}) => {
                     <FormLabel>Operation Days</FormLabel>
                     <Input
                       placeholder="Operation Days"
-                      value={jobOperationDaysForm.operationDays}
+                      value={
+                        proposedJob.job_operation_days[
+                          proposedJob.job_operation_days.length - 1
+                        ]?.operation_days || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "operasional",
-                          "Job Operation Days",
-                          "operationDays",
-                          e.target.value
+                        handleArrayInputChange(
+                          "job_operation_days",
+                          "operation_days",
+                          parseFloat(e.target.value),
+                          proposedJob.job_operation_days.length - 1
                         )
                       }
+                      type="number"
                     />
                   </FormControl>
                   <Button
                     mt={4}
                     colorScheme="blue"
-                    onClick={() =>
-                      handleAddBatch("operasional", "Job Operation Days")
-                    }
+                    onClick={() => handleAddBatch("job_operation_days")}
                   >
                     Tambah Batch
                   </Button>
 
-                  {jobOperationDays.length > 0 && (
+                  {proposedJob.job_operation_days.length > 0 && (
                     <Table variant="simple" mt={4}>
                       <Thead>
                         <Tr>
@@ -2550,13 +2192,13 @@ const WellForm = ({}) => {
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {jobOperationDays.map((op, index) => (
+                        {proposedJob.job_operation_days.map((op, index) => (
                           <Tr key={index}>
                             <Td>{op.phase}</Td>
                             <Td>{op.depth_datum}</Td>
-                            <Td>{op.depthIn}</Td>
-                            <Td>{op.depthOut}</Td>
-                            <Td>{op.operationDays}</Td>
+                            <Td>{op.depth_in}</Td>
+                            <Td>{op.depth_out}</Td>
+                            <Td>{op.operation_days}</Td>
                           </Tr>
                         ))}
                       </Tbody>
@@ -2564,7 +2206,6 @@ const WellForm = ({}) => {
                   )}
                 </Box>
 
-                {/* Job Hazard section */}
                 <Box ref={sectionRefs.current["Job Hazard"]}>
                   <Text fontWeight="bold" fontSize="xl">
                     Drilling Hazard
@@ -2573,34 +2214,42 @@ const WellForm = ({}) => {
                     <FormLabel>Hazard Type</FormLabel>
                     <Select
                       placeholder="Select Hazard Type"
-                      value={jobHazardForm.hazardType}
+                      value={
+                        proposedJob.job_hazards[
+                          proposedJob.job_hazards.length - 1
+                        ]?.hazard_type || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "operasional",
-                          "Job Hazard",
-                          "hazardType",
-                          e.target.value
+                        handleArrayInputChange(
+                          "job_hazards",
+                          "hazard_type",
+                          e.target.value,
+                          proposedJob.job_hazards.length - 1
                         )
                       }
                     >
-                      {fetchingData
-                        ? fetchingData.hazard_type.map((item) => (
-                            <option value={item}>{item}</option>
-                          ))
-                        : null}
+                      {fetchingData?.hazard_type.map((item, index) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
                     </Select>
                   </FormControl>
                   <FormControl>
                     <FormLabel>Hazard Description</FormLabel>
                     <Input
                       placeholder="Hazard Description"
-                      value={jobHazardForm.hazardDescription}
+                      value={
+                        proposedJob.job_hazards[
+                          proposedJob.job_hazards.length - 1
+                        ]?.hazard_description || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "operasional",
-                          "Job Hazard",
-                          "hazardDescription",
-                          e.target.value
+                        handleArrayInputChange(
+                          "job_hazards",
+                          "hazard_description",
+                          e.target.value,
+                          proposedJob.job_hazards.length - 1
                         )
                       }
                     />
@@ -2609,13 +2258,17 @@ const WellForm = ({}) => {
                     <FormLabel>Severity</FormLabel>
                     <Select
                       placeholder="Select Severity"
-                      value={jobHazardForm.severity}
+                      value={
+                        proposedJob.job_hazards[
+                          proposedJob.job_hazards.length - 1
+                        ]?.severity || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "operasional",
-                          "Job Hazard",
+                        handleArrayInputChange(
+                          "job_hazards",
                           "severity",
-                          e.target.value
+                          e.target.value,
+                          proposedJob.job_hazards.length - 1
                         )
                       }
                     >
@@ -2627,13 +2280,17 @@ const WellForm = ({}) => {
                     <FormLabel>Mitigation</FormLabel>
                     <Input
                       placeholder="Mitigation"
-                      value={jobHazardForm.mitigation}
+                      value={
+                        proposedJob.job_hazards[
+                          proposedJob.job_hazards.length - 1
+                        ]?.mitigation || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "operasional",
-                          "Job Hazard",
+                        handleArrayInputChange(
+                          "job_hazards",
                           "mitigation",
-                          e.target.value
+                          e.target.value,
+                          proposedJob.job_hazards.length - 1
                         )
                       }
                     />
@@ -2642,13 +2299,17 @@ const WellForm = ({}) => {
                     <FormLabel>Remark</FormLabel>
                     <Input
                       placeholder="Remark"
-                      value={jobHazardForm.remark}
+                      value={
+                        proposedJob.job_hazards[
+                          proposedJob.job_hazards.length - 1
+                        ]?.remark || ""
+                      }
                       onChange={(e) =>
-                        handleInputChange(
-                          "operasional",
-                          "Job Hazard",
+                        handleArrayInputChange(
+                          "job_hazards",
                           "remark",
-                          e.target.value
+                          e.target.value,
+                          proposedJob.job_hazards.length - 1
                         )
                       }
                     />
@@ -2656,12 +2317,12 @@ const WellForm = ({}) => {
                   <Button
                     mt={4}
                     colorScheme="blue"
-                    onClick={() => handleAddBatch("operasional", "Job Hazard")}
+                    onClick={() => handleAddBatch("job_hazards")}
                   >
                     Tambah Batch
                   </Button>
 
-                  {jobHazard.length > 0 && (
+                  {proposedJob.job_hazards.length > 0 && (
                     <Table variant="simple" mt={4}>
                       <Thead>
                         <Tr>
@@ -2673,10 +2334,10 @@ const WellForm = ({}) => {
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {jobHazard.map((hazard, index) => (
+                        {proposedJob.job_hazards.map((hazard, index) => (
                           <Tr key={index}>
-                            <Td>{hazard.hazardType}</Td>
-                            <Td>{hazard.hazardDescription}</Td>
+                            <Td>{hazard.hazard_type}</Td>
+                            <Td>{hazard.hazard_description}</Td>
                             <Td>{hazard.severity}</Td>
                             <Td>{hazard.mitigation}</Td>
                             <Td>{hazard.remark}</Td>
@@ -2702,4 +2363,4 @@ const WellForm = ({}) => {
   );
 };
 
-export default WellForm;
+export default PengajuanDrillingForm;
