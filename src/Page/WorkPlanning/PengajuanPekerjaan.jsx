@@ -251,7 +251,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} mt={5}>
           <CustomCard
             icon={FaClipboardCheck}
-            count={dataCount.length}
+            // count={dataCount.length}
             label="Diajukan"
             bgColor="white"
             iconBgColor="#ECF2FE"
@@ -259,7 +259,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
           />
           <CustomCard
             icon={FaTimesCircle}
-            count={dataCount.filter((item) => item.status === "REJECTED").length}
+            // count={dataCount.filter((item) => item.status === "REJECTED").length}
             label="Ditolak"
             bgColor="white"
             iconBgColor="#FEE2E2"
@@ -267,7 +267,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
           />
           <CustomCard
             icon={FaCheckCircle}
-            count={dataCount.filter((item) => item.status === "APPROVED").length}
+            // count={dataCount.filter((item) => item.status === "APPROVED").length}
             label="Disetujui"
             bgColor="white"
             iconBgColor="#E6FFFA"
