@@ -49,3 +49,31 @@ export async function getBarChartDataSKK() {
         return null
     }
 }
+
+export async function getTableRealization() {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/exploration/realization`)
+        console.log(response.data);
+        
+        return response.data
+
+    } catch (error) {
+        console.error("Error get Data Table", error);
+        return null
+    }
+}
+
+export async function getKKKSInfo(kkks_id) {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/kkks/${kkks_id}/detail`)
+        console.log(response.data);
+        
+        return response.data
+
+    } catch (error) {
+        console.error("Error get Data Table", error);
+        return null
+    }
+}
+
+

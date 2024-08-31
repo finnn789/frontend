@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderCard from "./Components/Card/HeaderCard";
 import { FaBriefcase, FaChartLine } from "react-icons/fa";
 import { GiChemicalTank } from "react-icons/gi";
@@ -10,24 +10,51 @@ import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import { RiArrowRightUpLine } from "react-icons/ri";
-import {  Flex, Text, Icon } from "@chakra-ui/react"
-import { getBarChartDataSKK } from "../API/APISKK";
-
+import { Flex, Text, Icon } from "@chakra-ui/react";
+import { getBarChartDataSKK, getTableRealization } from "../API/APISKK";
 
 const Exploration = () => {
-  const [dataCharts,setDataCharts] = React.useState(null);
-  useEffect(()=> {
+  const [dataCharts, setDataCharts] = useState(null);
+  const [dataTableReal, setDataTableReal] = useState([]);
+
+  useEffect(() => {
     const getData = async () => {
-      const dataChart = await getBarChartDataSKK();
-      setDataCharts(dataChart);
-    }
+      try {
+        const dataChart = await getBarChartDataSKK();
+        const dataTableRealization = await getTableRealization();
+
+        // Log data to inspect structure
+        console.log("API dataTableRealization:", dataTableRealization);
+
+        // Extract data from dataTableRealization
+        const dataReal = dataTableRealization.data;
+
+        // Check if dataReal is an array
+        if (Array.isArray(dataReal)) {
+          // Map data for TableComponent
+          const processedData = dataReal.map(item => ({
+            id: item.kkks_id,
+            kkks: item.kkks_name,
+            rencana: item.approved_plans,
+            realisasi: item.completed_operations,
+            persentase: item.realization_percentage
+          }));
+          setDataTableReal(processedData);
+        } else {
+          console.error("Expected an array but got:", dataReal);
+          setDataTableReal([]); // Set to empty array or handle as needed
+        }
+
+        setDataCharts(dataChart);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     getData();
-  },[])
+  }, []);
 
- 
-  
-
-  const data = [
+  const pieChartData = [
     {
       type: "pie",
       labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
@@ -56,6 +83,7 @@ const Exploration = () => {
       },
     },
   ];
+
   const layout = {
     height: 400,
     width: 400,
@@ -63,16 +91,10 @@ const Exploration = () => {
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",
   };
-  const tableData = [
-    { kkks: "KKKS01", rencana: 100, realisasi: 25, persentase: 25 },
-    { kkks: "KKKS02", rencana: 150, realisasi: 90, persentase: 60 },
-    { kkks: "KKKS03", rencana: 200, realisasi: 160, persentase: 80 },
-    { kkks: "KKKS04", rencana: 120, realisasi: 50, persentase: 41.7 },
-  ];
 
   return (
     <>
-    <Text fontSize={"3em"} fontWeight={"bold"}>
+      <Text fontSize={"3em"} fontWeight={"bold"}>
         Eksplorasi
       </Text>
       <Flex gap={6}>
@@ -81,7 +103,6 @@ const Exploration = () => {
           icon={FaCopy}
           label="Rencana"
           subLabel="WP&B Year 2024"
-          
         />
         <PerhitunganCard
           number={100}
@@ -92,10 +113,9 @@ const Exploration = () => {
           subLabel="Sejak kemarin"
           percentage={
             <Flex>
-              {/* <Icon color="green.500" as={RiArrowRightUpLine} /> */}
               <Icon boxSize={8} color="green.500" as={RiArrowRightUpLine} />
               <Text fontSize="xl" color="green.500">
-              3.46% 
+                3.46%
               </Text>
             </Flex>
           }
@@ -109,10 +129,9 @@ const Exploration = () => {
           subLabel="Sejak kemarin"
           percentage={
             <Flex>
-              {/* <Icon color="green.500" as={RiArrowRightUpLine} /> */}
               <Icon boxSize={8} color="green.500" as={RiArrowRightUpLine} />
               <Text fontSize="xl" color="green.500">
-              1% 
+                1%
               </Text>
             </Flex>
           }
@@ -132,21 +151,29 @@ const Exploration = () => {
           subtitle="million US$ - field estimate"
           icon={FaChartLine}
         >
-          <PieChart3D data={dataCharts  ? dataCharts.charts.exploration.data : data} layout={dataCharts ? dataCharts.charts.exploration.layout : layout} />
+          {dataCharts && dataCharts.charts && dataCharts.charts.exploration ? (
+            <PieChart3D
+              data={dataCharts.charts.exploration.data}
+              layout={dataCharts.charts.exploration.layout}
+            />
+          ) : (
+            <PieChart3D data={pieChartData} layout={layout} />
+          )}
         </HeaderCard>
+
         <HeaderCard
           title="Status Akhir"
           subtitle="Status akhir sumur"
           icon={FaCheck}
         >
-          <PieChart3D data={data} layout={layout} />
+          <PieChart3D data={pieChartData} layout={layout} />
         </HeaderCard>
         <HeaderCard
           title="Total Rig"
           subtitle="Total rig yang beroperasi"
           icon={GiChemicalTank}
         >
-          <PieChart3D data={data} layout={layout} />
+          <PieChart3D data={pieChartData} layout={layout} />
         </HeaderCard>
       </Flex>
       <Flex mt={5}>
@@ -155,7 +182,7 @@ const Exploration = () => {
           subtitle="Realisasi pekerjaan tiap bulan"
           icon={FaBriefcase}
         >
-          <TableComponent data={tableData} />
+          <TableComponent data={dataTableReal} />
         </HeaderCard>
       </Flex>
       <Flex mt={5}>
