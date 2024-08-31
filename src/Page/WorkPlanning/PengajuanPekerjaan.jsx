@@ -280,7 +280,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
           <Button
             colorScheme="blue"
             as={Link}
-            to={"/dashboard/submission/pengajuanform"}
+            to={"/dashboard/planning/planningform"}
           >
             Tambah Data
           </Button>

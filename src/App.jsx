@@ -28,6 +28,7 @@ import PlanningExp from "./Page/PageSKK/ChildExploration/PlanningExp";
 import PlanningDevelopment from "./Page/PageSKK/ChildDevelopment/PlanningDev";
 import PlanningWellService from "./Page/PageSKK/ChildWellService/PlanningWS";
 import PlanningWorkOver from "./Page/PageSKK/ChildWorkOver/PlanningWO";
+import PengajuanDrillingForm from "./Page/Forms/PengajuanDrillingForm";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -73,18 +74,11 @@ function App() {
       children: [
         {
           path: "planning",
-          element: (
-            <ProtectedRoute
-              element={<PengajuanPekerjaan />}
-              allowedRoles={["KKKS"]}
-            />
-          ),
-          children: [
-            {
-              path: "pengajuanform",
-              element: <PengajuanPekerjaanForm />,
-            },
-          ],
+          element: (<ProtectedRoute element={<PengajuanPekerjaan />} allowedRoles={["KKKS"]}/> ),
+        },
+        {
+          path: "planning/planningform",
+          element: (<ProtectedRoute element={<PengajuanDrillingForm />} allowedRoles={["KKKS"]}/> ),
         },
         {
           path: "operasi",
