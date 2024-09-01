@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CardFormWell from "./ChildForms/TeknisForms";
+import CardFormWell from "./Exploration/TeknisForms";
 import {
   Tabs,
   TabList,
@@ -12,7 +12,7 @@ import {
   Flex,
   useToast,
 } from "@chakra-ui/react";
-import Operasional from "./ChildForms/Operasioal";
+import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
 
 const PengajuanDrillingForm = () => {
