@@ -116,7 +116,7 @@ const HomeDashSKK = () => {
     "Info",
     "KKKS",
     "Explorasi",
-    "Exploitasi",
+    "Development",
     "Work Over",
     "Well Service",
   ];

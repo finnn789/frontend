@@ -107,15 +107,15 @@ const DevelopmentSKK = () => {
   console.log("fixDataJobWells", fixDataJobWells);
 
   const developmentRealisasi = dataSummarySKK
-    ? dataSummarySKK[1].realisasi
-    : "Loading...";
-  const developmentRencana = dataSummarySKK
-    ? dataSummarySKK[1].rencana
-    : "Loading...";
-  const developmentSelesai = dataSummarySKK
-    ? dataSummarySKK[1].selesai
-    : "Loading...";
-  
+  ? dataSummarySKK.Development.operating
+  : "Loading...";
+const developmentRencana = dataSummarySKK
+  ? dataSummarySKK.Development.approved
+  : "Loading...";
+const developmentSelesai = dataSummarySKK
+  ? dataSummarySKK.Development.finished
+  : "Loading...";
+
   // console.log('dataSummarySKK', dataSummarySKK);
   
 

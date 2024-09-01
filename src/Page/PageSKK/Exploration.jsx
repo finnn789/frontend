@@ -81,14 +81,16 @@ const Exploration = () => {
         // Set dataChart ke dalam state dataCharts
         setDataCharts(dataChart);
 
-        if (Array.isArray(dataTableRealization)) {
-          const processedData = dataTableRealization.map((item) => ({
-            id: item.kkks_id,
-            kkks: item.kkks_name,
-            rencana: item.approved_plans,
-            realisasi: item.completed_operations,
-            persentase: item.realization_percentage,
-          }));
+        if (Array.isArray(dataTableRealization.exploration)) {
+          const processedData = dataTableRealization.exploration.map(
+            (item) => ({
+              id: item.kkks_id,
+              kkks: item.kkks_name,
+              rencana: item.approved_plans,
+              realisasi: item.completed_operations,
+              persentase: item.realization_percentage,
+            })
+          );
           setDataTableReal(processedData);
         } else {
           console.error("Expected an array but got:", dataTableRealization);
@@ -137,19 +139,24 @@ const Exploration = () => {
     ? JSON.parse(dataJobWells)
     : "loading...";
 
-  console.log("fixDataJobWells", fixDataJobWells);
+  // console.log('sama kontol satu:', fixDataJobWells.data[0].values);
+
+  //   if (fixDataJobWells.data[0].values && fixDataJobWells.data[0].values.length === 0) {
+  //     console.log("Data tidak tersedia");
+  // } else {
+  //     console.log("fixDataJobWells", fixDataJobWells);
+  // }
 
   const explorationRealisasi = dataSummarySKK
-    ? dataSummarySKK[0].realisasi
+    ? dataSummarySKK.Exploration.operating
     : "Loading...";
   const explorationRencana = dataSummarySKK
-    ? dataSummarySKK[0].rencana
+    ? dataSummarySKK.Exploration.approved
     : "Loading...";
   const explorationSelesai = dataSummarySKK
-    ? dataSummarySKK[0].selesai
+    ? dataSummarySKK.Exploration.finished
     : "Loading...";
 
-  console.log("dataSummarySKK", dataSummarySKK);
 
   return (
     <Flex gap={6} direction={"column"}>
@@ -254,6 +261,22 @@ const Exploration = () => {
               useResizeHandler={true}
             />
           </Box>
+          {/* {fixDataJobWells.data.values && fixDataJobWells.data.values.length === 0 ? (
+              <PieChart3D
+                data={fixDataJobWells.data}
+                layout={{
+                  ...fixDataJobWells.layout,
+                  autosize: true,
+                  width: undefined,
+                  height: 600,
+                  responsive: true,
+                }}
+                style={{ width: "100%", height: "100" }}
+                useResizeHandler={true}
+              />
+            ) : (
+              <div>Data tidak tersedia</div>
+            )} */}
         </HeaderCard>
         <HeaderCard
           icon={IconTruck}
