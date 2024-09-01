@@ -33,6 +33,12 @@ import '@fontsource/montserrat/400.css'; // Regular weight
 import '@fontsource/montserrat/600.css'; // Semi-bold weight
 import '@fontsource/montserrat/700.css'; // Bold weight
 import PlanningExpKKKS from "./Page/Components/PageExplorasi/PlanningExp";
+import OperationDev from "./Page/PageSKK/ChildDevelopment/OperationDev";
+import PPPDev from "./Page/PageSKK/ChildDevelopment/PPPDev";
+import CloseOutDev from "./Page/PageSKK/ChildDevelopment/CloseOutDev";
+import OperationsWO from "./Page/PageSKK/ChildWorkOver/OperationsWO";
+import PPPWO from "./Page/PageSKK/ChildWorkOver/PPPWO";
+import CloseOutWO from "./Page/PageSKK/ChildWorkOver/CloseOutWO";
 
 
 function App() {
@@ -173,6 +179,33 @@ function App() {
           ),
         },
         {
+          path: "development/operationsdevelopment",
+          element: (
+            <ProtectedRoute
+              element={<OperationDev />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "development/pppdevelopment",
+          element: (
+            <ProtectedRoute
+              element={<PPPDev />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "development/closeoutdevelopment",
+          element: (
+            <ProtectedRoute
+              element={<CloseOutDev/>}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
           path: "wellservice",
           element: (
             <ProtectedRoute
@@ -204,6 +237,33 @@ function App() {
           element: (
             <ProtectedRoute
               element={<PlanningWorkOver />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "workover/operationsworkover",
+          element: (
+            <ProtectedRoute
+              element={<OperationsWO />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "workover/pppworkover",
+          element: (
+            <ProtectedRoute
+              element={<PPPWO />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "workover/closeoutworkover",
+          element: (
+            <ProtectedRoute
+              element={<CloseOutWO/>}
               allowedRoles={["Admin"]}
             />
           ),

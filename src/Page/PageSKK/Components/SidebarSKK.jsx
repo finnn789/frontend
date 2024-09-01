@@ -235,12 +235,12 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/development/operations"
+                  to="/skk/development/operationsdevelopment"
                   px={3}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
-                  isDisabled={true}
+                  
                   width="full"
                   justifyContent="flex-start"
                   bg="#f9f9f9"
@@ -253,12 +253,12 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/development/p3"
+                  to="/skk/development/pppdevelopment"
                   px={3}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
-                  isDisabled={true}
+                  
                   width="full"
                   justifyContent="flex-start"
                   bg="#f9f9f9"
@@ -271,7 +271,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/development/closeout"
+                  to="/skk/development/closeoutdevelopment"
                   px={3}
                   py={2}
                   rounded="md"
@@ -280,7 +280,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
                   justifyContent="flex-start"
                   bg="#f9f9f9"
                   leftIcon={<Icon as={FaCog} />}
-                  isDisabled={true}
+                  
                   variant="ghost"
                 >
                   AFE Close Out
@@ -333,9 +333,8 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/skk/workover/planningworkover"
+                  to="/skk/workover/operationsworkover"
                   px={3}
-                  isDisabled={true}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -351,10 +350,10 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/workover/p3"
+                  to="/skk/workover/pppworkover"
                   px={3}
                   py={2}
-                  isDisabled={true}
+                  
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
@@ -369,12 +368,12 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/workover/closeout"
+                  to="/skk/workover/closeoutworkover"
                   px={3}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
-                  isDisabled={true}
+                  
                   width="full"
                   justifyContent="flex-start"
                   bg="#f9f9f9"

@@ -25,6 +25,7 @@ const PlanningWellService = () => {
   const ReturnedCount = countStatus ? countStatus.Exploration.planning_status_counts.RETURNED : null;
 
   
+  console.log(countStatus);
   
   
 
