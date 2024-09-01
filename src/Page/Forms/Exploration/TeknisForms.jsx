@@ -585,7 +585,7 @@ const CardFormWell = ({ onFormChange }) => {
             <FormControl>
               <FormLabel>Completion Date</FormLabel>
               <Input
-                name="completionDate"
+                name="completion_date"
                 placeholder="completion date"
                 type="date"
                 onChange={handleChange}
@@ -657,6 +657,7 @@ const CardFormWell = ({ onFormChange }) => {
                   <Input
                     name="logging"
                     value={currentEntry.logging}
+                    type="text"
                     onChange={handleInputChange}
                     placeholder="Logging Program"
                   />

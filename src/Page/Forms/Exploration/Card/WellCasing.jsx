@@ -1,9 +1,7 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   VStack,
-  HStack,
   Grid,
   GridItem,
   Tabs,
@@ -16,7 +14,6 @@ import {
   Input,
   Button,
   Heading,
-  Text,
   Table,
   Thead,
   Tbody,
@@ -25,37 +22,17 @@ import {
   Td,
   Flex,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 const WellCasing = ({ dataWellCasing }) => {
-  const handleWellCasing = () => {
-    const newEntry = { ...wellCasing };
-    const updatedTable = [...tableWellCasing, newEntry];
-    setTableWellCasing((prevData) => [...prevData, newEntry]);
+  const [showWellCasing, setShowWellCasing] = useState({
+    names: [],
+    top_depths: [],
+    bottom_depths: [],
+    diameters: [],
+  });
 
-    dataWellCasing(updatedTable);
-    // Reset currentEntry after adding
-    setWellCasing({
-      unit_type: "Metrics",
-      depth_datum: "RT",
-      depth: 0,
-      length: 0,
-      hole_diameter: 0,
-      casing_outer_diameter: 0,
-      casing_inner_diameter: 0,
-      casing_grade: "",
-      casing_weight: 0,
-      connection: "",
-      description: "",
-    });
-  };
-  const handleInputChangeWellCasing = (e) => {
-    const { name, value } = e.target;
-    const processedValue = isNaN(value) ? value : parseInt(value, 10);
-    setWellCasing((prevData) => ({
-      ...prevData,
-      [name]: processedValue,
-    }));
-  };
+  const [imageUrl, setImageUrl] = useState(null);
   const [tableWellCasing, setTableWellCasing] = useState([]);
   const [wellCasing, setWellCasing] = useState({
     unit_type: "Metrics",
@@ -70,19 +47,129 @@ const WellCasing = ({ dataWellCasing }) => {
     connection: "",
     description: "",
   });
+
+  const handleWellCasing = () => {
+    const calculationBottomDepth = (depth, length) => {
+      return depth - length;
+    };
+    const newEntry = { ...wellCasing };
+    const updatedTable = [...tableWellCasing, newEntry];
+    setTableWellCasing(updatedTable);
+    setShowWellCasing((prevData) => ({
+      names: [...prevData.names, newEntry.description],
+      bottom_depths: [...prevData.bottom_depths, newEntry.depth],
+      top_depths: [
+        ...prevData.top_depths,
+        calculationBottomDepth(newEntry.depth, newEntry.length),
+      ],
+      diameters: [...prevData.diameters, newEntry.casing_outer_diameter],
+    }));
+
+    dataWellCasing(updatedTable);
+    resetWellCasing();
+  };
+
+  const handleInputChangeWellCasing = (e) => {
+    const { name, value, type } = e.target;
+
+    let processedValue;
+
+    switch (type) {
+      case "number":
+        processedValue = parseFloat(value);
+        break;
+      case "checkbox":
+        processedValue = e.target.checked;
+        break;
+      case "text":
+      default:
+        processedValue = value;
+        break;
+    }
+
+    setWellCasing((prevData) => ({
+      ...prevData,
+      [name]: processedValue,
+    }));
+  };
+
+  const resetWellCasing = () => {
+    setWellCasing({
+      unit_type: "Metrics",
+      depth_datum: "RT",
+      depth: 0,
+      length: 0,
+      hole_diameter: 0,
+      casing_outer_diameter: 0,
+      casing_inner_diameter: 0,
+      casing_grade: "",
+      casing_weight: 0,
+      connection: "",
+      description: "",
+    });
+  };
+
+  const clickShowCasing = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_URL}/visualize/visualize-casing`,
+        showWellCasing,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response) {
+        const sessionId = response.data.session_id;
+        try {
+          const visualizationResponse = await axios.get(
+            `${
+              import.meta.env.VITE_APP_URL
+            }/visualize/casing-visualization/${sessionId}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+              responseType: "blob",
+            }
+          );
+
+          const blob = visualizationResponse.data;
+          const imageUrl = URL.createObjectURL(blob);
+          setImageUrl(imageUrl);
+        } catch (error) {
+          console.error("Error getting Data Table", error);
+        }
+      }
+    } catch (error) {
+      console.error("Error get Data Table", error);
+    }
+  };
+
+  const handleDeleteRow = (index) => {
+    const updatedTable = tableWellCasing.filter((_, i) => i !== index);
+    setTableWellCasing(updatedTable);
+    dataWellCasing(updatedTable);
+
+    // Update showWellCasing state
+    setShowWellCasing((prevData) => ({
+      names: prevData.names.filter((_, i) => i !== index),
+      top_depths: prevData.top_depths.filter((_, i) => i !== index),
+      bottom_depths: prevData.bottom_depths.filter((_, i) => i !== index),
+      diameters: prevData.diameters.filter((_, i) => i !== index),
+    }));
+  };
+
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={3}>
       <GridItem colSpan={1} width={"100%"}>
         <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Heading size="lg">Well Casing</Heading>
-            <Box
-              display={"grid"}
-              gridTemplateColumns={"repeat(2, 1fr)"}
-              gap={2}
-            >
-              <Box></Box>
-            </Box>
           </Flex>
           <VStack spacing={4} align="stretch">
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -97,14 +184,13 @@ const WellCasing = ({ dataWellCasing }) => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>length</FormLabel>
+                <FormLabel>Length</FormLabel>
                 <Input
                   name="length"
                   type="number"
-
                   value={wellCasing.length}
                   onChange={handleInputChangeWellCasing}
-                  placeholder="Depth"
+                  placeholder="Length"
                 />
               </FormControl>
               <FormControl>
@@ -134,7 +220,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   value={wellCasing.casing_inner_diameter}
                   onChange={handleInputChangeWellCasing}
                   type="number"
-                  placeholder="Casing Outer Diameter"
+                  placeholder="Casing Inner Diameter"
                 />
               </FormControl>
               <FormControl>
@@ -151,33 +237,33 @@ const WellCasing = ({ dataWellCasing }) => {
                 <Input
                   name="casing_weight"
                   value={wellCasing.casing_weight}
-
                   type="number"
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Weight"
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>Logging Program</FormLabel>
+                <FormLabel>Connection</FormLabel>
                 <Input
                   name="connection"
                   value={wellCasing.connection}
                   onChange={handleInputChangeWellCasing}
-                  placeholder="Logging Program"
+                  placeholder="Connection"
                 />
               </FormControl>
               <FormControl>
                 <FormLabel>Description</FormLabel>
                 <Input
                   name="description"
+                  type="text"
                   value={wellCasing.description}
                   onChange={handleInputChangeWellCasing}
-                  placeholder="Cementing Program"
+                  placeholder="Description"
                 />
               </FormControl>
             </Grid>
             <Button colorScheme="blue" onClick={handleWellCasing}>
-              Add
+              Add Data
             </Button>
           </VStack>
         </Box>
@@ -207,34 +293,46 @@ const WellCasing = ({ dataWellCasing }) => {
                   <Thead>
                     <Tr>
                       <Th>Depth</Th>
-                      <Th>Hole Diameter</Th>
-
                       <Th>Length</Th>
-                      <Th>Casing Outer </Th>
+                      <Th>Hole Diameter</Th>
+                      <Th>Casing Outer</Th>
                       <Th>Casing Inner</Th>
                       <Th>Casing Grade</Th>
                       <Th>Casing Weight</Th>
-
                       <Th>Description</Th>
-                      {/* Tambahkan header lain sesuai kebutuhan */}
+                      <Th>Action</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {tableWellCasing.map((row, index) => (
+                    {tableWellCasing.map((row,index) => (
                       <Tr key={index}>
                         <Td>{row.depth}</Td>
-                        <Td>{row.hole_diameter}</Td>
                         <Td>{row.length}</Td>
+                        <Td>{row.hole_diameter}</Td>
                         <Td>{row.casing_outer_diameter}</Td>
                         <Td>{row.casing_inner_diameter}</Td>
                         <Td>{row.casing_grade}</Td>
                         <Td>{row.casing_weight}</Td>
                         <Td>{row.description}</Td>
-                        {/* Tambahkan sel lain sesuai kebutuhan */}
+                        <Td>
+                          <Button
+                            colorScheme="red"
+                            size="sm"
+                            onClick={() => handleDeleteRow(index)}
+                          >
+                            Delete
+                          </Button>
+                        </Td>
                       </Tr>
                     ))}
                   </Tbody>
                 </Table>
+              </TabPanel>
+              <TabPanel>
+                <Button colorScheme="blue" onClick={clickShowCasing}>
+                  Show Casing
+                </Button>
+                {imageUrl && <img src={imageUrl} alt="Casing Visualization" />}
               </TabPanel>
             </TabPanels>
           </Tabs>
