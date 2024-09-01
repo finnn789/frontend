@@ -76,32 +76,18 @@ export async function getKKKSInfo(kkks_id) {
     }
 }
 
+export async function getJobTypeSummarySKK() {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/job-type-summary-skk`)
+        console.log('summary data:',response.data);
+        
+        return response.data
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    } catch (error) {
+        console.error("Error get Data Well", error);
+        return null
+    }
+}
 
 export async function getDataJobCountPlanningEx() {
     try {
@@ -116,3 +102,41 @@ export async function getDataJobCountPlanningEx() {
     }
 }
 
+export async function getRigTypePieChart() {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/rig-type-pie-chart`)
+        console.log('rig type pie chart',response.data);
+        
+        return response.data
+
+    } catch (error) {
+        console.error("Error get Data Well", error);
+        return null
+    }
+}
+
+export async function getBudgetSummaryCharts() {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/budget-summary-charts`)
+        console.log('budget summary bar chart',response.data);
+        
+        return response.data
+
+    } catch (error) {
+        console.error("Error get Data Well", error);
+        return null
+    }
+}
+
+export async function getJobWellStatusChart() {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/job-well-status-summary`)
+        console.log('job well status chart',response.data);
+        
+        return response.data
+
+    } catch (error) {
+        console.error("Error get Data Well", error);
+        return null
+    }
+}
