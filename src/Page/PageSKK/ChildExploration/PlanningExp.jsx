@@ -49,7 +49,7 @@ const PlanningExp = () => {
     {
       id: 2,
       namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
+      wilayahKerja: "AREA011",
       lapangan: "FIELD01",
       tanggalMulai: "24 Mei 2024",
       tanggalSelesai: "24 Juli 2024",

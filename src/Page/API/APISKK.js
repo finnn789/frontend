@@ -140,3 +140,5 @@ export async function getJobWellStatusChart() {
         return null
     }
 }
+
+// export async function getCombineDataExploration() {

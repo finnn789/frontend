@@ -31,12 +31,15 @@ import {
   getKKSJobdata,
 } from "../../API/APISKK";
 import { IconRubberStamp } from "@tabler/icons-react";
-import ModalRealisasi from "./Card/ModalRealisasi";
+import ModalRealisasi from "./Card/ModalRealisasi"; 
+import ModalDetailK3S from "./Card/ModalDetailK3S";
 const HomeDashSKK = () => {
   const [datas, setDatas] = React.useState([]);
   const [dataCharts, setDataCharts] = React.useState([]);
   const [dataTable, setDataTable] = React.useState([]);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isModalOpen1, setIsModalOpen1] = React.useState(false);
+  const [isModalOpen2, setIsModalOpen2] = React.useState(false);
+  const [selectedKkksId, setSelectedKkksId] = React.useState(null); // State for storing the selected ID
 
   const chartsData = [
     {
@@ -199,6 +202,11 @@ const HomeDashSKK = () => {
       {value}%
     </Td>
   );
+  const handleInfoClick = (item) => {
+    setSelectedKkksId(item.id); // Save the selected ID
+    setIsModalOpen2(true); // Open the modal
+    //   alert(item.id)
+  };
   return (
     <Box gap={16}>
       <Flex
@@ -232,11 +240,12 @@ const HomeDashSKK = () => {
                     <Td>
                       <IconButton
                         icon={<FaInfoCircle />}
-                        onClick={() => setIsModalOpen(true)}
+                        onClick={() => setIsModalOpen1(true)}
                       />
+                     
                       <ModalRealisasi
-                        isOpen={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
+                        isOpen={isModalOpen1}
+                        onClose={() => setIsModalOpen1(false)}
                         link="https://your-link-here.com"
                         title="Exploration"
                         date="22 MARET 2024"
@@ -285,7 +294,11 @@ const HomeDashSKK = () => {
               return (
                 <Tr key={index}>
                   <Td fontSize="18px">
-                    <IconButton colorScheme="blue" icon={<FaInfoCircle />} />
+                    <IconButton
+                      colorScheme="blue"
+                      icon={<FaInfoCircle />}
+                      onClick={() => handleInfoClick(item)}
+                    />
                   </Td>
                   <Td fontSize="18px" fontWeight={600}>
                     {item.kkks}
@@ -299,6 +312,11 @@ const HomeDashSKK = () => {
               );
             })}
           </TableDashboard>
+          <ModalDetailK3S
+            isOpen={isModalOpen2}
+            onClose={() => setIsModalOpen2(false)}
+            kkks_id={selectedKkksId} // Pass the ID to the modal
+          />
         </HeaderCard>
       </Box>
     </Box>

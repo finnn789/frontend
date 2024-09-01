@@ -107,8 +107,8 @@ const Exploration = () => {
   }, []);
 
   // RIG TYPE DATA PIE CHART
-  const dataPieRigType = dataRigTypePieChart?.development?.chart_data
-    ? dataRigTypePieChart.development.chart_data
+  const dataPieRigType = dataRigTypePieChart?.exploration?.chart_data
+    ? dataRigTypePieChart.exploration.chart_data
     : null;
 
   const fixDataPieRigType = dataPieRigType
