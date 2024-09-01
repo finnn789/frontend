@@ -32,6 +32,7 @@ import PengajuanDrillingForm from "./Page/Forms/PengajuanDrillingForm";
 import '@fontsource/montserrat/400.css'; // Regular weight
 import '@fontsource/montserrat/600.css'; // Semi-bold weight
 import '@fontsource/montserrat/700.css'; // Bold weight
+import PlanningExpKKKS from "./Page/Components/PageExplorasi/PlanningExp";
 
 
 function App() {
@@ -78,7 +79,7 @@ function App() {
       children: [
         {
           path: "planning",
-          element: (<ProtectedRoute element={<PengajuanPekerjaan />} allowedRoles={["KKKS"]}/> ),
+          element: (<ProtectedRoute element={<PlanningExpKKKS/>} allowedRoles={["KKKS"]}/> ),
         },
         {
           path: "planning/planningform",
@@ -115,7 +116,7 @@ function App() {
           element: <GraphTable />,
         },
         {
-          path: "perencanaan",
+          path: "planning",
           element: <HomeExploitation />,
         },
       ],
