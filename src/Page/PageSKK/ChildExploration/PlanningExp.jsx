@@ -92,9 +92,14 @@ const PlanningExp = () => {
     );
   };
   return (
-    <div>
-      <Text fontSize={"3em"} fontWeight={"bold"}>
-        Planning Exploration
+    <Flex gap={6} direction={"column"}>
+       <Text
+        fontSize={"2em"}
+        fontWeight={"bold"}
+        color={"gray.600"}
+        fontFamily="Montserrat"
+      >
+        Planning Eksplorasi
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
@@ -157,7 +162,7 @@ const PlanningExp = () => {
         </ProposedWorkTable>
       </Box>
       <Footer />
-    </div>
+    </Flex>
   );
 };
 

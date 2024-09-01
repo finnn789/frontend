@@ -8,6 +8,7 @@ import {
   Td,
   Text,
   Tr,
+  Th,
 } from "@chakra-ui/react";
 import React, { useEffect, useMemo } from "react";
 
@@ -29,11 +30,50 @@ import {
   getChartDashboardSKK,
   getKKSJobdata,
 } from "../../API/APISKK";
-
+import { IconRubberStamp } from "@tabler/icons-react";
+import ModalRealisasi from "./Card/ModalRealisasi";
 const HomeDashSKK = () => {
   const [datas, setDatas] = React.useState([]);
   const [dataCharts, setDataCharts] = React.useState([]);
   const [dataTable, setDataTable] = React.useState([]);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const chartsData = [
+    {
+      data: [
+        {
+          x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          y: [500, 750, 250, 450, 600, 850, 700, 350, 400, 950],
+          type: "bar",
+          marker: { color: "lightblue" },
+        },
+        {
+          x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          y: [300, 800, 100, 500, 600, 900, 650, 250, 450, 1000],
+          type: "bar",
+          marker: { color: "darkgreen" },
+        },
+      ],
+      layout: { title: "Chart 1", barmode: "group" },
+    },
+    {
+      data: [
+        {
+          x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          y: [500, 750, 250, 450, 600, 850, 700, 350, 400, 950],
+          type: "bar",
+          marker: { color: "lightblue" },
+        },
+        {
+          x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          y: [300, 800, 100, 500, 600, 900, 650, 250, 450, 1000],
+          type: "bar",
+          marker: { color: "darkgreen" },
+        },
+      ],
+      layout: { title: "Chart 2", barmode: "group" },
+    },
+  ];
   useEffect(() => {
     const getData = async () => {
       const data = await getDataDashboardSKK();
@@ -136,47 +176,88 @@ const HomeDashSKK = () => {
   const date = new Date();
   const dateFormate = date.toDateString();
   const getColorByValue = (value) => {
-    if (value < 30) return "orange.500";
-    if (value < 60) return "yellow.500";
-    if (value < 80) return "yellow.300";
-    return "green.500";
+    if (value < 30) return "#ffe7e7";
+    if (value < 60) return "#FFE4BE";
+    if (value < 80) return "#FFF5CB";
+    return "#BEFFE7";
+  };
+
+  const getColorByValue2 = (value) => {
+    if (value == "#ffe7e7") return "#CE0000";
+    if (value == "#FFE4BE") return "#975700";
+    if (value == "#FFF5CB") return "#7D6400";
+    return "#005737";
   };
 
   const ColoredCell = ({ value }) => (
     <Td
       fontSize="18px"
       bg={getColorByValue(value)}
-      color="black"
+      color={getColorByValue2(getColorByValue(value))}
       fontWeight={600}
     >
       {value}%
     </Td>
   );
   return (
-    <Box>
+    <Box gap={16}>
+      <Flex
+        flexDirection={"column"}
+        gap={0}
+        marginY={10}
+        fontFamily={"Montserrat"}
+        color={"#333333"}
+      >
+        <Text fontSize={28} fontWeight={400} textTransform={"uppercase"}>
+          Halo, {JSON.parse(localStorage.getItem("user")).username}
+        </Text>
+        <Text fontSize={32} fontWeight={800}>
+          Selamat Datang di ApDPS!
+        </Text>
+        <Text fontSize={16} fontWeight={400}>
+          Lihat, kelola, dan optimalkan data Anda dengan mudah.
+        </Text>
+      </Flex>
       <HeaderCard
         title={"Realisasi Kegiatan Pengeboran & KUPS"}
         subtitle={dateFormate}
-        icon={FaRegClock}
+        icon={IconRubberStamp}
       >
         <Grid templateColumns="repeat(4, 1fr)" mt={4} gap={4}>
           <GridItem colSpan={2}>
             <TableDashboard headers={headerTable1}>
               {datas ? (
                 data().map((item) => (
-                  <Tr key={item.id}>
+                  <Tr key={item.id} fontFamily={"Montserrat"}>
                     <Td>
-                      <IconButton colorScheme="blue" icon={<FaInfoCircle />} />
+                      <IconButton
+                        icon={<FaInfoCircle />}
+                        onClick={() => setIsModalOpen(true)}
+                      />
+                      <ModalRealisasi
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        link="https://your-link-here.com"
+                        title="Exploration"
+                        date="22 MARET 2024"
+                        chartsData={chartsData}
+                      />
                     </Td>
-                    <Td fontSize={"18px"}>{item.pekerjaan}</Td>
-                    <Td fontSize={"18px"}>{item.rencana}</Td>
-                    <Td>
+                    <Td fontSize={"18px"} fontFamily={"Montserrat"}>
+                      {item.pekerjaan}
+                    </Td>
+                    <Td fontSize={"18px"} fontFamily={"Montserrat"}>
+                      {item.rencana}
+                    </Td>
+                    <Td fontFamily={"Montserrat"}>
                       <Flex gap={4} fontSize={"18px"}>
                         {item.realisasi}
                         {item.change ? dataPerubahan(item.change) : null}
                       </Flex>
                     </Td>
-                    <Td fontSize={"18px"}>{item.percentage}</Td>
+                    <Td fontSize={"18px"} fontFamily={"Montserrat"}>
+                      {item.percentage}
+                    </Td>
                   </Tr>
                 ))
               ) : (

@@ -39,7 +39,7 @@ export async function getKKSJobdata() {
 }
 export async function getBarChartDataSKK() {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/budget-summary-charts`)
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/job-summary-chart`)
         console.log(response.data);
         
         return response.data
@@ -52,7 +52,7 @@ export async function getBarChartDataSKK() {
 
 export async function getTableRealization() {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/exploration/realization`)
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/exploration-realization`)
         console.log(response.data);
         
         return response.data
@@ -65,7 +65,7 @@ export async function getTableRealization() {
 
 export async function getKKKSInfo(kkks_id) {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/kkks/${kkks_id}/detail`)
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/kkks/${kkks_id}/job-data`)
         console.log(response.data);
         
         return response.data
@@ -115,3 +115,4 @@ export async function getDataJobCountPlanningEx() {
         return null
     }
 }
+

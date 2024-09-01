@@ -3,39 +3,53 @@ import { Box, Flex, Text, Icon } from "@chakra-ui/react";
 import { FaFileAlt } from "react-icons/fa";
 
 const PerhitunganCard = ({
-  percentage,
   number,
   label,
   subLabel,
+  percentage,
   icon = FaFileAlt,
   bgIcon = "blue.100",
   iconColor = "blue.500",
 }) => {
   return (
-    <Box bg="white" boxShadow="md" borderRadius="2xl" p={4} width={"100%"}>
-      <Flex alignItems="center" mb={2} gap={5}>
-        <Flex borderRadius="full" bg={bgIcon} p={4} mr={2}>
+    <Box bg="white" boxShadow= '0px 1px 3px rgba(0, 0, 0, 0.10)' borderRadius="2xl" p={6} w="100%">
+      <Flex alignItems="center" gap={6}>
+        <Flex
+          w={"100px"}
+          height={"100px"}
+          borderRadius="full"
+          bg={bgIcon}
+          justify="center"
+          align="center"
+        >
           <Icon as={icon} boxSize={10} color={iconColor} />
         </Flex>
-        <Flex flexDirection={"column"}>
+        <Flex flexDirection="column" flex="1">
           <Text
-            fontSize="1.5rem"
-            color={"gray.600"}
-            fontWeight="bold"
-            lineHeight="1"
+            fontSize={48}
+            fontFamily={"Montserrat"}
+            color="gray.600"
+            fontWeight="semibold"
+            lineHeight="shorter"
           >
             {number}
           </Text>
-          <Text fontSize="28px" fontWeight="medium" textTransform={"uppercase"} color="gray.500">
+          <Text
+            fontSize={20}
+            fontFamily={"Montserrat"}
+            fontWeight="medium"
+            textTransform="capitalize"
+            color="gray.500"
+          >
             {label}
           </Text>
+          <Flex gap={2}>
+            {percentage}
+            <Text fontSize="m" color="gray.400" fontFamily={"Montserrat"}>
+              {subLabel}
+            </Text>
+          </Flex>
         </Flex>
-      </Flex>
-      <Flex gap={4}>
-      {percentage}
-      <Text fontSize="xl" color="gray.500">
-        {subLabel}
-      </Text>
       </Flex>
     </Box>
   );

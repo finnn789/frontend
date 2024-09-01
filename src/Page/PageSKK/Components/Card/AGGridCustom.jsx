@@ -29,11 +29,11 @@ const TableComponent = ({ data = [] }) => {
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr>
-            <th style={{ padding: "8px", borderBottom: "2px solid #ddd" }}>INFO</th>
-            <th style={{ padding: "8px", borderBottom: "2px solid #ddd" }}>KKKS</th>
-            <th style={{ padding: "8px", borderBottom: "2px solid #ddd" }}>RENCANA WP&B 2024</th>
-            <th style={{ padding: "8px", borderBottom: "2px solid #ddd" }}>REALISASI</th>
-            <th style={{ padding: "8px", borderBottom: "2px solid #ddd" }}>%</th>
+            <th style={{ padding: "8px", borderBottom: "2px solid #ddd", color: "#6B7280"}} >INFO</th>
+            <th style={{ padding: "8px", borderBottom: "2px solid #ddd", color: "#6B7280" }}>KKKS</th>
+            <th style={{ padding: "8px", borderBottom: "2px solid #ddd", color: "#6B7280" }}>RENCANA WP&B 2024</th>
+            <th style={{ padding: "8px", borderBottom: "2px solid #ddd", color: "#6B7280" }}>REALISASI</th>
+            <th style={{ padding: "8px", borderBottom: "2px solid #ddd", color: "#6B7280" }}>%</th>
           </tr>
         </thead>
         <tbody>

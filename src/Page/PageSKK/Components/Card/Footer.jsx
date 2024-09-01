@@ -12,7 +12,7 @@ const Footer = () => {
       p={35}
       bg="white"
       borderRadius="2xl"
-      boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)"
+      boxShadow= '0px 1px 3px rgba(0, 0, 0, 0.10)'
     >
       <Text fontSize="sm" color="gray.500">
         © 2024 SKK Migas.

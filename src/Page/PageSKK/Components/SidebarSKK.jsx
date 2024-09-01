@@ -58,7 +58,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
       h="100vh"
       p={4}
       color="#10042C"
-      boxShadow="md"
+     boxShadow= '0px 1px 2px rgba(0, 0, 0, 0.10)'
       position="sticky"
       top={0}
       overflowY="auto"

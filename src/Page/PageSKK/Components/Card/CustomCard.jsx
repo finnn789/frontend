@@ -2,6 +2,7 @@
 import React from "react";
 import { Box, Icon, Text } from "@chakra-ui/react";
 import PropTypes from 'prop-types';
+import Montserrat from '@fontsource/montserrat';
 
 // Komponen CustomCard
 const CustomCard = ({ icon, count, label, bgColor, iconColor, iconBgColor }) => {
@@ -28,10 +29,10 @@ const CustomCard = ({ icon, count, label, bgColor, iconColor, iconBgColor }) => 
         <Icon as={icon} boxSize={8} color={iconColor} />
       </Box>
       <Box>
-        <Text fontSize="35px" fontWeight="bold">
+        <Text fontSize="35px" fontWeight="bold" fontFamily={Montserrat.variable}>
           {count}
         </Text>
-        <Text fontSize="23px" fontWeight="normal">
+        <Text fontSize="23px" fontWeight="normal" fontFamily={Montserrat.variable}>
           {label}
         </Text>
       </Box>

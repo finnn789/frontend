@@ -14,6 +14,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { FaBriefcase, FaEye, FaCheck } from "react-icons/fa";
+import {IconBriefcase} from '@tabler/icons-react';
 
 const data = [
   {
@@ -77,12 +78,12 @@ const ProposedWorkTable = ({ headers = [], children }) => {
     <Box bg="white" borderRadius="lg" boxShadow="md" p={4}>
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
         <Flex alignItems="center">
-          <Icon as={FaBriefcase} boxSize={6} color="gray.600" mr={2} />
+          <Icon as={IconBriefcase} boxSize={12} color="gray.600" mr={3} />
           <Box>
-            <Text fontSize="xl" fontWeight="bold">
+            <Text fontSize="xl" fontWeight="bold" fontFamily={'Montserrat'} color="gray.600">
               Pekerjaan Diajukan
             </Text>
-            <Text fontSize="sm" color="gray.500">
+            <Text fontSize="sm" color="gray.600" fontFamily={'Montserrat'}>
               Pekerjaan yang diajukan
             </Text>
           </Box>
@@ -99,15 +100,15 @@ const ProposedWorkTable = ({ headers = [], children }) => {
 
       <Table variant="simple">
         <Thead>
-          <Tr bg="gray.50">
+          <Tr bg="gray.50" fontFamily={'Montserrat'}>
             {headers.map((head, index) => (
-              <Th key={index} fontSize="sm">
+              <Th key={index} fontSize="sm" fontFamily={'Montserrat'}>
                 {head}
               </Th>
             ))}
           </Tr>
         </Thead>
-        <Tbody>{children}</Tbody>
+        <Tbody fontFamily={'Montserrat'}>{children}</Tbody>
       </Table>
     </Box>
   );

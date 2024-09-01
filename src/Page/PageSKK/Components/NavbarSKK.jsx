@@ -54,7 +54,7 @@ const NavbarKKKS = ({ appName = "App",nameUser }) => {
   const userName = "John Doe";
 
   return (
-    <Box bg="white" shadow={"md"} px={4} py={1} borderRadius={"lg"}>
+    <Box bg="white"boxShadow= '0px 1px 2px rgba(0, 0, 0, 0.10)' position={'sticky'} zIndex={999} top={5} px={4} py={1} borderRadius={"lg"}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
         <IconButton
           size="md"
@@ -108,7 +108,7 @@ const NavbarKKKS = ({ appName = "App",nameUser }) => {
               minW={0}
             >
               <HStack>
-                <Text>{nameUser}</Text>
+                <Text textTransform={'uppercase'}>{nameUser}</Text>
                 <Avatar size={"sm"} src={"https://bit.ly/sage-adebayo"} />
               </HStack>
             </MenuButton>

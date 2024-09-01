@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderCard from "./Components/Card/HeaderCard";
-import { FaBriefcase, FaChartLine } from "react-icons/fa";
-import { GiChemicalTank } from "react-icons/gi";
 import BarChartComponent from "./Components/Card/3DBarchart";
 import PieChart3D from "./Components/Card/3DPieChart";
 import TableComponent from "./Components/Card/AGGridCustom";
 import Footer from "./Components/Card/Footer";
 import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
-import { FaCopy, FaCheck } from "react-icons/fa";
-import { MdOutlineVerified } from "react-icons/md";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import { Flex, Text, Icon } from "@chakra-ui/react";
 import { getBarChartDataSKK, getTableRealization } from "../API/APISKK";
@@ -17,43 +13,7 @@ const Exploration = () => {
   const [dataCharts, setDataCharts] = useState(null);
   const [dataTableReal, setDataTableReal] = useState([]);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const dataChart = await getBarChartDataSKK();
-        const dataTableRealization = await getTableRealization();
-
-        // Log data to inspect structure
-        console.log("API dataTableRealization:", dataTableRealization);
-
-        // Extract data from dataTableRealization
-        const dataReal = dataTableRealization.data;
-
-        // Check if dataReal is an array
-        if (Array.isArray(dataReal)) {
-          // Map data for TableComponent
-          const processedData = dataReal.map(item => ({
-            id: item.kkks_id,
-            kkks: item.kkks_name,
-            rencana: item.approved_plans,
-            realisasi: item.completed_operations,
-            persentase: item.realization_percentage
-          }));
-          setDataTableReal(processedData);
-        } else {
-          console.error("Expected an array but got:", dataReal);
-          setDataTableReal([]); // Set to empty array or handle as needed
-        }
-
-        setDataCharts(dataChart);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    getData();
-  }, []);
-
+  // Define pieChartData here
   const pieChartData = [
     {
       type: "pie",
@@ -91,30 +51,61 @@ const Exploration = () => {
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",
   };
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const dataChart = await getBarChartDataSKK(); // Ambil data dari API
+        const dataTableRealization = await getTableRealization();
+
+        // Set dataChart ke dalam state dataCharts
+        setDataCharts(dataChart);
+
+        if (Array.isArray(dataTableRealization)) {
+          const processedData = dataTableRealization.map((item) => ({
+            id: item.kkks_id,
+            kkks: item.kkks_name,
+            rencana: item.approved_plans,
+            realisasi: item.completed_operations,
+            persentase: item.realization_percentage,
+          }));
+          setDataTableReal(processedData);
+        } else {
+          console.error("Expected an array but got:", dataTableRealization);
+          setDataTableReal([]); // Handle error atau set array kosong
+        }
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    getData();
+  }, []);
+
+  // console.log('asdawd', dataCharts.data);
+  
 
   return (
-    <>
-      <Text fontSize={"3em"} fontWeight={"bold"}>
+    <Flex gap={6} direction={"column"}>
+      <Text fontSize={"2em"} fontWeight={"bold"} color={"gray.600"} fontFamily="Montserrat">
         Eksplorasi
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
           number={200}
-          icon={FaCopy}
           label="Rencana"
           subLabel="WP&B Year 2024"
         />
         <PerhitunganCard
           number={100}
-          icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
           label="Realisasi"
           subLabel="Sejak kemarin"
           percentage={
             <Flex>
-              <Icon boxSize={8} color="green.500" as={RiArrowRightUpLine} />
-              <Text fontSize="xl" color="green.500">
+              <Icon boxSize={5} color="green.500" as={RiArrowRightUpLine} />
+              <Text fontSize="sm" color="green.500" fontFamily={"Montserrat"}>
                 3.46%
               </Text>
             </Flex>
@@ -125,12 +116,11 @@ const Exploration = () => {
           label="Selesai"
           bgIcon="red.100"
           iconColor="red.500"
-          icon={MdOutlineVerified}
           subLabel="Sejak kemarin"
           percentage={
             <Flex>
-              <Icon boxSize={8} color="green.500" as={RiArrowRightUpLine} />
-              <Text fontSize="xl" color="green.500">
+              <Icon boxSize={5} color="green.500" as={RiArrowRightUpLine} />
+              <Text fontSize="sm" color="green.500" fontFamily={"Montserrat"}>
                 1%
               </Text>
             </Flex>
@@ -141,37 +131,29 @@ const Exploration = () => {
       <HeaderCard
         title="Realisasi Kegiatan Eksplorasi"
         subtitle="Realisasi pekerjaan tiap bulan"
-        icon={FaBriefcase}
       >
-        <BarChartComponent />
+        {dataCharts ? (
+          <BarChartComponent datas={dataCharts.data} layout={dataCharts.layout} />
+        ) : (
+          <p>Loading...</p>
+        )}
       </HeaderCard>
       <Flex flexDirection={"row"} width={"100%"} mt={5} gap={4}>
         <HeaderCard
           title="Plan vs Actual Cost"
-          subtitle="million US$ - field estimate"
-          icon={FaChartLine}
+          subtitle="Perbandingan Perencanaan dan Realisasi"
         >
-          {dataCharts && dataCharts.charts && dataCharts.charts.exploration ? (
-            <PieChart3D
-              data={dataCharts.charts.exploration.data}
-              layout={dataCharts.charts.exploration.layout}
-            />
-          ) : (
-            <PieChart3D data={pieChartData} layout={layout} />
-          )}
+          <PieChart3D data={pieChartData} layout={layout} />
         </HeaderCard>
-
         <HeaderCard
           title="Status Akhir"
           subtitle="Status akhir sumur"
-          icon={FaCheck}
         >
           <PieChart3D data={pieChartData} layout={layout} />
         </HeaderCard>
         <HeaderCard
           title="Total Rig"
           subtitle="Total rig yang beroperasi"
-          icon={GiChemicalTank}
         >
           <PieChart3D data={pieChartData} layout={layout} />
         </HeaderCard>
@@ -180,7 +162,6 @@ const Exploration = () => {
         <HeaderCard
           title="Realisasi Kegiatan Eksplorasi"
           subtitle="Realisasi pekerjaan tiap bulan"
-          icon={FaBriefcase}
         >
           <TableComponent data={dataTableReal} />
         </HeaderCard>
@@ -188,7 +169,7 @@ const Exploration = () => {
       <Flex mt={5}>
         <Footer />
       </Flex>
-    </>
+    </Flex>
   );
 };
 
