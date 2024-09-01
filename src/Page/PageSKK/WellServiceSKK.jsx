@@ -131,15 +131,15 @@ const WellServiceSKK = () => {
     : "loading...";
 
   const wellServiceRealisasi = dataSummarySKK
-    ? dataSummarySKK.Workover.operating
+    ? dataSummarySKK.Well_Service.operating
     : "Loading...";
   const wellServiceRencana = dataSummarySKK
-    ? dataSummarySKK.Workover.approved
+    ? dataSummarySKK.Well_Service.approved
     : "Loading...";
   const wellServiceSelesai = dataSummarySKK
-    ? dataSummarySKK.Workover.finished
+    ? dataSummarySKK.Well_Service.finished
     : "Loading...";
-
+    
 
   return (
     <Flex gap={6} direction={"column"}>
