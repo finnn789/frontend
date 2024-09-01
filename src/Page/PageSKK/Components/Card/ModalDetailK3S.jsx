@@ -60,200 +60,55 @@ const ModalDetailK3S = ({ isOpen, onClose, kkks_id }) => {
   };
 
   const tableData = data?.table_data || [];
+  // console.log('bulanan', data?.chart_data?.Exploration?.monthly?.data);
 
   const explorationChartMonthly = {
-    data: [
-      {
-        name: data?.chart_data?.Exploration.data[0].name,
-        x: data?.chart_data?.Exploration.data[0].x,
-        y: data?.chart_data?.Exploration.data[0].y,
-        type: data?.chart_data?.Exploration.data[0].type,
-      },
-      {
-        name: data?.chart_data?.Exploration.data[1].name,
-        x: data?.chart_data?.Exploration.data[1].x,
-        y: data?.chart_data?.Exploration.data[1].y,
-        type: data?.chart_data?.Exploration.data[1].type,
-
-      }
-    ],
-    layout: {
-      title: data?.chart_data?.Exploration?.layout.title,
-      xaxis: data?.chart_data?.Exploration?.layout.xaxis1,
-      yaxis: data?.chart_data?.Exploration?.layout.yaxis1,
-    },
+    data: data?.chart_data?.Exploration?.monthly?.data,
+    layout: data?.chart_data?.Exploration?.monthly?.layout,
   };
-  
-  const explorationChartWeekly = {
-    data: [
-      {
-        name: data?.chart_data?.Exploration.data[2].name,
-        x: data?.chart_data?.Exploration.data[2].x,
-        y: data?.chart_data?.Exploration.data[2].y,
-        type: data?.chart_data?.Exploration.data[2].type,
-      },
-      {
-        name: data?.chart_data?.Exploration.data[3].name,
-        x: data?.chart_data?.Exploration.data[3].x,
-        y: data?.chart_data?.Exploration.data[3].y,
-        type: data?.chart_data?.Exploration.data[3].type,
 
-      }
-    ],
-    layout: {
-      title: data?.chart_data?.Exploration?.layout.title,
-      xaxis: data?.chart_data?.Exploration?.layout.xaxis2,
-      yaxis: data?.chart_data?.Exploration?.layout.yaxis2,
-    },
+  const explorationChartWeekly = {
+    data: data?.chart_data?.Exploration?.weekly?.data,
+    layout: data?.chart_data?.Exploration?.weekly?.layout,
   };
 
   const developmentChartMonthly = {
-    data: [
-      {
-        name: data?.chart_data?.Development.data[0].name,
-        x: data?.chart_data?.Development.data[0].x,
-        y: data?.chart_data?.Development.data[0].y,
-        type: data?.chart_data?.Development.data[0].type,
-      },
-      {
-        name: data?.chart_data?.Development.data[1].name,
-        x: data?.chart_data?.Development.data[1].x,
-        y: data?.chart_data?.Development.data[1].y,
-        type: data?.chart_data?.Development.data[1].type,
-
-      }
-    ],
-    layout: {
-      title: data?.chart_data?.Development?.layout.title,
-      xaxis: data?.chart_data?.Development?.layout.xaxis1,
-      yaxis: data?.chart_data?.Development?.layout.yaxis1,
-    },
+    data: data?.chart_data?.Development?.monthly?.data, // Pastikan ini adalah array dari objek
+    layout: data?.chart_data?.Development?.monthly?.layout, // Pastikan ini adalah objek layout yang benar
   };
 
   const developmentChartWeekly = {
-    data: [
-      {
-        name: data?.chart_data?.Development.data[2].name,
-        x: data?.chart_data?.Development.data[2].x,
-        y: data?.chart_data?.Development.data[2].y,
-        type: data?.chart_data?.Development.data[2].type,
-      },
-      {
-        name: data?.chart_data?.Development.data[3].name,
-        x: data?.chart_data?.Development.data[3].x,
-        y: data?.chart_data?.Development.data[3].y,
-        type: data?.chart_data?.Development.data[3].type,
-
-      }
-    ],
-    layout: {
-      title: data?.chart_data?.Development?.layout.title,
-      xaxis: data?.chart_data?.Development?.layout.xaxis2,
-      yaxis: data?.chart_data?.Development?.layout.yaxis2,
-    },
+    data: data?.chart_data?.Development?.weekly?.data,
+    layout: data?.chart_data?.Development?.weekly?.layout,
   };
 
   const workOverChartMonthly = {
-    data: [
-      {
-        name: data?.chart_data?.Workover.data[0].name,
-        x: data?.chart_data?.Workover.data[0].x,
-        y: data?.chart_data?.Workover.data[0].y,
-        type: data?.chart_data?.Workover.data[0].type,
-      },
-      {
-        name: data?.chart_data?.Workover.data[1].name,
-        x: data?.chart_data?.Workover.data[1].x,
-        y: data?.chart_data?.Workover.data[1].y,
-        type: data?.chart_data?.Workover.data[1].type,
-
-      }
-    ],
-    layout: {
-      title: data?.chart_data?.Workover?.layout.title,
-      xaxis: data?.chart_data?.Workover?.layout.xaxis1,
-      yaxis: data?.chart_data?.Workover?.layout.yaxis1,
-    },
+    data: data?.chart_data?.Workover?.monthly?.data,
+    layout: data?.chart_data?.Workover?.monthly?.layout,
   };
 
   const workOverChartWeekly = {
-    data: [
-      {
-        name: data?.chart_data?.Workover.data[2].name,
-        x: data?.chart_data?.Workover.data[2].x,
-        y: data?.chart_data?.Workover.data[2].y,
-        type: data?.chart_data?.Workover.data[2].type,
-      },
-      {
-        name: data?.chart_data?.Workover.data[3].name,
-        x: data?.chart_data?.Workover.data[3].x,
-        y: data?.chart_data?.Workover.data[3].y,
-        type: data?.chart_data?.Workover.data[3].type,
-
-      }
-    ],
-    layout: {
-      title: data?.chart_data?.Workover?.layout.title,
-      xaxis: data?.chart_data?.Workover?.layout.xaxis2,
-      yaxis: data?.chart_data?.Workover?.layout.yaxis2,
-    },
+    data: data?.chart_data?.Workover?.weekly?.data,
+    layout: data?.chart_data?.Workover?.weekly?.layout,
   };
 
-  // console.log('asd');
-  // console.log(workOverChartMonthly.layout);
-
   const wellServiceChartMonthly = {
-    data: [
-      {
-        name: data?.chart_data?.['Well Service']?.data[0].name,
-        x: data?.chart_data?.['Well Service']?.data[0].x,
-        y: data?.chart_data?.['Well Service']?.data[0].y,
-        type: data?.chart_data?.['Well Service']?.data[0].type,
-      },
-      {
-        name: data?.chart_data?.['Well Service']?.data[1].name,
-        x: data?.chart_data?.['Well Service']?.data[1].x,
-        y: data?.chart_data?.['Well Service']?.data[1].y,
-        type: data?.chart_data?.['Well Service']?.data[1].type,
-
-      }
-    ],
-    layout: {
-      title: data?.chart_data?.["Well Service"]?.layout.title,
-      xaxis: data?.chart_data?.["Well Service"]?.layout.xaxis1,
-      yaxis: data?.chart_data?.["Well Service"]?.layout.yaxis1,
-    }, // Layout untuk bulanan
+    data: data?.chart_data?.["Well Service"]?.monthly?.data,
+    layout: data?.chart_data?.["Well Service"]?.monthly?.layout,
   };
 
   const wellServiceChartWeekly = {
-    data: [
-      {
-        name: data?.chart_data?.['Well Service']?.data[2].name,
-        x: data?.chart_data?.['Well Service']?.data[2].x,
-        y: data?.chart_data?.['Well Service']?.data[2].y,
-        type: data?.chart_data?.['Well Service']?.data[2].type,
-      },
-      {
-        name: data?.chart_data?.['Well Service']?.data[3].name,
-        x: data?.chart_data?.['Well Service']?.data[3].x,
-        y: data?.chart_data?.['Well Service']?.data[3].y,
-        type: data?.chart_data?.['Well Service']?.data[3].type,
-
-      }
-    ],
-    layout: {
-      title: data?.chart_data?.["Well Service"]?.layout.title,
-      xaxis: data?.chart_data?.["Well Service"]?.layout.xaxis2,
-      yaxis: data?.chart_data?.["Well Service"]?.layout.yaxis2,
-    },
+    data: data?.chart_data?.["Well Service"]?.weekly?.data,
+    layout: data?.chart_data?.["Well Service"]?.weekly?.layout,
   };
-
-  // console.log(data?.chart_data?.Development);
 
   const tableDataExploration = data?.well_job_data?.exploration || [];
   const tableDataDevelopment = data?.well_job_data?.development || [];
   const tableDataWorkover = data?.well_job_data?.workover || [];
-  const tableDataWellService = data?.well_job_data?.well_service || [];
+  const tableDataWellService = data?.well_job_data?.["well service"] || [];
+
+  console.log("tableDataWellService", data?.well_job_data);
+  
 
   const columns = [
     { header: "No.", accessor: "index" },
@@ -266,30 +121,20 @@ const ModalDetailK3S = ({ isOpen, onClose, kkks_id }) => {
     { header: "Status", accessor: "status" },
   ];
 
-  const cardData = 
-    {
-      active_operations : data?.job_data.active_operations,
+  const cardData = {
+    active_operations: data?.job_data.active_operations,
 
-      approved_plans : data?.job_data.approved_plans,
+    approved_plans: data?.job_data.approved_plans,
 
     finished_jobs: data?.job_data.finished_jobs,
-      
-    percentage: data?.job_data.percentage,
-    }
-  
 
-  console.log('mufid gans', cardData);
-  
-  
+    percentage: data?.job_data.percentage,
+  };
 
   const handleView = (row) => {
     // Implement what should happen when "View" button is clicked
     // console.log("Viewing row:", row);
   };
-
-  console.log("kontol:", data?.chart_data);
-
-  // console.log([);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="6xl" scrollBehavior="inside">

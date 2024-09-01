@@ -7,42 +7,58 @@ import Footer from "./Components/Card/Footer";
 import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import { Flex, Text, Icon } from "@chakra-ui/react";
-import { getBarChartDataSKK, getTableRealization } from "../API/APISKK";
+import {
+  getBarChartDataSKK,
+  getTableRealization,
+  getJobTypeSummarySKK,
+  getRigTypePieChart,
+  getBudgetSummaryCharts,
+  getJobWellStatusChart,
+} from "../API/APISKK";
+import {
+  IconCalendar,
+  IconChartBar,
+  IconChecks,
+  IconTruck,
+  IconMapPin2,
+} from "@tabler/icons-react";
 
 const Exploration = () => {
+  const [dataSummarySKK, setDataSummarySKK] = useState(null);
   const [dataCharts, setDataCharts] = useState(null);
   const [dataTableReal, setDataTableReal] = useState([]);
+  const [dataRigTypePieChart, setDataRigTypePieChart] = useState([]);
+  const [dataBudgetSummary, setDataBudgetSummary] = useState([]);
+  const [dataJobWellStatus, setDataJobWellStatus] = useState([]);
 
   // Define pieChartData here
-  const pieChartData = [
-    {
-      type: "pie",
-      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-      values: [12, 19, 3, 5, 2, 3],
-      hole: 0.4,
-      pull: [0.1, 0, 0, 0, 0, 0],
-      marker: {
-        colors: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(153, 102, 255, 0.6)",
-          "rgba(255, 159, 64, 0.6)",
-        ],
-        line: {
-          color: "rgba(255, 255, 255, 1)",
-          width: 2,
-        },
-      },
-      textinfo: "label+percent",
-      hoverinfo: "label+value",
-      hoverlabel: {
-        bgcolor: "white",
-        bordercolor: "gray",
+  const pieChartData = {
+    type: "pie",
+    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    values: [12, 19, 3, 5, 2, 3],
+    hole: 0.4,
+    pull: [0.1, 0, 0, 0, 0, 0],
+    marker: {
+      colors: [
+        "rgba(255, 99, 132, 0.6)",
+        "rgba(54, 162, 235, 0.6)",
+        "rgba(255, 206, 86, 0.6)",
+        "rgba(75, 192, 192, 0.6)",
+        "rgba(153, 102, 255, 0.6)",
+        "rgba(255, 159, 64, 0.6)",
+      ],
+      line: {
+        color: "rgba(255, 255, 255, 1)",
+        width: 2,
       },
     },
-  ];
+    textinfo: "label+percent",
+    hoverinfo: "label+value",
+    hoverlabel: {
+      bgcolor: "white",
+      bordercolor: "gray",
+    },
+  };
 
   const layout = {
     height: 400,
@@ -54,9 +70,14 @@ const Exploration = () => {
   useEffect(() => {
     const getData = async () => {
       try {
+        const dataSummarySKK = await getJobTypeSummarySKK();
         const dataChart = await getBarChartDataSKK(); // Ambil data dari API
         const dataTableRealization = await getTableRealization();
+        const dataRigTypePieChart = await getRigTypePieChart();
+        const dataBudgetSummary = await getBudgetSummaryCharts();
+        const dataJobWellStatus = await getJobWellStatusChart();
 
+        setDataSummarySKK(dataSummarySKK);
         // Set dataChart ke dalam state dataCharts
         setDataCharts(dataChart);
 
@@ -74,6 +95,9 @@ const Exploration = () => {
           setDataTableReal([]); // Handle error atau set array kosong
         }
 
+        setDataRigTypePieChart(dataRigTypePieChart); // Pie Chart Rig
+        setDataBudgetSummary(dataBudgetSummary); // Bar Chart Budget
+        setDataJobWellStatus(dataJobWellStatus); // Chart Status Selesai
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -82,22 +106,68 @@ const Exploration = () => {
     getData();
   }, []);
 
-  // console.log('asdawd', dataCharts.data);
+  // RIG TYPE DATA PIE CHART
+  const dataPieRigType = dataRigTypePieChart?.development?.chart_data
+    ? dataRigTypePieChart.development.chart_data
+    : null;
+
+  const fixDataPieRigType = dataPieRigType
+    ? JSON.parse(dataPieRigType)
+    : "loading...";
+
+  // console.log("fixDataPieRigType.data", fixDataPieRigType.data);
+
+  // BUDGET DATA BAR CHART
+  const dataBudget = dataBudgetSummary?.charts?.Exploration
+    ? dataBudgetSummary.charts.Exploration
+    : null;
+
+  const fixDataBudget = dataBudget ? dataBudget : "loading...";
+
+  // console.log("fixDataBudget", fixDataBudget);
+
+  // JOB WELLS STATUS SELESAI
+  const dataJobWells = dataJobWellStatus?.exploration?.chart
+    ? dataJobWellStatus.exploration.chart
+    : null;
   
+  console.log("testcoy", dataJobWells);
+  
+  
+  const fixDataJobWells = dataJobWells ? JSON.parse(dataJobWells) : "loading...";
+
+  console.log("fixDataJobWells", fixDataJobWells);
+  
+  
+
+  const explorationRealisasi = dataSummarySKK
+    ? dataSummarySKK[0].realisasi
+    : "Loading...";
+  const explorationRencana = dataSummarySKK
+    ? dataSummarySKK[0].rencana
+    : "Loading...";
+  const explorationSelesai = dataSummarySKK
+    ? dataSummarySKK[0].selesai
+    : "Loading...";
 
   return (
     <Flex gap={6} direction={"column"}>
-      <Text fontSize={"2em"} fontWeight={"bold"} color={"gray.600"} fontFamily="Montserrat">
+      <Text
+        fontSize={"2em"}
+        fontWeight={"bold"}
+        color={"gray.600"}
+        fontFamily="Montserrat"
+      >
         Eksplorasi
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={200}
+          number={explorationRencana}
           label="Rencana"
           subLabel="WP&B Year 2024"
         />
         <PerhitunganCard
-          number={100}
+          number={explorationRealisasi}
           bgIcon="green.100"
           iconColor="green.500"
           label="Realisasi"
@@ -112,7 +182,7 @@ const Exploration = () => {
           }
         />
         <PerhitunganCard
-          number={1}
+          number={explorationSelesai}
           label="Selesai"
           bgIcon="red.100"
           iconColor="red.500"
@@ -129,37 +199,48 @@ const Exploration = () => {
       </Flex>
 
       <HeaderCard
+        icon={IconCalendar}
         title="Realisasi Kegiatan Eksplorasi"
         subtitle="Realisasi pekerjaan tiap bulan"
       >
         {dataCharts ? (
-          <BarChartComponent datas={dataCharts.data} layout={dataCharts.layout} />
+          <BarChartComponent
+            datas={dataCharts.data}
+            layout={dataCharts.layout}
+          />
         ) : (
           <p>Loading...</p>
         )}
       </HeaderCard>
       <Flex flexDirection={"row"} width={"100%"} mt={5} gap={4}>
         <HeaderCard
+          icon={IconChartBar}
           title="Plan vs Actual Cost"
           subtitle="Perbandingan Perencanaan dan Realisasi"
         >
-          <PieChart3D data={pieChartData} layout={layout} />
+          <PieChart3D data={fixDataBudget.data} layout={fixDataBudget.layout} />
         </HeaderCard>
         <HeaderCard
+          icon={IconChecks}
           title="Status Akhir"
           subtitle="Status akhir sumur"
         >
-          <PieChart3D data={pieChartData} layout={layout} />
+          <PieChart3D data={fixDataJobWells.data} layout={fixDataJobWells.layout} />
         </HeaderCard>
         <HeaderCard
+          icon={IconTruck}
           title="Total Rig"
           subtitle="Total rig yang beroperasi"
         >
-          <PieChart3D data={pieChartData} layout={layout} />
+          <PieChart3D
+            data={fixDataPieRigType.data}
+            layout={fixDataPieRigType.layout}
+          />
         </HeaderCard>
       </Flex>
       <Flex mt={5}>
         <HeaderCard
+          icon={IconMapPin2}
           title="Realisasi Kegiatan Eksplorasi"
           subtitle="Realisasi pekerjaan tiap bulan"
         >
