@@ -333,7 +333,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/workover/operations"
+                  to="/skk/workover/planningworkover"
                   px={3}
                   isDisabled={true}
                   py={2}

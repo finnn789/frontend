@@ -35,15 +35,15 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-const ProposedWorkTable = ({headers=[], children}) => {
+const ProposedWorkTable = ({headers=[], children,title,subtitle }) => {
   return (
     <Box bg="white" borderRadius="lg" boxShadow="md" p={4}>
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
         <Flex alignItems="center">
           <Icon as={FaBriefcase} boxSize={6} color="gray.600" mr={2} />
           <Box>
-            <Text fontSize="xl" fontWeight="bold">Pekerjaan Diajukan</Text>
-            <Text fontSize="sm" color="gray.500">Pekerjaan yang diajukan</Text>
+            <Text fontSize="xl" fontWeight="bold">{title}</Text>
+            <Text fontSize="sm" color="gray.500">{subtitle}</Text>
           </Box>
         </Flex>
         <Button hidden leftIcon={<Icon as={FaCheck} />} colorScheme="blue" size="md">

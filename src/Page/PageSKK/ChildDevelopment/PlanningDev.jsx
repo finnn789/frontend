@@ -119,7 +119,7 @@ const PlanningDevelopment = () => {
         />
       </Flex>
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1}>
+        <ProposedWorkTable headers={headerstable1} title={"List Developmetn "}>
           {data.map((row) => (
             <Tr key={row.id}>
               <Td>{row.id}</Td>

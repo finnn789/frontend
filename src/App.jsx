@@ -21,7 +21,7 @@ import SplashScreen from "./Page/Components/SplashScreen"; // Import SplashScree
 import RoleRedirect from "./Auth/RoleRedirect";
 import GraphTable from "./Page/Components/PageExploitasi/GraphTable";
 import Exploration from "./Page/PageSKK/Exploration";
-import DevelopmentSKK from "./Page/PageSKK/DevelopmentSKK";
+import DevelopmentSKK from "./Page/PageSKK/DevelopmentSKK"
 import WellServiceSKK from "./Page/PageSKK/WellServiceSKK";
 import WorkOverSKK from "./Page/PageSKK/WorkOverSKK";
 import PlanningExp from "./Page/PageSKK/ChildExploration/PlanningExp";

@@ -106,10 +106,10 @@ const WellServiceSKK = () => {
           subtitle="million US$ - field estimate"
           icon={FaBriefcase}
         >
-          <PieChart3D
+          {/* <PieChart3D
             data={dataCharts ? dataCharts.charts.wellservice.data : data}
             layout={dataCharts ? dataCharts.charts.wellservice.layout : layout}
-          />
+          /> */}
         </HeaderCard>
         <HeaderCard
           title="Status Akhir"

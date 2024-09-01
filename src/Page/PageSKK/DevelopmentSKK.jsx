@@ -106,10 +106,10 @@ const DevelopmentSKK = () => {
           subtitle="million US$ - field estimate"
           icon={FaBriefcase}
         >
-          <PieChart3D
-            data={dataCharts ? dataCharts.charts.development.data :data}
-            layout={dataCharts ? dataCharts.charts.development.layout :layout}
-          />
+          {/* <PieChart3D
+            data={dataCharts ? dataCharts.charts.development.data : data}
+            layout={dataCharts ? dataCharts.charts.development.layout : layout}
+          /> */}
         </HeaderCard>
         <HeaderCard
           title="Status Akhir"
