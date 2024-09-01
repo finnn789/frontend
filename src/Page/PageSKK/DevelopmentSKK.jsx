@@ -116,7 +116,7 @@ const DevelopmentSKK = () => {
     ? dataSummarySKK[1].selesai
     : "Loading...";
   
-  console.log('dataSummarySKK', dataSummarySKK);
+  // console.log('dataSummarySKK', dataSummarySKK);
   
 
   // console.log("dataSummarySKK", dataSummarySKK);

@@ -1,28 +1,38 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ProposedWorkTable from "./Components/ProposedWork";
-import { Box,Badge, Flex, Text,Tr,Td,Button,Icon } from "@chakra-ui/react";
+import { Box, Badge, Flex, Text, Tr, Td, Button, Icon } from "@chakra-ui/react";
 import PerhitunganCard from "../Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx } from "../../API/APISKK";
-const PlanningExp = () => {
-
+import { getDataJobCountPlanningEx, getCombinedData } from "../../API/APISKK";
+const PlanningWellService = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
-
-  React.useEffect(()=> {
+  React.useEffect(() => {
     const getData = async () => {
-      const data = await getDataJobCountPlanningEx();
+      const data = await getCombinedData();
       setCountStatus(data);
-    }
+    };
     getData();
-  },[])
+  }, []);
+// console.log(countStatus);
+
+  const proposedCount = countStatus ? countStatus.Exploration.planning_status_counts.PROPOSED : null;
+  const AprovedCount = countStatus ? countStatus.Exploration.planning_status_counts.APPROVED : null;
+  const ReturnedCount = countStatus ? countStatus.Exploration.planning_status_counts.RETURNED : null;
 
   
   
+  
+
+  const dataWell = countStatus ? countStatus.Exploration.wells : null;
+  
+  
+  
+
   const headerstable1 = [
     "NO.",
     "NAMA SUMUR",
@@ -49,7 +59,7 @@ const PlanningExp = () => {
     {
       id: 2,
       namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA011",
+      wilayahKerja: "AREA01",
       lapangan: "FIELD01",
       tanggalMulai: "24 Mei 2024",
       tanggalSelesai: "24 Juli 2024",
@@ -92,33 +102,28 @@ const PlanningExp = () => {
     );
   };
   return (
-    <Flex gap={6} direction={"column"}>
-       <Text
-        fontSize={"2em"}
-        fontWeight={"bold"}
-        color={"gray.600"}
-        fontFamily="Montserrat"
-      >
-        Planning Eksplorasi
+    <div>
+      <Text fontSize={"3em"} fontWeight={"bold"}>
+        Planning WorkOver
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={countStatus ? countStatus[1].count : 0}
+          number={proposedCount ? proposedCount : <p>Loading...</p>}
           icon={FaCopy}
-          label={countStatus ? countStatus[1].status : ''}
+          label={"PROPOSED"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-         number={countStatus ? countStatus[3].count: 0}
+          number={AprovedCount ? AprovedCount : <p>Loading...</p>}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
-          label={countStatus ? countStatus[3].status : ''}
+          label={"APPROVED"}
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-         number={countStatus ? countStatus[2].count: 0}
-         label={countStatus ? countStatus[2].status : ''}
+          number={ReturnedCount ? ReturnedCount : <p>Loading...</p>}
+          label={"RETURNED"}
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
@@ -126,18 +131,18 @@ const PlanningExp = () => {
         />
       </Flex>
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1}>
-          {data.map((row) => (
-            <Tr key={row.id}>
-              <Td>{row.id}</Td>
-              <Td>{row.namaSumur}</Td>
-              <Td>{row.wilayahKerja}</Td>
+        <ProposedWorkTable headers={headerstable1} title={"List Development "}>
+          {dataWell ? dataWell.map((row,index) => (
+            <Tr key={index}>
+              <Td>{index}</Td>
+              <Td>{row.well_name}</Td>
+              <Td>{row.wilayah_kerja}</Td>
               <Td>{row.lapangan}</Td>
-              <Td>{row.tanggalMulai}</Td>
-              <Td>{row.tanggalSelesai}</Td>
-              <Td>{row.tanggalDiajukan}</Td>
+              <Td>{row.date_started}</Td>
+              <Td>{row.date_finished}</Td>
+              <Td>{row.date_proposed}</Td>
               <Td>
-                <StatusBadge status={row.status} />
+                <StatusBadge status={row.planning_status} />
               </Td>
               <Td>
                 <Button
@@ -152,18 +157,18 @@ const PlanningExp = () => {
                   leftIcon={<Icon as={FaCheck} />}
                   colorScheme="green"
                   size="sm"
-                  isDisabled={row.status !== "PROPOSED"}
+                  isDisabled={row.planning_status !== "PROPOSED"}
                 >
                   Approve
                 </Button>
               </Td>
             </Tr>
-          ))}
+          )): <p>Loading...</p>}
         </ProposedWorkTable>
       </Box>
       <Footer />
-    </Flex>
+    </div>
   );
 };
 
-export default PlanningExp;
+export default PlanningWellService;

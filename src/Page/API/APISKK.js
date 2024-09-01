@@ -141,4 +141,14 @@ export async function getJobWellStatusChart() {
     }
 }
 
+export async function getCombinedData() {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/combined-data`)
+        return response.data
+
+    } catch (error) {
+        console.error("Error get Data Well And Start Date", error);
+        return null
+    }
+}
 // export async function getCombineDataExploration() {
