@@ -6,7 +6,7 @@ import TableComponent from "./Components/Card/AGGridCustom";
 import Footer from "./Components/Card/Footer";
 import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { RiArrowRightUpLine } from "react-icons/ri";
-import { Flex, Text, Icon } from "@chakra-ui/react";
+import { Flex, Text, Icon, Box } from "@chakra-ui/react";
 import {
   getBarChartDataSKK,
   getTableRealization,
@@ -130,15 +130,14 @@ const Exploration = () => {
   const dataJobWells = dataJobWellStatus?.exploration?.chart
     ? dataJobWellStatus.exploration.chart
     : null;
-  
+
   console.log("testcoy", dataJobWells);
-  
-  
-  const fixDataJobWells = dataJobWells ? JSON.parse(dataJobWells) : "loading...";
+
+  const fixDataJobWells = dataJobWells
+    ? JSON.parse(dataJobWells)
+    : "loading...";
 
   console.log("fixDataJobWells", fixDataJobWells);
-  
-  
 
   const explorationRealisasi = dataSummarySKK
     ? dataSummarySKK[0].realisasi
@@ -149,6 +148,8 @@ const Exploration = () => {
   const explorationSelesai = dataSummarySKK
     ? dataSummarySKK[0].selesai
     : "Loading...";
+
+  console.log("dataSummarySKK", dataSummarySKK);
 
   return (
     <Flex gap={6} direction={"column"}>
@@ -212,32 +213,70 @@ const Exploration = () => {
           <p>Loading...</p>
         )}
       </HeaderCard>
+      {/* // chart tiga */}
       <Flex flexDirection={"row"} width={"100%"} mt={5} gap={4}>
         <HeaderCard
           icon={IconChartBar}
           title="Plan vs Actual Cost"
           subtitle="Perbandingan Perencanaan dan Realisasi"
         >
-          <PieChart3D data={fixDataBudget.data} layout={fixDataBudget.layout} />
+          <Box width="100%" height="100%">
+            <PieChart3D
+              data={fixDataBudget.data}
+              layout={{
+                ...fixDataBudget.layout,
+                autosize: true,
+                width: undefined, // Supaya tidak ada pengaturan lebar statis
+                height: 600, // Supaya tidak ada pengaturan tinggi statis
+                responsive: true, // Membuat chart responsif
+              }}
+              style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
+              useResizeHandler={true} // Mengaktifkan penanganan resize
+            />
+          </Box>
         </HeaderCard>
         <HeaderCard
           icon={IconChecks}
           title="Status Akhir"
           subtitle="Status akhir sumur"
         >
-          <PieChart3D data={fixDataJobWells.data} layout={fixDataJobWells.layout} />
+          <Box width="100%" height="100%">
+            <PieChart3D
+              data={fixDataJobWells.data}
+              layout={{
+                ...fixDataJobWells.layout,
+                autosize: true,
+                width: undefined,
+                height: 600,
+                responsive: true,
+              }}
+              style={{ width: "100%", height: "100" }}
+              useResizeHandler={true}
+            />
+          </Box>
         </HeaderCard>
         <HeaderCard
           icon={IconTruck}
           title="Total Rig"
           subtitle="Total rig yang beroperasi"
         >
-          <PieChart3D
-            data={fixDataPieRigType.data}
-            layout={fixDataPieRigType.layout}
-          />
+          <Box width="100%" height="100%">
+            <PieChart3D
+              data={fixDataPieRigType.data}
+              layout={{
+                ...fixDataPieRigType.layout,
+                autosize: true,
+                width: undefined,
+                height: 600,
+                responsive: true,
+              }}
+              style={{ width: "100%", height: "100" }}
+              useResizeHandler={true}
+            />
+          </Box>
         </HeaderCard>
       </Flex>
+
       <Flex mt={5}>
         <HeaderCard
           icon={IconMapPin2}
