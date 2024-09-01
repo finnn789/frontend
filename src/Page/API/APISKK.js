@@ -151,4 +151,14 @@ export async function getCombinedData() {
         return null
     }
 }
+export async function getDataOperation () {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/data-operations`)
+        return response.data
+
+    } catch (error) {
+        console.error("Error get Data Well And Start Date", error);
+        return null
+    }
+}
 // export async function getCombineDataExploration() {
