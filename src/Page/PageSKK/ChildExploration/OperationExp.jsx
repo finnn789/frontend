@@ -7,22 +7,22 @@ import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx, getCombinedData } from "../../API/APISKK";
+import { getDataJobCountPlanningEx, getCombinedData,getDataOperation } from "../../API/APISKK";
 const OperationExp = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
   React.useEffect(() => {
     const getData = async () => {
-      const data = await getCombinedData();
+      const data = await getDataOperation();
       setCountStatus(data);
     };
     getData();
   }, []);
 // console.log(countStatus);
 
-  const proposedCount = countStatus ? countStatus.Exploration.planning_status_counts.PROPOSED : null;
-  const AprovedCount = countStatus ? countStatus.Exploration.planning_status_counts.APPROVED : null;
-  const ReturnedCount = countStatus ? countStatus.Exploration.planning_status_counts.RETURNED : null;
+//   const proposedCount = countStatus ? countStatus.Exploration.planning_status_counts.PROPOSED : null;
+//   const AprovedCount = countStatus ? countStatus.Exploration.planning_status_counts.APPROVED : null;
+//   const ReturnedCount = countStatus ? countStatus.Exploration.planning_status_counts.RETURNED : null;
 
   
   console.log(countStatus);
