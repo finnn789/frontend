@@ -134,8 +134,8 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/development/operations"
-                  isDisabled={true}
+                  to="/skk/exploration/operationexploration"
+                  
                   px={3}
                   py={2}
                   rounded="md"
@@ -154,8 +154,8 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/ppp"
-                  isDisabled={true}
+                  to="/skk/exploration/pppexploration"
+                  
                   px={3}
                   py={2}
                   rounded="md"
@@ -171,9 +171,11 @@ const SidebarKKS = ({ handleMenuValue }) => {
               </ListItem>
               <ListItem>
                 <Button
+                as={Link}
+                to={"/skk/exploration/closeoutexploration"}
                   px={3}
                   py={2}
-                  isDisabled={true}
+                  
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
@@ -433,13 +435,13 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/wellservice/operations"
+                  to="/skk/wellservice/operationswellservice"
                   px={3}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
-                  isDisabled={true}
+                  
                   justifyContent="flex-start"
                   bg="#f9f9f9"
                   leftIcon={<Icon as={FaCog} />}
@@ -451,11 +453,11 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/wellservice/p3"
+                  to="/skk/wellservice/pppwellservice"
                   px={3}
                   py={2}
                   rounded="md"
-                  isDisabled={true}
+                  
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
                   justifyContent="flex-start"
@@ -469,13 +471,13 @@ const SidebarKKS = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/wellservice/closeout"
+                  to="/skk/wellservice/closeoutwellservice"
                   px={3}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
-                  isDisabled={true}
+                  
                   justifyContent="flex-start"
                   bg="#f9f9f9"
                   leftIcon={<Icon as={FaCog} />}

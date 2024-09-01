@@ -39,6 +39,12 @@ import CloseOutDev from "./Page/PageSKK/ChildDevelopment/CloseOutDev";
 import OperationsWO from "./Page/PageSKK/ChildWorkOver/OperationsWO";
 import PPPWO from "./Page/PageSKK/ChildWorkOver/PPPWO";
 import CloseOutWO from "./Page/PageSKK/ChildWorkOver/CloseOutWO";
+import OperationWS from "./Page/PageSKK/ChildWellService/OperationWS";
+import PPPWS from "./Page/PageSKK/ChildWellService/PPPWS";
+import CloseOutWS from "./Page/PageSKK/ChildWellService/CloseOutWS";
+import OperationExp from "./Page/PageSKK/ChildExploration/OperationExp";
+import PPPExp from "./Page/PageSKK/ChildExploration/PPPExp";
+import CloseOutExp from "./Page/PageSKK/ChildExploration/CloseOutExp";
 
 
 function App() {
@@ -161,6 +167,33 @@ function App() {
           ),
         },
         {
+          path: "exploration/operationexploration",
+          element: (
+            <ProtectedRoute
+              element={<OperationExp />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "exploration/pppexploration",
+          element: (
+            <ProtectedRoute
+              element={<PPPExp />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "exploration/closeoutexploration",
+          element: (
+            <ProtectedRoute
+              element={<CloseOutExp />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
           path: "development",
           element: (
             <ProtectedRoute
@@ -219,6 +252,33 @@ function App() {
           element: (
             <ProtectedRoute
               element={<PlanningWellService />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "wellservice/operationswellservice",
+          element: (
+            <ProtectedRoute
+              element={<OperationWS />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "wellservice/pppwellservice",
+          element: (
+            <ProtectedRoute
+              element={<PPPWS />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "wellservice/closeoutwellservice",
+          element: (
+            <ProtectedRoute
+              element={<CloseOutWS/>}
               allowedRoles={["Admin"]}
             />
           ),
