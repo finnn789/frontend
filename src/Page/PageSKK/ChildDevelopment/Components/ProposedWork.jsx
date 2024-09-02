@@ -42,8 +42,8 @@ const ProposedWorkTable = ({headers=[], children,title,subtitle }) => {
         <Flex alignItems="center">
           <Icon as={FaBriefcase} boxSize={6} color="gray.600" mr={2} />
           <Box>
-            <Text fontSize="xl" fontWeight="bold">{title}</Text>
-            <Text fontSize="sm" color="gray.500">{subtitle}</Text>
+            <Text fontSize="xl" fontWeight="bold">{title ? title : 'Proposed Work'}</Text>
+            <Text fontSize="sm" color="gray.500">{subtitle ? subtitle : 'List of Proposed Work'}</Text>
           </Box>
         </Flex>
         <Button hidden leftIcon={<Icon as={FaCheck} />} colorScheme="blue" size="md">

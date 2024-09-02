@@ -2,42 +2,48 @@ import React from "react";
 import ProposedWorkTable from "./Components/ProposedWork";
 import { Box, Badge, Flex, Text, Tr, Td, Button, Icon } from "@chakra-ui/react";
 import PerhitunganCard from "../Components/Card/CardPerhitunganBox";
-import { FaCopy, FaCheck } from "react-icons/fa";
+import { FaCopy, FaCheck, FaCalendarCheck } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx, getCombinedData } from "../../API/APISKK";
+import { getDataJobCountPlanningEx, getCombinedData,getDataOperation } from "../../API/APISKK";
+import { IoCheckmark, IoCheckmarkDone, IoCheckmarkDoneCircle } from "react-icons/io5";
 const OperationDev = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
   React.useEffect(() => {
     const getData = async () => {
-      const data = await getCombinedData();
+      const data = await getDataOperation();
       setCountStatus(data);
     };
     getData();
   }, []);
-console.log(countStatus);
+// console.log(countStatus);
 
-  const proposedCount = countStatus ? countStatus.Development.planning_status_counts.PROPOSED : null;
-  const AprovedCount = countStatus ? countStatus.Development.planning_status_counts.APPROVED : null;
-  const ReturnedCount = countStatus ? countStatus.Development.planning_status_counts.RETURNED : null;
+  const proposedCount = countStatus ? countStatus.development.summary.beroperasi : null;
+  const AprovedCount = countStatus ? countStatus.development.summary.disetujui : null;
+  const ReturnedCount = countStatus ? countStatus.development.summary.selesai : null;
+
+  
+  console.log(countStatus);
+  
   
 
-  const dataWell = countStatus ? countStatus.Development.wells : null;
-  console.log(dataWell);
+  const dataWell = countStatus ? countStatus.development.job_details : null;
+  
   
   
 
   const headerstable1 = [
     "NO.",
+    "KKKS",
     "NAMA SUMUR",
     "WILAYAH KERJA",
     "LAPANGAN",
-    "TANGGAL MULAI",
-    "TANGGAL SELESAI",
-    "TANGGAL DIAJUKAN",
+    "REALISASI MULAI",
+    "REALISASI SELESAI",
+    // "TANGGAL DIAJUKAN",
     "STATUS",
     "AKSI",
   ];
@@ -105,41 +111,41 @@ console.log(countStatus);
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={proposedCount ? proposedCount : <p>Loading...</p>}
+          number={countStatus ? proposedCount : <p>Loading...</p>}
           icon={FaCopy}
-          label={"PROPOSED"}
+          label={"BEROPERASI"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-          number={AprovedCount ? AprovedCount : <p>Loading...</p>}
-          icon={FaCheck}
-          bgIcon="green.100"
-          iconColor="green.500"
-          label={"APPROVED"}
+          number={countStatus ? AprovedCount : <p>Loading...</p>}
+          icon={FaCalendarCheck}
+          bgIcon="yellow.100"
+          iconColor="yellow.500"
+          label={"DISETUJUI"}
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={ReturnedCount ? ReturnedCount : <p>Loading...</p>}
-          label={"RETURNED"}
-          bgIcon="red.100"
-          iconColor="red.500"
-          icon={MdOutlineVerified}
+          number={countStatus ? ReturnedCount : <p>Loading...</p>}
+          label={"SELESAI"}
+          bgIcon="green.100"
+          iconColor="green.800"
+          icon={IoCheckmarkDone}
           subLabel="Pekerjaan Dikembalikan"
         />
       </Flex>
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1} title={"List Development "}>
+        <ProposedWorkTable headers={headerstable1} title={"List Operation Job"} subtitle={"List Operation"}>
           {dataWell ? dataWell.map((row,index) => (
             <Tr key={index}>
-              <Td>{index}</Td>
-              <Td>{row.well_name}</Td>
-              <Td>{row.wilayah_kerja}</Td>
-              <Td>{row.lapangan}</Td>
-              <Td>{row.date_started}</Td>
-              <Td>{row.date_finished}</Td>
-              <Td>{row.date_proposed}</Td>
+              <Td>{index + 1}</Td>
+              <Td>{row.KKKS}</Td>
+              <Td>{row["NAMA SUMUR"]}</Td>
+              <Td>{row["WILAYAH KERJA"]}</Td>
+              <Td>{row.LAPANGAN}</Td>
+              <Td>{row["REALISASI MULAI"]}</Td>
+              <Td>{row["REALISASI SELESAI"]}</Td>
               <Td>
-                <StatusBadge status={row.planning_status} />
+                <StatusBadge status={row.STATUS} />
               </Td>
               <Td>
                 <Button
@@ -168,4 +174,4 @@ console.log(countStatus);
   );
 };
 
-export default OperationDev;
+export default OperationDev
