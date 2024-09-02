@@ -134,7 +134,7 @@ const OperationExp = () => {
         />
       </Flex>
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1} title={"List Development "}>
+        <ProposedWorkTable headers={headerstable1} title={"Pekerjaan Disetujui dan Beroperasi "} subtitle={"Pekerjaan yang telah disetujui dan beroperasi"}>
           {dataWell ? dataWell.map((row,index) => (
             <Tr key={index}>
               <Td>{index + 1}</Td>

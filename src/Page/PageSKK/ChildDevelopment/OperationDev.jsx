@@ -7,8 +7,16 @@ import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx, getCombinedData,getDataOperation } from "../../API/APISKK";
-import { IoCheckmark, IoCheckmarkDone, IoCheckmarkDoneCircle } from "react-icons/io5";
+import {
+  getDataJobCountPlanningEx,
+  getCombinedData,
+  getDataOperation,
+} from "../../API/APISKK";
+import {
+  IoCheckmark,
+  IoCheckmarkDone,
+  IoCheckmarkDoneCircle,
+} from "react-icons/io5";
 const OperationDev = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
@@ -19,21 +27,21 @@ const OperationDev = () => {
     };
     getData();
   }, []);
-// console.log(countStatus);
+  // console.log(countStatus);
 
-  const proposedCount = countStatus ? countStatus.development.summary.beroperasi : null;
-  const AprovedCount = countStatus ? countStatus.development.summary.disetujui : null;
-  const ReturnedCount = countStatus ? countStatus.development.summary.selesai : null;
+  const proposedCount = countStatus
+    ? countStatus.development.summary.beroperasi
+    : null;
+  const AprovedCount = countStatus
+    ? countStatus.development.summary.disetujui
+    : null;
+  const ReturnedCount = countStatus
+    ? countStatus.development.summary.selesai
+    : null;
 
-  
   console.log(countStatus);
-  
-  
 
   const dataWell = countStatus ? countStatus.development.job_details : null;
-  
-  
-  
 
   const headerstable1 = [
     "NO.",
@@ -134,39 +142,47 @@ const OperationDev = () => {
         />
       </Flex>
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1} title={"List Operation Job"} subtitle={"List Operation"}>
-          {dataWell ? dataWell.map((row,index) => (
-            <Tr key={index}>
-              <Td>{index + 1}</Td>
-              <Td>{row.KKKS}</Td>
-              <Td>{row["NAMA SUMUR"]}</Td>
-              <Td>{row["WILAYAH KERJA"]}</Td>
-              <Td>{row.LAPANGAN}</Td>
-              <Td>{row["REALISASI MULAI"]}</Td>
-              <Td>{row["REALISASI SELESAI"]}</Td>
-              <Td>
-                <StatusBadge status={row.STATUS} />
-              </Td>
-              <Td>
-                <Button
-                  leftIcon={<Icon as={FaEye} />}
-                  colorScheme="gray"
-                  size="sm"
-                  mr={2}
-                >
-                  View
-                </Button>
-                <Button
-                  leftIcon={<Icon as={FaCheck} />}
-                  colorScheme="green"
-                  size="sm"
-                  isDisabled={row.planning_status !== "PROPOSED"}
-                >
-                  Approve
-                </Button>
-              </Td>
-            </Tr>
-          )): <p>Loading...</p>}
+        <ProposedWorkTable
+          headers={headerstable1}
+          title={"Pekerjaan Disetujui dan Beroperasi "}
+          subtitle={"Pekerjaan yang telah disetujui dan beroperasi"}
+        >
+          {dataWell ? (
+            dataWell.map((row, index) => (
+              <Tr key={index}>
+                <Td>{index + 1}</Td>
+                <Td>{row.KKKS}</Td>
+                <Td>{row["NAMA SUMUR"]}</Td>
+                <Td>{row["WILAYAH KERJA"]}</Td>
+                <Td>{row.LAPANGAN}</Td>
+                <Td>{row["REALISASI MULAI"]}</Td>
+                <Td>{row["REALISASI SELESAI"]}</Td>
+                <Td>
+                  <StatusBadge status={row.STATUS} />
+                </Td>
+                <Td>
+                  <Button
+                    leftIcon={<Icon as={FaEye} />}
+                    colorScheme="gray"
+                    size="sm"
+                    mr={2}
+                  >
+                    View
+                  </Button>
+                  <Button
+                    leftIcon={<Icon as={FaCheck} />}
+                    colorScheme="green"
+                    size="sm"
+                    isDisabled={row.planning_status !== "PROPOSED"}
+                  >
+                    Approve
+                  </Button>
+                </Td>
+              </Tr>
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
         </ProposedWorkTable>
       </Box>
       <Footer />
@@ -174,4 +190,4 @@ const OperationDev = () => {
   );
 };
 
-export default OperationDev
+export default OperationDev;

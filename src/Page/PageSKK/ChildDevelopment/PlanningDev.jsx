@@ -128,7 +128,7 @@ console.log(countStatus);
         />
       </Flex>
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1} title={"List Development "}>
+        <ProposedWorkTable headers={headerstable1} title={"Pekerjaan diajukan"} subtitle={"Pekerjaan yang diajukan"}>
           {dataWell ? dataWell.map((row,index) => (
             <Tr key={index}>
               <Td>{index}</Td>

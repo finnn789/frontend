@@ -73,7 +73,7 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-const ProposedWorkTable = ({ headers = [], children }) => {
+const ProposedWorkTable = ({ headers = [], children,title,subtitle }) => {
   return (
     <Box bg="white" borderRadius="lg" boxShadow="md" p={4}>
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
@@ -81,10 +81,10 @@ const ProposedWorkTable = ({ headers = [], children }) => {
           <Icon as={IconBriefcase} boxSize={12} color="gray.600" mr={3} />
           <Box>
             <Text fontSize="xl" fontWeight="bold" fontFamily={'Montserrat'} color="gray.600">
-              Pekerjaan Diajukan
+              {title ? title : "Proposed Work"}
             </Text>
             <Text fontSize="sm" color="gray.600" fontFamily={'Montserrat'}>
-              Pekerjaan yang diajukan
+              {subtitle ? subtitle : "List of Proposed Work"}
             </Text>
           </Box>
         </Flex>
