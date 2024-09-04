@@ -324,6 +324,7 @@ const CardFormWell = ({ onFormChange }) => {
                 onChange={handleChange}
                 type="number"
               />
+              <InputRightAddon>M</InputRightAddon>
             </FormControl>
 
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -336,6 +337,7 @@ const CardFormWell = ({ onFormChange }) => {
                     onChange={handleChange}
                     type="number"
                   />
+                  <InputRightAddon>METERS</InputRightAddon>
                 </FormControl>
               </GridItem>
               <GridItem>
@@ -347,6 +349,7 @@ const CardFormWell = ({ onFormChange }) => {
                     placeholder="Azimuth"
                     onChange={handleChange}
                   />
+                  <InputRightAddon>123</InputRightAddon>
                 </FormControl>
               </GridItem>
             </Grid>
@@ -368,26 +371,28 @@ const CardFormWell = ({ onFormChange }) => {
               <FormControl>
                 <FormLabel>Surface Longitude</FormLabel>
                 <InputGroup>
-                <Input
-                  name="surface_longitude"
-                  placeholder="Surface longitude"
-                  type="number"
-                  onChange={handleChange}
-                />
-                <InputRightAddon children="METERS" />
+                  <Input
+                    name="surface_longitude"
+                    placeholder="Surface longitude"
+                    type="number"
+                    onChange={handleChange}
+                  />
+                  <InputRightAddon>METERS</InputRightAddon>
                 </InputGroup>
-
               </FormControl>
             </GridItem>
             <GridItem>
               <FormControl>
                 <FormLabel>Surface Latitude</FormLabel>
-                <Input
-                  type="number"
-                  name="surface_latitude"
-                  placeholder="Surface latitude"
-                  onChange={handleChange}
-                />
+                <InputGroup>
+                  <Input
+                    type="number"
+                    name="surface_latitude"
+                    placeholder="Surface latitude"
+                    onChange={handleChange}
+                  />
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
               </FormControl>
             </GridItem>
           </Grid>
@@ -396,23 +401,30 @@ const CardFormWell = ({ onFormChange }) => {
             <GridItem>
               <FormControl>
                 <FormLabel>Bottom Hole Longitude</FormLabel>
-                <Input
-                  name="bottom_hole_longitude"
-                  placeholder="bottom hole longitude"
-                  onChange={handleChange}
-                  type="number"
-                />
+                <InputGroup>
+                  <Input
+                    name="bottom_hole_longitude"
+                    placeholder="bottom hole longitude"
+                    onChange={handleChange}
+                    type="number"
+                  />
+
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
               </FormControl>
             </GridItem>
             <GridItem>
               <FormControl>
                 <FormLabel>Bottom Hole Latitude</FormLabel>
-                <Input
-                  name="bottom_hole_latitude"
-                  placeholder="bottom hole latitude"
-                  onChange={handleChange}
-                  type="number"
-                />
+                <InputGroup>
+                  <Input
+                    name="bottom_hole_latitude"
+                    placeholder="bottom hole latitude"
+                    onChange={handleChange}
+                    type="number"
+                  />
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
               </FormControl>
             </GridItem>
           </Grid>
@@ -438,23 +450,29 @@ const CardFormWell = ({ onFormChange }) => {
             <GridItem>
               <FormControl>
                 <FormLabel>Rotary Table Elevation</FormLabel>
-                <Input
-                  name="rotary_table_elev"
-                  type="number"
-                  placeholder="rotary table elev"
-                  onChange={handleChange}
-                />
+                <InputGroup>
+                  <Input
+                    name="rotary_table_elev"
+                    type="number"
+                    placeholder="rotary table elev"
+                    onChange={handleChange}
+                  />
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
               </FormControl>
             </GridItem>
             <GridItem>
               <FormControl>
                 <FormLabel>Kelly Bushing Elevation</FormLabel>
-                <Input
-                  name="kb_elev"
-                  placeholder="kelly bushing elev"
-                  onChange={handleChange}
-                  type="number"
-                />
+                <InputGroup>
+                  <Input
+                    name="kb_elev"
+                    placeholder="kelly bushing elev"
+                    onChange={handleChange}
+                    type="number"
+                  />
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
               </FormControl>
             </GridItem>
           </Grid>
@@ -463,58 +481,74 @@ const CardFormWell = ({ onFormChange }) => {
             <GridItem>
               <FormControl>
                 <FormLabel>Derrick Floor Elevation</FormLabel>
-                <Input
-                  name="derrick_floor_elev"
-                  placeholder="derrick floor elev"
-                  type="number"
-                  onChange={handleChange}
-                />
+                <InputGroup>
+                  <Input
+                    name="derrick_floor_elev"
+                    placeholder="derrick floor elev"
+                    type="number"
+                    onChange={handleChange}
+                  />
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
               </FormControl>
             </GridItem>
             <GridItem>
               <FormControl>
                 <FormLabel>Ground Elevation</FormLabel>
-                <Input
-                  name="ground_elev"
-                  placeholder="ground elev"
-                  type="number"
-                  onChange={handleChange}
-                />
+                <InputGroup>
+                  <Input
+                    name="ground_elev"
+                    placeholder="ground elev"
+                    type="number"
+                    onChange={handleChange}
+                  />
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
               </FormControl>
             </GridItem>
           </Grid>
 
           <FormControl>
             <FormLabel>Mean Sea Level</FormLabel>
-            <Input
-              name="mean_sea_level"
-              placeholder="mean sea level"
-              type="number"
-              onChange={handleChange}
-            />
+            <InputGroup>
+              <Input
+                name="mean_sea_level"
+                placeholder="mean sea level"
+                type="number"
+                onChange={handleChange}
+              />
+              <InputRightAddon>123</InputRightAddon>
+            </InputGroup>
           </FormControl>
 
           <Grid templateColumns="repeat(2, 1fr)" gap={4}>
             <GridItem>
               <FormControl>
                 <FormLabel>Final MD</FormLabel>
-                <Input
-                  name="final_md"
-                  type="number"
-                  placeholder="final md"
-                  onChange={handleChange}
-                />
+                <InputGroup>
+                  <Input
+                    name="final_md"
+                    type="number"
+                    placeholder="final md"
+                    onChange={handleChange}
+                  />
+
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
               </FormControl>
             </GridItem>
             <GridItem>
               <FormControl>
                 <FormLabel>Maximum TVD</FormLabel>
-                <Input
-                  name="maximum_tvd"
-                  placeholder="maximum tvd"
-                  onChange={handleChange}
-                  type="number"
-                />
+                <InputGroup>
+                  <Input
+                    name="maximum_tvd"
+                    placeholder="maximum tvd"
+                    onChange={handleChange}
+                    type="number"
+                  />
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
               </FormControl>
             </GridItem>
           </Grid>
@@ -602,8 +636,14 @@ const CardFormWell = ({ onFormChange }) => {
         </Box>
       </VStack>
 
-      <Grid templateColumns="repeat(2, 1fr)" gridAutoRows={"auto"}height={"590px"} gap={3} mt={4}>
-        <GridItem colSpan={1} >
+      <Grid
+        templateColumns="repeat(2, 1fr)"
+        gridAutoRows={"auto"}
+        height={"590px"}
+        gap={3}
+        mt={4}
+      >
+        <GridItem colSpan={1}>
           <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
             <Flex justifyContent="space-between" alignItems="center" mb={6}>
               <Heading size="lg">Well Summary</Heading>
@@ -626,33 +666,42 @@ const CardFormWell = ({ onFormChange }) => {
               <Grid templateColumns="repeat(2, 1fr)" gap={4}>
                 <FormControl>
                   <FormLabel>Depth</FormLabel>
-                  <Input
-                    name="depth"
-                    type="number"
-                    value={currentEntry.depth}
-                    onChange={handleInputChange}
-                    placeholder="Depth"
-                  />
+                  <InputGroup>
+                    <Input
+                      name="depth"
+                      type="number"
+                      value={currentEntry.depth}
+                      onChange={handleInputChange}
+                      placeholder="Depth"
+                    />
+                    <InputRightAddon>123</InputRightAddon>
+                  </InputGroup>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Hole Diameter</FormLabel>
-                  <Input
-                    name="hole_diameter"
-                    value={currentEntry.hole_diameter}
-                    type="number"
-                    onChange={handleInputChange}
-                    placeholder="Hole Diameter"
-                  />
+                  <InputGroup>
+                    <Input
+                      name="hole_diameter"
+                      value={currentEntry.hole_diameter}
+                      type="number"
+                      onChange={handleInputChange}
+                      placeholder="Hole Diameter"
+                    />
+                    <InputRightAddon>123</InputRightAddon>
+                  </InputGroup>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Casing Outer Diameter</FormLabel>
-                  <Input
-                    name="casing_outer_diameter"
-                    type="number"
-                    value={currentEntry.casing_outer_diameter}
-                    onChange={handleInputChange}
-                    placeholder="Casing Outer Diameter"
-                  />
+                  <InputGroup>
+                    <Input
+                      name="casing_outer_diameter"
+                      type="number"
+                      value={currentEntry.casing_outer_diameter}
+                      onChange={handleInputChange}
+                      placeholder="Casing Outer Diameter"
+                    />
+                    <InputRightAddon>123</InputRightAddon>
+                  </InputGroup>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Mud Program</FormLabel>
@@ -694,23 +743,29 @@ const CardFormWell = ({ onFormChange }) => {
                 </FormControl>
                 <FormControl>
                   <FormLabel>Bottom Hole Temperature</FormLabel>
-                  <Input
-                    name="bottom_hole_temperature"
-                    value={currentEntry.bottom_hole_temperature}
-                    type="number"
-                    onChange={handleInputChange}
-                    placeholder="Bottom Hole Temperature"
-                  />
+                  <InputGroup>
+                    <Input
+                      name="bottom_hole_temperature"
+                      value={currentEntry.bottom_hole_temperature}
+                      type="number"
+                      onChange={handleInputChange}
+                      placeholder="Bottom Hole Temperature"
+                    />
+                    <InputRightAddon>123</InputRightAddon>
+                  </InputGroup>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Rate of Penetration</FormLabel>
-                  <Input
-                    name="rate_of_penetration"
-                    value={currentEntry.rate_of_penetration}
-                    onChange={handleInputChange}
-                    type="number"
-                    placeholder="Rate of Penetration"
-                  />
+                  <InputGroup>
+                    <Input
+                      name="rate_of_penetration"
+                      value={currentEntry.rate_of_penetration}
+                      onChange={handleInputChange}
+                      type="number"
+                      placeholder="Rate of Penetration"
+                    />
+                    <InputRightAddon>123</InputRightAddon>
+                  </InputGroup>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Remarks</FormLabel>
@@ -728,15 +783,15 @@ const CardFormWell = ({ onFormChange }) => {
             </VStack>
           </Box>
         </GridItem>
-        <GridItem h={"590"} >
-          <Box borderWidth="1px"h={"594"}  borderRadius="lg" p={6} boxShadow="md">
-            <Box
-            w={"735px"}
-             overflowX={"500"}
-              overflowY={"auto"}
-              
-              
-            >
+        <GridItem h={"590"}>
+          <Box
+            borderWidth="1px"
+            h={"594"}
+            borderRadius="lg"
+            p={6}
+            boxShadow="md"
+          >
+            <Box w={"735px"} overflowX={"500"} overflowY={"auto"}>
               {tableData.length > 0 ? (
                 <Table variant="simple">
                   <Thead>
@@ -775,7 +830,6 @@ const CardFormWell = ({ onFormChange }) => {
                   display={"flex"}
                   justifyContent={"center"}
                   alignItems={"center"}
-                  
                 >
                   <Heading>Tidak Ada Data</Heading>
                 </Box>
@@ -837,13 +891,16 @@ const CardFormWell = ({ onFormChange }) => {
                 <GridItem colSpan={2}>
                   <FormControl>
                     <FormLabel>Bottom Depth</FormLabel>
-                    <Input
-                      name="depth"
-                      type="number"
-                      value={WellStratigraphy.depth}
-                      onChange={handleInputChangeWellStraigraphy}
-                      placeholder="Depth"
-                    />
+                    <InputGroup>
+                      <Input
+                        name="depth"
+                        type="number"
+                        value={WellStratigraphy.depth}
+                        onChange={handleInputChangeWellStraigraphy}
+                        placeholder="Depth"
+                      />
+                      <InputRightAddon>123</InputRightAddon>
+                    </InputGroup>
                   </FormControl>
                 </GridItem>
               </Grid>

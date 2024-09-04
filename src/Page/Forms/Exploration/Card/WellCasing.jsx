@@ -22,6 +22,9 @@ import {
   Td,
   Flex,
   Select,
+  InputGroup,
+  InputRightAddon
+
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -182,6 +185,7 @@ const WellCasing = ({ dataWellCasing }) => {
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
               <FormControl>
                 <FormLabel>Depth</FormLabel>
+                <InputGroup>
                 <Input
                   name="depth"
                   type="number"
@@ -189,9 +193,12 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Depth"
                 />
+                <InputRightAddon>METERS</InputRightAddon>
+                </InputGroup>
               </FormControl>
               <FormControl>
                 <FormLabel>Length</FormLabel>
+                <InputGroup>
                 <Input
                   name="length"
                   type="number"
@@ -199,9 +206,12 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Length"
                 />
+                <InputRightAddon>METERS</InputRightAddon>
+                </InputGroup>
               </FormControl>
               <FormControl>
                 <FormLabel>Hole Diameter</FormLabel>
+                <InputGroup>
                 <Input
                   name="hole_diameter"
                   value={wellCasing.hole_diameter}
@@ -209,9 +219,12 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Hole Diameter"
                 />
+                <InputRightAddon>METERS</InputRightAddon>
+                </InputGroup>
               </FormControl>
               <FormControl>
                 <FormLabel>Casing Outer Diameter</FormLabel>
+                <InputGroup>
                 <Input
                   name="casing_outer_diameter"
                   value={wellCasing.casing_outer_diameter}
@@ -219,9 +232,12 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Outer Diameter"
                 />
+                <InputRightAddon>METERS</InputRightAddon>
+                </InputGroup>
               </FormControl>
               <FormControl>
                 <FormLabel>Casing Inner Diameter</FormLabel>
+                <InputGroup>
                 <Input
                   name="casing_inner_diameter"
                   value={wellCasing.casing_inner_diameter}
@@ -229,6 +245,8 @@ const WellCasing = ({ dataWellCasing }) => {
                   type="number"
                   placeholder="Casing Inner Diameter"
                 />
+                <InputRightAddon>METERS</InputRightAddon>
+                </InputGroup>
               </FormControl>
               <FormControl>
                 <FormLabel>Casing Grade</FormLabel>
@@ -241,6 +259,7 @@ const WellCasing = ({ dataWellCasing }) => {
               </FormControl>
               <FormControl>
                 <FormLabel>Casing Weight</FormLabel>
+                <InputGroup>
                 <Input
                   name="casing_weight"
                   value={wellCasing.casing_weight}
@@ -248,6 +267,8 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Weight"
                 />
+                <InputRightAddon>METERS</InputRightAddon>
+                </InputGroup>
               </FormControl>
               <FormControl>
                 <FormLabel>Connection</FormLabel>

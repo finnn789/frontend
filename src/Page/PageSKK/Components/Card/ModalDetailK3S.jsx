@@ -37,7 +37,7 @@ import {
   IconFlagCheck,
 } from "@tabler/icons-react";
 import TableModalDetailK3S from "./TableModalDetailK3S";
-import Footer from "./Footer";
+import ReusableMap from "./ReusableMap";
 const ModalDetailK3S = ({ isOpen, onClose, kkks_id }) => {
   const [data, setData] = useState(null);
   const [tabIndex, setTabIndex] = useState(0);
@@ -108,7 +108,6 @@ const ModalDetailK3S = ({ isOpen, onClose, kkks_id }) => {
   const tableDataWellService = data?.well_job_data?.["well service"] || [];
 
   console.log("tableDataWellService", data?.well_job_data);
-  
 
   const columns = [
     { header: "No.", accessor: "index" },
@@ -136,6 +135,39 @@ const ModalDetailK3S = ({ isOpen, onClose, kkks_id }) => {
     // console.log("Viewing row:", row);
   };
 
+  const drillingAreas = [
+    {
+      name: "Area Pengeboran KKKS A",
+      coordinates: [
+        [1.0, 101.0],
+        [1.1, 101.1],
+        [1.2, 101.2],
+        [1.1, 101.3],
+        [1.8, 101.42],
+      ],
+    },
+    {
+      name: "Area Pengeboran KKKS B",
+      coordinates: [
+        [2.0, 102.0],
+        [2.1, 102.1],
+        [2.2, 102.2],
+        [2.3, 102.3],
+        [2.4, 102.4],
+      ],
+    },
+    {
+      name: "Area Pengeboran KKKS C",
+      coordinates: [
+        [3.0, 103.0],
+        [3.1, 103.1],
+        [3.2, 103.2],
+        [3.3, 103.3],
+        [3.4, 103.4],
+      ],
+    },
+  ];
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="6xl" scrollBehavior="inside">
       <ModalOverlay />
@@ -146,19 +178,7 @@ const ModalDetailK3S = ({ isOpen, onClose, kkks_id }) => {
         <ModalCloseButton />
         <ModalBody overflowY="auto" px={4}>
           <Box mb={4}>
-            <MapContainer
-              center={[0.0, 100.0]}
-              zoom={5}
-              style={{ height: "300px", width: "100%" }}
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <Marker position={[0.0, 100.0]}>
-                <Popup>Wilayah Kerja</Popup>
-              </Marker>
-            </MapContainer>
+            <ReusableMap center={[1.5, 102.0]} zoom={6} areas={drillingAreas} />
           </Box>
           <Flex gap={6}>
             <PerhitunganCard

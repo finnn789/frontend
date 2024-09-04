@@ -31,56 +31,11 @@ const PlanningWellService = () => {
 
   const dataWell = countStatus ? countStatus.Exploration.wells : null;
   
+  console.log('dataWell', dataWell);
   
-  
-
-  const headerstable1 = [
-    "NO.",
-    "NAMA SUMUR",
-    "WILAYAH KERJA",
-    "LAPANGAN",
-    "TANGGAL MULAI",
-    "TANGGAL SELESAI",
-    "TANGGAL DIAJUKAN",
-    "STATUS",
-    "AKSI",
-  ];
-
-  const data = [
-    {
-      id: 1,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "PROPOSED",
-    },
-    {
-      id: 2,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "APPROVED",
-    },
-    {
-      id: 3,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "RETURNED",
-    },
-    // Add more data as needed
-  ];
-
   const StatusBadge = ({ status }) => {
+    console.log('StatusBadge props:', status); // Tambahkan log untuk debugging
+  
     const colorScheme =
       status === "PROPOSED"
         ? "blue"
@@ -89,7 +44,7 @@ const PlanningWellService = () => {
         : status === "RETURNED"
         ? "red"
         : "gray";
-
+  
     return (
       <Badge
         colorScheme={colorScheme}
@@ -98,14 +53,57 @@ const PlanningWellService = () => {
         py={2}
         rounded={"full"}
       >
-        {status}
+        {status || 'No Status'} 
+        {/* // Tampilkan 'No Status' jika status tidak ada */}
       </Badge>
     );
   };
+
+  const headerstable1 = [
+    { headerName: "Nama Sumur", field: "well_name" },
+    { headerName: "Wilayah Kerja", field: "wilayah_kerja" },
+    { headerName: "Lapangan", field: "lapangan" },
+    { headerName: "Tanggal Mulai", field: "date_started" },
+    { headerName: "Tanggal Selesai", field: "date_approved" },
+    { headerName: "Tanggal Diajukan", field: "date_proposed" },
+    {
+      headerName: "Status",
+      field: "planning_status",
+      cellRendererFramework: StatusBadge,
+    },
+    {
+      headerName: "Aksi",
+      field: "aksi",
+      cellRendererFramework: (params) => (
+        <div>
+          <Button leftIcon={<FaEye />} colorScheme="gray" size="sm" mr={2}>
+            View
+          </Button>
+          <Button
+            leftIcon={<FaCheck />}
+            colorScheme="green"
+            size="sm"
+            isDisabled={params.data.planning_status !== "PROPOSED"} // Correct condition
+          >
+            Approve
+          </Button>
+        </div>
+      ),
+    },
+  ];
+  
+
+  
+
   return (
-    <div>
-      <Text fontSize={"3em"} fontWeight={"bold"}>
-        Planning WorkOver
+    <Flex gap={6} direction={"column"}>
+    <Text
+      fontSize={"2em"}
+      fontWeight={"bold"}
+      color={"gray.600"}
+      fontFamily="Montserrat"
+    >
+        Planning Exploration
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
@@ -132,43 +130,15 @@ const PlanningWellService = () => {
         />
       </Flex>
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1} title={"Pekerjaan diajukan"} subtitle={"Pekerjaan yang diajukan"}>
-          {dataWell ? dataWell.map((row,index) => (
-            <Tr key={index}>
-              <Td>{index}</Td>
-              <Td>{row.well_name}</Td>
-              <Td>{row.wilayah_kerja}</Td>
-              <Td>{row.lapangan}</Td>
-              <Td>{row.date_started}</Td>
-              <Td>{row.date_finished}</Td>
-              <Td>{row.date_proposed}</Td>
-              <Td>
-                <StatusBadge status={row.planning_status} />
-              </Td>
-              <Td>
-                <Button
-                  leftIcon={<Icon as={FaEye} />}
-                  colorScheme="gray"
-                  size="sm"
-                  mr={2}
-                >
-                  View
-                </Button>
-                <Button
-                  leftIcon={<Icon as={FaCheck} />}
-                  colorScheme="green"
-                  size="sm"
-                  isDisabled={row.planning_status !== "PROPOSED"}
-                >
-                  Approve
-                </Button>
-              </Td>
-            </Tr>
-          )): <p>Loading...</p>}
-        </ProposedWorkTable>
-      </Box>
+      <ProposedWorkTable
+        columnDefs={headerstable1}
+        rowData={dataWell}
+        title={"Pekerjaan diajukan"}
+        subtitle={"Pekerjaan yang diajukan"}
+      />
+    </Box>  
       <Footer />
-    </div>
+    </Flex>
   );
 };
 
