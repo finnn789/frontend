@@ -17,6 +17,8 @@ import {
   GridItem,
   Heading,
   Grid,
+  InputRightAddon,
+InputGroup
 } from "@chakra-ui/react";
 
 const WellTest = ({ onData }) => {
@@ -67,27 +69,33 @@ const WellTest = ({ onData }) => {
               <HStack spacing={4}>
                 <FormControl>
                   <FormLabel>Zone Name</FormLabel>
+                  <InputGroup>
                   <Input
                     name="zone_name"
                     value={wellTest.zone_name}
                     onChange={handleChange}
                     placeholder="Zone Name"
-                  />
+                    />
+                    </InputGroup>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Zone Top Depth</FormLabel>
+                  <InputGroup>
                   <Input
                     name="zone_top_depth"
                     type="number"
                     value={wellTest.zone_top_depth}
                     onChange={handleChange}
                     placeholder="Zone Top Depth"
-                  />
+                  />\
+                  <InputRightAddon>METERS</InputRightAddon>
+                  </InputGroup>
                 </FormControl>
               </HStack>
               <HStack spacing={4}>
                 <FormControl>
                   <FormLabel>Zone Bottom Depth</FormLabel>
+                  <InputGroup>
                   <Input
                     name="zone_bottom_depth"
                     type="number"
@@ -95,6 +103,8 @@ const WellTest = ({ onData }) => {
                     onChange={handleChange}
                     placeholder="Zone Bottom Depth"
                   />
+                  <InputRightAddon>METERS</InputRightAddon>
+                  </InputGroup>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Depth UOM</FormLabel>

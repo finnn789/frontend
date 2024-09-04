@@ -1,79 +1,62 @@
-import React from "react";
-import {
-  Box,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Button,
-  Flex,
-  Text,
-  Badge,
-  Icon,
-} from "@chakra-ui/react";
-import { FaBriefcase, FaEye, FaCheck } from "react-icons/fa";
-import {IconBriefcase} from '@tabler/icons-react';
+import React, { useMemo } from "react";
+import { Box, Flex, Text, Icon, Button } from "@chakra-ui/react";
+import { FaEye, FaCheck } from "react-icons/fa";
+import { AgGridReact } from "ag-grid-react";
+import { IconBriefcase } from '@tabler/icons-react';
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 
-const data = [
-  {
-    id: 1,
-    namaSumur: "SUMUR0001",
-    wilayahKerja: "AREA01",
-    lapangan: "FIELD01",
-    tanggalMulai: "24 Mei 2024",
-    tanggalSelesai: "24 Juli 2024",
-    tanggalDiajukan: "12 Agustus 2023",
-    status: "PROPOSED",
-  },
-  {
-    id: 2,
-    namaSumur: "SUMUR0001",
-    wilayahKerja: "AREA01",
-    lapangan: "FIELD01",
-    tanggalMulai: "24 Mei 2024",
-    tanggalSelesai: "24 Juli 2024",
-    tanggalDiajukan: "12 Agustus 2023",
-    status: "APPROVED",
-  },
-  {
-    id: 3,
-    namaSumur: "SUMUR0001",
-    wilayahKerja: "AREA01",
-    lapangan: "FIELD01",
-    tanggalMulai: "24 Mei 2024",
-    tanggalSelesai: "24 Juli 2024",
-    tanggalDiajukan: "12 Agustus 2023",
-    status: "RETURNED",
-  },
-  // Add more data as needed
-];
-
-const StatusBadge = ({ status }) => {
+// Komponen StatusBadge untuk status
+const StatusBadge = ({ value }) => {
   const colorScheme =
-    status === "PROPOSED"
+    value === "PROPOSED"
       ? "blue"
-      : status === "APPROVED"
+      : value === "APPROVED"
       ? "green"
-      : status === "RETURNED"
+      : value === "RETURNED"
       ? "red"
       : "gray";
 
   return (
-    <Badge
-      colorScheme={colorScheme}
-      variant="subtle"
-      px={4}
-      py={2}
-      rounded={"full"}
+    <span
+      style={{
+        backgroundColor: colorScheme,
+        color: "white",
+        padding: "4px 8px",
+        borderRadius: "12px",
+      }}
     >
-      {status}
-    </Badge>
+      {value}
+    </span>
   );
 };
 
-const ProposedWorkTable = ({ headers = [], children,title,subtitle }) => {
+// Komponen untuk menampilkan nomor urut
+const NumberRenderer = (props) => {
+  // Render nomor baris (index) + 1
+  return <span>{props.node.rowIndex + 1}</span>;
+};
+
+const ProposedWorkTable = ({ columnDefs, rowData, title, subtitle }) => {
+  const defaultColDef = useMemo(() => ({
+    flex: 1,
+    minWidth: 150,
+    sortable: true,
+    filter: true,
+    resizable: true,
+  }), []);
+
+  const extendedColumnDefs = useMemo(() => [
+    { 
+      headerName: "No", 
+      // cellRendererFramework: NumberRenderer, // Gunakan komponen NumberRenderer
+      valueGetter: "node.rowIndex + 1", 
+      sortable: true,
+      filter: true
+    },
+    ...columnDefs
+  ], [columnDefs]);
+
   return (
     <Box bg="white" borderRadius="lg" boxShadow="md" p={4}>
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
@@ -98,18 +81,13 @@ const ProposedWorkTable = ({ headers = [], children,title,subtitle }) => {
         </Button>
       </Flex>
 
-      <Table variant="simple">
-        <Thead>
-          <Tr bg="gray.50" fontFamily={'Montserrat'}>
-            {headers.map((head, index) => (
-              <Th key={index} fontSize="sm" fontFamily={'Montserrat'}>
-                {head}
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody fontFamily={'Montserrat'}>{children}</Tbody>
-      </Table>
+      <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+        <AgGridReact
+          columnDefs={extendedColumnDefs}
+          rowData={rowData}
+          defaultColDef={defaultColDef}
+        />
+      </div>
     </Box>
   );
 };

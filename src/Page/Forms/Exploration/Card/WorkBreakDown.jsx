@@ -17,6 +17,8 @@ import {
   Grid,
   GridItem,
   Select,
+  InputRightAddon,
+  InputGroup
 } from "@chakra-ui/react";
 
 const WorkBreakdownForm = ({ onAddItem }) => {
@@ -68,6 +70,7 @@ const WorkBreakdownForm = ({ onAddItem }) => {
           <GridItem>
             <FormControl>
               <FormLabel>Depth In</FormLabel>
+              <InputGroup>
               <Input
                 name="depth_in"
                 type="number"
@@ -75,11 +78,14 @@ const WorkBreakdownForm = ({ onAddItem }) => {
                 value={formData.depth_in}
                 onChange={handleInputChange}
               />
+              <InputRightAddon>METERS</InputRightAddon>
+              </InputGroup>
             </FormControl>
           </GridItem>
           <GridItem>
             <FormControl>
               <FormLabel>Depth Out</FormLabel>
+              <InputGroup>
               <Input
                 name="depth_out"
                 type="number"
@@ -87,18 +93,23 @@ const WorkBreakdownForm = ({ onAddItem }) => {
                 value={formData.depth_out}
                 onChange={handleInputChange}
               />
+              <InputRightAddon>METERS</InputRightAddon>
+              </InputGroup>
             </FormControl>
           </GridItem>
         </Grid>
         <FormControl>
           <FormLabel>Operation Days</FormLabel>
+          <InputGroup>
           <Input
             name="operation_days"
             value={formData.operation_days}
             onChange={handleInputChange}
             type="number"
             placeholder="Operation Days"
-          />
+            />
+          <InputRightAddon>METERS</InputRightAddon>
+            </InputGroup>
         </FormControl>
         <Button onClick={handleAdd} colorScheme="blue">
           Add

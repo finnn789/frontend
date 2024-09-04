@@ -9,6 +9,8 @@ import {
   Input,
   Select,
   Divider,
+  InputRightAddon,
+  InputGroup
 } from "@chakra-ui/react";
 
 const ProposedJob = ({ onData }) => {
@@ -148,6 +150,7 @@ const ProposedJob = ({ onData }) => {
         <HStack spacing={4}>
           <FormControl>
             <FormLabel>WPB Year</FormLabel>
+            <InputGroup>
             <Input
               name="wpb_year"
               type="number"
@@ -155,6 +158,8 @@ const ProposedJob = ({ onData }) => {
               onChange={handleChange}
               placeholder="WPB Year"
             />
+            <InputRightAddon>METERS</InputRightAddon>
+              </InputGroup>
           </FormControl>
         </HStack>
       </VStack>
@@ -214,13 +219,16 @@ const ProposedJob = ({ onData }) => {
         <HStack spacing={4}>
           <FormControl>
             <FormLabel>Rig Horse Power</FormLabel>
+            <InputGroup>
             <Input
               name="rig_horse_power"
               type="number"
               value={formData.job_plan.rig_horse_power}
               onChange={handleRig}
               placeholder="Rig Horse Power"
-            />
+              />
+            <InputRightAddon>METERS</InputRightAddon>
+              </InputGroup>
           </FormControl>
         </HStack>
       </VStack>

@@ -9,6 +9,8 @@ import {
   Heading,
   useToast,
   Text,
+  InputRightAddon,
+  InputGroup
 } from "@chakra-ui/react";
 
 const WellPorePressureForm = () => {
@@ -71,6 +73,7 @@ const WellPorePressureForm = () => {
         <VStack spacing={4}>
           <FormControl isRequired>
             <FormLabel>Depth (m)</FormLabel>
+            <InputGroup>
             <Input
               type="number"
               name="depth"
@@ -78,30 +81,38 @@ const WellPorePressureForm = () => {
               onChange={handleInputChange}
               placeholder="Enter depth"
             />
+            <InputRightAddon>METERS</InputRightAddon></InputGroup>
           </FormControl>
 
           <FormControl isRequired>
             <FormLabel>Temperature (°C)</FormLabel>
+            <InputGroup>
             <Input
               type="number"
               name="temperature"
               value={formData.temperature}
               onChange={handleInputChange}
               placeholder="Enter temperature"
-            />
+              />
+            <InputRightAddon>°C</InputRightAddon>
+              </InputGroup>
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Porosity (%)</FormLabel>
+            <InputGroup>
             <Input
               type="number"
               name="porosity"
               value={formData.porosity}
               onChange={handleInputChange}
               placeholder="Enter porosity"
-            />
+              />
+            <InputRightAddon>%</InputRightAddon>
+              </InputGroup>
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Fluid Density (kg/m³)</FormLabel>
+            <InputGroup>
             <Input
               type="number"
               name="fluidDensity"
@@ -109,6 +120,8 @@ const WellPorePressureForm = () => {
               onChange={handleInputChange}
               placeholder="Enter fluid density"
             />
+            <InputRightAddon>kg/m³</InputRightAddon>
+            </InputGroup>
           </FormControl>
           <FormControl>
             <FormLabel>Upload File</FormLabel>
