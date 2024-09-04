@@ -45,6 +45,7 @@ import CloseOutWS from "./Page/PageSKK/ChildWellService/CloseOutWS";
 import OperationExp from "./Page/PageSKK/ChildExploration/OperationExp";
 import PPPExp from "./Page/PageSKK/ChildExploration/PPPExp";
 import CloseOutExp from "./Page/PageSKK/ChildExploration/CloseOutExp";
+import PlanDevelopmentForm from "./Page/Forms/PlanDevelopmentForm";
 
 
 function App() {
@@ -97,6 +98,7 @@ function App() {
           path: "planning/planningform",
           element: (<ProtectedRoute element={<PengajuanDrillingForm />} allowedRoles={["KKKS"]}/> ),
         },
+        
         {
           path: "operasi",
           element: <OperasiPengerjaan />,
@@ -130,6 +132,10 @@ function App() {
         {
           path: "planning",
           element: <HomeExploitation />,
+        },
+        {
+          path: "planningform",
+          element: (<ProtectedRoute element={<PlanDevelopmentForm />} allowedRoles={["KKKS"]}/> ),
         },
       ],
     },
