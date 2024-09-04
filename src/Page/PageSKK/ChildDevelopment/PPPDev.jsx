@@ -7,25 +7,25 @@ import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx, getCombinedData } from "../../API/APISKK";
+import {  getDataPPP } from "../../API/APISKK";
 const PPPDev = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
   React.useEffect(() => {
     const getData = async () => {
-      const data = await getCombinedData();
+      const data = await getDataPPP();
       setCountStatus(data);
     };
     getData();
   }, []);
 console.log(countStatus);
 
-  const proposedCount = countStatus ? countStatus.Development.planning_status_counts.PROPOSED : null;
-  const AprovedCount = countStatus ? countStatus.Development.planning_status_counts.APPROVED : null;
-  const ReturnedCount = countStatus ? countStatus.Development.planning_status_counts.RETURNED : null;
+  const proposedCount = countStatus ? countStatus.development.summary.diajukan_p3 : null ;
+  const AprovedCount = countStatus ? countStatus.development.summary.p3_disetujui : null;
+  const ReturnedCount = countStatus ? countStatus.development.summary.selesai : null;
   
 
-  const dataWell = countStatus ? countStatus.Development.wells : null;
+  const dataWell = countStatus ? countStatus.development.job_details : null;
   console.log(dataWell);
   
   
@@ -105,13 +105,13 @@ console.log(countStatus);
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={proposedCount ? proposedCount : <p>Loading...</p>}
+          number={countStatus ? proposedCount : <p>Loading...</p>}
           icon={FaCopy}
           label={"PROPOSED"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-          number={AprovedCount ? AprovedCount : <p>Loading...</p>}
+          number={countStatus ? AprovedCount : <p>Loading...</p>}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
@@ -119,7 +119,7 @@ console.log(countStatus);
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={ReturnedCount ? ReturnedCount : <p>Loading...</p>}
+          number={countStatus ? ReturnedCount : <p>Loading...</p>}
           label={"RETURNED"}
           bgIcon="red.100"
           iconColor="red.500"
@@ -139,7 +139,7 @@ console.log(countStatus);
               <Td>{row.date_finished}</Td>
               <Td>{row.date_proposed}</Td>
               <Td>
-                <StatusBadge status={row.planning_status} />
+                <StatusBadge status={row.status} />
               </Td>
               <Td>
                 <Button

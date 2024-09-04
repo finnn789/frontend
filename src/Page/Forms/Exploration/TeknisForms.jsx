@@ -25,11 +25,16 @@ import {
   Td,
   Checkbox,
   MenuItem,
+  InputRightAddon,
+  InputGroup,
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import WellTest from "./Card/WellTest";
 import WellCasing from "./Card/WellCasing";
+import FileUploadForm from "./Card/WellTrajectory";
+import WellTrajectory from "./Card/WellTrajectory";
+import WellPorePressureForm from "./Card/WellPPFG";
 
 const CardFormWell = ({ onFormChange }) => {
   const [formData, setFormData] = useState({
@@ -42,7 +47,7 @@ const CardFormWell = ({ onFormChange }) => {
     alias_long_name: "",
     well_type: "WILDCAT",
     well_status: "Active",
-    well_profile_type: "DIRECTIONAL",
+    well_profile_type: "",
     hydrocarbon_target: "OIL",
     environment_type: "MARINE",
     surface_longitude: 0,
@@ -66,28 +71,28 @@ const CardFormWell = ({ onFormChange }) => {
     final_md: 0,
     remark: "",
     well_trajectory: {
-      file_id: "string",
+      file_id: "",
       data_format: "IMAGE",
     },
     well_ppfg: {
-      file_id: "string",
+      file_id: "",
       data_format: "IMAGE",
     },
     well_logs: [
       {
-        file_id: "string",
+        file_id: "",
         data_format: "IMAGE",
       },
     ],
     well_drilling_parameter: {
-      file_id: "string",
+      file_id: "",
       data_format: "IMAGE",
     },
     well_documents: [
       {
-        file_id: "string",
+        file_id: "",
         document_type: "Well Report",
-        remark: "string",
+        remark: "",
       },
     ],
   });
@@ -140,14 +145,14 @@ const CardFormWell = ({ onFormChange }) => {
     depth_datum: "RT",
     depth: 0,
     hole_diameter: 0,
-    bit: "string",
+    bit: "",
     casing_outer_diameter: 0,
-    logging: "string",
-    mud_program: "string",
-    cementing_program: "string",
+    logging: "",
+    mud_program: "",
+    cementing_program: "",
     bottom_hole_temperature: 0,
     rate_of_penetration: 0,
-    remarks: "string",
+    remarks: "",
   });
 
   const [TablewellStratigraphy, setTablewellStratigraphy] = useState([]);
@@ -155,7 +160,7 @@ const CardFormWell = ({ onFormChange }) => {
     unit_type: "Metrics",
     depth_datum: "RT",
     depth: 0,
-    stratigraphy_id: "string",
+    stratigraphy_id: "",
   });
 
   const handleAddClick = () => {
@@ -168,17 +173,17 @@ const CardFormWell = ({ onFormChange }) => {
     // Reset currentEntry after adding
     setCurrentEntry({
       unit_type: "Metrics",
-      depth_datum: "RT",
+      depth_datum: "",
       depth: 0,
       hole_diameter: 0,
-      bit: "string",
+      bit: "",
       casing_outer_diameter: 0,
-      logging: "string",
-      mud_program: "string",
-      cementing_program: "string",
+      logging: "",
+      mud_program: "",
+      cementing_program: "",
       bottom_hole_temperature: 0,
       rate_of_penetration: 0,
-      remarks: "string",
+      remarks: "",
     });
   };
 
@@ -194,7 +199,7 @@ const CardFormWell = ({ onFormChange }) => {
       unit_type: "Metrics",
       depth_datum: "RT",
       depth: 0,
-      stratigraphy_id: "string",
+      stratigraphy_id: "",
     });
   };
 
@@ -242,11 +247,8 @@ const CardFormWell = ({ onFormChange }) => {
             </FormControl>
             <FormControl>
               <FormLabel>Well Type</FormLabel>
-              <Select
-                name="well_type"
-                placeholder="J-Type"
-                onChange={handleChange}
-              >
+              <Select name="well_type" onChange={handleChange}>
+                <option disabled>Select Well Type</option>
                 <option value="DELINEATION">DELINEATION</option>
                 <option value="WILDCAT">WILDCAT</option>
                 <option value="INFILL">INFILL</option>
@@ -284,72 +286,73 @@ const CardFormWell = ({ onFormChange }) => {
           </HStack>
         </VStack>
       </Box>
+      {formData.well_profile_type === "DIRECTIONAL" && (
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          p={6}
+          boxShadow="md"
+          bg="white"
+          mt={6}
+        >
+          <VStack align="stretch" spacing={4}>
+            <Heading size="md" display="flex" alignItems="center">
+              <Box as="span" mr={2}>
+                ↗️
+              </Box>
+              Directional
+            </Heading>
 
-      <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        p={6}
-        boxShadow="md"
-        bg="white"
-        mt={6}
-      >
-        <VStack align="stretch" spacing={4}>
-          <Heading size="md" display="flex" alignItems="center">
-            <Box as="span" mr={2}>
-              ↗️
-            </Box>
-            Directional
-          </Heading>
+            <FormControl>
+              <FormLabel>Directional Type</FormLabel>
+              <Select
+                name="directionalType"
+                placeholder="Select Directional Type"
+                onChange={handleChange}
+              >
+                <option value="J-TYPE">J-TYPE</option>
+                <option value="S-TYPE">S-TYPE</option>
+                <option value="horizontal">Horizontal</option>
+              </Select>
+            </FormControl>
 
-          <FormControl>
-            <FormLabel>Directional Type</FormLabel>
-            <Select
-              name="directionalType"
-              placeholder="Select Directional Type"
-              onChange={handleChange}
-            >
-              <option value="DIRECTIONAL">DIRECTIONAL</option>
-              <option value="s-type">S-Type</option>
-              <option value="horizontal">Horizontal</option>
-            </Select>
-          </FormControl>
+            <FormControl>
+              <FormLabel>Kick Off Point</FormLabel>
+              <Input
+                name="kick_off_point"
+                placeholder="kick off point"
+                onChange={handleChange}
+                type="number"
+              />
+            </FormControl>
 
-          <FormControl>
-            <FormLabel>Kick Off Point</FormLabel>
-            <Input
-              name="kick_off_point"
-              placeholder="kick off point"
-              onChange={handleChange}
-              type="number"
-            />
-          </FormControl>
-
-          <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-            <GridItem>
-              <FormControl>
-                <FormLabel>Maximum Inclination</FormLabel>
-                <Input
-                  name="maximum_inclination"
-                  placeholder="maximum inclination"
-                  onChange={handleChange}
-                  type="number"
-                />
-              </FormControl>
-            </GridItem>
-            <GridItem>
-              <FormControl>
-                <FormLabel>Azimuth</FormLabel>
-                <Input
-                  name="azimuth"
-                  type="number"
-                  placeholder="Azimuth"
-                  onChange={handleChange}
-                />
-              </FormControl>
-            </GridItem>
-          </Grid>
-        </VStack>
-      </Box>
+            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+              <GridItem>
+                <FormControl>
+                  <FormLabel>Maximum Inclination</FormLabel>
+                  <Input
+                    name="maximum_inclination"
+                    placeholder="maximum inclination"
+                    onChange={handleChange}
+                    type="number"
+                  />
+                </FormControl>
+              </GridItem>
+              <GridItem>
+                <FormControl>
+                  <FormLabel>Azimuth</FormLabel>
+                  <Input
+                    name="azimuth"
+                    type="number"
+                    placeholder="Azimuth"
+                    onChange={handleChange}
+                  />
+                </FormControl>
+              </GridItem>
+            </Grid>
+          </VStack>
+        </Box>
+      )}
 
       <Box borderWidth="1px" borderRadius="lg" p={6} mt={4}>
         <VStack align="stretch" spacing={4}>
@@ -364,12 +367,16 @@ const CardFormWell = ({ onFormChange }) => {
             <GridItem>
               <FormControl>
                 <FormLabel>Surface Longitude</FormLabel>
+                <InputGroup>
                 <Input
                   name="surface_longitude"
                   placeholder="Surface longitude"
                   type="number"
                   onChange={handleChange}
                 />
+                <InputRightAddon children="METERS" />
+                </InputGroup>
+
               </FormControl>
             </GridItem>
             <GridItem>
@@ -595,11 +602,25 @@ const CardFormWell = ({ onFormChange }) => {
         </Box>
       </VStack>
 
-      <Grid templateColumns="repeat(2, 1fr)" gap={3} mt={4}>
-        <GridItem colSpan={1}>
+      <Grid templateColumns="repeat(2, 1fr)" gridAutoRows={"auto"}height={"590px"} gap={3} mt={4}>
+        <GridItem colSpan={1} >
           <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
             <Flex justifyContent="space-between" alignItems="center" mb={6}>
               <Heading size="lg">Well Summary</Heading>
+              <Select
+                width={"auto"}
+                onChange={(e) =>
+                  setCurrentEntry({
+                    ...currentEntry,
+                    depth_datum: e.target.value,
+                  })
+                }
+              >
+                <option value="MSL">MSL</option>
+                <option value="GL">GL</option>
+                <option value="RT">RT</option>
+                <option value="RKB">RKB</option>
+              </Select>
             </Flex>
             <VStack spacing={4} align="stretch">
               <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -707,51 +728,59 @@ const CardFormWell = ({ onFormChange }) => {
             </VStack>
           </Box>
         </GridItem>
-        <GridItem overflowX={"auto"}>
-          <Box
-            borderWidth="1px"
-            h={"590px"}
-            overflowY={"auto"}
-            overflowX={"auto"}
-            borderRadius="lg"
-            p={6}
-            boxShadow="md"
-          >
-            <Heading size="md" mb={4}>
-              Table Well Summary
-            </Heading>
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th>Bit</Th>
-                  <Th>Depth</Th>
-                  <Th>Hole Diameter</Th>
-                  <Th>Casing Diameter</Th>
-                  <Th>Logging</Th>
-                  <Th>Mud Program</Th>
-                  <Th>Bottom Hole Temperature</Th>
-                  <Th>RATE PENETRATION</Th>
-                  <Th>Remarks</Th>
-                  {/* Tambahkan header lain sesuai kebutuhan */}
-                </Tr>
-              </Thead>
-              <Tbody>
-                {tableData.map((row, index) => (
-                  <Tr key={index}>
-                    <Td>{row.bit}</Td>
-                    <Td>{row.depth}</Td>
-                    <Td>{row.hole_diameter}</Td>
-                    <Td>{row.casing_outer_diameter}</Td>
-                    <Td>{row.logging}</Td>
-                    <Td>{row.mud_program}</Td>
-                    <Td>{row.bottom_hole_temperature}</Td>
-                    <Td>{row.rate_of_penetration}</Td>
-                    <Td>{row.remarks}</Td>
-                    {/* Tambahkan sel lain sesuai kebutuhan */}
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
+        <GridItem h={"590"} >
+          <Box borderWidth="1px"h={"594"}  borderRadius="lg" p={6} boxShadow="md">
+            <Box
+            w={"735px"}
+             overflowX={"500"}
+              overflowY={"auto"}
+              
+              
+            >
+              {tableData.length > 0 ? (
+                <Table variant="simple">
+                  <Thead>
+                    <Tr>
+                      <Th>Bit</Th>
+                      <Th>Depth</Th>
+                      <Th>Hole Diameter</Th>
+                      <Th>Casing Diameter</Th>
+                      <Th>Logging</Th>
+                      <Th>Mud Program</Th>
+                      <Th>Bottom Hole Temperature</Th>
+                      <Th>RATE PENETRATION</Th>
+                      <Th>Remarks</Th>
+                      {/* Tambahkan header lain sesuai kebutuhan */}
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {tableData.map((row, index) => (
+                      <Tr key={index}>
+                        <Td>{row.bit}</Td>
+                        <Td>{row.depth}</Td>
+                        <Td>{row.hole_diameter}</Td>
+                        <Td>{row.casing_outer_diameter}</Td>
+                        <Td>{row.logging}</Td>
+                        <Td>{row.mud_program}</Td>
+                        <Td>{row.bottom_hole_temperature}</Td>
+                        <Td>{row.rate_of_penetration}</Td>
+                        <Td>{row.remarks}</Td>
+                        {/* Tambahkan sel lain sesuai kebutuhan */}
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              ) : (
+                <Box
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  
+                >
+                  <Heading>Tidak Ada Data</Heading>
+                </Box>
+              )}
+            </Box>
           </Box>
         </GridItem>
       </Grid>
@@ -766,7 +795,21 @@ const CardFormWell = ({ onFormChange }) => {
         <GridItem colSpan={1}>
           <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
             <Flex justifyContent="space-between" alignItems="center" mb={6}>
-              <Heading size="lg">STRATIGRAPHY</Heading>
+              <Heading size="lg">Strati</Heading>
+              <Select
+                width={"auto"}
+                onChange={(e) =>
+                  setWellStratigraphy({
+                    ...WellStratigraphy,
+                    depth_datum: e.target.value,
+                  })
+                }
+              >
+                <option value="MSL">MSL</option>
+                <option value="GL">GL</option>
+                <option value="RT">RT</option>
+                <option value="RKB">RKB</option>
+              </Select>
             </Flex>
             <VStack spacing={4} align="stretch">
               <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -791,19 +834,7 @@ const CardFormWell = ({ onFormChange }) => {
                     </Select>
                   </FormControl>
                 </GridItem>
-                <GridItem>
-                  <FormControl>
-                    <FormLabel>Top Depth</FormLabel>
-                    <Input
-                      name="depth"
-                      type="number"
-                      value={WellStratigraphy.depth}
-                      onChange={handleInputChangeWellStraigraphy}
-                      placeholder="Depth"
-                    />
-                  </FormControl>
-                </GridItem>
-                <GridItem>
+                <GridItem colSpan={2}>
                   <FormControl>
                     <FormLabel>Bottom Depth</FormLabel>
                     <Input
@@ -831,9 +862,6 @@ const CardFormWell = ({ onFormChange }) => {
             p={6}
             boxShadow="md"
           >
-            <Heading size="md" mb={4}>
-              Table Straticgraphy
-            </Heading>
             <Table variant="simple">
               <Thead>
                 <Tr>
@@ -857,7 +885,12 @@ const CardFormWell = ({ onFormChange }) => {
           </Box>
         </GridItem>
       </Grid>
-
+      <WellTrajectory
+        ondata={(data) =>
+          setFormData((prev) => ({ ...prev, well_trajectory: data }))
+        }
+      />
+      <WellPorePressureForm />
       <WellTest onData={handleData} />
     </>
   );

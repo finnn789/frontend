@@ -21,6 +21,7 @@ import {
   Th,
   Td,
   Flex,
+  Select,
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -165,11 +166,17 @@ const WellCasing = ({ dataWellCasing }) => {
   };
 
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+    <Grid templateColumns="repeat(2, 1fr)" gap={3} mt={4}>
       <GridItem colSpan={1} width={"100%"}>
         <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Heading size="lg">Well Casing</Heading>
+            <Select width={"auto"} onChange={(e)=> setWellCasing({ ...wellCasing, depth_datum: e.target.value })} >
+                <option value="MSL">MSL</option>
+                <option value="GL">GL</option>
+                <option value="RT">RT</option>
+                <option value="RKB">RKB</option>
+              </Select>
           </Flex>
           <VStack spacing={4} align="stretch">
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -286,9 +293,6 @@ const WellCasing = ({ dataWellCasing }) => {
 
             <TabPanels>
               <TabPanel>
-                <Heading size="md" mb={4}>
-                  Table Well Casing
-                </Heading>
                 <Table variant="simple">
                   <Thead>
                     <Tr>
@@ -304,7 +308,7 @@ const WellCasing = ({ dataWellCasing }) => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {tableWellCasing.map((row,index) => (
+                    {tableWellCasing.map((row, index) => (
                       <Tr key={index}>
                         <Td>{row.depth}</Td>
                         <Td>{row.length}</Td>

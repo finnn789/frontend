@@ -11,6 +11,7 @@ import {
   Heading,
   Flex,
   useToast,
+  Select
 } from "@chakra-ui/react";
 import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
@@ -241,11 +242,15 @@ const PengajuanDrillingForm = () => {
 
   return (
     <>
-      <Flex justify={"space-between"}>
-        <Heading my={4}>+ NEW EXPLORATION WELL</Heading>
+      <Flex justify={"flex-start"} mr={5} my={5}gap={5}>
+        <Heading >+ NEW EXPLORATION WELL</Heading>
+        <Select width={"auto"} fontSize={"xl"}>
+          <option value="Metrics">Metrics</option>
+          <option value="Imperial">Imperial</option>
+        </Select>
       </Flex>
-      <Box borderWidth="1px" borderRadius="lg">
-        <Tabs>
+      <Box borderRadius="lg">
+        <Tabs variant={"soft-rounded"}>
           <TabList>
             <Tab>Teknis</Tab>
             <Tab>Operasional</Tab>

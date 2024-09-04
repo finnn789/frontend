@@ -111,24 +111,15 @@ const ProposedJob = ({ onData }) => {
       <VStack spacing={4} align="stretch">
         <HStack spacing={4}>
           <FormControl>
-            <FormLabel>Area ID</FormLabel>
-            <Input
-              name="area_id"
-              type="text"
-              value={formData.area_id}
-              onChange={handleChange}
-              placeholder="Area ID"
-            />
+            <FormLabel>Area</FormLabel>
+            <Select placeholder="Select Area">
+
+            </Select>
           </FormControl>
           <FormControl>
-            <FormLabel>Field ID</FormLabel>
-            <Input
-              name="field_id"
-              type="text"
-              value={formData.field_id}
-              onChange={handleChange}
-              placeholder="Field ID"
-            />
+            <FormLabel>Field</FormLabel>
+            <Select placeholder="Select Field">
+            </Select>
           </FormControl>
         </HStack>
         <HStack spacing={4}>
@@ -140,10 +131,8 @@ const ProposedJob = ({ onData }) => {
               onChange={handleChange}
             >
               <option value="COST-RECOVERY">COST-RECOVERY</option>
-              <option value="BARGE">GROSS-SPLIT</option>
-              <option value="FLOATER">FLOATER</option>
-              <option value="SEMI-SUBMERSIBLE">SEMI-SUBMERSIBLE</option>
-              <option value="DRILLSHIP">DRILLSHIP</option>
+              <option value="GROSS-SPLIT">GROSS-SPLIT</option>
+              
             </Select>
           </FormControl>
           <FormControl>
@@ -169,7 +158,7 @@ const ProposedJob = ({ onData }) => {
           </FormControl>
         </HStack>
       </VStack>
-      <Divider my={6} borderWidth="2px" borderColor={"gray.600"} />
+      <Divider my={6} borderWidth="1px" borderColor={"gray.300"} />
 
       <VStack spacing={4} align="stretch">
         <HStack spacing={4}>
