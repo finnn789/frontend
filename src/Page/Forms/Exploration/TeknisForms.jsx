@@ -463,7 +463,7 @@ const CardFormWell = ({ onFormChange }) => {
             </GridItem>
             <GridItem>
               <FormControl>
-                <FormLabel>Kelly Bushing Elevation</FormLabel>
+                <FormLabel>Kellys Bushing Elevation</FormLabel>
                 <InputGroup>
                   <Input
                     name="kb_elev"
