@@ -7,14 +7,16 @@ import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx, getCombinedData } from "../../API/APISKK";
+import {getCombinedData , getDataOperation} from "../../API/APISKK";
 const OperationsWO = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
   React.useEffect(() => {
     const getData = async () => {
-      const data = await getCombinedData();
+      const data = await getDataOperation();
+      // setCountStatus(data);
       setCountStatus(data);
+
     };
     getData();
   }, []);
@@ -22,64 +24,32 @@ const OperationsWO = () => {
 
   // console.log('countStatus.Workover', countStatus.Workover);
   
-  const proposedCount = countStatus ? countStatus.Workover.operation_status_counts.FINISHED : null;
-  // const AprovedCount = countStatus ? countStatus.Workover.planning_status_counts.APPROVED : null;
-  // const ReturnedCount = countStatus ? countStatus.Workover.planning_status_counts.RETURNED : null;
+  
+  const disetujui = countStatus ? countStatus.workover.summary.disetujui : null;
+  const beroperasi = countStatus ? countStatus.workover.summary.beroperasi : null;
+  const selesai = countStatus ? countStatus.workover.summary.selesai : null;
 
   
-  console.log(countStatus);
-  
+  // console.log('OperationData.workover', OperationData.workover.summary);
   
 
-  const dataWell = countStatus ? countStatus.Exploration.wells : null;
-  
+  const dataWell = countStatus ? countStatus.workover.job_details : null;
+  console.log('dataWell', dataWell)
   
   
 
   const headerstable1 = [
     "NO.",
     "NAMA SUMUR",
+    "KKKS",
     "WILAYAH KERJA",
     "LAPANGAN",
-    "TANGGAL MULAI",
-    "TANGGAL SELESAI",
-    "TANGGAL DIAJUKAN",
+    "RANCANA MULAI",
+    "REALISASI MULAI",
+    "RENCANA SELESAI",
+    "REALISASI SELESAI",
     "STATUS",
     "AKSI",
-  ];
-
-  const data = [
-    {
-      id: 1,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "PROPOSED",
-    },
-    {
-      id: 2,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "APPROVED",
-    },
-    {
-      id: 3,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "RETURNED",
-    },
-    // Add more data as needed
   ];
 
   const StatusBadge = ({ status }) => {
@@ -111,41 +81,42 @@ const OperationsWO = () => {
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={proposedCount ? proposedCount : <p>Loading...</p>}
-          icon={FaCopy}
-          label={"PROPOSED"}
-          subLabel="Pekerjaan Diajukan"
-        />
-        {/* <PerhitunganCard
-          number={AprovedCount ? AprovedCount : <p>Loading...</p>}
-          icon={FaCheck}
+          number={disetujui ? disetujui : <p>Loading...</p>}          icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
-          label={"APPROVED"}
+          label={"Disetujui"}
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={ReturnedCount ? ReturnedCount : <p>Loading...</p>}
-          label={"RETURNED"}
+          number={beroperasi ?? <p>Loading...</p>}
+          icon={FaCopy}
+          label={"Beroperasi"}
+          subLabel="Pekerjaan Diajukan"
+        />
+        <PerhitunganCard
+          number={selesai ? selesai : <p>Loading...</p>}
+          label={"Selesai"}
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
-          subLabel="Pekerjaan Dikembalikan"
-        /> */}
+          subLabel="Pekerjaan Selesai"
+        />
       </Flex>
       <Box my={6}>
         <ProposedWorkTable headers={headerstable1} title={"List Development "}>
           {dataWell ? dataWell.map((row,index) => (
             <Tr key={index}>
               <Td>{index}</Td>
-              <Td>{row.well_name}</Td>
-              <Td>{row.wilayah_kerja}</Td>
-              <Td>{row.lapangan}</Td>
-              <Td>{row.date_started}</Td>
-              <Td>{row.date_finished}</Td>
-              <Td>{row.date_proposed}</Td>
+              <Td>{row["NAMA SUMUR"]}</Td>
+              <Td>{row["KKKS"]}</Td>
+              <Td>{row["WILAYAH KERJA"]}</Td>
+              <Td>{row["LAPANGAN"]}</Td>
+              <Td>{row["RENCANA MULAI"]}</Td>
+              <Td>{row["REALISASI MULAI"]}</Td>
+              <Td>{row["RENCANA SELESAI"]}</Td>
+              <Td>{row["REALISASI SELESAI"]}</Td>
               <Td>
-                <StatusBadge status={row.planning_status} />
+                <StatusBadge status={row["STATUS"]} />
               </Td>
               <Td>
                 <Button

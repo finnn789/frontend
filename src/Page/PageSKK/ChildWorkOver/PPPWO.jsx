@@ -7,44 +7,43 @@ import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx, getCombinedData } from "../../API/APISKK";
+import {getDataPPP} from "../../API/APISKK";
 const PPPWO = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
   React.useEffect(() => {
     const getData = async () => {
-      const data = await getCombinedData();
+      const data = await getDataPPP();
       setCountStatus(data);
     };
     getData();
   }, []);
 // console.log(countStatus);
 
-  const proposedCount = countStatus ? countStatus.Exploration.planning_status_counts.PROPOSED : null;
-  const AprovedCount = countStatus ? countStatus.Exploration.planning_status_counts.APPROVED : null;
-  const ReturnedCount = countStatus ? countStatus.Exploration.planning_status_counts.RETURNED : null;
-
+  const proposedCount = countStatus ? countStatus.workover.summary.diajukan_p3 : null;
+  const AprovedCount = countStatus ? countStatus.workover.summary.p3_disetujui : null;
+  const ReturnedCount = countStatus ? countStatus.workover.summary.selesai : null;
+  const dataWell = countStatus ? countStatus.workover.job_details : null;
   
-  console.log(countStatus);
-  
-  
-
-  const dataWell = countStatus ? countStatus.Exploration.wells : null;
-  
+  console.log('dataWell', [dataWell]);
   
   
 
   const headerstable1 = [
-    "NO.",
-    "NAMA SUMUR",
-    "WILAYAH KERJA",
-    "LAPANGAN",
-    "TANGGAL MULAI",
-    "TANGGAL SELESAI",
-    "TANGGAL DIAJUKAN",
+    "NO",
+    "WELL NAME",
+    "EXP START DATE",
+    "EXP END DATE",
+    "DEV START DATE",
+    "DEV END DATE",
+    "WELL START DATE",
+    "WELL END DATE",
+    "WORK START DATE",
+    "WORK END DATE",
     "STATUS",
     "AKSI",
   ];
+  
 
   const data = [
     {
@@ -84,7 +83,7 @@ const PPPWO = () => {
     const colorScheme =
       status === "PROPOSED"
         ? "blue"
-        : status === "APPROVED"
+        : status === "FINISHED Ops"
         ? "green"
         : status === "RETURNED"
         ? "red"
@@ -109,22 +108,22 @@ const PPPWO = () => {
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={proposedCount ? proposedCount : <p>Loading...</p>}
+          number={proposedCount ?? <p>Loading...</p>}
           icon={FaCopy}
-          label={"PROPOSED"}
+          label={"Diajukan P3"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-          number={AprovedCount ? AprovedCount : <p>Loading...</p>}
+          number={AprovedCount ?? <p>Loading...</p>}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
-          label={"APPROVED"}
+          label={"P3 Disetujui"}
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
           number={ReturnedCount ? ReturnedCount : <p>Loading...</p>}
-          label={"RETURNED"}
+          label={"Selesai"}
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
@@ -137,13 +136,16 @@ const PPPWO = () => {
             <Tr key={index}>
               <Td>{index}</Td>
               <Td>{row.well_name}</Td>
-              <Td>{row.wilayah_kerja}</Td>
-              <Td>{row.lapangan}</Td>
-              <Td>{row.date_started}</Td>
-              <Td>{row.date_finished}</Td>
-              <Td>{row.date_proposed}</Td>
+              <Td>{row.exp_start_date}</Td>
+              <Td>{row.exp_end_date}</Td>
+              <Td>{row.dev_start_date}</Td>
+              <Td>{row.dev_end_date}</Td>
+              <Td>{row.well_start_date}</Td>
+              <Td>{row.well_end_date}</Td>
+              <Td>{row.work_start_date}</Td>
+              <Td>{row.work_end_date}</Td>
               <Td>
-                <StatusBadge status={row.planning_status} />
+                <StatusBadge status={row.status} />
               </Td>
               <Td>
                 <Button
