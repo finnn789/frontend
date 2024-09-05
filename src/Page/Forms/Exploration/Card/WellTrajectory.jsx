@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import Papa from "papaparse"; // You'll need to install this: npm install papaparse
 import axios from "axios";
-import {IconDropCircle} from "@tabler/icons-react";
+import {IconRoute2} from "@tabler/icons-react";
 
 const WellTrajectory = ({ ondata }) => {
   const [fileType, setFileType] = useState("");
@@ -150,7 +150,7 @@ const WellTrajectory = ({ ondata }) => {
     >
       <form onSubmit={handleSubmit}>
         <Flex alignItems="center">
-          <Icon as={IconDropCircle} boxSize={12} color="gray.800" mr={3} />
+          <Icon as={IconRoute2} boxSize={12} color="gray.800" mr={3} />
           <Flex flexDirection={"column"}>
             <Text
               fontSize="xl"

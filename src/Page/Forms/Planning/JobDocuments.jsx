@@ -22,14 +22,15 @@ import {
   Select,
   useToast,
   Text,
+  Icon,
 } from "@chakra-ui/react";
-
+import { IconTable,  IconFiles } from "@tabler/icons-react";
 const JobDocuments = ({ data }) => {
   const [onChangeData, setOnChangeData] = useState([]);
-  
-  React.useEffect(()=> {
-    data(onChangeData)
-  },[onChangeData])
+
+  React.useEffect(() => {
+    data(onChangeData);
+  }, [onChangeData]);
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -105,27 +106,27 @@ const JobDocuments = ({ data }) => {
           },
         }
       );
-      
+
       const newData = {
         ...formData,
         file_id: response.data.file_info.id,
         fileName: response.data.file_info.filename,
       };
-      
+
       setOnChangeData([...onChangeData, newData]);
-      
+
       setFormData({
         file_id: "",
         document_type: "DRILLING_PLAN",
         remark: "",
         fileName: "",
       });
-      
+
       setFiles(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      
+
       toast({
         title: "File uploaded successfully",
         status: "success",
@@ -149,9 +150,22 @@ const JobDocuments = ({ data }) => {
   return (
     <Flex gap={6}>
       <Card width="50%">
-        <CardHeader>
-          <Heading size="md">Job Documents</Heading>
-        </CardHeader>
+        <Flex alignItems="center" mb={6}>
+          <Icon as={IconFiles} boxSize={12} color="gray.800" mr={3} />
+          <Flex flexDirection={"column"}>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.700"
+              fontFamily="Montserrat"
+            >
+              {"Job Documents"}
+            </Text>
+            <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+              {"subtitle"}
+            </Text>
+          </Flex>
+        </Flex>
         <CardBody>
           <VStack spacing={4} align="stretch">
             <FormControl>
@@ -166,12 +180,18 @@ const JobDocuments = ({ data }) => {
                 <option value="WELL_DESIGN">Well Design</option>
                 <option value="MUD_PLAN">Mud Plan</option>
                 <option value="CEMENTING_PLAN">Cementing Plan</option>
-                <option value="WELL_TRAJECTORY_PLAN">Well Trajectory Plan</option>
-                <option value="RISK_ASSESSMENT_PLAN">Risk Assessment Plan</option>
+                <option value="WELL_TRAJECTORY_PLAN">
+                  Well Trajectory Plan
+                </option>
+                <option value="RISK_ASSESSMENT_PLAN">
+                  Risk Assessment Plan
+                </option>
                 <option value="SAFETY_PLAN">Safety Plan</option>
                 <option value="ENVIRONMENTAL_PLAN">Environmental Plan</option>
                 <option value="LOGGING_PLAN">Logging Plan</option>
-                <option value="PORE_PRESSURE_PREDICTION">Pore Pressure Prediction</option>
+                <option value="PORE_PRESSURE_PREDICTION">
+                  Pore Pressure Prediction
+                </option>
                 <option value="HYDRAULICS_PLAN">Hydraulics Plan</option>
                 <option value="CASING_PLAN">Casing Plan</option>
                 <option value="CONTINGENCY_PLAN">Contingency Plan</option>
@@ -212,9 +232,22 @@ const JobDocuments = ({ data }) => {
         </CardBody>
       </Card>
       <Card width="50%">
-        <CardHeader>
-          <Heading size="md">Table</Heading>
-        </CardHeader>
+        <Flex alignItems="center" mb={6}>
+          <Icon as={IconTable} boxSize={12} color="gray.800" mr={3} />
+          <Flex flexDirection={"column"}>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.700"
+              fontFamily="Montserrat"
+            >
+              {"Table"}
+            </Text>
+            <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+              {"subtitle"}
+            </Text>
+          </Flex>
+        </Flex>
         <CardBody>
           <Table variant="simple">
             <Thead>

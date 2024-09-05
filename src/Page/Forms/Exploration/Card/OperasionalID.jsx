@@ -15,7 +15,7 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-import { IconDropCircle } from "@tabler/icons-react";
+import { IconBriefcase } from "@tabler/icons-react";
 
 const ProposedJob = ({ onData }) => {
   const [formData, setFormData] = useState({
@@ -110,7 +110,7 @@ const ProposedJob = ({ onData }) => {
   return (
     <Box borderWidth="1px" borderRadius="lg" p={6} fontFamily={"Montserrat"}>
       <Flex alignItems="center" mb={6}>
-        <Icon as={IconDropCircle} boxSize={12} color="gray.800" mr={3} />
+        <Icon as={IconBriefcase} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
           <Text
             fontSize="xl"

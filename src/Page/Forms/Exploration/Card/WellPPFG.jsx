@@ -15,7 +15,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 
-import {IconDropCircle} from "@tabler/icons-react";
+import {IconGraph} from "@tabler/icons-react";
 
 const WellPorePressureForm = () => {
   const [formData, setFormData] = useState({
@@ -71,7 +71,7 @@ const WellPorePressureForm = () => {
   return (
     <Box margin="auto" mt={6} borderWidth="1px" borderRadius="lg" p={5} fontFamily={"Montserrat"}>
       <Flex alignItems="center" mb={6}>
-        <Icon as={IconDropCircle} boxSize={12} color="gray.800" mr={3} />
+        <Icon as={IconGraph} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
           <Text
             fontSize="xl"
