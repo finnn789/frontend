@@ -48,6 +48,8 @@ import PlanDevelopmentForm from "./Page/Forms/PlanDevelopmentForm";
 import PlanningWorkOverKKKS from "./Page/Components/PageWorkOVer/PlanningExp";
 import PlanWellServiceKKKS from "./Page/Components/PageWellService/PlanningExp";
 import PlanDevelopKKKS from "./Page/Components/PageExploitasi/PlanningExp";
+import OperationExpKKKS from "./Page/Components/PageExploitasi/OperationExpKKKS";
+import OperationFormsKKKS from "./Page/Forms/Operation/OperationFormsKKKS";
 
 
 function App() {
@@ -103,13 +105,11 @@ function App() {
         
         {
           path: "operasi",
-          element: <OperasiPengerjaan />,
-          children: [
-            {
-              path: "operasiform",
-              element: <OperasiPengajuaanForm />,
-            },
-          ],
+          element: <OperationExpKKKS />,
+        },
+        {
+          path: "operasiform",
+          element: <OperationFormsKKKS />,
         },
         {
           path: "ppp",
@@ -133,6 +133,14 @@ function App() {
         },
         {
           path: "planningform",
+          element: (<ProtectedRoute element={<PlanDevelopmentForm />} allowedRoles={["KKKS"]}/> ),
+        },
+        {
+          path: "operasi",
+          element: (<ProtectedRoute element={<PlanDevelopKKKS/>} allowedRoles={["KKKS"]}/> ),
+        },
+        {
+          path: "operationform",
           element: (<ProtectedRoute element={<PlanDevelopmentForm />} allowedRoles={["KKKS"]}/> ),
         },
       ],

@@ -132,9 +132,9 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/operasi"
+                  to="/dashboard/operasiform"
                   px={3}
-                  isDisabled
+                  
                   fontSize={"18px"}
                   py={2}
                   rounded="md"
@@ -236,9 +236,9 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/operasi"
+                  to="/development/operasi"
                   px={3}
-                  isDisabled
+                  
                   fontSize={"18px"}
                   py={2}
                   rounded="md"
