@@ -1,34 +1,4 @@
 import React, {useCallback, useState, useEffect } from "react";
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  VStack,
-  Button,
-  HStack,
-  Select,
-  Grid,
-  GridItem,
-  Heading,
-  Flex,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Checkbox,
-  MenuItem,
-  InputRightAddon,
-  InputGroup,
-} from "@chakra-ui/react";
-
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import WellTest from "./Card/WellTest";
 import WellCasing from "./Card/WellCasing";
@@ -40,6 +10,8 @@ import WellLocation from "./../Planning/WellLocation";
 import JobDetail from "./../Planning/JobDetail";
 import WellSummary from "./../Planning/WellSummary";
 import Stratigraphy from "./../Planning/Stratigraphy";
+import Seismic from "../Planning/Seismic";
+import KeyDates from "./../Planning/KeyDates";
 
 const CardFormWell = ({ onFormChange }) => {
   const [formData, setFormData] = useState({
@@ -225,6 +197,8 @@ const CardFormWell = ({ onFormChange }) => {
       <JobDetail handleChange={handleChange} formData={formData} />
       <WellLocation handleChange={handleChange} />
       <ElevationsAndDepths handleChange={handleChange} />
+      <Seismic handleChange={handleChange} formData={formData} />
+      <KeyDates handleChange={handleChange} formData={formData} />
       <WellSummary
         handleAddClick={handleAddClick}
         handleInputChange={handleInputChange}
