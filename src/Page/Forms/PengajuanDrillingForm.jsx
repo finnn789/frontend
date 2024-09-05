@@ -185,6 +185,28 @@ const PengajuanDrillingForm = () => {
   });
   // console.log(jobPlan);
 
+  const [dataMetricImperial, setDataMetricImperial] = useState("Metrics");
+  const metricImperialChange = (e) => {
+    setJobPlan((prevJobPlan) => ({
+      ...prevJobPlan,
+      job_plan:{
+        ...prevJobPlan.job_plan,
+        job_operation_days:{
+          ...prevJobPlan.job_plan.job_operation_days,
+          unit_type:e.target.value
+        },
+        well_plan:{
+          ...prevJobPlan.job_plan.well_plan,
+          unit_type:e.target.value,
+        },
+        
+      }
+    }))
+
+    setDataMetricImperial(e.target.value);
+
+  }
+
   const handleWellDataChange = (wellData) => {
     console.log("Previous Job Plan:", jobPlan);
     setJobPlan((prevJobPlan) => ({
@@ -260,7 +282,7 @@ const PengajuanDrillingForm = () => {
         justifyContent={"space-between"}
       >
         <Heading>New Exploration Well</Heading>
-        <Select width={"auto"} fontSize={"xl"}>
+        <Select width={"auto"} fontSize={"xl"} onChange={metricImperialChange}>
           <option value="Metrics">Metrics</option>
           <option value="Imperial">Imperial</option>
         </Select>
@@ -273,7 +295,7 @@ const PengajuanDrillingForm = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <CardFormWell onFormChange={handleWellDataChange} />
+              <CardFormWell onFormChange={handleWellDataChange} unitType = {dataMetricImperial} />
             </TabPanel>
             <TabPanel>
               <Operasional

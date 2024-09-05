@@ -13,9 +13,9 @@ import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
 
-const CardFormWell = ({ onFormChange }) => {
+const CardFormWell = ({ onFormChange ,unitType}) => {
   const [formData, setFormData] = useState({
-    unit_type: "Metrics",
+    unit_type: unitType,
     uwi: "",
     field_id: "",
     area_id: "",
@@ -34,9 +34,9 @@ const CardFormWell = ({ onFormChange }) => {
     maximum_inclination: 0,
     azimuth: 0,
     line_name: "",
-    spud_date: "2024-08-31T16:27:35.697Z",
-    final_drill_date: "2024-08-31T16:27:35.697Z",
-    completion_date: "2024-08-31T16:27:35.697Z",
+    spud_date: "",
+    final_drill_date: "",
+    completion_date: "",
     rotary_table_elev: 0,
     kb_elev: 0,
     derrick_floor_elev: 0,
@@ -194,9 +194,9 @@ const CardFormWell = ({ onFormChange }) => {
   // console.log('asd',handleInputChange);
   return (
     <>
-      <JobDetail handleChange={handleChange} formData={formData} />
+      <JobDetail handleChange={handleChange} formData={formData} unittype={unitType}  />
       <WellLocation handleChange={handleChange} />
-      <ElevationsAndDepths handleChange={handleChange} />
+      <ElevationsAndDepths handleChange={handleChange}  unittype={unitType}/>
       <Seismic handleChange={handleChange} formData={formData} />
       <KeyDates handleChange={handleChange} formData={formData} />
       <WellSummary

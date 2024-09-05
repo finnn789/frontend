@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 
-const JobDetail = ({ handleChange, formData }) => {
+const JobDetail = ({ handleChange, formData, unittype }) => {
   return (
     <VStack spacing={6} align="stretch" fontFamily={"Montserrat"}>
       <Box borderWidth="1px" borderRadius="lg" p={6} >

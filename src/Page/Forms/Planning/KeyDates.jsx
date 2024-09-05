@@ -11,6 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 const KeyDates = ({ handleChange, formData }) => {
+
+  
   return (
     <VStack spacing={6} align="stretch" fontFamily={"Montserrat"} mt={5}>
       <Box borderWidth="1px" borderRadius="lg" p={6}>
@@ -34,13 +36,15 @@ const KeyDates = ({ handleChange, formData }) => {
           <HStack spacing={4}>
             <FormControl>
               <FormLabel>Spud Date</FormLabel>
-              <Input name="spud_date" type="date" placeholder="Spud Date" />
+              <Input name="spud_date" type="date" placeholder="Spud Date" value={formData.spud_date} onChange={handleChange} />
             </FormControl>
             <FormControl>
               <FormLabel>Final Drill Date</FormLabel>
               <Input
                 name="final_drill_date"
                 type="date"
+                value={formData.final_drill_date}
+                onChange={handleChange}
                 placeholder="Final Drill Date"
               />
             </FormControl>
@@ -50,8 +54,10 @@ const KeyDates = ({ handleChange, formData }) => {
               <FormLabel>Completion Date</FormLabel>
               <Input
                 type="date"
+                value={formData.completion_date}
                 name="completion_date"
                 placeholder="Completion Date"
+                onChange={handleChange}
               />
             </FormControl>
           </HStack>

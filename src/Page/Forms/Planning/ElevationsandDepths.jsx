@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { IconRuler2 } from "@tabler/icons-react"; // Import Tabler Icons
 
-const ElevationsAndDepths = ({ handleChange }) => {
+const ElevationsAndDepths = ({ handleChange ,unittype}) => {
   return (
     <Box
       borderWidth="1px"
@@ -54,7 +54,7 @@ const ElevationsAndDepths = ({ handleChange }) => {
                   placeholder="rotary table elev"
                   onChange={handleChange}
                 />
-                <InputRightAddon>123</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -68,7 +68,7 @@ const ElevationsAndDepths = ({ handleChange }) => {
                   onChange={handleChange}
                   type="number"
                 />
-                <InputRightAddon>123</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -86,7 +86,7 @@ const ElevationsAndDepths = ({ handleChange }) => {
                   type="number"
                   onChange={handleChange}
                 />
-                <InputRightAddon>123</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -100,7 +100,7 @@ const ElevationsAndDepths = ({ handleChange }) => {
                   type="number"
                   onChange={handleChange}
                 />
-                <InputRightAddon>123</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -116,7 +116,7 @@ const ElevationsAndDepths = ({ handleChange }) => {
               type="number"
               onChange={handleChange}
             />
-            <InputRightAddon>123</InputRightAddon>
+            <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
           </InputGroup>
         </FormControl>
 
@@ -132,7 +132,7 @@ const ElevationsAndDepths = ({ handleChange }) => {
                   placeholder="final md"
                   onChange={handleChange}
                 />
-                <InputRightAddon>123</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -146,7 +146,7 @@ const ElevationsAndDepths = ({ handleChange }) => {
                   onChange={handleChange}
                   type="number"
                 />
-                <InputRightAddon>123</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
