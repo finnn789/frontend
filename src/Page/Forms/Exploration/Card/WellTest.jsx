@@ -23,7 +23,7 @@ import {
   Icon,
   Text,
 } from "@chakra-ui/react";
-import { IconDropCircle } from "@tabler/icons-react";
+import { IconTableAlias } from "@tabler/icons-react";
 
 const WellTest = ({ onData }) => {
   const [formData, setFormData] = useState([]);
@@ -76,7 +76,7 @@ const WellTest = ({ onData }) => {
         <GridItem>
           <Box borderWidth="1px" borderRadius="lg" p={6}>
             <Flex alignItems="center" mb={6}>
-              <Icon as={IconDropCircle} boxSize={12} color="gray.800" mr={3} />
+              <Icon as={IconTableAlias} boxSize={12} color="gray.800" mr={3} />
               <Flex flexDirection={"column"}>
                 <Text
                   fontSize="xl"

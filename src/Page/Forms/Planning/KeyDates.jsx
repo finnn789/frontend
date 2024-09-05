@@ -9,7 +9,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { IconBriefcase } from "@tabler/icons-react";
+import { IconCalendarDue } from "@tabler/icons-react";
 const KeyDates = ({ handleChange, formData }) => {
 
   
@@ -17,7 +17,7 @@ const KeyDates = ({ handleChange, formData }) => {
     <VStack spacing={6} align="stretch" fontFamily={"Montserrat"} mt={5}>
       <Box borderWidth="1px" borderRadius="lg" p={6}>
         <Flex alignItems="center">
-          <Icon as={IconBriefcase} boxSize={12} color="gray.800" mr={3} />
+          <Icon as={IconCalendarDue} boxSize={12} color="gray.800" mr={3} />
           <Flex flexDirection={"column"}>
             <Text
               fontSize="xl"

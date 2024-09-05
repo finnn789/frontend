@@ -20,7 +20,7 @@ import {
   
 } from '@chakra-ui/react';
 
-import {IconWorld} from "@tabler/icons-react";
+import {IconVolcano, IconTable} from "@tabler/icons-react";
 const HazardTypeForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
     hazard_type: '',
@@ -47,7 +47,7 @@ const HazardTypeForm = ({ onAddItem }) => {
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} mb={4} width="100%">
       <Flex alignItems="center" mb={6}>
-        <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+        <Icon as={IconVolcano} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
           <Text
             fontSize="xl"
@@ -141,7 +141,7 @@ const HazardType = ({onDataChange}) => {
       </Box>
       <Box flex={1} maxHeight={"465px"} overflowY={"auto"} borderWidth="1px" borderRadius="lg" p={4}>
       <Flex alignItems="center" mb={6}>
-        <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+        <Icon as={IconTable} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
           <Text
             fontSize="xl"
@@ -149,7 +149,7 @@ const HazardType = ({onDataChange}) => {
             color="gray.700"
             fontFamily="Montserrat"
           >
-            {"Job Operation Days"}
+            {"Table"}
           </Text>
           <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
             {"subtitle"}

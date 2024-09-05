@@ -17,7 +17,7 @@ import {
   Icon,
   Text,
 } from "@chakra-ui/react";
-import { IconWorld } from "@tabler/icons-react";
+import { IconBinaryTree, IconTable } from "@tabler/icons-react";
 
 const JobOperationForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
@@ -43,7 +43,7 @@ const JobOperationForm = ({ onAddItem }) => {
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} mb={4} width="100%">
       <Flex alignItems="center" mb={6}>
-        <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+        <Icon as={IconBinaryTree} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
           <Text
             fontSize="xl"
@@ -128,7 +128,7 @@ const WorkBreakDownStructure = ({ ondata }) => {
         p={4}
       >
         <Flex alignItems="center" mb={6}>
-          <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+          <Icon as={IconTable} boxSize={12} color="gray.800" mr={3} />
           <Flex flexDirection={"column"}>
             <Text
               fontSize="xl"

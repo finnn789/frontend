@@ -22,7 +22,7 @@ import {
     Icon,
   Text
 } from "@chakra-ui/react";
-import { IconTablePlus } from "@tabler/icons-react";
+import { IconLayersSubtract } from "@tabler/icons-react";
 const Stratigraphy = ({
   setWellStratigraphy,
   WellStratigraphy,
@@ -36,7 +36,7 @@ const Stratigraphy = ({
         <Box borderWidth="1px" borderRadius="lg" p={6}>
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Flex alignItems="center">
-              <Icon as={IconTablePlus} boxSize={12} color="gray.800" mr={3} />
+              <Icon as={IconLayersSubtract} boxSize={12} color="gray.800" mr={3} />
               <Flex flexDirection="column">
                 <Text
                   fontSize="xl"

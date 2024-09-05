@@ -23,7 +23,7 @@ import {
   InputGroup,
 } from "@chakra-ui/react";
 
-import {IconWorld} from "@tabler/icons-react";
+import {IconTable, IconStopwatch} from "@tabler/icons-react";
 
 const WorkBreakdownForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
@@ -58,7 +58,7 @@ const WorkBreakdownForm = ({ onAddItem }) => {
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} mb={4} width="100%">
       <Flex alignItems="center" mb={6}>
-        <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+        <Icon as={IconStopwatch} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
           <Text
             fontSize="xl"
@@ -159,7 +159,7 @@ const JobOperationDays = ({ ondata }) => {
         p={4}
       >
         <Flex alignItems="center" mb={6}>
-          <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+          <Icon as={IconTable} boxSize={12} color="gray.800" mr={3} />
           <Flex flexDirection={"column"}>
             <Text
               fontSize="xl"
@@ -167,7 +167,7 @@ const JobOperationDays = ({ ondata }) => {
               color="gray.700"
               fontFamily="Montserrat"
             >
-              {"Work Breakdown Structure"}
+              {"Table"}
             </Text>
             <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
               {"subtitle"}
