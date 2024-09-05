@@ -24,8 +24,8 @@ const PlanDevelopmentForm = () => {
     afe_number: "string",
     wpb_year: 0,
     job_plan: {
-      start_date: "2024-09-05",
-      end_date: "2024-09-05",
+      start_date: "2024-08-31",
+      end_date: "2024-08-31",
       total_budget: 0,
       job_operation_days: [
         {
@@ -40,8 +40,8 @@ const PlanDevelopmentForm = () => {
       work_breakdown_structure: [
         {
           event: "string",
-          start_date: "2024-09-05",
-          end_date: "2024-09-05",
+          start_date: "2024-08-31",
+          end_date: "2024-08-31",
           remarks: "string",
         },
       ],
@@ -84,9 +84,9 @@ const PlanDevelopmentForm = () => {
         maximum_inclination: 0,
         azimuth: 0,
         line_name: "string",
-        spud_date: "2024-09-05",
-        final_drill_date: "2024-09-05",
-        completion_date: "2024-09-05",
+        spud_date: "2024-08-31T16:27:35.697Z",
+        final_drill_date: "2024-08-31T16:27:35.697Z",
+        completion_date: "2024-08-31T16:27:35.697Z",
         rotary_table_elev: 0,
         kb_elev: 0,
         derrick_floor_elev: 0,
@@ -175,7 +175,6 @@ const PlanDevelopmentForm = () => {
       wrm_ippkh: true,
       wrm_ukl_upl: true,
       wrm_amdal: true,
-      wrm_cutting_dumping: true,
       wrm_pengadaan_rig: true,
       wrm_pengadaan_drilling_services: true,
       wrm_pengadaan_lli: true,
@@ -184,7 +183,8 @@ const PlanDevelopmentForm = () => {
       wrm_evaluasi_subsurface: true,
     },
   });
-  console.log(jobPlan);
+  // console.log(jobPlan);
+  
 
   const handleWellDataChange = (wellData) => {
     console.log("Previous Job Plan:", jobPlan);
@@ -199,6 +199,16 @@ const PlanDevelopmentForm = () => {
     }));
   };
 
+  const handleJobDocuments = (jobDocuments) => {
+    setJobPlan((prevJobPlan) => ({
+      ...prevJobPlan,
+      job_plan: {
+        ...prevJobPlan.job_plan,
+        job_documents: jobDocuments,
+      },
+    }));
+  };
+
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
@@ -206,7 +216,7 @@ const PlanDevelopmentForm = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/exploration`,
+        `${import.meta.env.VITE_APP_URL}/job/planning/create/development`,
         jobPlan,
         {
           headers: {
@@ -243,8 +253,14 @@ const PlanDevelopmentForm = () => {
 
   return (
     <>
-      <Flex justify={"flex-start"} mr={5} my={5} gap={5} justifyContent={"space-between"}>
-        <Heading>New Development Well</Heading>
+      <Flex
+        justify={"flex-start"}
+        mr={5}
+        my={5}
+        gap={5}
+        justifyContent={"space-between"}
+      >
+        <Heading>New Exploitation Well</Heading>
         <Select width={"auto"} fontSize={"xl"}>
           <option value="Metrics">Metrics</option>
           <option value="Imperial">Imperial</option>
@@ -277,6 +293,8 @@ const PlanDevelopmentForm = () => {
                     },
                   }));
                 }}
+                jobDocuments={handleJobDocuments}
+                
               />
             </TabPanel>
           </TabPanels>
