@@ -23,10 +23,12 @@ import {
   Flex,
   Select,
   InputGroup,
-  InputRightAddon
-
+  InputRightAddon,
+  Icon,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { IconCylinder } from "@tabler/icons-react";
 
 const WellCasing = ({ dataWellCasing }) => {
   const [showWellCasing, setShowWellCasing] = useState({
@@ -169,23 +171,46 @@ const WellCasing = ({ dataWellCasing }) => {
   };
 
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={3} mt={4}>
-      <GridItem colSpan={1} width={"100%"}>
-        <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
-          <Flex justifyContent="space-between" alignItems="center" mb={6}>
-            <Heading size="lg">Well Casing</Heading>
-            <Select width={"auto"} onChange={(e)=> setWellCasing({ ...wellCasing, depth_datum: e.target.value })} >
-                <option value="MSL">MSL</option>
-                <option value="GL">GL</option>
-                <option value="RT">RT</option>
-                <option value="RKB">RKB</option>
-              </Select>
+    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} height="600px" fontFamily={"Montserrat"}>
+      {" "}
+      {/* Set the overall height of the grid */}
+      <Box borderWidth="1px" borderRadius="lg" p={6} height="100%">
+        {/* Form content */}
+        <Flex justifyContent="space-between" alignItems="center" mb={6}>
+          <Flex alignItems="center" flexDirection={"row"}>
+            <Icon as={IconCylinder} boxSize={12} color="gray.800" mr={3} />
+            <Flex flexDirection="column">
+              <Text
+                fontSize="xl"
+                fontWeight="bold"
+                color="gray.700"
+                fontFamily="Montserrat"
+              >
+                Well Casing
+              </Text>
+              <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+                subtitle
+              </Text>
+            </Flex>
           </Flex>
-          <VStack spacing={4} align="stretch">
-            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-              <FormControl>
-                <FormLabel>Depth</FormLabel>
-                <InputGroup>
+          <Select
+            width="auto"
+            onChange={(e) =>
+              setWellCasing({ ...wellCasing, depth_datum: e.target.value })
+            }
+          >
+            <option value="MSL">MSL</option>
+            <option value="GL">GL</option>
+            <option value="RT">RT</option>
+            <option value="RKB">RKB</option>
+          </Select>
+        </Flex>
+        {/* Form controls */}
+        <VStack spacing={4} align="stretch">
+          <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            <FormControl>
+              <FormLabel>Depth</FormLabel>
+              <InputGroup>
                 <Input
                   name="depth"
                   type="number"
@@ -194,11 +219,11 @@ const WellCasing = ({ dataWellCasing }) => {
                   placeholder="Depth"
                 />
                 <InputRightAddon>METERS</InputRightAddon>
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Length</FormLabel>
-                <InputGroup>
+              </InputGroup>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Length</FormLabel>
+              <InputGroup>
                 <Input
                   name="length"
                   type="number"
@@ -207,11 +232,11 @@ const WellCasing = ({ dataWellCasing }) => {
                   placeholder="Length"
                 />
                 <InputRightAddon>METERS</InputRightAddon>
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Hole Diameter</FormLabel>
-                <InputGroup>
+              </InputGroup>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Hole Diameter</FormLabel>
+              <InputGroup>
                 <Input
                   name="hole_diameter"
                   value={wellCasing.hole_diameter}
@@ -220,11 +245,11 @@ const WellCasing = ({ dataWellCasing }) => {
                   placeholder="Hole Diameter"
                 />
                 <InputRightAddon>METERS</InputRightAddon>
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Casing Outer Diameter</FormLabel>
-                <InputGroup>
+              </InputGroup>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Casing Outer Diameter</FormLabel>
+              <InputGroup>
                 <Input
                   name="casing_outer_diameter"
                   value={wellCasing.casing_outer_diameter}
@@ -233,11 +258,11 @@ const WellCasing = ({ dataWellCasing }) => {
                   placeholder="Casing Outer Diameter"
                 />
                 <InputRightAddon>METERS</InputRightAddon>
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Casing Inner Diameter</FormLabel>
-                <InputGroup>
+              </InputGroup>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Casing Inner Diameter</FormLabel>
+              <InputGroup>
                 <Input
                   name="casing_inner_diameter"
                   value={wellCasing.casing_inner_diameter}
@@ -246,20 +271,20 @@ const WellCasing = ({ dataWellCasing }) => {
                   placeholder="Casing Inner Diameter"
                 />
                 <InputRightAddon>METERS</InputRightAddon>
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Casing Grade</FormLabel>
-                <Input
-                  name="casing_grade"
-                  value={wellCasing.casing_grade}
-                  onChange={handleInputChangeWellCasing}
-                  placeholder="Casing Grade"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Casing Weight</FormLabel>
-                <InputGroup>
+              </InputGroup>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Casing Grade</FormLabel>
+              <Input
+                name="casing_grade"
+                value={wellCasing.casing_grade}
+                onChange={handleInputChangeWellCasing}
+                placeholder="Casing Grade"
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Casing Weight</FormLabel>
+              <InputGroup>
                 <Input
                   name="casing_weight"
                   value={wellCasing.casing_weight}
@@ -268,54 +293,55 @@ const WellCasing = ({ dataWellCasing }) => {
                   placeholder="Casing Weight"
                 />
                 <InputRightAddon>METERS</InputRightAddon>
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Connection</FormLabel>
-                <Input
-                  name="connection"
-                  value={wellCasing.connection}
-                  onChange={handleInputChangeWellCasing}
-                  placeholder="Connection"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Description</FormLabel>
-                <Input
-                  name="description"
-                  type="text"
-                  value={wellCasing.description}
-                  onChange={handleInputChangeWellCasing}
-                  placeholder="Description"
-                />
-              </FormControl>
-            </Grid>
-            <Button colorScheme="blue" onClick={handleWellCasing}>
-              Add Data
-            </Button>
-          </VStack>
-        </Box>
-      </GridItem>
+              </InputGroup>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Connection</FormLabel>
+              <Input
+                name="connection"
+                value={wellCasing.connection}
+                onChange={handleInputChangeWellCasing}
+                placeholder="Connection"
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Description</FormLabel>
+              <Input
+                name="description"
+                type="text"
+                value={wellCasing.description}
+                onChange={handleInputChangeWellCasing}
+                placeholder="Description"
+              />
+            </FormControl>
+          </Grid>
+          <Button colorScheme="blue" onClick={handleWellCasing}>
+            Add Data
+          </Button>
+        </VStack>
+      </Box>
+      <Box
+        borderWidth="1px"
+        borderRadius="lg"
+        boxShadow="md"
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        overflow="hidden"
+      >
+        <Tabs display="flex" flexDirection="column" height="100%">
+          <TabList position="sticky" top={0} bg="white" zIndex={1}>
+            <Tab>Table</Tab>
+            <Tab>Casing</Tab>
+          </TabList>
 
-      <GridItem overflowX={"auto"}>
-        <Box
-          borderWidth="1px"
-          overflowX={"auto"}
-          h={"590px"}
-          borderRadius="lg"
-          p={6}
-          boxShadow="md"
-        >
-          <Tabs>
-            <TabList>
-              <Tab>Table</Tab>
-              <Tab>Casing</Tab>
-            </TabList>
-
-            <TabPanels>
-              <TabPanel>
+          <TabPanels flex={1} overflowY="auto">
+            <TabPanel height="100%" p={0}>
+              <Box overflowX="auto" height="100%">
+                {" "}
+                {/* Ensure the table can scroll vertically */}
                 <Table variant="simple">
-                  <Thead>
+                  <Thead position="sticky" top={0} bg="white" zIndex={1}>
                     <Tr>
                       <Th>Depth</Th>
                       <Th>Length</Th>
@@ -352,17 +378,17 @@ const WellCasing = ({ dataWellCasing }) => {
                     ))}
                   </Tbody>
                 </Table>
-              </TabPanel>
-              <TabPanel>
-                <Button colorScheme="blue" onClick={clickShowCasing}>
-                  Show Casing
-                </Button>
-                {imageUrl && <img src={imageUrl} alt="Casing Visualization" />}
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Box>
-      </GridItem>
+              </Box>
+            </TabPanel>
+            <TabPanel>
+              <Button colorScheme="blue" onClick={clickShowCasing}>
+                Show Casing
+              </Button>
+              {imageUrl && <img src={imageUrl} alt="Casing Visualization" />}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Box>
     </Grid>
   );
 };

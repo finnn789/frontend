@@ -10,8 +10,12 @@ import {
   Select,
   Divider,
   InputRightAddon,
-  InputGroup
+  InputGroup,
+  Icon,
+  Flex,
+  Text,
 } from "@chakra-ui/react";
+import { IconDropCircle } from "@tabler/icons-react";
 
 const ProposedJob = ({ onData }) => {
   const [formData, setFormData] = useState({
@@ -63,9 +67,8 @@ const ProposedJob = ({ onData }) => {
   };
 
   const handleRig = (e) => {
-    const { name, value,type } = e.target;
-    
-    
+    const { name, value, type } = e.target;
+
     let processedValue;
 
     // Periksa tipe input
@@ -89,8 +92,7 @@ const ProposedJob = ({ onData }) => {
       job_plan: {
         ...prev.job_plan,
         [name]: processedValue,
-      }
-      
+      },
     }));
   };
   const handleDateChange = (e) => {
@@ -106,22 +108,32 @@ const ProposedJob = ({ onData }) => {
   };
 
   return (
-    <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
-      <Heading size="lg" mb={6}>
-        Proposed Job
-      </Heading>
+    <Box borderWidth="1px" borderRadius="lg" p={6} fontFamily={"Montserrat"}>
+      <Flex alignItems="center" mb={6}>
+        <Icon as={IconDropCircle} boxSize={12} color="gray.800" mr={3} />
+        <Flex flexDirection={"column"}>
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color="gray.700"
+            fontFamily="Montserrat"
+          >
+            {"Proposed Job"}
+          </Text>
+          <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+            {"subtitle"}
+          </Text>
+        </Flex>
+      </Flex>
       <VStack spacing={4} align="stretch">
         <HStack spacing={4}>
           <FormControl>
             <FormLabel>Area</FormLabel>
-            <Select placeholder="Select Area">
-
-            </Select>
+            <Select placeholder="Select Area"></Select>
           </FormControl>
           <FormControl>
             <FormLabel>Field</FormLabel>
-            <Select placeholder="Select Field">
-            </Select>
+            <Select placeholder="Select Field"></Select>
           </FormControl>
         </HStack>
         <HStack spacing={4}>
@@ -134,7 +146,6 @@ const ProposedJob = ({ onData }) => {
             >
               <option value="COST-RECOVERY">COST-RECOVERY</option>
               <option value="GROSS-SPLIT">GROSS-SPLIT</option>
-              
             </Select>
           </FormControl>
           <FormControl>
@@ -151,19 +162,19 @@ const ProposedJob = ({ onData }) => {
           <FormControl>
             <FormLabel>WPB Year</FormLabel>
             <InputGroup>
-            <Input
-              name="wpb_year"
-              type="number"
-              value={formData.wpb_year}
-              onChange={handleChange}
-              placeholder="WPB Year"
-            />
-            <InputRightAddon>METERS</InputRightAddon>
-              </InputGroup>
+              <Input
+                name="wpb_year"
+                type="number"
+                value={formData.wpb_year}
+                onChange={handleChange}
+                placeholder="WPB Year"
+              />
+              <InputRightAddon>METERS</InputRightAddon>
+            </InputGroup>
           </FormControl>
         </HStack>
       </VStack>
-      <Divider my={6} borderWidth="1px" borderColor={"gray.300"} />
+      <Divider my={10} borderWidth="1px" borderColor={"gray.200"} />
 
       <VStack spacing={4} align="stretch">
         <HStack spacing={4}>
@@ -220,15 +231,15 @@ const ProposedJob = ({ onData }) => {
           <FormControl>
             <FormLabel>Rig Horse Power</FormLabel>
             <InputGroup>
-            <Input
-              name="rig_horse_power"
-              type="number"
-              value={formData.job_plan.rig_horse_power}
-              onChange={handleRig}
-              placeholder="Rig Horse Power"
+              <Input
+                name="rig_horse_power"
+                type="number"
+                value={formData.job_plan.rig_horse_power}
+                onChange={handleRig}
+                placeholder="Rig Horse Power"
               />
-            <InputRightAddon>METERS</InputRightAddon>
-              </InputGroup>
+              <InputRightAddon>METERS</InputRightAddon>
+            </InputGroup>
           </FormControl>
         </HStack>
       </VStack>

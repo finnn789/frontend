@@ -242,8 +242,8 @@ const PlanWellServiceForm = () => {
 
   return (
     <>
-      <Flex justify={"flex-start"} mr={5} my={5}gap={5}>
-        <Heading >+ NEW EXPLORATION WELL</Heading>
+      <Flex justify={"flex-start"} mr={5} my={5}gap={5} justifyContent={"space-between"}>
+        <Heading >New Well Service</Heading>
         <Select width={"auto"} fontSize={"xl"}>
           <option value="Metrics">Metrics</option>
           <option value="Imperial">Imperial</option>

@@ -20,7 +20,7 @@ import { IconBriefcase } from "@tabler/icons-react";
 
 const JobDetail = ({ handleChange, formData }) => {
   return (
-    <VStack spacing={6} align="stretch">
+    <VStack spacing={6} align="stretch" fontFamily={"Montserrat"}>
       <Box borderWidth="1px" borderRadius="lg" p={6} >
         <Flex alignItems="center">
           <Icon as={IconBriefcase} boxSize={12} color="gray.800" mr={3} />
@@ -31,7 +31,7 @@ const JobDetail = ({ handleChange, formData }) => {
               color="gray.700"
               fontFamily="Montserrat"
             >
-              {"Job Detail"}
+              {"Well Profile"}
             </Text>
             <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
               {"subtitle"}
