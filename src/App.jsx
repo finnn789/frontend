@@ -50,6 +50,7 @@ import PlanWellServiceKKKS from "./Page/Components/PageWellService/PlanningExp";
 import PlanDevelopKKKS from "./Page/Components/PageExploitasi/PlanningExp";
 import OperationExpKKKS from "./Page/Components/PageExploitasi/OperationExpKKKS";
 import OperationFormsKKKS from "./Page/Forms/Operation/OperationFormsKKKS";
+import JobDocuments from "./Page/Forms/Planning/JobDocuments";
 
 
 function App() {
@@ -382,6 +383,11 @@ function App() {
     {
       path: "/ppp",
       element: <PPP />,
+
+    },
+    {
+      path: "/jobdocuments",
+      element: <JobDocuments/>,
     },
     {
       path: "/pengajuanpekerjaanform",

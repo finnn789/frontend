@@ -5,8 +5,9 @@ import WorkBreakdownStructure from "./Card/WorkBreakDown";
 
 import JobOpertionsDays from "./Card/JobOperationDays";
 import HazardType from "./Card/HazardType";
+import JobDocuments from "../Planning/JobDocuments";
 
-const Operasional = ({ onData, dataWRM }) => {
+const Operasional = ({ onData, dataWRM, jobDocuments }) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
   useEffect(() => {
@@ -21,6 +22,8 @@ const Operasional = ({ onData, dataWRM }) => {
       ...datas,
     }));
   }, [data, datas]);
+
+  // console.log(data);
 
   const handleData = (newData) => {
     setData((prevData) => ({ ...prevData, ...newData }));
@@ -65,6 +68,12 @@ const Operasional = ({ onData, dataWRM }) => {
               job_hazard: newData,
             },
           }));
+        }}
+      />
+
+      <JobDocuments
+        data={(newData) => {
+          jobDocuments(newData);
         }}
       />
     </div>
