@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -19,60 +20,129 @@ import {
   Textarea,
   VStack,
   Select,
+  useToast,
+  Text,
 } from "@chakra-ui/react";
 
 const JobDocuments = ({ data }) => {
-  const [onData, setOnData] = useState([]);
+  const [onChangeData, setOnChangeData] = useState([]);
+  
+  React.useEffect(()=> {
+    data(onChangeData)
+  },[onChangeData])
+  const [files, setFiles] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     file_id: "",
     document_type: "DRILLING_PLAN",
     remark: "",
+    fileName: "",
   });
-  
-  const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
-
-  useEffect(() => {
-    data(onData);
-  }, [onData]);
+  const toast = useToast();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
     }));
   };
 
   const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setFile(selectedFile);
-    setFormData(prevState => ({
-      ...prevState,
-      file_id: selectedFile?.name || ""
-    }));
+    const file = event.target.files[0];
+    if (file) {
+      const allowedTypes = [
+        "application/vnd.ms-excel",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "text/csv",
+      ];
+      if (allowedTypes.includes(file.type)) {
+        setFiles(file);
+        setFormData((prevData) => ({
+          ...prevData,
+          fileName: file.name,
+        }));
+      } else {
+        toast({
+          title: "Invalid file type",
+          description: "Please upload a CSV or Excel file.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        event.target.value = null;
+      }
+    }
   };
 
-  const handleAdd = () => {
-    if (formData.document_type && file) {
-      const newDocument = {
-        ...formData,
-        file: file // Include the file object itself
-      };
-      setOnData(prevData => {
-        const updatedData = [...prevData, newDocument];
-        // data(updatedData); // Call the data prop function with the updated data
-        return updatedData;
+  const handleAddClick = async (e) => {
+    e.preventDefault();
+    if (!files) {
+      toast({
+        title: "No file selected",
+        description: "Please select a file to upload.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
       });
+      return;
+    }
+
+    setLoading(true);
+    const formFile = new FormData();
+    formFile.append("file", files);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_URL}/utils/upload/file`,
+        formFile,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      
+      const newData = {
+        ...formData,
+        file_id: response.data.file_info.id,
+        fileName: response.data.file_info.filename,
+      };
+      
+      setOnChangeData([...onChangeData, newData]);
+      
       setFormData({
         file_id: "",
         document_type: "DRILLING_PLAN",
         remark: "",
+        fileName: "",
       });
-      setFile(null);
+      
+      setFiles(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
+      
+      toast({
+        title: "File uploaded successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error(error.response?.data || error);
+      toast({
+        title: "Upload failed",
+        description: "There was an error uploading the file.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -115,6 +185,11 @@ const JobDocuments = ({ data }) => {
                 accept=".csv, .xls, .xlsx"
                 ref={fileInputRef}
               />
+              {formData.fileName && (
+                <Text mt={2} fontSize="sm">
+                  Selected file: {formData.fileName}
+                </Text>
+              )}
             </FormControl>
             <FormControl>
               <FormLabel>Remarks</FormLabel>
@@ -125,7 +200,12 @@ const JobDocuments = ({ data }) => {
                 onChange={handleInputChange}
               />
             </FormControl>
-            <Button colorScheme="blue" onClick={handleAdd}>
+            <Button
+              colorScheme="blue"
+              isLoading={loading}
+              onClick={handleAddClick}
+              loadingText="Uploading..."
+            >
               Add
             </Button>
           </VStack>
@@ -145,11 +225,11 @@ const JobDocuments = ({ data }) => {
               </Tr>
             </Thead>
             <Tbody>
-              {onData.map((doc, index) => (
+              {onChangeData.map((row, index) => (
                 <Tr key={index}>
-                  <Td>{doc.document_type}</Td>
-                  <Td>{doc.file_id}</Td>
-                  <Td>{doc.remark}</Td>
+                  <Td>{row.document_type}</Td>
+                  <Td>{row.fileName}</Td>
+                  <Td>{row.remark}</Td>
                 </Tr>
               ))}
             </Tbody>

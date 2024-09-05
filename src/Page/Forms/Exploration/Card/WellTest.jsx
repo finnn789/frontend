@@ -23,7 +23,7 @@ import {
   Icon,
   Text,
 } from "@chakra-ui/react";
-import {IconDropCircle} from "@tabler/icons-react";
+import { IconDropCircle } from "@tabler/icons-react";
 
 const WellTest = ({ onData }) => {
   const [formData, setFormData] = useState([]);
@@ -36,10 +36,6 @@ const WellTest = ({ onData }) => {
     depth_uom: "FEET",
   });
 
-  useEffect(() => {
-    onData(formData);
-  }, [formData]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setWellTest((prev) => ({
@@ -51,6 +47,7 @@ const WellTest = ({ onData }) => {
   const handleAddClick = () => {
     const newData = { ...wellTest };
     setFormData((prev) => [...prev, newData]);
+    // onData([newData]);
     setWellTest({
       unit_type: "Metrics",
       depth_datum: "RT",
@@ -61,9 +58,21 @@ const WellTest = ({ onData }) => {
     });
   };
 
+
+  useEffect(() => {
+    onData(formData);
+  }, [formData]);
+
+  
+
   return (
     <div fontFamily={"Montserrat"}>
-      <Grid templateColumns={"repeat(2, 1fr)"} mt={4} gap={4} fontFamily={"Montserrat"}>
+      <Grid
+        templateColumns={"repeat(2, 1fr)"}
+        mt={4}
+        gap={4}
+        fontFamily={"Montserrat"}
+      >
         <GridItem>
           <Box borderWidth="1px" borderRadius="lg" p={6}>
             <Flex alignItems="center" mb={6}>
@@ -149,7 +158,7 @@ const WellTest = ({ onData }) => {
             p={6}
             overflowY="auto"
           >
-            <Heading size="lg" mb={6}  fontFamily={"Montserrat"}>
+            <Heading size="lg" mb={6} fontFamily={"Montserrat"}>
               Table Well Test
             </Heading>
             <Table variant="simple">

@@ -11,7 +11,7 @@ import {
   Heading,
   Flex,
   useToast,
-  Select
+  Select,
 } from "@chakra-ui/react";
 import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
@@ -183,7 +183,7 @@ const PengajuanDrillingForm = () => {
       wrm_evaluasi_subsurface: true,
     },
   });
-  console.log(jobPlan);
+  // console.log(jobPlan);
 
   const handleWellDataChange = (wellData) => {
     console.log("Previous Job Plan:", jobPlan);
@@ -194,6 +194,16 @@ const PengajuanDrillingForm = () => {
         well_plan: {
           ...wellData,
         },
+      },
+    }));
+  };
+
+  const handleJobDocuments = (jobDocuments) => {
+    setJobPlan((prevJobPlan) => ({
+      ...prevJobPlan,
+      job_plan: {
+        ...prevJobPlan.job_plan,
+        job_documents: jobDocuments,
       },
     }));
   };
@@ -242,8 +252,14 @@ const PengajuanDrillingForm = () => {
 
   return (
     <>
-      <Flex justify={"flex-start"} mr={5} my={5} gap={5} justifyContent={"space-between"}>
-        <Heading >New Exploration Well</Heading>
+      <Flex
+        justify={"flex-start"}
+        mr={5}
+        my={5}
+        gap={5}
+        justifyContent={"space-between"}
+      >
+        <Heading>New Exploration Well</Heading>
         <Select width={"auto"} fontSize={"xl"}>
           <option value="Metrics">Metrics</option>
           <option value="Imperial">Imperial</option>
@@ -270,12 +286,14 @@ const PengajuanDrillingForm = () => {
                 dataWRM={(data) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
-                    job_plan:{
+                    job_plan: {
                       ...prevJobPlan.job_plan,
-                      ...data
-                    }
+                      ...data,
+                    },
                   }));
                 }}
+                jobDocuments={handleJobDocuments}
+                
               />
             </TabPanel>
           </TabPanels>

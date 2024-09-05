@@ -10,6 +10,8 @@ import JobDocuments from "../Planning/JobDocuments";
 const Operasional = ({ onData, dataWRM, jobDocuments }) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
+  // console.log(data);
+
   useEffect(() => {
     // Menggabungkan data baru dengan data sebelumnya dari parent
     onData((prevData) => ({

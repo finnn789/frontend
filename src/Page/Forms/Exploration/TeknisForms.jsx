@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useCallback, useState, useEffect } from "react";
 import {
   Box,
   FormControl,
@@ -106,7 +106,8 @@ const CardFormWell = ({ onFormChange }) => {
     onFormChange(formData);
   }, [formData]);
 
-  const handleChange = (e) => {
+
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     const parsedValue =
       value === ""
@@ -121,7 +122,7 @@ const CardFormWell = ({ onFormChange }) => {
       ...prevData,
       [name]: parsedValue,
     }));
-  };
+  }, []);
 
   const handleMenuItemClick = (unit) => {
     setFormData((prevData) => ({
@@ -169,7 +170,7 @@ const CardFormWell = ({ onFormChange }) => {
     stratigraphy_id: "",
   });
 
-  const handleAddClick = () => {
+  const handleAddClick = useCallback(() => {
     const newEntry = { ...currentEntry };
     setTableData((prevData) => [...prevData, newEntry]);
     setFormData((prevData) => ({
@@ -191,7 +192,7 @@ const CardFormWell = ({ onFormChange }) => {
       rate_of_penetration: 0,
       remarks: "",
     });
-  };
+  }, [currentEntry]);
 
   const handleWellStratichy = () => {
     const newEntry = { ...WellStratigraphy };
@@ -224,15 +225,26 @@ const CardFormWell = ({ onFormChange }) => {
       <JobDetail handleChange={handleChange} formData={formData} />
       <WellLocation handleChange={handleChange} />
       <ElevationsAndDepths handleChange={handleChange} />
-      <WellSummary handleAddClick={handleAddClick} handleInputChange={handleInputChange} currentEntry={currentEntry} tableData={tableData}/>
+      <WellSummary
+        handleAddClick={handleAddClick}
+        handleInputChange={handleInputChange}
+        currentEntry={currentEntry}
+        tableData={tableData}
+      />
 
       <WellCasing
         dataWellCasing={(data) =>
           setFormData((prev) => ({ ...prev, well_casing: data }))
         }
       />
-      <Stratigraphy setWellStratigraphy={setWellStratigraphy} WellStratigraphy={WellStratigraphy} handleInputChangeWellStraigraphy={handleInputChangeWellStraigraphy} handleWellStratichy={handleWellStratichy} TablewellStratigraphy={TablewellStratigraphy} />
-      
+      <Stratigraphy
+        setWellStratigraphy={setWellStratigraphy}
+        WellStratigraphy={WellStratigraphy}
+        handleInputChangeWellStraigraphy={handleInputChangeWellStraigraphy}
+        handleWellStratichy={handleWellStratichy}
+        TablewellStratigraphy={TablewellStratigraphy}
+      />
+
       <WellTrajectory
         ondata={(data) =>
           setFormData((prev) => ({ ...prev, well_trajectory: data }))
