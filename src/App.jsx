@@ -16,10 +16,9 @@ import ProtectedRoute from "./Auth/ProtectedUser";
 import DashboardSKK from "./Page/PageSKK/DashboardKKS";
 import HomeDashKKKS from "./Page/PageSKK/Components/HomeDashSKK";
 import ViewPlanning from "./Page/WorkPlanning/ViewPlanning";
-import HomeExploitation from "./Page/Components/PageExploitasi/HomeDashExplo";
 import SplashScreen from "./Page/Components/SplashScreen"; // Import SplashScreen
 import RoleRedirect from "./Auth/RoleRedirect";
-import GraphTable from "./Page/Components/PageExploitasi/GraphTable";
+// import GraphTable from "./Page/Components/PageExploitasi/GraphTable";
 import Exploration from "./Page/PageSKK/Exploration";
 import DevelopmentSKK from "./Page/PageSKK/DevelopmentSKK"
 import WellServiceSKK from "./Page/PageSKK/WellServiceSKK";
@@ -46,6 +45,9 @@ import OperationExp from "./Page/PageSKK/ChildExploration/OperationExp";
 import PPPExp from "./Page/PageSKK/ChildExploration/PPPExp";
 import CloseOutExp from "./Page/PageSKK/ChildExploration/CloseOutExp";
 import PlanDevelopmentForm from "./Page/Forms/PlanDevelopmentForm";
+import PlanningWorkOverKKKS from "./Page/Components/PageWorkOVer/PlanningExp";
+import PlanWellServiceKKKS from "./Page/Components/PageWellService/PlanningExp";
+import PlanDevelopKKKS from "./Page/Components/PageExploitasi/PlanningExp";
 
 
 function App() {
@@ -126,12 +128,37 @@ function App() {
       element: <Dashboard />,
       children: [
         {
-          path: "grafikexploitasi",
-          element: <GraphTable />,
+          path: "planning",
+          element: <PlanDevelopKKKS/>,
         },
         {
+          path: "planningform",
+          element: (<ProtectedRoute element={<PlanDevelopmentForm />} allowedRoles={["KKKS"]}/> ),
+        },
+      ],
+    },
+    {
+      path: "workover",
+      element: <Dashboard />,
+      children: [
+        {
           path: "planning",
-          element: <HomeExploitation />,
+          element: <PlanningWorkOverKKKS/>,
+        },
+        {
+          path: "planningform",
+          element: (<ProtectedRoute element={<PlanDevelopmentForm />} allowedRoles={["KKKS"]}/> ),
+        },
+      ],
+    },
+    {
+      path: "wellservice",
+      element: <Dashboard />,
+      children: [
+       
+        {
+          path: "planning",
+          element:<PlanWellServiceKKKS/>,
         },
         {
           path: "planningform",

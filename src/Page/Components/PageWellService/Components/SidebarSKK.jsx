@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   VStack,
-  Button,
   Image,
   List,
   ListItem,
   Collapse,
   Icon,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import {
   FaHome,
@@ -21,31 +21,34 @@ import {
   FaChevronDown,
   FaChevronRight,
 } from "react-icons/fa";
-import Logo from "../../assets/logo.png";
+import Logo from "../../../assets/logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 
-const Sidebar = ({ handleMenuValue }) => {
+const SidebarKKS = ({ handleMenuValue }) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(null);
   const [onClickPage, setOnClickPage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname.includes("/dashboard/planning")) {
-      setOnClickPage("Planning");
+    if (location.pathname.includes("/dashboard/submission")) {
+      setOnClickPage("submission");
     } else if (location.pathname.includes("/dashboard/operasi")) {
       setOnClickPage("operation");
     } else if (location.pathname.includes("/dashboard/ppp")) {
       setOnClickPage("ppp");
     } else if (location.pathname.includes("/dashboard")) {
       setOnClickPage("homeDash");
-    } else if (location.pathname.includes("/development/planning")) {
-      setOnClickPage("development");
     }
   }, [location.pathname]);
 
   const handleMenuClick = (menuName) => {
     setOpenMenu(openMenu === menuName ? null : menuName);
+  };
+
+  const handleExplorationClick = () => {
+    navigate("/skk/exploration");
+    handleMenuClick("exploration");
   };
 
   return (
@@ -55,7 +58,7 @@ const Sidebar = ({ handleMenuValue }) => {
       h="100vh"
       p={4}
       color="#10042C"
-      boxShadow= '0px 1px 2px rgba(0, 0, 0, 0.10)'
+     boxShadow= '0px 1px 2px rgba(0, 0, 0, 0.10)'
       position="sticky"
       top={0}
       overflowY="auto"
@@ -72,9 +75,8 @@ const Sidebar = ({ handleMenuValue }) => {
       <VStack align="start" spacing={4}>
         <Button
           as={Link}
-          to="/dashboard"
+          to="/skk/dashboard"
           px={4}
-          fontSize={"20px"}
           py={4}
           rounded="md"
           _hover={{ bg: "#f5f5f5" }}
@@ -90,13 +92,14 @@ const Sidebar = ({ handleMenuValue }) => {
         <Box width="full">
           <Button
             px={4}
-            fontSize={"20px"}
             py={4}
             rounded="md"
             _hover={{ bg: "#f5f5f5" }}
             width="full"
-            justifyContent="space-between"
+            justifyContent="flex-start"
             onClick={() => handleMenuClick("exploration")}
+            as={Link}
+            to={"/skk/exploration"}
             leftIcon={<Icon as={FaMap} />}
             rightIcon={
               openMenu === "exploration" ? (
@@ -114,15 +117,14 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/planning"
+                  to="/skk/exploration/planningexploration"
                   px={3}
-                  fontSize={"18px"}
                   py={2}
                   rounded="md"
+                  bg={onClickPage === "submission" ? "#e0e0e0" : "none"}
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
                   justifyContent="flex-start"
-                  bg={onClickPage === "Planning" ? "#e0e0e0" : "none"}
                   leftIcon={<Icon as={FaToolbox} />}
                   variant="ghost"
                 >
@@ -132,47 +134,46 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/operasi"
+                  to="/dashboard/development/operations"
+                  isDisabled={true}
                   px={3}
-                  isDisabled
-                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
+                  
                   width="full"
                   justifyContent="flex-start"
-                  bg={onClickPage === "operation" ? "#e0e0e0" : "none"}
+                  bg="#f9f9f9"
                   leftIcon={<Icon as={FaCog} />}
                   variant="ghost"
+                  
                 >
-                  Operations
+                  Operasional
                 </Button>
               </ListItem>
               <ListItem>
                 <Button
                   as={Link}
                   to="/dashboard/ppp"
-                  isDisabled
+                  isDisabled={true}
                   px={3}
-                  fontSize={"18px"}
                   py={2}
                   rounded="md"
+                  bg={onClickPage === "ppp" ? "#e0e0e0" : "none"}
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
                   justifyContent="flex-start"
-                  bg={onClickPage === "ppp" ? "#e0e0e0" : "none"}
                   leftIcon={<Icon as={FaToolbox} />}
                   variant="ghost"
                 >
-                  P3
+                  PPP
                 </Button>
               </ListItem>
               <ListItem>
                 <Button
                   px={3}
-                  fontSize={"18px"}
                   py={2}
-                  isDisabled
+                  isDisabled={true}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
@@ -181,7 +182,7 @@ const Sidebar = ({ handleMenuValue }) => {
                   leftIcon={<Icon as={FaCog} />}
                   variant="ghost"
                 >
-                  Close Out
+                  AFE Close Out
                 </Button>
               </ListItem>
             </List>
@@ -191,15 +192,14 @@ const Sidebar = ({ handleMenuValue }) => {
         {/* Development Section */}
         <Box width="full">
           <Button
-            // as={Link}
-            
             px={4}
-            fontSize={"20px"}
             py={4}
             rounded="md"
             _hover={{ bg: "#f5f5f5" }}
             width="full"
-            justifyContent="space-between"
+            justifyContent="flex-start"
+            as={Link}
+            to={"/skk/development"}
             onClick={() => handleMenuClick("development")}
             leftIcon={<Icon as={FaTools} />}
             rightIcon={
@@ -218,15 +218,14 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/development/planning"
+                  to="/skk/development/planningdevelopment"
                   px={3}
-                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
                   justifyContent="flex-start"
-                  bg={onClickPage === "Planning" ? "#e0e0e0" : "none"}
+                  bg="#f9f9f9"
                   leftIcon={<Icon as={FaToolbox} />}
                   variant="ghost"
                 >
@@ -236,46 +235,44 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/operasi"
+                  to="/dashboard/development/operations"
                   px={3}
-                  isDisabled
-                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
+                  isDisabled={true}
                   width="full"
                   justifyContent="flex-start"
-                  bg={onClickPage === "operation" ? "#e0e0e0" : "none"}
+                  bg="#f9f9f9"
                   leftIcon={<Icon as={FaCog} />}
                   variant="ghost"
                 >
-                  Operations
+                  Operasional
                 </Button>
               </ListItem>
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/ppp"
-                  isDisabled
+                  to="/dashboard/development/p3"
                   px={3}
-                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
+                  isDisabled={true}
                   width="full"
                   justifyContent="flex-start"
-                  bg={onClickPage === "ppp" ? "#e0e0e0" : "none"}
+                  bg="#f9f9f9"
                   leftIcon={<Icon as={FaToolbox} />}
                   variant="ghost"
                 >
-                  P3
+                  PPP
                 </Button>
               </ListItem>
               <ListItem>
                 <Button
+                  as={Link}
+                  to="/dashboard/development/closeout"
                   px={3}
-                  fontSize={"18px"}
-                  isDisabled
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -283,9 +280,10 @@ const Sidebar = ({ handleMenuValue }) => {
                   justifyContent="flex-start"
                   bg="#f9f9f9"
                   leftIcon={<Icon as={FaCog} />}
+                  isDisabled={true}
                   variant="ghost"
                 >
-                  Close Out
+                  AFE Close Out
                 </Button>
               </ListItem>
             </List>
@@ -295,14 +293,14 @@ const Sidebar = ({ handleMenuValue }) => {
         {/* Work Over Section */}
         <Box width="full">
           <Button
-            // as={Link}
+            as={Link}
+            to="/skk/workover"
             px={4}
-            fontSize={"20px"}
             py={4}
             rounded="md"
             _hover={{ bg: "#f5f5f5" }}
             width="full"
-            justifyContent="space-between"
+            justifyContent="flex-start"
             onClick={() => handleMenuClick("workover")}
             leftIcon={<Icon as={FaHammer} />}
             rightIcon={
@@ -317,15 +315,15 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/workover/planning"
+                  to="/skk/workover/planningworkover"
+                  
                   px={3}
-                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
                   justifyContent="flex-start"
-                  bg={onClickPage === "Planning" ? "#e0e0e0" : "none"}
+                  bg="#f9f9f9"
                   leftIcon={<Icon as={FaToolbox} />}
                   variant="ghost"
                 >
@@ -335,46 +333,9 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  isDisabled
-                  to="/workover"
+                  to="/dashboard/workover/operations"
                   px={3}
-                  fontSize={"18px"}
-                  py={2}
-                  rounded="md"
-                  _hover={{ bg: "#e0e0e0" }}
-                  width="full"
-                  justifyContent="flex-start"
-                  bg={onClickPage === "operation" ? "#e0e0e0" : "none"}
-                  leftIcon={<Icon as={FaCog} />}
-                  variant="ghost"
-                >
-                  Operations
-                </Button>
-              </ListItem>
-              <ListItem>
-                <Button
-                  as={Link}
-                  to="/dashboard/ppp"
-                  isDisabled
-                  px={3}
-                  fontSize={"18px"}
-                  py={2}
-                  rounded="md"
-                  _hover={{ bg: "#e0e0e0" }}
-                  width="full"
-                  justifyContent="flex-start"
-                  bg={onClickPage === "ppp" ? "#e0e0e0" : "none"}
-                  leftIcon={<Icon as={FaToolbox} />}
-                  variant="ghost"
-                >
-                  P3
-                </Button>
-              </ListItem>
-              <ListItem>
-                <Button
-                  px={3}
-                  isDisabled
-                  fontSize={"18px"}
+                  isDisabled={true}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
@@ -384,7 +345,43 @@ const Sidebar = ({ handleMenuValue }) => {
                   leftIcon={<Icon as={FaCog} />}
                   variant="ghost"
                 >
-                  Close Out
+                  Operasional
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  as={Link}
+                  to="/dashboard/workover/p3"
+                  px={3}
+                  py={2}
+                  isDisabled={true}
+                  rounded="md"
+                  _hover={{ bg: "#e0e0e0" }}
+                  width="full"
+                  justifyContent="flex-start"
+                  bg="#f9f9f9"
+                  leftIcon={<Icon as={FaToolbox} />}
+                  variant="ghost"
+                >
+                  PPP
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  as={Link}
+                  to="/dashboard/workover/closeout"
+                  px={3}
+                  py={2}
+                  rounded="md"
+                  _hover={{ bg: "#e0e0e0" }}
+                  isDisabled={true}
+                  width="full"
+                  justifyContent="flex-start"
+                  bg="#f9f9f9"
+                  leftIcon={<Icon as={FaCog} />}
+                  variant="ghost"
+                >
+                  AFE Close Out
                 </Button>
               </ListItem>
             </List>
@@ -394,15 +391,14 @@ const Sidebar = ({ handleMenuValue }) => {
         {/* Well Service Section */}
         <Box width="full">
           <Button
-            // as={Link}
-            
             px={4}
-            fontSize={"20px"}
             py={4}
             rounded="md"
+            as={Link}
+            to="/skk/wellservice"
             _hover={{ bg: "#f5f5f5" }}
             width="full"
-            justifyContent="space-between"
+            justifyContent="flex-start"
             onClick={() => handleMenuClick("wellservice")}
             leftIcon={<Icon as={FaCogs} />}
             rightIcon={
@@ -421,16 +417,14 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-
-                  to="/wellservice/planning"
+                  to="/skk/wellservice/planningwellservice"
                   px={3}
-                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
                   justifyContent="flex-start"
-                  bg={onClickPage === "Planning" ? "#e0e0e0" : "none"}
+                  bg="#f9f9f9"
                   leftIcon={<Icon as={FaToolbox} />}
                   variant="ghost"
                 >
@@ -440,56 +434,55 @@ const Sidebar = ({ handleMenuValue }) => {
               <ListItem>
                 <Button
                   as={Link}
-                  to="/dashboard/operasi"
+                  to="/dashboard/wellservice/operations"
                   px={3}
-                  fontSize={"18px"}
-                  py={2}
-                  rounded="md"
-                  isDisabled
-                  _hover={{ bg: "#e0e0e0" }}
-                  width="full"
-                  justifyContent="flex-start"
-                  bg={onClickPage === "operation" ? "#e0e0e0" : "none"}
-                  leftIcon={<Icon as={FaCog} />}
-                  variant="ghost"
-                >
-                  Operations
-                </Button>
-              </ListItem>
-              <ListItem>
-                <Button
-                  as={Link}
-                  to="/dashboard/ppp"
-                  px={3}
-                  fontSize={"18px"}
                   py={2}
                   rounded="md"
                   _hover={{ bg: "#e0e0e0" }}
                   width="full"
-                  justifyContent="flex-start"
-                  isDisabled
-                  bg={onClickPage === "ppp" ? "#e0e0e0" : "none"}
-                  leftIcon={<Icon as={FaToolbox} />}
-                  variant="ghost"
-                >
-                  P3
-                </Button>
-              </ListItem>
-              <ListItem>
-                <Button
-                  px={3}
-                  fontSize={"18px"}
-                  py={2}
-                  isDisabled
-                  rounded="md"
-                  _hover={{ bg: "#e0e0e0" }}
-                  width="full"
+                  isDisabled={true}
                   justifyContent="flex-start"
                   bg="#f9f9f9"
                   leftIcon={<Icon as={FaCog} />}
                   variant="ghost"
                 >
-                  Close Out
+                  Operasional
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  as={Link}
+                  to="/dashboard/wellservice/p3"
+                  px={3}
+                  py={2}
+                  rounded="md"
+                  isDisabled={true}
+                  _hover={{ bg: "#e0e0e0" }}
+                  width="full"
+                  justifyContent="flex-start"
+                  bg="#f9f9f9"
+                  leftIcon={<Icon as={FaToolbox} />}
+                  variant="ghost"
+                >
+                  PPP
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  as={Link}
+                  to="/dashboard/wellservice/closeout"
+                  px={3}
+                  py={2}
+                  rounded="md"
+                  _hover={{ bg: "#e0e0e0" }}
+                  width="full"
+                  isDisabled={true}
+                  justifyContent="flex-start"
+                  bg="#f9f9f9"
+                  leftIcon={<Icon as={FaCog} />}
+                  variant="ghost"
+                >
+                  AFE Close Out
                 </Button>
               </ListItem>
             </List>
@@ -500,4 +493,4 @@ const Sidebar = ({ handleMenuValue }) => {
   );
 };
 
-export default Sidebar;
+export default SidebarKKS;

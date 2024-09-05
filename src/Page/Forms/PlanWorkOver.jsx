@@ -16,7 +16,7 @@ import {
 import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
 
-const PlanDevelopmentForm = () => {
+const PlanWorkOverForm = () => {
   const [jobPlan, setJobPlan] = useState({
     area_id: "string",
     field_id: "string",
@@ -61,127 +61,17 @@ const PlanDevelopmentForm = () => {
           remark: "string",
         },
       ],
-      rig_name: "string",
-      rig_type: "JACK-UP",
-      rig_horse_power: 0,
-      well_plan: {
-        unit_type: "Metrics",
-        uwi: "string",
-        field_id: "string",
-        area_id: "string",
-        kkks_id: "string",
-        well_name: "string",
-        alias_long_name: "string",
-        well_type: "WILDCAT",
-        well_status: "Active",
-        well_profile_type: "DIRECTIONAL",
-        hydrocarbon_target: "OIL",
-        environment_type: "MARINE",
-        surface_longitude: 0,
-        surface_latitude: 0,
-        bottom_hole_longitude: 0,
-        bottom_hole_latitude: 0,
-        maximum_inclination: 0,
-        azimuth: 0,
-        line_name: "string",
-        spud_date: "2024-09-05",
-        final_drill_date: "2024-09-05",
-        completion_date: "2024-09-05",
-        rotary_table_elev: 0,
-        kb_elev: 0,
-        derrick_floor_elev: 0,
-        ground_elev: 0,
-        mean_sea_level: 0,
-        depth_datum: "RT",
-        kick_off_point: 0,
-        maximum_tvd: 0,
-        final_md: 0,
-        remark: "string",
-        well_documents: [
-          {
-            file_id: "string",
-            document_type: "Well Report",
-            remark: "string",
-          },
-        ],
-        well_summary: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            depth: 0,
-            hole_diameter: 0,
-            bit: "string",
-            casing_outer_diameter: 0,
-            logging: "string",
-            mud_program: "string",
-            cementing_program: "string",
-            bottom_hole_temperature: 0,
-            rate_of_penetration: 0,
-            remarks: "string",
-          },
-        ],
-        well_test: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            zone_name: "string",
-            zone_top_depth: 0,
-            zone_bottom_depth: 0,
-          },
-        ],
-        well_trajectory: {
-          file_id: "string",
-          data_format: "IMAGE",
-        },
-        well_ppfg: {
-          file_id: "string",
-          data_format: "IMAGE",
-        },
-        well_logs: [
-          {
-            file_id: "string",
-            data_format: "IMAGE",
-          },
-        ],
-        well_drilling_parameter: {
-          file_id: "string",
-          data_format: "IMAGE",
-        },
-        well_casing: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            depth: 0,
-            length: 0,
-            hole_diameter: 0,
-            casing_outer_diameter: 0,
-            casing_inner_diameter: 0,
-            casing_grade: "string",
-            casing_weight: 0,
-            connection: "string",
-            description: "string",
-          },
-        ],
-        well_stratigraphy: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            depth: 0,
-            stratigraphy_id: "string",
-          },
-        ],
-      },
-      wrm_pembebasan_lahan: true,
-      wrm_ippkh: true,
-      wrm_ukl_upl: true,
-      wrm_amdal: true,
-      wrm_cutting_dumping: true,
-      wrm_pengadaan_rig: true,
-      wrm_pengadaan_drilling_services: true,
-      wrm_pengadaan_lli: true,
-      wrm_persiapan_lokasi: true,
-      wrm_internal_kkks: true,
-      wrm_evaluasi_subsurface: true,
+      equipment: "string",
+      equipment_sepesifications: "string",
+      well_id: "string",
+      job_category: "Acid Fracturing",
+      job_description: "string",
+      onstream_oil: 0,
+      onstream_gas: 0,
+      onstream_water_cut: 0,
+      target_oil: 0,
+      target_gas: 0,
+      target_water_cut: 0,
     },
   });
   console.log(jobPlan);
@@ -296,4 +186,4 @@ const PlanDevelopmentForm = () => {
   );
 };
 
-export default PlanDevelopmentForm;
+export default PlanWorkOverForm;
