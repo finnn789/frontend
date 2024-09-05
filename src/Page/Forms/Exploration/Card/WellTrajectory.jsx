@@ -16,9 +16,12 @@ import {
   Td,
   useToast,
   Heading,
+  Flex,
+  Icon,
 } from "@chakra-ui/react";
 import Papa from "papaparse"; // You'll need to install this: npm install papaparse
 import axios from "axios";
+import {IconDropCircle} from "@tabler/icons-react";
 
 const WellTrajectory = ({ ondata }) => {
   const [fileType, setFileType] = useState("");
@@ -26,17 +29,16 @@ const WellTrajectory = ({ ondata }) => {
   const [csvData, setCsvData] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const toast = useToast();
-  const [msg,setMsg] = React.useState("");
+  const [msg, setMsg] = React.useState("");
   const fileInputRef = React.useRef(null);
   const [dataParent, setDataParent] = React.useState({
     file_id: null,
     data_format: null,
   });
 
-  
-  React.useEffect(()=> {
-    ondata(dataParent)
-  },[dataParent])
+  React.useEffect(() => {
+    ondata(dataParent);
+  }, [dataParent]);
 
   const handleFileTypeChange = (e) => {
     setFileType(e.target.value);
@@ -95,7 +97,7 @@ const WellTrajectory = ({ ondata }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData();
     formData.append("file", selectedFile);
 
@@ -112,11 +114,11 @@ const WellTrajectory = ({ ondata }) => {
         }
       );
       // console.log(response.data.file_info.id);
-      
+
       setDataParent({
         file_id: response.data.file_info.id,
-        data_format : fileType,
-      })
+        data_format: fileType,
+      });
 
       setMsg(response.data.message);
 
@@ -144,11 +146,26 @@ const WellTrajectory = ({ ondata }) => {
       borderWidth="1px"
       borderRadius="lg"
       p={6}
-      boxShadow="md"
+      fontFamily={"Montserrat"}
     >
       <form onSubmit={handleSubmit}>
-        <Heading mb={4}>Well Trajectory</Heading>
-        <VStack spacing={4} align="stretch">
+        <Flex alignItems="center">
+          <Icon as={IconDropCircle} boxSize={12} color="gray.800" mr={3} />
+          <Flex flexDirection={"column"}>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.700"
+              fontFamily="Montserrat"
+            >
+              {"Trajectory"}
+            </Text>
+            <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+              {"subtitle"}
+            </Text>
+          </Flex>
+        </Flex>
+        <VStack spacing={4} align="stretch" mt={5}>
           <FormControl isRequired>
             <FormLabel>File Type</FormLabel>
             <Select

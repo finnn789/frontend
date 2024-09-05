@@ -15,8 +15,12 @@ import {
   Heading,
   Flex,
   Select,
+  Icon,
+  Text,
+  
 } from '@chakra-ui/react';
 
+import {IconWorld} from "@tabler/icons-react";
 const HazardTypeForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
     hazard_type: '',
@@ -42,7 +46,22 @@ const HazardTypeForm = ({ onAddItem }) => {
 
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} mb={4} width="100%">
-      <Heading size="md" mb={4}>Hazard Type</Heading>
+      <Flex alignItems="center" mb={6}>
+        <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+        <Flex flexDirection={"column"}>
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color="gray.700"
+            fontFamily="Montserrat"
+          >
+            {"Hazard Type"}
+          </Text>
+          <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+            {"subtitle"}
+          </Text>
+        </Flex>
+      </Flex>
       <form onSubmit={handleSubmit}>
         <VStack spacing={4} align="stretch">
           <FormControl>
@@ -121,7 +140,22 @@ const HazardType = ({onDataChange}) => {
         <HazardTypeForm onAddItem={handleAddItem} />
       </Box>
       <Box flex={1} maxHeight={"465px"} overflowY={"auto"} borderWidth="1px" borderRadius="lg" p={4}>
-        <Heading size="md" mb={4}>Table</Heading>
+      <Flex alignItems="center" mb={6}>
+        <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+        <Flex flexDirection={"column"}>
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color="gray.700"
+            fontFamily="Montserrat"
+          >
+            {"Job Operation Days"}
+          </Text>
+          <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+            {"subtitle"}
+          </Text>
+        </Flex>
+      </Flex>
         <Table variant="simple">
           <Thead>
             <Tr>

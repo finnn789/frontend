@@ -31,13 +31,8 @@ const WellSummary = ({
   tableData,
 }) => {
   return (
-    <Grid
-      templateColumns="repeat(2, 1fr)"
-      gap={4}
-      mt={4}
-    //   height="calc(100vh - 100px)" // Adjust this value based on your layout
-    >
-      <GridItem>
+    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} fontFamily={"Montserrat"}>
+      <GridItem colSpan={1} width={"100%"}>
         <Box borderWidth="1px" borderRadius="lg" p={6} height="100%">
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Flex alignItems="center">
@@ -71,120 +66,125 @@ const WellSummary = ({
               <option value="RKB">RKB</option>
             </Select>
           </Flex>
-          <VStack spacing={4} align="stretch" overflowY="auto" height="calc(100% - 80px)">
+          <VStack
+            spacing={4}
+            align="stretch"
+            overflowY="auto"
+            height="calc(100% - 80px)"
+          >
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-            <FormControl>
-                  <FormLabel>Depth</FormLabel>
-                  <InputGroup>
-                    <Input
-                      name="depth"
-                      type="number"
-                      value={currentEntry.depth}
-                      onChange={handleInputChange}
-                      placeholder="Depth"
-                    />
-                    <InputRightAddon>123</InputRightAddon>
-                  </InputGroup>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Hole Diameter</FormLabel>
-                  <InputGroup>
-                    <Input
-                      name="hole_diameter"
-                      value={currentEntry.hole_diameter}
-                      type="number"
-                      onChange={handleInputChange}
-                      placeholder="Hole Diameter"
-                    />
-                    <InputRightAddon>123</InputRightAddon>
-                  </InputGroup>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Casing Outer Diameter</FormLabel>
-                  <InputGroup>
-                    <Input
-                      name="casing_outer_diameter"
-                      type="number"
-                      value={currentEntry.casing_outer_diameter}
-                      onChange={handleInputChange}
-                      placeholder="Casing Outer Diameter"
-                    />
-                    <InputRightAddon>123</InputRightAddon>
-                  </InputGroup>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Mud Program</FormLabel>
+              <FormControl>
+                <FormLabel>Depth</FormLabel>
+                <InputGroup>
                   <Input
-                    name="mud_program"
-                    type="text"
-                    value={currentEntry.mud_program}
+                    name="depth"
+                    type="number"
+                    value={currentEntry.depth}
                     onChange={handleInputChange}
-                    placeholder="Mud Program"
+                    placeholder="Depth"
                   />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Bit</FormLabel>
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Hole Diameter</FormLabel>
+                <InputGroup>
                   <Input
-                    name="bit"
-                    value={currentEntry.bit}
+                    name="hole_diameter"
+                    value={currentEntry.hole_diameter}
+                    type="number"
                     onChange={handleInputChange}
-                    placeholder="Bit"
+                    placeholder="Hole Diameter"
                   />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Logging Program</FormLabel>
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Casing Outer Diameter</FormLabel>
+                <InputGroup>
                   <Input
-                    name="logging"
-                    value={currentEntry.logging}
-                    type="text"
+                    name="casing_outer_diameter"
+                    type="number"
+                    value={currentEntry.casing_outer_diameter}
                     onChange={handleInputChange}
-                    placeholder="Logging Program"
+                    placeholder="Casing Outer Diameter"
                   />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Cementing Program</FormLabel>
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Mud Program</FormLabel>
+                <Input
+                  name="mud_program"
+                  type="text"
+                  value={currentEntry.mud_program}
+                  onChange={handleInputChange}
+                  placeholder="Mud Program"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Bit</FormLabel>
+                <Input
+                  name="bit"
+                  value={currentEntry.bit}
+                  onChange={handleInputChange}
+                  placeholder="Bit"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Logging Program</FormLabel>
+                <Input
+                  name="logging"
+                  value={currentEntry.logging}
+                  type="text"
+                  onChange={handleInputChange}
+                  placeholder="Logging Program"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Cementing Program</FormLabel>
+                <Input
+                  name="cementing_program"
+                  value={currentEntry.cementing_program}
+                  onChange={handleInputChange}
+                  placeholder="Cementing Program"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Bottom Hole Temperature</FormLabel>
+                <InputGroup>
                   <Input
-                    name="cementing_program"
-                    value={currentEntry.cementing_program}
+                    name="bottom_hole_temperature"
+                    value={currentEntry.bottom_hole_temperature}
+                    type="number"
                     onChange={handleInputChange}
-                    placeholder="Cementing Program"
+                    placeholder="Bottom Hole Temperature"
                   />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Bottom Hole Temperature</FormLabel>
-                  <InputGroup>
-                    <Input
-                      name="bottom_hole_temperature"
-                      value={currentEntry.bottom_hole_temperature}
-                      type="number"
-                      onChange={handleInputChange}
-                      placeholder="Bottom Hole Temperature"
-                    />
-                    <InputRightAddon>123</InputRightAddon>
-                  </InputGroup>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Rate of Penetration</FormLabel>
-                  <InputGroup>
-                    <Input
-                      name="rate_of_penetration"
-                      value={currentEntry.rate_of_penetration}
-                      onChange={handleInputChange}
-                      type="number"
-                      placeholder="Rate of Penetration"
-                    />
-                    <InputRightAddon>123</InputRightAddon>
-                  </InputGroup>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Remarks</FormLabel>
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Rate of Penetration</FormLabel>
+                <InputGroup>
                   <Input
-                    name="remarks"
-                    value={currentEntry.remarks}
+                    name="rate_of_penetration"
+                    value={currentEntry.rate_of_penetration}
                     onChange={handleInputChange}
-                    placeholder="Remarks"
+                    type="number"
+                    placeholder="Rate of Penetration"
                   />
-                </FormControl>
+                  <InputRightAddon>123</InputRightAddon>
+                </InputGroup>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Remarks</FormLabel>
+                <Input
+                  name="remarks"
+                  value={currentEntry.remarks}
+                  onChange={handleInputChange}
+                  placeholder="Remarks"
+                />
+              </FormControl>
             </Grid>
             <Button colorScheme="blue" onClick={handleAddClick}>
               Add
@@ -228,7 +228,7 @@ const WellSummary = ({
               </Table>
             ) : (
               <Flex justifyContent="center" alignItems="center" height="100%">
-                <Heading>Tidak Ada Data</Heading>
+                <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
               </Flex>
             )}
           </Box>

@@ -48,6 +48,8 @@ import PlanDevelopmentForm from "./Page/Forms/PlanDevelopmentForm";
 import PlanningWorkOverKKKS from "./Page/Components/PageWorkOVer/PlanningExp";
 import PlanWellServiceKKKS from "./Page/Components/PageWellService/PlanningExp";
 import PlanDevelopKKKS from "./Page/Components/PageExploitasi/PlanningExp";
+import PlanWorkOverForm from "./Page/Forms/PlanWorkOver";
+import PlanWellServiceForm from "./Page/Forms/PlanWellService";
 import OperationExpKKKS from "./Page/Components/PageExploitasi/OperationExpKKKS";
 import OperationFormsKKKS from "./Page/Forms/Operation/OperationFormsKKKS";
 import JobDocuments from "./Page/Forms/Planning/JobDocuments";
@@ -156,7 +158,7 @@ function App() {
         },
         {
           path: "planningform",
-          element: (<ProtectedRoute element={<PlanDevelopmentForm />} allowedRoles={["KKKS"]}/> ),
+          element: (<ProtectedRoute element={<PlanWorkOverForm />} allowedRoles={["KKKS"]}/> ),
         },
       ],
     },
@@ -171,7 +173,7 @@ function App() {
         },
         {
           path: "planningform",
-          element: (<ProtectedRoute element={<PlanDevelopmentForm />} allowedRoles={["KKKS"]}/> ),
+          element: (<ProtectedRoute element={<PlanWellServiceForm />} allowedRoles={["KKKS"]}/> ),
         },
       ],
     },

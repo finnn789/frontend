@@ -18,8 +18,12 @@ import {
   Heading,
   Grid,
   InputRightAddon,
-InputGroup
+  InputGroup,
+  Flex,
+  Icon,
+  Text,
 } from "@chakra-ui/react";
+import {IconDropCircle} from "@tabler/icons-react";
 
 const WellTest = ({ onData }) => {
   const [formData, setFormData] = useState([]);
@@ -40,7 +44,7 @@ const WellTest = ({ onData }) => {
     const { name, value } = e.target;
     setWellTest((prev) => ({
       ...prev,
-      [name]: name.includes('depth') ? parseFloat(value) : value,
+      [name]: name.includes("depth") ? parseFloat(value) : value,
     }));
   };
 
@@ -58,37 +62,50 @@ const WellTest = ({ onData }) => {
   };
 
   return (
-    <div>
-      <Grid templateColumns={"repeat(2, 1fr)"} mt={4} gap={4}>
+    <div fontFamily={"Montserrat"}>
+      <Grid templateColumns={"repeat(2, 1fr)"} mt={4} gap={4} fontFamily={"Montserrat"}>
         <GridItem>
-          <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
-            <Heading size="lg" mb={6}>
-              Well Test
-            </Heading>
+          <Box borderWidth="1px" borderRadius="lg" p={6}>
+            <Flex alignItems="center" mb={6}>
+              <Icon as={IconDropCircle} boxSize={12} color="gray.800" mr={3} />
+              <Flex flexDirection={"column"}>
+                <Text
+                  fontSize="xl"
+                  fontWeight="bold"
+                  color="gray.700"
+                  fontFamily="Montserrat"
+                >
+                  {"Well Test"}
+                </Text>
+                <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+                  {"subtitle"}
+                </Text>
+              </Flex>
+            </Flex>
             <VStack spacing={4} align="stretch">
               <HStack spacing={4}>
                 <FormControl>
                   <FormLabel>Zone Name</FormLabel>
                   <InputGroup>
-                  <Input
-                    name="zone_name"
-                    value={wellTest.zone_name}
-                    onChange={handleChange}
-                    placeholder="Zone Name"
+                    <Input
+                      name="zone_name"
+                      value={wellTest.zone_name}
+                      onChange={handleChange}
+                      placeholder="Zone Name"
                     />
-                    </InputGroup>
+                  </InputGroup>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Zone Top Depth</FormLabel>
                   <InputGroup>
-                  <Input
-                    name="zone_top_depth"
-                    type="number"
-                    value={wellTest.zone_top_depth}
-                    onChange={handleChange}
-                    placeholder="Zone Top Depth"
-                  />\
-                  <InputRightAddon>METERS</InputRightAddon>
+                    <Input
+                      name="zone_top_depth"
+                      type="number"
+                      value={wellTest.zone_top_depth}
+                      onChange={handleChange}
+                      placeholder="Zone Top Depth"
+                    />
+                    \<InputRightAddon>METERS</InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </HStack>
@@ -96,14 +113,14 @@ const WellTest = ({ onData }) => {
                 <FormControl>
                   <FormLabel>Zone Bottom Depth</FormLabel>
                   <InputGroup>
-                  <Input
-                    name="zone_bottom_depth"
-                    type="number"
-                    value={wellTest.zone_bottom_depth}
-                    onChange={handleChange}
-                    placeholder="Zone Bottom Depth"
-                  />
-                  <InputRightAddon>METERS</InputRightAddon>
+                    <Input
+                      name="zone_bottom_depth"
+                      type="number"
+                      value={wellTest.zone_bottom_depth}
+                      onChange={handleChange}
+                      placeholder="Zone Bottom Depth"
+                    />
+                    <InputRightAddon>METERS</InputRightAddon>
                   </InputGroup>
                 </FormControl>
                 <FormControl>
@@ -130,10 +147,9 @@ const WellTest = ({ onData }) => {
             h={"325px"}
             borderRadius="lg"
             p={6}
-            boxShadow="md"
             overflowY="auto"
           >
-            <Heading size="lg" mb={6}>
+            <Heading size="lg" mb={6}  fontFamily={"Montserrat"}>
               Table Well Test
             </Heading>
             <Table variant="simple">

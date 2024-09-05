@@ -18,7 +18,7 @@ import { IconDropCircle } from "@tabler/icons-react"; // Import Tabler Icons
 
 const WellLocation = ({ handleChange }) => {
   return (
-    <Box borderWidth="1px" borderRadius="lg" p={6} mt={4}>
+    <Box borderWidth="1px" borderRadius="lg" p={6} mt={4} fontFamily={"Montserrat"}>
       <VStack align="stretch" spacing={4}>
       <Flex alignItems="center">
         <Icon as={IconDropCircle} boxSize={12} color="gray.800" mr={3} />
@@ -49,7 +49,7 @@ const WellLocation = ({ handleChange }) => {
                   type="number"
                   onChange={handleChange}
                 />
-                <InputRightAddon>METERS</InputRightAddon>
+                <InputRightAddon>°</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -63,7 +63,7 @@ const WellLocation = ({ handleChange }) => {
                   placeholder="Surface latitude"
                   onChange={handleChange}
                 />
-                <InputRightAddon>123</InputRightAddon>
+                <InputRightAddon>°</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -81,7 +81,7 @@ const WellLocation = ({ handleChange }) => {
                   type="number"
                 />
 
-                <InputRightAddon>123</InputRightAddon>
+                <InputRightAddon>°</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -95,7 +95,7 @@ const WellLocation = ({ handleChange }) => {
                   onChange={handleChange}
                   type="number"
                 />
-                <InputRightAddon>123</InputRightAddon>
+                <InputRightAddon>°</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>

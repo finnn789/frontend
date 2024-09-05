@@ -1,27 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   FormControl,
   FormLabel,
   Input,
-  VStack,
-  Button,
-  Heading,
-  Flex,
   Table,
   Thead,
   Tbody,
   Tr,
   Th,
   Td,
+  VStack,
+  Heading,
+  Flex,
+  Grid,
+  GridItem,
+  Select,
+  Icon,
+  Text,
+  InputRightAddon,
+  InputGroup,
 } from "@chakra-ui/react";
 
-const JobOperationForm = ({ onAddItem }) => {
+import {IconWorld} from "@tabler/icons-react";
+
+const WorkBreakdownForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
-    event: "",
-    start_date: null,
-    end_date: null,
-    remarks: "",
+    unit_type: "Metrics",
+    phase: "string",
+    depth_datum: "RT",
+    depth_in: 0,
+    depth_out: 0,
+    operation_days: 0,
   });
 
   const handleInputChange = (e) => {
@@ -34,52 +45,88 @@ const JobOperationForm = ({ onAddItem }) => {
 
   const handleAdd = () => {
     onAddItem(formData);
-    setFormData({ event: "", start_date: "", end_date: "", remarks: "" });
+    setFormData({
+      unit_type: "Metrics",
+      phase: "string",
+      depth_datum: "RT",
+      depth_in: 0,
+      depth_out: 0,
+      operation_days: 0,
+    });
   };
 
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} mb={4} width="100%">
-      <Heading size="md" mb={4}>
-        Work Breakdown Structure
-      </Heading>
+      <Flex alignItems="center" mb={6}>
+        <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+        <Flex flexDirection={"column"}>
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color="gray.700"
+            fontFamily="Montserrat"
+          >
+            {"Job Operation Days"}
+          </Text>
+          <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+            {"subtitle"}
+          </Text>
+        </Flex>
+      </Flex>
       <VStack spacing={4} align="stretch">
         <FormControl>
-          <FormLabel>Event</FormLabel>
+          <FormLabel>Phase</FormLabel>
           <Input
-            name="event"
-            value={formData.event}
+            name="phase"
+            value={formData.phase}
             onChange={handleInputChange}
-            placeholder="Event"
-          />
+            placeholder="Phase"
+          ></Input>
         </FormControl>
+        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+          <GridItem>
+            <FormControl>
+              <FormLabel>Depth In</FormLabel>
+              <InputGroup>
+                <Input
+                  name="depth_in"
+                  type="number"
+                  placeholder="Depth In"
+                  value={formData.depth_in}
+                  onChange={handleInputChange}
+                />
+                <InputRightAddon>METERS</InputRightAddon>
+              </InputGroup>
+            </FormControl>
+          </GridItem>
+          <GridItem>
+            <FormControl>
+              <FormLabel>Depth Out</FormLabel>
+              <InputGroup>
+                <Input
+                  name="depth_out"
+                  type="number"
+                  placeholder="Depth Out"
+                  value={formData.depth_out}
+                  onChange={handleInputChange}
+                />
+                <InputRightAddon>METERS</InputRightAddon>
+              </InputGroup>
+            </FormControl>
+          </GridItem>
+        </Grid>
         <FormControl>
-          <FormLabel>Start Date</FormLabel>
-          <Input
-            name="start_date"
-            type="date"
-            value={formData.start_date}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>End Date</FormLabel>
-          <Input
-            name="end_date"
-            type="date"
-            disabled={formData.start_date === null}
-            min={formData.start_date}
-            value={formData.end_date}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Remarks</FormLabel>
-          <Input
-            name="remarks"
-            value={formData.remarks}
-            onChange={handleInputChange}
-            placeholder="Remarks"
-          />
+          <FormLabel>Operation Days</FormLabel>
+          <InputGroup>
+            <Input
+              name="operation_days"
+              value={formData.operation_days}
+              onChange={handleInputChange}
+              type="number"
+              placeholder="Operation Days"
+            />
+            <InputRightAddon>METERS</InputRightAddon>
+          </InputGroup>
         </FormControl>
         <Button onClick={handleAdd} colorScheme="blue">
           Add
@@ -89,19 +136,19 @@ const JobOperationForm = ({ onAddItem }) => {
   );
 };
 
-const JobOperationsDays = ({ ondata }) => {
+const JobOperationDays = ({ ondata }) => {
   const [items, setItems] = useState([]);
 
   const handleAddItem = (newItem) => {
-    const updatedItems = [...items, newItem];
-    setItems(updatedItems);
-    ondata(updatedItems); // Kirim data ke Parent component
+    setItems((prevItems) => [...prevItems, newItem]);
   };
-
+  useEffect(() => {
+    ondata(items);
+  }, [items]);
   return (
     <Flex mt={4}>
       <Box flex={1} mr={4}>
-        <JobOperationForm onAddItem={handleAddItem} />
+        <WorkBreakdownForm onAddItem={handleAddItem} />
       </Box>
       <Box
         flex={1}
@@ -111,25 +158,38 @@ const JobOperationsDays = ({ ondata }) => {
         borderRadius="lg"
         p={4}
       >
-        <Heading size="md" mb={4}>
-          Table
-        </Heading>
+        <Flex alignItems="center" mb={6}>
+          <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
+          <Flex flexDirection={"column"}>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.700"
+              fontFamily="Montserrat"
+            >
+              {"Work Breakdown Structure"}
+            </Text>
+            <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+              {"subtitle"}
+            </Text>
+          </Flex>
+        </Flex>
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th>Event</Th>
-              <Th>Start Date</Th>
-              <Th>End Date</Th>
-              <Th>Remarks</Th>
+              <Th>Phase</Th>
+              <Th>Depth In</Th>
+              <Th>Depth Out</Th>
+              <Th>Operation Days</Th>
             </Tr>
           </Thead>
           <Tbody>
             {items.map((item, index) => (
               <Tr key={index}>
-                <Td>{item.event}</Td>
-                <Td>{item.start_date}</Td>
-                <Td>{item.end_date}</Td>
-                <Td>{item.remarks}</Td>
+                <Td>{item.phase}</Td>
+                <Td>{item.depth_in}</Td>
+                <Td>{item.depth_out}</Td>
+                <Td>{item.operation_days}</Td>
               </Tr>
             ))}
           </Tbody>
@@ -139,4 +199,4 @@ const JobOperationsDays = ({ ondata }) => {
   );
 };
 
-export default JobOperationsDays;
+export default JobOperationDays;

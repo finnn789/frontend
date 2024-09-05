@@ -39,6 +39,7 @@ import ElevationsAndDepths from "./../Planning/ElevationsandDepths";
 import WellLocation from "./../Planning/WellLocation";
 import JobDetail from "./../Planning/JobDetail";
 import WellSummary from "./../Planning/WellSummary";
+import Stratigraphy from "./../Planning/Stratigraphy";
 
 const CardFormWell = ({ onFormChange }) => {
   const [formData, setFormData] = useState({
@@ -230,104 +231,8 @@ const CardFormWell = ({ onFormChange }) => {
           setFormData((prev) => ({ ...prev, well_casing: data }))
         }
       />
-
-      <Grid templateColumns="repeat(2, 1fr)" gap={3} mt={3}>
-        <GridItem colSpan={1}>
-          <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="md">
-            <Flex justifyContent="space-between" alignItems="center" mb={6}>
-              <Heading size="lg">Strati</Heading>
-              <Select
-                width={"auto"}
-                onChange={(e) =>
-                  setWellStratigraphy({
-                    ...WellStratigraphy,
-                    depth_datum: e.target.value,
-                  })
-                }
-              >
-                <option value="MSL">MSL</option>
-                <option value="GL">GL</option>
-                <option value="RT">RT</option>
-                <option value="RKB">RKB</option>
-              </Select>
-            </Flex>
-            <VStack spacing={4} align="stretch">
-              <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-                <GridItem gap={2} colSpan={2}>
-                  <FormControl>
-                    <FormLabel>Stratigraphy</FormLabel>
-                    <Select
-                      name="stratigraphy_id"
-                      value={WellStratigraphy.stratigraphy_id}
-                      onChange={handleInputChangeWellStraigraphy}
-                      placeholder="Stratigraphy"
-                    >
-                      <option value="LITHOSTRATIGRAPHIC">
-                        LITHOSTRATIGRAPHIC
-                      </option>
-                      <option value="CHRONOSTRATIGRAPHIC">
-                        CHRONOSTRATIGRAPHIC
-                      </option>
-                      <option value="OTHER">OTHER</option>
-                      <option value="RADIOMETRIC">RADIOMETRIC</option>
-                      <option value="BIOSTRATIGRAPHIC">BIOSTRATIGRAPHIC</option>
-                    </Select>
-                  </FormControl>
-                </GridItem>
-                <GridItem colSpan={2}>
-                  <FormControl>
-                    <FormLabel>Bottom Depth</FormLabel>
-                    <InputGroup>
-                      <Input
-                        name="depth"
-                        type="number"
-                        value={WellStratigraphy.depth}
-                        onChange={handleInputChangeWellStraigraphy}
-                        placeholder="Depth"
-                      />
-                      <InputRightAddon>123</InputRightAddon>
-                    </InputGroup>
-                  </FormControl>
-                </GridItem>
-              </Grid>
-              <Button colorScheme="blue" onClick={handleWellStratichy}>
-                Add
-              </Button>
-            </VStack>
-          </Box>
-        </GridItem>
-
-        <GridItem>
-          <Box
-            borderWidth="1px"
-            height={"325px"}
-            borderRadius="lg"
-            p={6}
-            boxShadow="md"
-          >
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th>Depth</Th>
-                  <Th>Hole Diameter</Th>
-
-                  {/* Tambahkan header lain sesuai kebutuhan */}
-                </Tr>
-              </Thead>
-              <Tbody>
-                {TablewellStratigraphy.map((row, index) => (
-                  <Tr key={index}>
-                    <Td>{row.depth}</Td>
-                    <Td>{row.stratigraphy_id}</Td>
-
-                    {/* Tambahkan sel lain sesuai kebutuhan */}
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </Box>
-        </GridItem>
-      </Grid>
+      <Stratigraphy setWellStratigraphy={setWellStratigraphy} WellStratigraphy={WellStratigraphy} handleInputChangeWellStraigraphy={handleInputChangeWellStraigraphy} handleWellStratichy={handleWellStratichy} TablewellStratigraphy={TablewellStratigraphy} />
+      
       <WellTrajectory
         ondata={(data) =>
           setFormData((prev) => ({ ...prev, well_trajectory: data }))

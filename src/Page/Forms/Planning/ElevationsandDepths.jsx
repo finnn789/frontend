@@ -22,8 +22,8 @@ const ElevationsAndDepths = ({ handleChange }) => {
       borderRadius="lg"
       p={6}
       mt={4}
-      boxShadow="md"
       bg="white"
+      fontFamily={"Montserrat"}
     >
       <VStack align="stretch" spacing={4}>
         <Flex alignItems="center">

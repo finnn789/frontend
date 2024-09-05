@@ -10,8 +10,12 @@ import {
   useToast,
   Text,
   InputRightAddon,
-  InputGroup
+  InputGroup,
+  Flex,
+  Icon,
 } from "@chakra-ui/react";
+
+import {IconDropCircle} from "@tabler/icons-react";
 
 const WellPorePressureForm = () => {
   const [formData, setFormData] = useState({
@@ -65,62 +69,76 @@ const WellPorePressureForm = () => {
   };
 
   return (
-    <Box margin="auto" mt={8}>
-      <Heading as="h1" size="xl" textAlign="center" mb={6}>
-        Well Pore Pressure Prediction
-      </Heading>
-      <form onSubmit={handleSubmit}>
+    <Box margin="auto" mt={6} borderWidth="1px" borderRadius="lg" p={5} fontFamily={"Montserrat"}>
+      <Flex alignItems="center" mb={6}>
+        <Icon as={IconDropCircle} boxSize={12} color="gray.800" mr={3} />
+        <Flex flexDirection={"column"}>
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color="gray.700"
+            fontFamily="Montserrat"
+          >
+            {"Well Pore Pressure Prediction"}
+          </Text>
+          <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+            {"subtitle"}
+          </Text>
+        </Flex>
+      </Flex>
+      <form onSubmit={handleSubmit} >
         <VStack spacing={4}>
           <FormControl isRequired>
             <FormLabel>Depth (m)</FormLabel>
             <InputGroup>
-            <Input
-              type="number"
-              name="depth"
-              value={formData.depth}
-              onChange={handleInputChange}
-              placeholder="Enter depth"
-            />
-            <InputRightAddon>METERS</InputRightAddon></InputGroup>
+              <Input
+                type="number"
+                name="depth"
+                value={formData.depth}
+                onChange={handleInputChange}
+                placeholder="Enter depth"
+              />
+              <InputRightAddon>METERS</InputRightAddon>
+            </InputGroup>
           </FormControl>
 
           <FormControl isRequired>
             <FormLabel>Temperature (°C)</FormLabel>
             <InputGroup>
-            <Input
-              type="number"
-              name="temperature"
-              value={formData.temperature}
-              onChange={handleInputChange}
-              placeholder="Enter temperature"
+              <Input
+                type="number"
+                name="temperature"
+                value={formData.temperature}
+                onChange={handleInputChange}
+                placeholder="Enter temperature"
               />
-            <InputRightAddon>°C</InputRightAddon>
-              </InputGroup>
+              <InputRightAddon>°C</InputRightAddon>
+            </InputGroup>
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Porosity (%)</FormLabel>
             <InputGroup>
-            <Input
-              type="number"
-              name="porosity"
-              value={formData.porosity}
-              onChange={handleInputChange}
-              placeholder="Enter porosity"
+              <Input
+                type="number"
+                name="porosity"
+                value={formData.porosity}
+                onChange={handleInputChange}
+                placeholder="Enter porosity"
               />
-            <InputRightAddon>%</InputRightAddon>
-              </InputGroup>
+              <InputRightAddon>%</InputRightAddon>
+            </InputGroup>
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Fluid Density (kg/m³)</FormLabel>
             <InputGroup>
-            <Input
-              type="number"
-              name="fluidDensity"
-              value={formData.fluidDensity}
-              onChange={handleInputChange}
-              placeholder="Enter fluid density"
-            />
-            <InputRightAddon>kg/m³</InputRightAddon>
+              <Input
+                type="number"
+                name="fluidDensity"
+                value={formData.fluidDensity}
+                onChange={handleInputChange}
+                placeholder="Enter fluid density"
+              />
+              <InputRightAddon>kg/m³</InputRightAddon>
             </InputGroup>
           </FormControl>
           <FormControl>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ProposedJob from "./Card/OperasionalID";
 import WRMRequirement from "./Card/WRMRequirement";
-import WorkBreakdownStructure from "./Card/WorkBreakDown";
-
 import JobOpertionsDays from "./Card/JobOperationDays";
+
+import WorkBreakdownStructure from "./Card/BorkBreakDowns";
 import HazardType from "./Card/HazardType";
 import JobDocuments from "../Planning/JobDocuments";
 
