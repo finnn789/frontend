@@ -44,6 +44,7 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
               <FormLabel>UWI</FormLabel>
               <Input
                 name="uwi"
+                type="text"
                 value={formData.uwi}
                 onChange={handleChange}
                 placeholder="UWI"
@@ -53,6 +54,7 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
               <FormLabel>Well Name</FormLabel>
               <Input
                 name="well_name"
+                type="text"
                 value={formData.well_name}
                 onChange={handleChange}
                 placeholder="Nama Sumur"
@@ -64,6 +66,7 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
               <FormLabel>Alias Long Name</FormLabel>
               <Input
                 name="alias_long_name"
+                type="text"
                 value={formData.alias_long_name}
                 onChange={handleChange}
                 placeholder="Nama Lengkap Sumur"
@@ -73,6 +76,7 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
               <FormLabel>Well Type</FormLabel>
               <Select
                 name="well_type"
+                type="text"
                 value={formData.well_type}
                 onChange={handleChange}
               >

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import ProposedJob from "../Planning/OperasionalID";
 import WRMRequirement from "../Planning/WRMRequirement";
 import JobOpertionsDays from "../Planning/JobOperationDays";
 
-import WorkBreakdownStructure from "../Planning/BorkBreakDowns";
+import WorkBreakDownStructure from "../Planning/BorkBreakDowns";
 import HazardType from "../Planning/HazardType";
 import JobDocuments from "../Planning/JobDocuments";
 
@@ -31,15 +31,15 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
     setData((prevData) => ({ ...prevData, ...newData }));
   };
 
-  const datawrm = (newData) => {
+  const datawrm = useCallback((newData) => {
     setDatas((prevData) => ({ ...prevData, ...newData }));
-  };
+  }, [setDatas]);
 
   return (
     <div>
       <ProposedJob onData={handleData} />
-      <WRMRequirement onDataChange={datawrm} />
-      <WorkBreakdownStructure
+      {/* <WRMRequirement onDataChange={datawrm} /> */}
+      <WorkBreakDownStructure
         ondata={(newData) => {
           setData((prevJobPlan) => ({
             ...prevJobPlan,
@@ -73,11 +73,11 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
         }}
       />
 
-      <JobDocuments
+      {/* <JobDocuments
         data={(newData) => {
           jobDocuments(newData);
         }}
-      />
+      /> */}
     </div>
   );
 };

@@ -53,6 +53,7 @@ import PlanWellServiceForm from "./Page/Forms/PlanWellService";
 import OperationExpKKKS from "./Page/Components/PageExploitasi/OperationExpKKKS";
 import OperationFormsKKKS from "./Page/Forms/Operation/OperationFormsKKKS";
 import JobDocuments from "./Page/Forms/Planning/JobDocuments";
+import ExistingWell from "./Page/Forms/Planning/ExistingWell";
 
 
 function App() {
@@ -386,10 +387,6 @@ function App() {
       path: "/ppp",
       element: <PPP />,
 
-    },
-    {
-      path: "/jobdocuments",
-      element: <JobDocuments/>,
     },
     {
       path: "/pengajuanpekerjaanform",

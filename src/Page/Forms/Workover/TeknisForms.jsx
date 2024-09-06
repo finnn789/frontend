@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import WellTest from "../Planning/WellTest";
 import WellCasing from "../Planning/WellCasing";
@@ -13,7 +13,7 @@ import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
 
-const CardFormWell = ({ onFormChange ,unitType}) => {
+const CardFormWell = ({ onFormChange, unitType }) => {
   const [formData, setFormData] = useState({
     unit_type: unitType,
     uwi: "",
@@ -78,24 +78,27 @@ const CardFormWell = ({ onFormChange ,unitType}) => {
     onFormChange(formData);
   }, [formData]);
 
-
   const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    const parsedValue =
-      value === ""
-        ? ""
-        : isNaN(value)
-        ? value
-        : value.includes(".")
-        ? parseFloat(value)
-        : parseInt(value, 10);
-    console.log(`Field: ${name}, Value: ${parsedValue}`);
+    const { name, value, type } = e.target;
+    let parsedValue;
+    if (type === "number") {
+      parsedValue =
+        value === ""
+          ? ""
+          : value.includes(".")
+          ? parseFloat(value)
+          : parseInt(value, 10);
+    } else {
+      parsedValue = value; // If type is text or anything else, keep it as string
+    }
+
+    console.log(`Field: ${name}, Value: ${parsedValue}, Type: ${type}`);
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: parsedValue,
     }));
   }, []);
-
   const handleMenuItemClick = (unit) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -194,9 +197,13 @@ const CardFormWell = ({ onFormChange ,unitType}) => {
   // console.log('asd',handleInputChange);
   return (
     <>
-      <JobDetail handleChange={handleChange} formData={formData} unittype={unitType}  />
+      <JobDetail
+        handleChange={handleChange}
+        formData={formData}
+        unittype={unitType}
+      />
       <WellLocation handleChange={handleChange} />
-      <ElevationsAndDepths handleChange={handleChange}  unittype={unitType}/>
+      <ElevationsAndDepths handleChange={handleChange} unittype={unitType} />
       <Seismic handleChange={handleChange} formData={formData} />
       <KeyDates handleChange={handleChange} formData={formData} />
       <WellSummary
