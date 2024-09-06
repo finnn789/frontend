@@ -128,6 +128,7 @@ const ProposedJob = ({ onData, children }) => {
       [name]: processedValue,
     }));
   };
+// console.log(formData);
 
   const handleRig = (e) => {
     const { name, value, type } = e.target;
@@ -192,10 +193,8 @@ const ProposedJob = ({ onData, children }) => {
         <HStack spacing={4}>
           <FormControl>
             <FormLabel>Area</FormLabel>
-            <Select>
-              <option value="Select Area" disabled onChange={handleChange}>
-                Select Field
-              </option>
+            <Select name="area_id" onChange={handleChange}>
+              
               {areaId.map((item) => (
                 <option value={item.value}>{item.name}</option>
               ))}
@@ -203,7 +202,7 @@ const ProposedJob = ({ onData, children }) => {
           </FormControl>
           <FormControl>
             <FormLabel>Field</FormLabel>
-            <Select>
+            <Select name="field_id" onChange={handleChange}>
               <option value="Select Field" disabled>
                 Select Are
               </option>

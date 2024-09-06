@@ -14,15 +14,9 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
 
   useEffect(() => {
     // Menggabungkan data baru dengan data sebelumnya dari parent
-    onData((prevData) => ({
-      ...prevData,
-      ...data,
-    }));
-    dataWRM((prevDatas) => ({
-      ...prevDatas,
-      ...datas,
-    }));
-    // console.log(data);
+    onData(data);
+    dataWRM(datas);
+  
     
   }, [datas,data]);
 
@@ -33,8 +27,6 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
   };
 
   const datawrm = (newData) => {
-  
-    
     setDatas((prevData) => ({ ...prevData, ...newData }));
   };
 
