@@ -9,7 +9,7 @@ import { RiArrowRightUpLine } from "react-icons/ri";
 import { Flex, Text, Icon, Box } from "@chakra-ui/react";
 import {
   getBarChartDataSKK,
-  getTableRealization,
+  // getTableRealization,
   getJobTypeSummarySKK,
   getRigTypePieChart,
   getBudgetSummaryCharts,
@@ -36,7 +36,7 @@ const DevelopmentSKK = () => {
       try {
         const dataSummarySKK = await getJobTypeSummarySKK();
         const dataChart = await getBarChartDataSKK(); // Ambil data dari API
-        const dataTableRealization = await getTableRealization();
+        // const dataTableRealization = await getTableRealization();
         const dataRigTypePieChart = await getRigTypePieChart();
         const dataBudgetSummary = await getBudgetSummaryCharts();
         const dataJobWellStatus = await getJobWellStatusChart();

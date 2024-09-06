@@ -72,7 +72,7 @@ const Sidebar = ({ handleMenuValue }) => {
       <VStack align="start" spacing={4}>
         <Button
           as={Link}
-          to="/dashboard"
+          to="/dashboard/homepage"
           px={4}
           fontSize={"20px"}
           py={4}

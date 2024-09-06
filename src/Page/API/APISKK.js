@@ -3,9 +3,7 @@ import axios from "axios";
 
 export async function getDataDashboardSKK() {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/aggregate-job-data`)
-        
-        
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/home`)
         return response.data
 
     } catch (error) {
@@ -50,9 +48,9 @@ export async function getBarChartDataSKK() {
     }
 }
 
-export async function getTableRealization() {
+export async function getJobDasboard(job_type) {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/exploration-realization`)
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}/dashboard/job/${job_type}`)
         console.log(response.data);
         
         return response.data

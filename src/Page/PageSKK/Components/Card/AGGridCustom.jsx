@@ -7,6 +7,9 @@ const TableComponent = ({ data = [] }) => {
   const [selectedKkksId, setSelectedKkksId] = useState(null); // State for storing the selected ID
 
   const getBackgroundColor = (value) => {
+    // Menghapus simbol "%" dan mengonversi menjadi angka
+    // value = parseFloat(value.split("%")[0]);
+  
     if (value >= 70) {
       return "#28a745"; // Green
     } else if (value >= 50) {
@@ -17,6 +20,12 @@ const TableComponent = ({ data = [] }) => {
       return "#dc3545"; // Red
     }
   };
+  
+  // Contoh penggunaan
+  
+  
+  // console.log(backgroundColor); // Output: "#28a745"
+  
 
   const handleInfoClick = (item) => {
     setSelectedKkksId(item.id); // Save the selected ID

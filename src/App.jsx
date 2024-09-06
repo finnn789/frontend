@@ -20,7 +20,7 @@ import SplashScreen from "./Page/Components/SplashScreen"; // Import SplashScree
 import RoleRedirect from "./Auth/RoleRedirect";
 // import GraphTable from "./Page/Components/PageExploitasi/GraphTable";
 import Exploration from "./Page/PageSKK/Exploration";
-import DevelopmentSKK from "./Page/PageSKK/DevelopmentSKK"
+import DevelopmentSKK from "./Page/PageSKK/DevelopmentSKK";
 import WellServiceSKK from "./Page/PageSKK/WellServiceSKK";
 import WorkOverSKK from "./Page/PageSKK/WorkOverSKK";
 import PlanningExp from "./Page/PageSKK/ChildExploration/PlanningExp";
@@ -28,9 +28,9 @@ import PlanningDevelopment from "./Page/PageSKK/ChildDevelopment/PlanningDev";
 import PlanningWellService from "./Page/PageSKK/ChildWellService/PlanningWS";
 import PlanningWorkOver from "./Page/PageSKK/ChildWorkOver/PlanningWO";
 import PengajuanDrillingForm from "./Page/Forms/PengajuanDrillingForm";
-import '@fontsource/montserrat/400.css'; // Regular weight
-import '@fontsource/montserrat/600.css'; // Semi-bold weight
-import '@fontsource/montserrat/700.css'; // Bold weight
+import "@fontsource/montserrat/400.css"; // Regular weight
+import "@fontsource/montserrat/600.css"; // Semi-bold weight
+import "@fontsource/montserrat/700.css"; // Bold weight
 import PlanningExpKKKS from "./Page/Components/PageExplorasi/PlanningExp";
 import OperationDev from "./Page/PageSKK/ChildDevelopment/OperationDev";
 import PPPDev from "./Page/PageSKK/ChildDevelopment/PPPDev";
@@ -54,7 +54,6 @@ import OperationExpKKKS from "./Page/Components/PageExploitasi/OperationExpKKKS"
 import OperationFormsKKKS from "./Page/Forms/Operation/OperationFormsKKKS";
 import JobDocuments from "./Page/Forms/Planning/JobDocuments";
 import ExistingWell from "./Page/Forms/Planning/ExistingWell";
-
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -99,14 +98,28 @@ function App() {
       ),
       children: [
         {
+          path:"homepage",
+          element:<HomeDashKKKS/>
+        },
+        {
           path: "planning",
-          element: (<ProtectedRoute element={<PlanningExpKKKS/>} allowedRoles={["KKKS"]}/> ),
+          element: (
+            <ProtectedRoute
+              element={<PlanningExpKKKS />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
         },
         {
           path: "planning/planningform",
-          element: (<ProtectedRoute element={<PengajuanDrillingForm />} allowedRoles={["KKKS"]}/> ),
+          element: (
+            <ProtectedRoute
+              element={<PengajuanDrillingForm />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
         },
-        
+
         {
           path: "operasi",
           element: <OperationExpKKKS />,
@@ -133,19 +146,34 @@ function App() {
       children: [
         {
           path: "planning",
-          element: <PlanDevelopKKKS/>,
+          element: <PlanDevelopKKKS />,
         },
         {
           path: "planningform",
-          element: (<ProtectedRoute element={<PlanDevelopmentForm />} allowedRoles={["KKKS"]}/> ),
+          element: (
+            <ProtectedRoute
+              element={<PlanDevelopmentForm />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
         },
         {
           path: "operasi",
-          element: (<ProtectedRoute element={<PlanDevelopKKKS/>} allowedRoles={["KKKS"]}/> ),
+          element: (
+            <ProtectedRoute
+              element={<PlanDevelopKKKS />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
         },
         {
           path: "operationform",
-          element: (<ProtectedRoute element={<PlanDevelopmentForm />} allowedRoles={["KKKS"]}/> ),
+          element: (
+            <ProtectedRoute
+              element={<PlanDevelopmentForm />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
         },
       ],
     },
@@ -155,11 +183,16 @@ function App() {
       children: [
         {
           path: "planning",
-          element: <PlanningWorkOverKKKS/>,
+          element: <PlanningWorkOverKKKS />,
         },
         {
           path: "planningform",
-          element: (<ProtectedRoute element={<PlanWorkOverForm />} allowedRoles={["KKKS"]}/> ),
+          element: (
+            <ProtectedRoute
+              element={<PlanWorkOverForm />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
         },
       ],
     },
@@ -167,14 +200,18 @@ function App() {
       path: "wellservice",
       element: <Dashboard />,
       children: [
-       
         {
           path: "planning",
-          element:<PlanWellServiceKKKS/>,
+          element: <PlanWellServiceKKKS />,
         },
         {
           path: "planningform",
-          element: (<ProtectedRoute element={<PlanWellServiceForm />} allowedRoles={["KKKS"]}/> ),
+          element: (
+            <ProtectedRoute
+              element={<PlanWellServiceForm />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
         },
       ],
     },
@@ -223,10 +260,7 @@ function App() {
         {
           path: "exploration/pppexploration",
           element: (
-            <ProtectedRoute
-              element={<PPPExp />}
-              allowedRoles={["Admin"]}
-            />
+            <ProtectedRoute element={<PPPExp />} allowedRoles={["Admin"]} />
           ),
         },
         {
@@ -268,17 +302,14 @@ function App() {
         {
           path: "development/pppdevelopment",
           element: (
-            <ProtectedRoute
-              element={<PPPDev />}
-              allowedRoles={["Admin"]}
-            />
+            <ProtectedRoute element={<PPPDev />} allowedRoles={["Admin"]} />
           ),
         },
         {
           path: "development/closeoutdevelopment",
           element: (
             <ProtectedRoute
-              element={<CloseOutDev/>}
+              element={<CloseOutDev />}
               allowedRoles={["Admin"]}
             />
           ),
@@ -313,19 +344,13 @@ function App() {
         {
           path: "wellservice/pppwellservice",
           element: (
-            <ProtectedRoute
-              element={<PPPWS />}
-              allowedRoles={["Admin"]}
-            />
+            <ProtectedRoute element={<PPPWS />} allowedRoles={["Admin"]} />
           ),
         },
         {
           path: "wellservice/closeoutwellservice",
           element: (
-            <ProtectedRoute
-              element={<CloseOutWS/>}
-              allowedRoles={["Admin"]}
-            />
+            <ProtectedRoute element={<CloseOutWS />} allowedRoles={["Admin"]} />
           ),
         },
         {
@@ -358,19 +383,13 @@ function App() {
         {
           path: "workover/pppworkover",
           element: (
-            <ProtectedRoute
-              element={<PPPWO />}
-              allowedRoles={["Admin"]}
-            />
+            <ProtectedRoute element={<PPPWO />} allowedRoles={["Admin"]} />
           ),
         },
         {
           path: "workover/closeoutworkover",
           element: (
-            <ProtectedRoute
-              element={<CloseOutWO/>}
-              allowedRoles={["Admin"]}
-            />
+            <ProtectedRoute element={<CloseOutWO />} allowedRoles={["Admin"]} />
           ),
         },
       ],
@@ -386,7 +405,6 @@ function App() {
     {
       path: "/ppp",
       element: <PPP />,
-
     },
     {
       path: "/pengajuanpekerjaanform",

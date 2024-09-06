@@ -63,7 +63,7 @@ const HomeDashSKK = () => {
       data: [
         {
           x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-          y: [500, 750, 250, 450, 600, 850, 700, 350, 400, 950],
+          y: [500, 750, 250, 450, 600, 850, 700, 350, 400, 150],
           type: "bar",
           marker: { color: "lightblue" },
         },
@@ -90,7 +90,10 @@ const HomeDashSKK = () => {
     getData();
   }, []);
 
-  console.log(dataTable);
+  console.log(datas?.tablekkks);
+  
+
+  // console.log(dataTable);
 
   const dataPerubahan = (data) => {
     return (
@@ -145,34 +148,34 @@ const HomeDashSKK = () => {
       {
         id: 1,
         pekerjaan: "Exploration",
-        rencana: datas.exploration?.plan ?? "N/A",
-        realisasi: datas.exploration?.realization ?? "N/A",
-        percentage: datas.exploration?.percentage ?? "N/A",
-        change: datas.exploration?.change ?? "N/A",
+        rencana: datas.tablechart?.table.exploration?.rencana ?? "N/A",
+        realisasi: datas.tablechart?.table.exploration?.realisasi ?? "N/A",
+        percentage: datas.tablechart?.table.exploration?.percentage ?? "N/A",
+        change: datas.tablechart?.table.exploration?.change ?? "N/A",
       },
       {
         id: 2,
         pekerjaan: "Exploitation",
-        rencana: datas.development?.plan ?? "N/A",
-        realisasi: datas.development?.realization ?? "N/A",
-        percentage: datas.development?.percentage ?? "N/A",
-        change: datas.development?.change ?? "N/A",
+        rencana: datas.tablechart?.table.development?.rencana ?? "N/A",
+        realisasi: datas.tablechart?.table.development?.realisasi ?? "N/A",
+        percentage: datas.tablechart?.table.development?.percentage ?? "N/A",
+        change: datas.tablechart?.table.development?.change ?? "N/A",
       },
       {
         id: 3,
         pekerjaan: "Work Over",
-        rencana: datas.workover?.plan ?? "N/A",
-        realisasi: datas.workover?.realization ?? "N/A",
-        percentage: datas.workover?.percentage ?? "N/A",
-        change: datas.workover?.change ?? "N/A",
+        rencana: datas.tablechart?.table.workover?.rencana ?? "N/A",
+        realisasi: datas.tablechart?.table.workover?.realisasi ?? "N/A",
+        percentage: datas.tablechart?.table.workover?.percentage ?? "N/A",
+        change: datas.tablechart?.table.workover?.change ?? "N/A",
       },
       {
         id: 4,
         pekerjaan: "Well Service",
-        rencana: datas.wellservice?.plan ?? "N/A",
-        realisasi: datas.wellservice?.realization ?? "N/A",
-        percentage: datas.wellservice?.percentage ?? "N/A",
-        change: datas.wellservice?.change ?? "N/A",
+        rencana: datas.tablechart?.table["well service"]?.rencana ?? "N/A",
+        realisasi: datas.tablechart?.table["well service"]?.realisasi ?? "N/A",
+        percentage: datas.tablechart?.table["well service"]?.percentage ?? "N/A",
+        change: datas.tablechart?.table["well service"]?.change ?? "N/A",
       },
     ];
   };
@@ -199,7 +202,7 @@ const HomeDashSKK = () => {
       color={getColorByValue2(getColorByValue(value))}
       fontWeight={600}
     >
-      {value}%
+      {value}         
     </Td>
   );
   const handleInfoClick = (item) => {
@@ -276,8 +279,8 @@ const HomeDashSKK = () => {
           </GridItem>
           <GridItem colSpan={2}>
             <ThreeDBarChartComponent
-              datas={dataCharts ? dataCharts.data : []}
-              layouts={dataCharts ? dataCharts.layout : []}
+              datas={datas.tablechart?.plot.data }
+              layouts={datas.tablechart?.plot.layout}
             />
           </GridItem>
         </Grid>
@@ -290,7 +293,7 @@ const HomeDashSKK = () => {
           subtitle={"Home"}
         >
           <TableDashboard headers={headerTable2}>
-            {dataKks?.map((item, index) => {
+            {datas?.tablekkks?.map((item, index) => {
               return (
                 <Tr key={index}>
                   <Td fontSize="18px">
@@ -301,13 +304,13 @@ const HomeDashSKK = () => {
                     />
                   </Td>
                   <Td fontSize="18px" fontWeight={600}>
-                    {item.kkks}
+                    {item.name}
                   </Td>
-                  <ColoredCell value={item.exploration} />
-                  <ColoredCell value={item.development} />
-                  <ColoredCell value={item.workover} />
+                  <ColoredCell value={item.exploration_percentage} />
+                  <ColoredCell value={item.development_percentage} />
+                  <ColoredCell value={item.workover_percentage} />
 
-                  <ColoredCell value={item.wellservice} />
+                  <ColoredCell value={item.wellservice_percentage} />
                 </Tr>
               );
             })}

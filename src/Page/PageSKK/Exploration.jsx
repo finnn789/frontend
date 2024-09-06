@@ -8,12 +8,7 @@ import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import { Flex, Text, Icon, Box } from "@chakra-ui/react";
 import {
-  getBarChartDataSKK,
-  getTableRealization,
-  getJobTypeSummarySKK,
-  getRigTypePieChart,
-  getBudgetSummaryCharts,
-  getJobWellStatusChart,
+  getJobDasboard
 } from "../API/APISKK";
 import {
   IconCalendar,
@@ -24,82 +19,44 @@ import {
 } from "@tabler/icons-react";
 
 const Exploration = () => {
-  const [dataSummarySKK, setDataSummarySKK] = useState(null);
-  const [dataCharts, setDataCharts] = useState(null);
+  const [dataSummarySKK, setSummarySKK] = useState(null);
   const [dataTableReal, setDataTableReal] = useState([]);
-  const [dataRigTypePieChart, setDataRigTypePieChart] = useState([]);
-  const [dataBudgetSummary, setDataBudgetSummary] = useState([]);
-  const [dataJobWellStatus, setDataJobWellStatus] = useState([]);
+  const [dataRigTypePieChart, setDataRigTypePieChart] = useState(null);
+  const [dataBudgetSummaryChart, setDataBudgetSummaryChart] = useState(null);
+  const [dataJobWellStatusChart, setDataJobWellStatusChart] = useState(null);
+  const [dataCharts, setDataCharts] = useState(null);
 
-  // Define pieChartData here
-  const pieChartData = {
-    type: "pie",
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    values: [12, 19, 3, 5, 2, 3],
-    hole: 0.4,
-    pull: [0.1, 0, 0, 0, 0, 0],
-    marker: {
-      colors: [
-        "rgba(255, 99, 132, 0.6)",
-        "rgba(54, 162, 235, 0.6)",
-        "rgba(255, 206, 86, 0.6)",
-        "rgba(75, 192, 192, 0.6)",
-        "rgba(153, 102, 255, 0.6)",
-        "rgba(255, 159, 64, 0.6)",
-      ],
-      line: {
-        color: "rgba(255, 255, 255, 1)",
-        width: 2,
-      },
-    },
-    textinfo: "label+percent",
-    hoverinfo: "label+value",
-    hoverlabel: {
-      bgcolor: "white",
-      bordercolor: "gray",
-    },
-  };
 
-  const layout = {
-    height: 400,
-    width: 400,
-    showlegend: true,
-    paper_bgcolor: "rgba(0,0,0,0)",
-    plot_bgcolor: "rgba(0,0,0,0)",
-  };
   useEffect(() => {
     const getData = async () => {
       try {
-        const dataSummarySKK = await getJobTypeSummarySKK();
-        const dataChart = await getBarChartDataSKK(); // Ambil data dari API
-        const dataTableRealization = await getTableRealization();
-        const dataRigTypePieChart = await getRigTypePieChart();
-        const dataBudgetSummary = await getBudgetSummaryCharts();
-        const dataJobWellStatus = await getJobWellStatusChart();
-
-        setDataSummarySKK(dataSummarySKK);
+        const dataJobDasboardResponse = await getJobDasboard("exploration");
+ 
+        setSummarySKK(dataJobDasboardResponse.summary);
+        // console.log(dataJobDasboard.summary);
+        
         // Set dataChart ke dalam state dataCharts
-        setDataCharts(dataChart);
+        setDataCharts(dataJobDasboardResponse.job_graph.month);
 
-        if (Array.isArray(dataTableRealization.exploration)) {
-          const processedData = dataTableRealization.exploration.map(
+        if (Array.isArray(dataJobDasboardResponse.tablekkks)) {
+          const processedData = dataJobDasboardResponse.tablekkks.map(
             (item) => ({
-              id: item.kkks_id,
-              kkks: item.kkks_name,
-              rencana: item.approved_plans,
-              realisasi: item.completed_operations,
-              persentase: item.realization_percentage,
+              id: item.id,
+              kkks: item.name,
+              rencana: item.rencana,
+              realisasi: item.realisasi,
+              persentase: item.percentage,
             })
           );
           setDataTableReal(processedData);
+          setDataRigTypePieChart(dataJobDasboardResponse.environment_type_graph);
+          setDataBudgetSummaryChart(dataJobDasboardResponse.cost_graph);
+          setDataJobWellStatusChart(dataJobDasboardResponse.status_akhir_graph);
         } else {
           console.error("Expected an array but got:", dataTableRealization);
           setDataTableReal([]); // Handle error atau set array kosong
         }
 
-        setDataRigTypePieChart(dataRigTypePieChart); // Pie Chart Rig
-        setDataBudgetSummary(dataBudgetSummary); // Bar Chart Budget
-        setDataJobWellStatus(dataJobWellStatus); // Chart Status Selesai
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -109,34 +66,28 @@ const Exploration = () => {
   }, []);
 
   // RIG TYPE DATA PIE CHART
-  const dataPieRigType = dataRigTypePieChart?.exploration?.chart_data
-    ? dataRigTypePieChart.exploration.chart_data
+  const fixDataPieRigType = dataRigTypePieChart
+    ? dataRigTypePieChart
     : null;
-
-  const fixDataPieRigType = dataPieRigType
-    ? JSON.parse(dataPieRigType)
-    : "loading...";
 
   // console.log("fixDataPieRigType.data", fixDataPieRigType.data);
 
   // BUDGET DATA BAR CHART
-  const dataBudget = dataBudgetSummary?.charts?.Exploration
-    ? dataBudgetSummary.charts.Exploration
+  const fixDataBudget = dataBudgetSummaryChart
+    ? dataBudgetSummaryChart
     : null;
-
-  const fixDataBudget = dataBudget ? dataBudget : "loading...";
 
   // console.log("fixDataBudget", fixDataBudget);
 
   // JOB WELLS STATUS SELESAI
-  const dataJobWells = dataJobWellStatus?.exploration?.chart
-    ? dataJobWellStatus.exploration.chart
+  const dataJobWells = dataJobWellStatusChart
+    ? dataJobWellStatusChart
     : null;
 
-  console.log("testcoy", dataJobWells);
+  // console.log("testcoy", dataJobWells);
 
   const fixDataJobWells = dataJobWells
-    ? JSON.parse(dataJobWells)
+    ? dataJobWells
     : "loading...";
 
   // console.log('sama kontol satu:', fixDataJobWells.data[0].values);
@@ -148,13 +99,13 @@ const Exploration = () => {
   // }
 
   const explorationRealisasi = dataSummarySKK
-    ? dataSummarySKK.Exploration.operating
+    ? dataSummarySKK.realisasi
     : "Loading...";
   const explorationRencana = dataSummarySKK
-    ? dataSummarySKK.Exploration.approved
+    ? dataSummarySKK.rencana
     : "Loading...";
   const explorationSelesai = dataSummarySKK
-    ? dataSummarySKK.Exploration.finished
+    ? dataSummarySKK.selesai
     : "Loading...";
 
 
@@ -228,18 +179,22 @@ const Exploration = () => {
           subtitle="Perbandingan Perencanaan dan Realisasi"
         >
           <Box width="100%" height="100%">
-            <PieChart3D
-              data={fixDataBudget.data}
-              layout={{
-                ...fixDataBudget.layout,
-                autosize: true,
-                width: undefined, // Supaya tidak ada pengaturan lebar statis
-                height: 600, // Supaya tidak ada pengaturan tinggi statis
-                responsive: true, // Membuat chart responsif
-              }}
-              style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
-              useResizeHandler={true} // Mengaktifkan penanganan resize
-            />
+            {fixDataBudget ? (
+              <PieChart3D
+                data={fixDataBudget.data}
+                layout={{
+                  ...fixDataBudget.layout,
+                  autosize: true,
+                  width: undefined, // Supaya tidak ada pengaturan lebar statis
+                  height: 600, // Supaya tidak ada pengaturan tinggi statis
+                  responsive: true, // Membuat chart responsif
+                }}
+                style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
+                useResizeHandler={true} // Mengaktifkan penanganan resize
+              />
+            ) : (
+              <p>Loading...</p>
+            )}
           </Box>
         </HeaderCard>
         <HeaderCard
@@ -248,18 +203,22 @@ const Exploration = () => {
           subtitle="Status akhir sumur"
         >
           <Box width="100%" height="100%">
-            <PieChart3D
-              data={fixDataJobWells.data}
-              layout={{
-                ...fixDataJobWells.layout,
-                autosize: true,
-                width: undefined,
-                height: 600,
-                responsive: true,
-              }}
-              style={{ width: "100%", height: "100" }}
-              useResizeHandler={true}
-            />
+            {fixDataJobWells ? (
+              <PieChart3D
+                data={fixDataJobWells.data}
+                layout={{
+                  ...fixDataJobWells.layout,
+                  autosize: true,
+                  width: undefined,
+                  height: 600,
+                  responsive: true,
+                }}
+                style={{ width: "100%", height: "100" }}
+                useResizeHandler={true}
+              />
+            ) : (
+              <p>Loading...</p>
+            )}
           </Box>
           {/* {fixDataJobWells.data.values && fixDataJobWells.data.values.length === 0 ? (
               <PieChart3D
@@ -284,18 +243,22 @@ const Exploration = () => {
           subtitle="Total rig yang beroperasi"
         >
           <Box width="100%" height="100%">
-            <PieChart3D
-              data={fixDataPieRigType.data}
-              layout={{
-                ...fixDataPieRigType.layout,
-                autosize: true,
-                width: undefined,
-                height: 600,
-                responsive: true,
-              }}
-              style={{ width: "100%", height: "100" }}
-              useResizeHandler={true}
-            />
+            {fixDataPieRigType ? (
+              <PieChart3D
+                data={fixDataPieRigType.data}
+                layout={{
+                  ...fixDataPieRigType.layout,
+                  autosize: true,
+                  width: undefined,
+                  height: 600,
+                  responsive: true,
+                }}
+                style={{ width: "100%", height: "100" }}
+                useResizeHandler={true}
+              />
+            ) : (
+              <p>Loading...</p>
+            )}
           </Box>
         </HeaderCard>
       </Flex>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Box,
   Button,
@@ -21,12 +21,20 @@ import {
 } from "@chakra-ui/react";
 import Papa from "papaparse"; // You'll need to install this: npm install papaparse
 import axios from "axios";
-import {IconRoute2} from "@tabler/icons-react";
+import { IconRoute2 } from "@tabler/icons-react";
+import Plot from "react-plotly.js";
 
 const WellTrajectory = ({ ondata }) => {
   const [fileType, setFileType] = useState("");
   const [file, setFile] = useState(null);
-  const [csvData, setCsvData] = useState(null);
+  const [csvData, setCsvData] = useState({
+    fileinfo: {},
+
+    plot: {
+      data: [],
+      layout: null,
+    },
+  });
   const [selectedFile, setSelectedFile] = useState(null);
   const toast = useToast();
   const [msg, setMsg] = React.useState("");
@@ -43,47 +51,59 @@ const WellTrajectory = ({ ondata }) => {
   const handleFileTypeChange = (e) => {
     setFileType(e.target.value);
   };
+  // console.log(csvData);
 
-  const handleFileChange = async (e) => {
-    const selectedFile = e.target.files[0];
-    setSelectedFile(selectedFile);
-    if (selectedFile) {
-      setFile(selectedFile);
+  const handleFileChange = useCallback(
+    async (e) => {
+      const selectedFile = e.target.files[0];
+      setSelectedFile(selectedFile);
+      if (selectedFile) {
+        setFile(selectedFile);
 
-      const formData = new FormData();
-      formData.append("file", selectedFile);
+        const formData = new FormData();
+        formData.append("file", selectedFile);
 
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_APP_URL}/utils/read/tabular`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+        try {
+          const response = await axios.post(
+            `${import.meta.env.VITE_APP_URL}/utils/upload/trajectory`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          setCsvData((prevData) => ({
+            ...prevData,
+            fileinfo: response.data.fileinfo,
+            plot: {
+              data: response.data.plot.data,
+              layout: response.data.plot.layout,
             },
-          }
-        );
-        setCsvData(response.data);
-        toast({
-          title: "File read successfully",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-      } catch (error) {
-        console.error("Error reading file:", error);
-        toast({
-          title: "Error reading file",
-          description:
-            error.response?.data?.message || "An unexpected error occurred",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
+          }));
+
+          toast({
+            title: "File read successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+        } catch (error) {
+          console.error("Error reading file:", error);
+          toast({
+            title: "Error reading file",
+            description:
+              error.response?.data?.message || "An unexpected error occurred",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
       }
-    }
-  };
+    },
+    [] // dependencies
+  );
 
   const parseCsvFile = (file) => {
     Papa.parse(file, {
@@ -201,39 +221,11 @@ const WellTrajectory = ({ ondata }) => {
         </VStack>
       </form>
 
-      {csvData && (
-        <Box
-          width={"100%"}
-          maxWidth={"1500px"}
-          maxHeight={"500px"}
-          overflowY={"auto"}
-          mt={6}
-        >
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                {csvData.headers.map((row, rowIndex) => (
-                  <>
-                    <Th>NO</Th>
-                    <Th key={rowIndex}>{row}</Th>
-                  </>
-                ))}
-              </Tr>
-            </Thead>
-            <Tbody>
-              {csvData.records.map((data, index) => (
-                <Tr key={index}>
-                  <Td>{index + 1}</Td>
-                  {Object.entries(data).map(([key, value]) => (
-                    <>
-                      <Td key={key}>{value}</Td>
-                    </>
-                  ))}
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Box>
+      {csvData && csvData.plot.data.length > 0 && (
+        <Plot
+          data={csvData.plot.data || []}
+          layout={csvData.plot.layout || {}}
+        />
       )}
     </Box>
   );
