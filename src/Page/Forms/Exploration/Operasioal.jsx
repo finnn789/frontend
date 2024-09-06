@@ -16,8 +16,6 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
     // Menggabungkan data baru dengan data sebelumnya dari parent
     onData(data);
     dataWRM(datas);
-  
-    
   }, [datas,data]);
 
   // console.log(data);

@@ -10,14 +10,15 @@ import {
   Button,
   Heading,
   Flex,
-  useToast,
   Select,
+  useToast
 } from "@chakra-ui/react";
 import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
 import { PostDatanya } from "../API/APISKK";
 
 const PengajuanDrillingForm = () => {
+  
   const [jobPlan, setJobPlan] = useState({
     area_id: "string",
     field_id: "string",
@@ -242,7 +243,13 @@ const PengajuanDrillingForm = () => {
         return post.data;
       }
     } catch (error) {
-      error;
+      toast({
+        title: "Terjadi kesalahan.",
+        description: "Data gagal dikirim ke server.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      })
       setLoading(false);
     }
   };
