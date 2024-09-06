@@ -18,20 +18,23 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
       ...prevData,
       ...data,
     }));
-
     dataWRM((prevDatas) => ({
       ...prevDatas,
       ...datas,
     }));
-  }, [data, datas]);
+    // console.log(data);
+    
+  }, [datas,data]);
 
   // console.log(data);
 
-  const handleData = (newData) => {
+  const handleData = (newData) => {    
     setData((prevData) => ({ ...prevData, ...newData }));
   };
 
   const datawrm = (newData) => {
+  
+    
     setDatas((prevData) => ({ ...prevData, ...newData }));
   };
 

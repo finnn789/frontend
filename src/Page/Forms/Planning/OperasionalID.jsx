@@ -17,13 +17,76 @@ import {
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 
-const ProposedJob = ({ onData,children }) => {
+const ProposedJob = ({ onData, children }) => {
+  const areaId = [
+    {
+      name: "AREA 2",
+      value: "AREA 2",
+    },
+    {
+      name: "AREA 3",
+      value: "AREA 3",
+    },
+    {
+      name: "AREA 4",
+      value: "AREA 4",
+    },
+    {
+      name: "AREA 5",
+      value: "AREA 5",
+    },
+    {
+      name: "AREA 6",
+      value: "AREA 6",
+    },
+  ];
+  const rigType = [
+    {
+      name: "GROSS-SPLIT",
+      value: "GROSS-SPLIT",
+    },
+    {
+      name: "FLOATER",
+      value: "FLOATER",
+    },
+    {
+      name: "SEMI-SUBMERSIBLE",
+      value: "SEMI-SUBMERSIBLE",
+    },
+    {
+      name: "DRILLSHIP",
+      value: "DRILLSHIP",
+    },
+  ];
+
+  const fieldId = [
+    {
+      name: "FIELD 1",
+      value: "FIELD 1",
+    },
+    {
+      name: "FIELD 2",
+      value: "FIELD 2",
+    },
+    {
+      name: "FIELD 3",
+      value: "FIELD 3",
+    },
+    {
+      name: "FIELD 4",
+      value: "FIELD 4",
+    },
+    {
+      name: "FIELD 5",
+      value: "FIELD 5",
+    },
+  ];
   const [formData, setFormData] = useState({
     area_id: "",
     field_id: "",
     contract_type: "COST-RECOVERY",
     afe_number: "",
-    wpb_year: 0,
+    wpb_year: null,
     job_plan: {
       start_date: "",
       end_date: "",
@@ -129,11 +192,25 @@ const ProposedJob = ({ onData,children }) => {
         <HStack spacing={4}>
           <FormControl>
             <FormLabel>Area</FormLabel>
-            <Select placeholder="Select Area"></Select>
+            <Select>
+              <option value="Select Area" disabled onChange={handleChange}>
+                Select Field
+              </option>
+              {areaId.map((item) => (
+                <option value={item.value}>{item.name}</option>
+              ))}
+            </Select>
           </FormControl>
           <FormControl>
             <FormLabel>Field</FormLabel>
-            <Select placeholder="Select Field"></Select>
+            <Select>
+              <option value="Select Field" disabled>
+                Select Are
+              </option>
+              {fieldId.map((item) => (
+                <option value={item.value}>{item.name}</option>
+              ))}
+            </Select>
           </FormControl>
         </HStack>
         <HStack spacing={4}>
@@ -209,11 +286,12 @@ const ProposedJob = ({ onData,children }) => {
               value={formData.job_plan.rig_type}
               onChange={handleRig}
             >
-              <option value="JACK-UP">JACK-UP</option>
-              <option value="GROSS-SPLIT">GROSS-SPLIT</option>
-              <option value="FLOATER">FLOATER</option>
-              <option value="SEMI-SUBMERSIBLE">SEMI-SUBMERSIBLE</option>
-              <option value="DRILLSHIP">DRILLSHIP</option>
+              <option value="Select Rig Type" disabled></option>
+              {rigType.map((item, index) => (
+                <option key={index} value={item.value}>
+                  {item.name}
+                </option>
+              ))}
             </Select>
           </FormControl>
           <FormControl>

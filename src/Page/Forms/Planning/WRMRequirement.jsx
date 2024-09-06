@@ -28,7 +28,7 @@ const WRMRequirement = ({ onDataChange }) => {
 
   useEffect(() => {
     onDataChange(formData);
-  }, [formData, onDataChange]);
+  }, [formData]);
 
   const checkboxItems = [
     { name: "wrm_pembebasan_lahan", label: "Pembebasan Lahan" },

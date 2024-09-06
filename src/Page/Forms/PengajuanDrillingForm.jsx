@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
+import { PostDatanya } from "../API/APISKK";
 
 const PengajuanDrillingForm = () => {
   const [jobPlan, setJobPlan] = useState({
@@ -183,29 +184,27 @@ const PengajuanDrillingForm = () => {
       wrm_evaluasi_subsurface: true,
     },
   });
-  // console.log(jobPlan);
+  console.log(jobPlan);
 
   const [dataMetricImperial, setDataMetricImperial] = useState("Metrics");
   const metricImperialChange = (e) => {
     setJobPlan((prevJobPlan) => ({
       ...prevJobPlan,
-      job_plan:{
+      job_plan: {
         ...prevJobPlan.job_plan,
-        job_operation_days:{
+        job_operation_days: {
           ...prevJobPlan.job_plan.job_operation_days,
-          unit_type:e.target.value
+          unit_type: e.target.value,
         },
-        well_plan:{
+        well_plan: {
           ...prevJobPlan.job_plan.well_plan,
-          unit_type:e.target.value,
+          unit_type: e.target.value,
         },
-        
-      }
-    }))
+      },
+    }));
 
     setDataMetricImperial(e.target.value);
-
-  }
+  };
 
   const handleWellDataChange = (wellData) => {
     console.log("Previous Job Plan:", jobPlan);
@@ -233,41 +232,17 @@ const PengajuanDrillingForm = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const PostDatanya = async () => {
+  const onClickSubmitForm = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/exploration`,
-        jobPlan,
-        {
-          headers: {
-            "Content-Type": "application/json",
+      const post = await PostDatanya(jobPlan);
 
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        toast({
-          title: "Data berhasil dikirim.",
-          description: "Data telah berhasil disimpan ke database.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
+      if (post) {
+        setLoading(false);
+        return post.data;
       }
     } catch (error) {
-      console.error("Error Dalam Kirim Data", error);
-
-      toast({
-        title: "Terjadi kesalahan.",
-        description: "Data gagal dikirim ke server.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    } finally {
+      error;
       setLoading(false);
     }
   };
@@ -295,7 +270,10 @@ const PengajuanDrillingForm = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <CardFormWell onFormChange={handleWellDataChange} unitType = {dataMetricImperial} />
+              <CardFormWell
+                onFormChange={handleWellDataChange}
+                unitType={dataMetricImperial}
+              />
             </TabPanel>
             <TabPanel>
               <Operasional
@@ -315,7 +293,6 @@ const PengajuanDrillingForm = () => {
                   }));
                 }}
                 jobDocuments={handleJobDocuments}
-                
               />
             </TabPanel>
           </TabPanels>
@@ -326,7 +303,7 @@ const PengajuanDrillingForm = () => {
           colorScheme="blue"
           w={"100%"}
           isLoading={loading}
-          onClick={PostDatanya}
+          onClick={onClickSubmitForm}
         >
           Submit
         </Button>

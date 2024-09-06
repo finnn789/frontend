@@ -11,17 +11,43 @@ import {
   Grid,
   GridItem,
   InputGroup,
-    InputRightAddon,
-    Flex,
-    Icon,
-    Text,
+  InputRightAddon,
+  Flex,
+  Icon,
+  Text,
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 
 const JobDetail = ({ handleChange, formData, unittype }) => {
+  const wellType = [
+    "DEALINATION",
+    "WILDCAT",
+    "INFILL",
+    "PRODUCER",
+    "INJECTION",
+    "STEPOUT",
+  ];
+
+  const  profileType = [
+    {
+      name: "VERTICAL",
+      value: "VERTICAL",
+    },
+    {
+      name: "HORIZONTAL",
+      value: "HORIZONTAL",
+    },
+    {
+      name: "DIRECTIONAL",
+      value: "DIRECTIONAL",
+    },
+  ]
+
+  
+
   return (
     <VStack spacing={6} align="stretch" fontFamily={"Montserrat"}>
-      <Box borderWidth="1px" borderRadius="lg" p={6} >
+      <Box borderWidth="1px" borderRadius="lg" p={6}>
         <Flex alignItems="center">
           <Icon as={IconBriefcase} boxSize={12} color="gray.800" mr={3} />
           <Flex flexDirection={"column"}>
@@ -83,12 +109,9 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
                 <option value="" disabled>
                   Select Well Type
                 </option>
-                <option value="DELINEATION">DELINEATION</option>
-                <option value="WILDCAT">WILDCAT</option>
-                <option value="INFILL">INFILL</option>
-                <option value="PRODUCER">PRODUCER</option>
-                <option value="INJECTION">INJECTION</option>
-                <option value="STEPOUT">STEPOUT</option>
+                {wellType.map((item) => (
+                  <option value={item}>{item}</option>
+                ))}
               </Select>
             </FormControl>
           </HStack>
@@ -101,9 +124,9 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
                 onChange={handleChange}
               >
                 <option value="">Select Profile Type</option>
-                <option value="DIRECTIONAL">DIRECTIONAL</option>
-                <option value="HORIZONTAL">HORIZONTAL</option>
-                <option value="VERTICAL">VERTICAL</option>
+                {profileType.map((item,index) => (
+                  <option key={index} value={item.value}>{item.name}</option>
+                ))}
               </Select>
             </FormControl>
             <FormControl>

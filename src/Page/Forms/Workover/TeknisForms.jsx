@@ -92,7 +92,7 @@ const CardFormWell = ({ onFormChange, unitType }) => {
       parsedValue = value; // If type is text or anything else, keep it as string
     }
 
-    console.log(`Field: ${name}, Value: ${parsedValue}, Type: ${type}`);
+    // console.log(`Field: ${name}, Value: ${parsedValue}, Type: ${type}`);
 
     setFormData((prevData) => ({
       ...prevData,

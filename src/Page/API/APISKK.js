@@ -180,4 +180,43 @@ export async function getDataTypeSummarySKK() {
         return null
     }
 }
+
+export async function PostDatanya(data){
+    try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_APP_URL}/job/planning/create/exploration`,
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+  
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+  
+        if (response.status === 200) {
+          toast({
+            title: "Data berhasil dikirim.",
+            description: "Data telah berhasil disimpan ke database.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      } catch (error) {
+        console.error("Error Dalam Kirim Data", error);
+  
+        toast({
+          title: "Terjadi kesalahan.",
+          description: "Data gagal dikirim ke server.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      } finally {
+      }
+
+
+}
 // export async function getCombineDataExploration() {

@@ -35,10 +35,12 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
     setDatas((prevData) => ({ ...prevData, ...newData }));
   }, [setDatas]);
 
+
+  
   return (
     <div>
       <ProposedJob onData={handleData} />
-      {/* <WRMRequirement onDataChange={datawrm} /> */}
+      <WRMRequirement onDataChange={datawrm} />
       <WorkBreakDownStructure
         ondata={(newData) => {
           setData((prevJobPlan) => ({

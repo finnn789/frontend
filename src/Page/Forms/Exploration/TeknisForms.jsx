@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import WellTest from "../Planning/WellTest";
 import WellCasing from "../Planning/WellCasing";
@@ -13,7 +13,7 @@ import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
 
-const CardFormWell = ({ onFormChange ,unitType}) => {
+const CardFormWell = ({ onFormChange, unitType }) => {
   const [formData, setFormData] = useState({
     unit_type: unitType,
     uwi: "",
@@ -65,60 +65,10 @@ const CardFormWell = ({ onFormChange ,unitType}) => {
       file_id: "",
       data_format: "IMAGE",
     },
-    well_documents: [
-      {
-        file_id: "",
-        document_type: "Well Report",
-        remark: "",
-      },
-    ],
+    well_documents: [],
   });
 
-  useEffect(() => {
-    onFormChange(formData);
-  }, [formData]);
-
-
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    const parsedValue =
-      value === ""
-        ? ""
-        : isNaN(value)
-        ? value
-        : value.includes(".")
-        ? parseFloat(value)
-        : parseInt(value, 10);
-    console.log(`Field: ${name}, Value: ${parsedValue}`);
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: parsedValue,
-    }));
-  }, []);
-
-  const handleMenuItemClick = (unit) => {
-    setFormData((prevData) => ({
-      ...prevData,
-    }));
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentEntry((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleInputChangeWellStraigraphy = (e) => {
-    const { name, value } = e.target;
-    setWellStratigraphy((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
   const [tableData, setTableData] = useState([]);
-
   const [currentEntry, setCurrentEntry] = useState({
     unit_type: "Metrics",
     depth_datum: "RT",
@@ -141,6 +91,50 @@ const CardFormWell = ({ onFormChange ,unitType}) => {
     depth: 0,
     stratigraphy_id: "",
   });
+
+  useEffect(() => {
+    onFormChange(formData);
+  }, [formData]);
+
+  const handleChange = useCallback((e) => {
+    const { name, value, type } = e.target;
+
+    let parsedValue;
+    if (type === "number") {
+      // Cek apakah ada titik untuk memutuskan apakah itu float atau integer
+      parsedValue =
+        value === ""
+          ? ""
+          : value.includes(".")
+          ? parseFloat(value)
+          : parseInt(value, 10);
+    } else if (type === "text") {
+      parsedValue = value; // Tetap sebagai string
+    } else {
+      parsedValue = value;
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: parsedValue,
+    }));
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCurrentEntry((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleInputChangeWellStraigraphy = (e) => {
+    const { name, value } = e.target;
+    setWellStratigraphy((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleAddClick = useCallback(() => {
     const newEntry = { ...currentEntry };
@@ -194,9 +188,13 @@ const CardFormWell = ({ onFormChange ,unitType}) => {
   // console.log('asd',handleInputChange);
   return (
     <>
-      <JobDetail handleChange={handleChange} formData={formData} unittype={unitType}  />
+      <JobDetail
+        handleChange={handleChange}
+        formData={formData}
+        unittype={unitType}
+      />
       <WellLocation handleChange={handleChange} />
-      <ElevationsAndDepths handleChange={handleChange}  unittype={unitType}/>
+      <ElevationsAndDepths handleChange={handleChange} unittype={unitType} />
       <Seismic handleChange={handleChange} formData={formData} />
       <KeyDates handleChange={handleChange} formData={formData} />
       <WellSummary
