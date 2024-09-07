@@ -30,6 +30,20 @@ const Stratigraphy = ({
   handleWellStratichy,
   TablewellStratigraphy,
 }) => {
+  const selectType = [
+    {
+      name: "RT",
+      value: "RT",
+    },
+    {
+      name: "KB",
+      value: "KB",
+    },
+    {
+      name: "MSL",
+      value: "MSL",
+    },
+  ]
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={3} mt={7} fontFamily={"Montserrat"}>
       <GridItem colSpan={1} height={"100%"}>
@@ -60,10 +74,11 @@ const Stratigraphy = ({
                 })
               }
             >
-              <option value="MSL">MSL</option>
-              <option value="GL">GL</option>
-              <option value="RT">RT</option>
-              <option value="RKB">RKB</option>
+              {selectType.map((item, index) => (
+                <option key={index} value={item.value}>
+                  {item.name}
+                </option>
+              ))}
             </Select>
           </Flex>
           <VStack spacing={4} align="stretch">

@@ -91,7 +91,7 @@ const ProposedWorkTable = ({ headers = [], children,title,subtitle }) => {
         </Flex>
         <Button
           as={Link}
-          to={"/dashboard/planning/planningform"}
+          to={"/dashboard/planning/form"}
           leftIcon={<Icon as={FaCheck} />}
           colorScheme="blue"
           size="md"

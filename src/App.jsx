@@ -111,7 +111,7 @@ function App() {
           ),
         },
         {
-          path: "planning/planningform",
+          path: "planning/form",
           element: (
             <ProtectedRoute
               element={<PengajuanDrillingForm />}
@@ -133,7 +133,7 @@ function App() {
           element: <PPP />,
           children: [
             {
-              path: "pppform",
+              path: "form",
               element: <PengajuanPekerjaanForm />,
             },
           ],
@@ -149,7 +149,7 @@ function App() {
           element: <PlanDevelopKKKS />,
         },
         {
-          path: "planningform",
+          path: "form",
           element: (
             <ProtectedRoute
               element={<PlanDevelopmentForm />}

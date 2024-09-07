@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CardFormWell from "./Exploration/TeknisForms";
 import {
   Tabs,
@@ -10,11 +10,12 @@ import {
   Button,
   Heading,
   Flex,
-  useToast,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
+import { PostPlanningDevelopment } from "../API/APISKK";
 
 const PlanDevelopmentForm = () => {
   const [jobPlan, setJobPlan] = useState({
@@ -28,14 +29,6 @@ const PlanDevelopmentForm = () => {
       end_date: "2024-08-31",
       total_budget: 0,
       job_operation_days: [
-        {
-          unit_type: "Metrics",
-          phase: "string",
-          depth_datum: "RT",
-          depth_in: 0,
-          depth_out: 0,
-          operation_days: 0,
-        },
       ],
       work_breakdown_structure: [
         {
@@ -64,7 +57,7 @@ const PlanDevelopmentForm = () => {
       rig_name: "string",
       rig_type: "JACK-UP",
       rig_horse_power: 0,
-      well_plan: {
+      well: {
         unit_type: "Metrics",
         uwi: "string",
         field_id: "string",
@@ -183,16 +176,34 @@ const PlanDevelopmentForm = () => {
       wrm_evaluasi_subsurface: true,
     },
   });
-  // console.log(jobPlan);
-  
+  console.log(jobPlan);
 
-  const handleWellDataChange = (wellData) => {
-    console.log("Previous Job Plan:", jobPlan);
+  const [dataMetricImperial, setDataMetricImperial] = useState("Metrics");
+  const metricImperialChange = (e) => {
     setJobPlan((prevJobPlan) => ({
       ...prevJobPlan,
       job_plan: {
         ...prevJobPlan.job_plan,
+        job_operation_days: {
+          ...prevJobPlan.job_plan.job_operation_days,
+          unit_type: e.target.value,
+        },
         well_plan: {
+          ...prevJobPlan.job_plan.well_plan,
+          unit_type: e.target.value,
+        },
+      },
+    }));
+
+    setDataMetricImperial(e.target.value);
+  };
+
+  const handleWellDataChange = (wellData) => {
+    setJobPlan((prevJobPlan) => ({
+      ...prevJobPlan,
+      job_plan: {
+        ...prevJobPlan.job_plan,
+        well: {
           ...wellData,
         },
       },
@@ -212,33 +223,16 @@ const PlanDevelopmentForm = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const PostDatanya = async () => {
+  const onClickSubmitForm = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/development`,
-        jobPlan,
-        {
-          headers: {
-            "Content-Type": "application/json",
+      const post = await PostPlanningDevelopment(jobPlan, toast);
 
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        toast({
-          title: "Data berhasil dikirim.",
-          description: "Data telah berhasil disimpan ke database.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
+      if (post) {
+        setLoading(false);
+        return post.data;
       }
     } catch (error) {
-      console.error("Error Dalam Kirim Data", error);
-
       toast({
         title: "Terjadi kesalahan.",
         description: "Data gagal dikirim ke server.",
@@ -246,7 +240,6 @@ const PlanDevelopmentForm = () => {
         duration: 5000,
         isClosable: true,
       });
-    } finally {
       setLoading(false);
     }
   };
@@ -260,8 +253,8 @@ const PlanDevelopmentForm = () => {
         gap={5}
         justifyContent={"space-between"}
       >
-        <Heading>New Exploitation Well</Heading>
-        <Select width={"auto"} fontSize={"xl"}>
+        <Heading>New Exploration Well</Heading>
+        <Select width={"auto"} fontSize={"xl"} onChange={metricImperialChange}>
           <option value="Metrics">Metrics</option>
           <option value="Imperial">Imperial</option>
         </Select>
@@ -274,7 +267,10 @@ const PlanDevelopmentForm = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <CardFormWell onFormChange={handleWellDataChange} />
+              <CardFormWell
+                onFormChange={handleWellDataChange}
+                unitType={dataMetricImperial}
+              />
             </TabPanel>
             <TabPanel>
               <Operasional
@@ -284,6 +280,15 @@ const PlanDevelopmentForm = () => {
                     ...operasional,
                   }));
                 }}
+                handleChangeRigType={useCallback((e) => {
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      ...e,
+                    },
+                  }));
+                })}
                 dataWRM={(data) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
@@ -293,8 +298,49 @@ const PlanDevelopmentForm = () => {
                     },
                   }));
                 }}
+                handleChangeJobPlan={useCallback((e) => {
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      ...e,
+                    },
+                  }));
+                })}
                 jobDocuments={handleJobDocuments}
-                
+                WBSData={(data) => {
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      ...data,
+                    },
+                  }));
+                }}
+                JobOperationData={(data) => {
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      job_operation_days: [
+                        ...prevJobPlan.job_plan.job_operation_days,
+                        ...data,
+                      ],
+                    },
+                  }));  
+                }}
+
+                HazardTypeData={(data) => { 
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      job_hazards: [
+                        ...data
+                      ]
+                    },
+                  }));
+                }}
               />
             </TabPanel>
           </TabPanels>
@@ -305,7 +351,7 @@ const PlanDevelopmentForm = () => {
           colorScheme="blue"
           w={"100%"}
           isLoading={loading}
-          onClick={PostDatanya}
+          onClick={onClickSubmitForm}
         >
           Submit
         </Button>

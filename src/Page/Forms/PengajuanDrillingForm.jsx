@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
-import { PostDatanya } from "../API/APISKK";
+import { PostPlanningExploration } from "../API/APISKK";
 
 const PengajuanDrillingForm = () => {
   const [jobPlan, setJobPlan] = useState({
@@ -199,7 +199,6 @@ const PengajuanDrillingForm = () => {
   };
 
   const handleWellDataChange = (wellData) => {
-    console.log("Previous Job Plan:", jobPlan);
     setJobPlan((prevJobPlan) => ({
       ...prevJobPlan,
       job_plan: {
@@ -227,7 +226,7 @@ const PengajuanDrillingForm = () => {
   const onClickSubmitForm = async () => {
     setLoading(true);
     try {
-      const post = await PostDatanya(jobPlan);
+      const post = await PostPlanningExploration(jobPlan, toast);
 
       if (post) {
         setLoading(false);
