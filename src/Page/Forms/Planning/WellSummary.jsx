@@ -30,6 +30,8 @@ const WellSummary = ({
   currentEntry,
   tableData,
 }) => {
+
+  const [depthValue, setDepthValue] = React.useState("MSL");
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} fontFamily={"Montserrat"}>
       <GridItem colSpan={1} width={"100%"}>
@@ -54,10 +56,7 @@ const WellSummary = ({
             <Select
               width="auto"
               onChange={(e) =>
-                setCurrentEntry({
-                  ...currentEntry,
-                  depth_datum: e.target.value,
-                })
+                setDepthValue(e.target.value)
               }
             >
               <option value="MSL">MSL</option>
@@ -83,7 +82,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Depth"
                   />
-                  <InputRightAddon>123</InputRightAddon>
+                  <InputRightAddon>{depthValue}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -96,7 +95,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Hole Diameter"
                   />
-                  <InputRightAddon>123</InputRightAddon>
+                  <InputRightAddon>{depthValue}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -109,7 +108,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Casing Outer Diameter"
                   />
-                  <InputRightAddon>123</InputRightAddon>
+                  <InputRightAddon>{depthValue}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -160,7 +159,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Bottom Hole Temperature"
                   />
-                  <InputRightAddon>123</InputRightAddon>
+                  <InputRightAddon>{depthValue}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -173,7 +172,7 @@ const WellSummary = ({
                     type="number"
                     placeholder="Rate of Penetration"
                   />
-                  <InputRightAddon>123</InputRightAddon>
+                  <InputRightAddon>{depthValue}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
