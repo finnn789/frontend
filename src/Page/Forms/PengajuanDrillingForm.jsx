@@ -11,14 +11,13 @@ import {
   Heading,
   Flex,
   Select,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
 import { PostDatanya } from "../API/APISKK";
 
 const PengajuanDrillingForm = () => {
-  
   const [jobPlan, setJobPlan] = useState({
     area_id: "string",
     field_id: "string",
@@ -30,14 +29,6 @@ const PengajuanDrillingForm = () => {
       end_date: "2024-08-31",
       total_budget: 0,
       job_operation_days: [
-        {
-          unit_type: "Metrics",
-          phase: "string",
-          depth_datum: "RT",
-          depth_in: 0,
-          depth_out: 0,
-          operation_days: 0,
-        },
       ],
       work_breakdown_structure: [
         {
@@ -197,8 +188,8 @@ const PengajuanDrillingForm = () => {
           ...prevJobPlan.job_plan.job_operation_days,
           unit_type: e.target.value,
         },
-        well: {
-          ...prevJobPlan.job_plan.well,
+        well_plan: {
+          ...prevJobPlan.job_plan.well_plan,
           unit_type: e.target.value,
         },
       },
@@ -237,6 +228,7 @@ const PengajuanDrillingForm = () => {
     setLoading(true);
     try {
       const post = await PostDatanya(jobPlan);
+
       if (post) {
         setLoading(false);
         return post.data;
@@ -248,7 +240,7 @@ const PengajuanDrillingForm = () => {
         status: "error",
         duration: 5000,
         isClosable: true,
-      })
+      });
       setLoading(false);
     }
   };
@@ -317,7 +309,7 @@ const PengajuanDrillingForm = () => {
                   }));
                 })}
                 jobDocuments={handleJobDocuments}
-                WBSData={(data)=>{
+                WBSData={(data) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
                     job_plan: {
@@ -326,20 +318,30 @@ const PengajuanDrillingForm = () => {
                     },
                   }));
                 }}
-                JobOperationData={(data)=>{
+                JobOperationData={(data) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
                     job_plan: {
                       ...prevJobPlan.job_plan,
-                      job_operation_days: {
-                      ...prevJobPlan.job_plan.job_operation_days,
-                      ...data  
-                      }
-                      
+                      job_operation_days: [
+                        ...prevJobPlan.job_plan.job_operation_days,
+                        ...data,
+                      ],
+                    },
+                  }));  
+                }}
+
+                HazardTypeData={(data) => { 
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      job_hazards: [
+                        ...data
+                      ]
                     },
                   }));
                 }}
-
               />
             </TabPanel>
           </TabPanels>

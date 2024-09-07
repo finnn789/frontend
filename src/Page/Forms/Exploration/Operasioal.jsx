@@ -7,7 +7,7 @@ import WorkBreakdownStructure from "../Planning/BorkBreakDowns";
 import HazardType from "../Planning/HazardType";
 import JobDocuments from "../Planning/JobDocuments";
 
-const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData }) => {
+const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData,HazardTypeData }) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
   // console.log(data);
@@ -49,15 +49,7 @@ const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleC
         ondata={JobOperationData}
       />
       <HazardType
-        onDataChange={(newData) => {
-          setData((prevJobPlan) => ({
-            ...prevJobPlan,
-            job_plan: {
-              ...prevJobPlan.job_plan,
-              job_hazards: newData,
-            },
-          }));
-        }}
+        onDataChange={HazardTypeData}
       />
 
       {/* <JobDocuments

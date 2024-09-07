@@ -187,9 +187,13 @@ const HazardType = ({ onDataChange }) => {
 
   const handleAddItem = (newItem) => {
     const updatedItems = [...items, newItem];
+    console.log(updatedItems);
+    
     setItems(updatedItems);
     onDataChange(updatedItems); // Kirim data ke Parent component
   };
+
+
 
   return (
     <Flex mt={4}>

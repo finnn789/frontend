@@ -170,6 +170,20 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
     }));
   };
 
+  const optionsWellCasing = [
+    {
+      name: "RT",
+      value: "RT"
+    },
+    {
+      name: "KB",
+      value: "KB"
+    },
+    {
+      name: "MSL",
+      value: "MSL"
+    },
+  ];
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} height="600px" fontFamily={"Montserrat"}>
       {" "}
@@ -199,10 +213,11 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
               setWellCasing({ ...wellCasing, depth_datum: e.target.value })
             }
           >
-            <option value="MSL">MSL</option>
-            <option value="GL">GL</option>
-            <option value="RT">RT</option>
-            <option value="RKB">RKB</option>
+            {optionsWellCasing.map((option) => (
+              <option key={option.value} value={option.value}> 
+                {option.name}
+              </option>
+            ))}
           </Select>
         </Flex>
         {/* Form controls */}

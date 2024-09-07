@@ -36,10 +36,18 @@ const WorkBreakdownForm = ({ onAddItem }) => {
   });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    let processedValue;
+
+    if (type === 'number') {
+      processedValue = value === '' ? '' : parseFloat(value);
+    } else {
+      processedValue = value;
+    }
+
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: processedValue,
     }));
   };
 
