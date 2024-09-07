@@ -66,7 +66,7 @@ const PengajuanDrillingForm = () => {
       rig_name: "string",
       rig_type: "JACK-UP",
       rig_horse_power: 0,
-      well_plan: {
+      well: {
         unit_type: "Metrics",
         uwi: "string",
         field_id: "string",
@@ -213,7 +213,7 @@ const PengajuanDrillingForm = () => {
       ...prevJobPlan,
       job_plan: {
         ...prevJobPlan.job_plan,
-        well_plan: {
+        well: {
           ...wellData,
         },
       },
