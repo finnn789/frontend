@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Box, VStack, Checkbox, Heading, Flex, Icon, Text } from "@chakra-ui/react";
-import {IconWorld} from "@tabler/icons-react";
+import { Box, VStack, Checkbox, Flex, Icon, Text } from "@chakra-ui/react";
+import { IconWorld } from "@tabler/icons-react";
 
 const initialFormData = {
   wrm_pembebasan_lahan: false,
   wrm_ippkh: false,
   wrm_ukl_upl: false,
   wrm_amdal: false,
+  wrm_cutting_dumping: false,
   wrm_pengadaan_rig: false,
   wrm_pengadaan_drilling_services: false,
   wrm_pengadaan_lli: false,
@@ -15,8 +16,9 @@ const initialFormData = {
   wrm_evaluasi_subsurface: false,
 };
 
-const WRMRequirement = ({ onDataChange }) => {
+const WRMRequirement = ({ onDataChange, showCuttingDumpingCheckbox}) => {
   const [formData, setFormData] = useState(initialFormData);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -24,11 +26,24 @@ const WRMRequirement = ({ onDataChange }) => {
       ...prevData,
       [name]: checked,
     }));
+
+    // Update selectedItems array
+    setSelectedItems((prevSelected) => {
+      if (checked) {
+        return [...prevSelected, name];
+      } else {
+        return prevSelected.filter((item) => item !== name);
+      }
+    });
   };
 
   useEffect(() => {
     onDataChange(formData);
   }, [formData]);
+
+  useEffect(() => {
+    console.log("Selected Items:", selectedItems);
+  }, [selectedItems]);
 
   const checkboxItems = [
     { name: "wrm_pembebasan_lahan", label: "Pembebasan Lahan" },
@@ -43,17 +58,17 @@ const WRMRequirement = ({ onDataChange }) => {
     { name: "wrm_evaluasi_subsurface", label: "Evaluasi Subsurface" },
   ];
 
+  // Conditionally add wrm_cutting_dumping checkbox
+  if (showCuttingDumpingCheckbox) {
+    checkboxItems.splice(4, 0, { name: "wrm_cutting_dumping", label: "Cutting Dumping" });
+  }
+
   return (
     <Box borderWidth="1px" borderRadius="lg" mt={4} p={6} boxShadow="md">
       <Flex alignItems="center" mb={6}>
         <Icon as={IconWorld} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            color="gray.700"
-            fontFamily="Montserrat"
-          >
+          <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
             {"WRM Requirements"}
           </Text>
           <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
@@ -61,7 +76,7 @@ const WRMRequirement = ({ onDataChange }) => {
           </Text>
         </Flex>
       </Flex>
-      
+
       <VStack align="start" spacing={3}>
         {checkboxItems.map((item) => (
           <Checkbox

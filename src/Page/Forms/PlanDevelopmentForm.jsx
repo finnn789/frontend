@@ -14,7 +14,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import Operasional from "./Exploration/Operasioal";
-import axios from "axios";
 import { PostPlanningDevelopment } from "../API/APISKK";
 
 const PlanDevelopmentForm = () => {
@@ -168,6 +167,7 @@ const PlanDevelopmentForm = () => {
       wrm_ippkh: true,
       wrm_ukl_upl: true,
       wrm_amdal: true,
+      wrm_cutting_dumping: true,
       wrm_pengadaan_rig: true,
       wrm_pengadaan_drilling_services: true,
       wrm_pengadaan_lli: true,
@@ -227,9 +227,9 @@ const PlanDevelopmentForm = () => {
     setLoading(true);
     try {
       const post = await PostPlanningDevelopment(jobPlan, toast);
+      setLoading(false);
 
       if (post) {
-        setLoading(false);
         return post.data;
       }
     } catch (error) {
@@ -274,6 +274,7 @@ const PlanDevelopmentForm = () => {
             </TabPanel>
             <TabPanel>
               <Operasional
+                CuttingDumping={true}
                 onData={(operasional) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,

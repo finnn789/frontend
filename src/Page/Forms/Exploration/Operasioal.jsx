@@ -7,7 +7,8 @@ import WorkBreakdownStructure from "../Planning/BorkBreakDowns";
 import HazardType from "../Planning/HazardType";
 import JobDocuments from "../Planning/JobDocuments";
 
-const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData,HazardTypeData }) => {
+
+const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData,HazardTypeData, CuttingDumping }) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
   // console.log(data);
@@ -15,8 +16,8 @@ const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleC
   useEffect(() => {
     // Menggabungkan data baru dengan data sebelumnya dari parent
     onData(data);
-    // dataWRM(datas);
-  }, [ data]);
+    dataWRM(datas);
+  }, [ data, datas]);
 
   // console.log(data);
 
@@ -41,7 +42,7 @@ const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleC
         // handleChangeWPBYear = {handleChangeWPBYear}
         handleChangeJobPlan={handleChangeJobPlan}
       />
-      <WRMRequirement onDataChange={datawrm} />
+      <WRMRequirement onDataChange={datawrm} showCuttingDumpingCheckbox={CuttingDumping}/>
       <WorkBreakdownStructure
         ondata={WBSData}
       />

@@ -19,7 +19,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { IconVolcano, IconTable } from "@tabler/icons-react";
+import { IconAlertTriangle, IconTable } from "@tabler/icons-react";
 const HazardTypeForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
     hazard_type: "",
@@ -98,7 +98,7 @@ const HazardTypeForm = ({ onAddItem }) => {
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} mb={4} width="100%">
       <Flex alignItems="center" mb={6}>
-        <Icon as={IconVolcano} boxSize={12} color="gray.800" mr={3} />
+        <Icon as={IconAlertTriangle} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
           <Text
             fontSize="xl"

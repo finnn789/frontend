@@ -3,7 +3,6 @@ import {
   Box,
   VStack,
   Grid,
-  GridItem,
   Tabs,
   TabList,
   TabPanels,
@@ -13,7 +12,6 @@ import {
   FormLabel,
   Input,
   Button,
-  Heading,
   Table,
   Thead,
   Tbody,
@@ -30,7 +28,7 @@ import {
 import axios from "axios";
 import { IconCylinder } from "@tabler/icons-react";
 
-const WellCasing = ({ dataWellCasing, unitType }) => {
+const WellCasing = ({ dataWellCasing }) => {
   const [showWellCasing, setShowWellCasing] = useState({
     names: [],
     top_depths: [],
@@ -43,55 +41,43 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
   const [wellCasing, setWellCasing] = useState({
     unit_type: "Metrics",
     depth_datum: "RT",
-    depth: 0,
-    length: 0,
-    hole_diameter: 0,
-    casing_outer_diameter: 0,
-    casing_inner_diameter: 0,
+    depth: "",
+    length: "",
+    hole_diameter: "",
+    casing_outer_diameter: "",
+    casing_inner_diameter: "",
     casing_grade: "",
-    casing_weight: 0,
+    casing_weight: "",
     connection: "",
     description: "",
   });
 
   const handleWellCasing = () => {
     const calculationBottomDepth = (depth, length) => {
-      return depth - length;
+      return parseFloat(depth) - parseFloat(length);
     };
+
     const newEntry = { ...wellCasing };
     const updatedTable = [...tableWellCasing, newEntry];
     setTableWellCasing(updatedTable);
     setShowWellCasing((prevData) => ({
       names: [...prevData.names, newEntry.description],
-      bottom_depths: [...prevData.bottom_depths, newEntry.depth],
+      bottom_depths: [...prevData.bottom_depths, parseFloat(newEntry.depth)],
       top_depths: [
         ...prevData.top_depths,
         calculationBottomDepth(newEntry.depth, newEntry.length),
       ],
-      diameters: [...prevData.diameters, newEntry.casing_outer_diameter],
+      diameters: [...prevData.diameters, parseFloat(newEntry.casing_outer_diameter)],
     }));
 
     dataWellCasing(updatedTable);
-    resetWellCasing();
+    resetWellCasing(); // Reset form after adding data
   };
 
   const handleInputChangeWellCasing = (e) => {
     const { name, value, type } = e.target;
 
-    let processedValue;
-
-    switch (type) {
-      case "number":
-        processedValue = parseFloat(value);
-        break;
-      case "checkbox":
-        processedValue = e.target.checked;
-        break;
-      case "text":
-      default:
-        processedValue = value;
-        break;
-    }
+    let processedValue = type === "number" && value !== "" ? parseFloat(value) : value;
 
     setWellCasing((prevData) => ({
       ...prevData,
@@ -103,13 +89,13 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
     setWellCasing({
       unit_type: "Metrics",
       depth_datum: "RT",
-      depth: 0,
-      length: 0,
-      hole_diameter: 0,
-      casing_outer_diameter: 0,
-      casing_inner_diameter: 0,
+      depth: "",
+      length: "",
+      hole_diameter: "",
+      casing_outer_diameter: "",
+      casing_inner_diameter: "",
       casing_grade: "",
-      casing_weight: 0,
+      casing_weight: "",
       connection: "",
       description: "",
     });
@@ -132,9 +118,7 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
         const sessionId = response.data.session_id;
         try {
           const visualizationResponse = await axios.get(
-            `${
-              import.meta.env.VITE_APP_URL
-            }/visualize/casing-visualization/${sessionId}`,
+            `${import.meta.env.VITE_APP_URL}/visualize/casing-visualization/${sessionId}`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -161,7 +145,6 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
     setTableWellCasing(updatedTable);
     dataWellCasing(updatedTable);
 
-    // Update showWellCasing state
     setShowWellCasing((prevData) => ({
       names: prevData.names.filter((_, i) => i !== index),
       top_depths: prevData.top_depths.filter((_, i) => i !== index),
@@ -173,23 +156,38 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
   const optionsWellCasing = [
     {
       name: "RT",
-      value: "RT"
+      value: "RT",
     },
     {
       name: "KB",
-      value: "KB"
+      value: "KB",
     },
     {
       name: "MSL",
-      value: "MSL"
+      value: "MSL",
     },
   ];
+
+  const optionUnitType = [
+    {
+      name: "Metrics",
+      value: "Metrics",
+    },
+    {
+      name: "Imperial",
+      value: "Imperial",
+    },
+  ];
+
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} height="600px" fontFamily={"Montserrat"}>
-      {" "}
-      {/* Set the overall height of the grid */}
+    <Grid
+      templateColumns="repeat(2, 1fr)"
+      gap={4}
+      mt={4}
+      height="600px"
+      fontFamily={"Montserrat"}
+    >
       <Box borderWidth="1px" borderRadius="lg" p={6} height="100%">
-        {/* Form content */}
         <Flex justifyContent="space-between" alignItems="center" mb={6}>
           <Flex alignItems="center" flexDirection={"row"}>
             <Icon as={IconCylinder} boxSize={12} color="gray.800" mr={3} />
@@ -214,15 +212,30 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
             }
           >
             {optionsWellCasing.map((option) => (
-              <option key={option.value} value={option.value}> 
+              <option key={option.value} value={option.value}>
                 {option.name}
               </option>
             ))}
           </Select>
         </Flex>
-        {/* Form controls */}
         <VStack spacing={4} align="stretch">
           <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            <FormControl>
+              <FormLabel>Unit Type</FormLabel>
+              <Select
+                name="unit_type"
+                value={wellCasing.unit_type}
+                onChange={(e) =>
+                  setWellCasing({ ...wellCasing, unit_type: e.target.value })
+                }
+              >
+                {optionUnitType.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl>
               <FormLabel>Depth</FormLabel>
               <InputGroup>
@@ -233,7 +246,9 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Depth"
                 />
-                <InputRightAddon>{unitType === "Metrics" && "METERS" || unitType === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>
+                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
+                </InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -246,7 +261,9 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Length"
                 />
-                <InputRightAddon>{unitType === "Metrics" && "METERS" || unitType === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>
+                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
+                </InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -259,7 +276,9 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Hole Diameter"
                 />
-                <InputRightAddon>{unitType === "Metrics" && "METERS" || unitType === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>
+                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
+                </InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -272,7 +291,9 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Outer Diameter"
                 />
-                <InputRightAddon>{unitType === "Metrics" && "METERS" || unitType === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>
+                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
+                </InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -285,7 +306,9 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
                   type="number"
                   placeholder="Casing Inner Diameter"
                 />
-                <InputRightAddon>{unitType === "Metrics" && "METERS" || unitType === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>
+                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
+                </InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -307,7 +330,9 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Weight"
                 />
-                <InputRightAddon>{unitType === "Metrics" && "METERS" || unitType === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>
+                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
+                </InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -353,8 +378,6 @@ const WellCasing = ({ dataWellCasing, unitType }) => {
           <TabPanels flex={1} overflowY="auto">
             <TabPanel height="100%" p={0}>
               <Box overflowX="auto" height="100%">
-                {" "}
-                {/* Ensure the table can scroll vertically */}
                 <Table variant="simple">
                   <Thead position="sticky" top={0} bg="white" zIndex={1}>
                     <Tr>
