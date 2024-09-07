@@ -147,6 +147,66 @@ const JobDocuments = ({ data }) => {
     }
   };
 
+  const docType = [
+    {
+      name: "Drilling Plan",
+      value: "Drilling Plan",
+    },
+    {
+      name: "Completion Plan",
+      value: "Completion Plan",
+    },
+    {
+      name: "Well Design",
+      value: "Well Design",
+    },
+    {
+      name: "Mud Plan",
+      value: "Mud Plan",
+    },
+    {
+      name: "Cementing Plan",
+      value: "Cementing Plan",
+    },
+    {
+      name: "Well Trajectory Plan",
+      value: "Well Trajectory Plan",
+    },
+    {
+      name: "Risk Assessment Plan",
+      value: "Risk Assessment Plan",
+    },
+    {
+      name: "Safety Plan",
+      value: "Safety Plan",
+    },
+    {
+      name: "Environmental Plan",
+      value: "Environmental Plan",
+    },
+    {
+      name: "Logging Plan",
+      value: "Logging Plan",
+    },
+    {
+      name: "Pore Pressure Prediction",
+      value: "Pore Pressure Prediction",
+    },
+    {
+      name: "Hydraulics Plan",
+      value: "Hydraulics Plan",
+    },
+    {
+      name: "Casing Plan",
+      value: "Casing Plan",
+    },
+    {
+      name: "Contingency Plan",
+      value: "Contingency Plan",
+    },
+    
+  ]
+
   return (
     <Flex gap={6}>
       <Card width="50%">
@@ -175,7 +235,10 @@ const JobDocuments = ({ data }) => {
                 value={formData.document_type}
                 onChange={handleInputChange}
               >
-                <option value="DRILLING_PLAN">Drilling Plan</option>
+                {docType.map((type) => (
+                  <option key={type.value} value={type.value}> {type.name} </option>
+                ))}
+                {/* <option value="DRILLING_PLAN">Drilling Plan</option>
                 <option value="COMPLETION_PLAN">Completion Plan</option>
                 <option value="WELL_DESIGN">Well Design</option>
                 <option value="MUD_PLAN">Mud Plan</option>
@@ -194,7 +257,7 @@ const JobDocuments = ({ data }) => {
                 </option>
                 <option value="HYDRAULICS_PLAN">Hydraulics Plan</option>
                 <option value="CASING_PLAN">Casing Plan</option>
-                <option value="CONTINGENCY_PLAN">Contingency Plan</option>
+                <option value="CONTINGENCY_PLAN">Contingency Plan</option> */}
               </Select>
             </FormControl>
             <FormControl>

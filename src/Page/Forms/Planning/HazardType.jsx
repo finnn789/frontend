@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -17,17 +17,16 @@ import {
   Select,
   Icon,
   Text,
-  
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
-import {IconVolcano, IconTable} from "@tabler/icons-react";
+import { IconVolcano, IconTable } from "@tabler/icons-react";
 const HazardTypeForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
-    hazard_type: '',
-    hazard_description: '',
-    severity: '',
-    remarks: '',
-    mitigation:''
+    hazard_type: "",
+    hazard_description: "",
+    severity: "",
+    remark: "",
+    mitigation: "",
   });
 
   const handleInputChange = (e) => {
@@ -41,8 +40,60 @@ const HazardTypeForm = ({ onAddItem }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onAddItem(formData);
-    setFormData({ hazard_type: '', hazard_description: '', severity: '', remarks: '', mitigation: '' });
+    setFormData({
+      hazard_type: "",
+      hazard_description: "",
+      severity: "",
+      remark: "",
+      mitigation: "",
+    });
   };
+
+  const severity = [
+    {
+      name: "LOW",
+      value: "LOW",
+    },
+    {
+      name: "MEDIUM",
+      value: "MEDIUM",
+    },
+    {
+      name: "HIGH",
+      value: "HIGH",
+    },
+    {
+      name: "CRITICAL",
+      value: "CRITICAL",
+    },
+  ];
+
+  const hazardType = [
+    {
+      name: "GAS KICK",
+      value: "GAS KICK",
+    },
+    {
+      name: "STUCK PIPE",
+      value: "STUCK PIPE",
+    },
+    {
+      name: "LOST CIRCULATION",
+      value: "LOST CIRCULATION",
+    },
+    {
+      name: "WELL CONTROL",
+      value: "WELL CONTROL",
+    },
+    {
+      name: "EQUIPMENT FAILURE",
+      value: "EQUIPMENT FAILURE",
+    },
+    {
+      name: "OTHER",
+      value: "OTHER",
+    },
+  ];
 
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} mb={4} width="100%">
@@ -67,15 +118,16 @@ const HazardTypeForm = ({ onAddItem }) => {
           <FormControl>
             <FormLabel>Hazard Type</FormLabel>
             <Select
-            name="hazard_type"
-            value={formData.hazard_type}
-            onChange={handleInputChange}>
-              <option value="GAS KICK">GAS KICK</option>
-              <option value="STUCK PIPE">STUCK PIPE</option>
-              <option value="LOST CIRCULATION">LOST CIRCULATION</option>
-              <option value="WELL CONTROL">WELL CONTROL</option>
-              <option value="EQUIPMENT FAILURE">EQUIPMENT FAILURE</option>
-              <option value="OTHER">OTHER</option>
+              name="hazard_type"
+              value={formData.hazard_type}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Hazard Type</option>
+              {hazardType.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.name}
+                </option>
+              ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -90,13 +142,18 @@ const HazardTypeForm = ({ onAddItem }) => {
           </FormControl>
           <FormControl>
             <FormLabel>Severity</FormLabel>
-            <Input
+            <Select
               name="severity"
-              type="text"
-              placeholder="severity"
               value={formData.severity}
               onChange={handleInputChange}
-            />
+            >
+              <option value="">Select Severity</option>
+              {severity.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.name}
+                </option>
+              ))}
+            </Select>
           </FormControl>
           <FormControl>
             <FormLabel>Mitigation</FormLabel>
@@ -110,8 +167,8 @@ const HazardTypeForm = ({ onAddItem }) => {
           <FormControl>
             <FormLabel>Remarks</FormLabel>
             <Input
-              name="remarks"
-              value={formData.remarks}
+              name="remark"
+              value={formData.remark}
               onChange={handleInputChange}
               placeholder="remarks"
             />
@@ -125,7 +182,7 @@ const HazardTypeForm = ({ onAddItem }) => {
   );
 };
 
-const HazardType = ({onDataChange}) => {
+const HazardType = ({ onDataChange }) => {
   const [items, setItems] = useState([]);
 
   const handleAddItem = (newItem) => {
@@ -136,26 +193,33 @@ const HazardType = ({onDataChange}) => {
 
   return (
     <Flex mt={4}>
-      <Box flex={1}  mr={4}>
+      <Box flex={1} mr={4}>
         <HazardTypeForm onAddItem={handleAddItem} />
       </Box>
-      <Box flex={1} maxHeight={"465px"} overflowY={"auto"} borderWidth="1px" borderRadius="lg" p={4}>
-      <Flex alignItems="center" mb={6}>
-        <Icon as={IconTable} boxSize={12} color="gray.800" mr={3} />
-        <Flex flexDirection={"column"}>
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            color="gray.700"
-            fontFamily="Montserrat"
-          >
-            {"Table"}
-          </Text>
-          <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
-            {"subtitle"}
-          </Text>
+      <Box
+        flex={1}
+        maxHeight={"465px"}
+        overflowY={"auto"}
+        borderWidth="1px"
+        borderRadius="lg"
+        p={4}
+      >
+        <Flex alignItems="center" mb={6}>
+          <Icon as={IconTable} boxSize={12} color="gray.800" mr={3} />
+          <Flex flexDirection={"column"}>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.700"
+              fontFamily="Montserrat"
+            >
+              {"Table"}
+            </Text>
+            <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+              {"subtitle"}
+            </Text>
+          </Flex>
         </Flex>
-      </Flex>
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -173,7 +237,7 @@ const HazardType = ({onDataChange}) => {
                 <Td>{item.hazard_description}</Td>
                 <Td>{item.severity}</Td>
                 <Td>{item.mitigation}</Td>
-                <Td>{item.remarks}</Td>
+                <Td>{item.remark}</Td>
               </Tr>
             ))}
           </Tbody>

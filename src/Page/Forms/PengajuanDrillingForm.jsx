@@ -66,7 +66,7 @@ const PengajuanDrillingForm = () => {
       rig_name: "string",
       rig_type: "JACK-UP",
       rig_horse_power: 0,
-      well_plan: {
+      well: {
         unit_type: "Metrics",
         uwi: "string",
         field_id: "string",
@@ -197,8 +197,8 @@ const PengajuanDrillingForm = () => {
           ...prevJobPlan.job_plan.job_operation_days,
           unit_type: e.target.value,
         },
-        well_plan: {
-          ...prevJobPlan.job_plan.well_plan,
+        well: {
+          ...prevJobPlan.job_plan.well,
           unit_type: e.target.value,
         },
       },
@@ -213,7 +213,7 @@ const PengajuanDrillingForm = () => {
       ...prevJobPlan,
       job_plan: {
         ...prevJobPlan.job_plan,
-        well_plan: {
+        well: {
           ...wellData,
         },
       },
@@ -237,7 +237,6 @@ const PengajuanDrillingForm = () => {
     setLoading(true);
     try {
       const post = await PostDatanya(jobPlan);
-
       if (post) {
         setLoading(false);
         return post.data;

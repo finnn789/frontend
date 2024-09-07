@@ -38,7 +38,7 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
             ...prevJobPlan,
             job_plan: {
               ...prevJobPlan.job_plan,
-              job_operation_days: newData,
+              work_breakdown_structure: newData,
             },
           }));
         }}
@@ -49,7 +49,7 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
             ...prevJobPlan,
             job_plan: {
               ...prevJobPlan.job_plan,
-              work_breakdown_structure: newData,
+              job_operation_days: newData,
             },
           }));
         }}
@@ -60,7 +60,7 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
             ...prevJobPlan,
             job_plan: {
               ...prevJobPlan.job_plan,
-              job_hazard: newData,
+              job_hazards: newData,
             },
           }));
         }}
