@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CardFormWell from "./Exploration/TeknisForms";
 import {
   Tabs,
@@ -290,6 +290,15 @@ const PengajuanDrillingForm = () => {
                     ...operasional,
                   }));
                 }}
+                handleChangeRigType={useCallback((e) => {
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      ...e,
+                    },
+                  }));
+                })}
                 dataWRM={(data) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
@@ -299,7 +308,39 @@ const PengajuanDrillingForm = () => {
                     },
                   }));
                 }}
+                handleChangeJobPlan={useCallback((e) => {
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      ...e,
+                    },
+                  }));
+                })}
                 jobDocuments={handleJobDocuments}
+                WBSData={(data)=>{
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      ...data,
+                    },
+                  }));
+                }}
+                JobOperationData={(data)=>{
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      job_operation_days: {
+                      ...prevJobPlan.job_plan.job_operation_days,
+                      ...data  
+                      }
+                      
+                    },
+                  }));
+                }}
+
               />
             </TabPanel>
           </TabPanels>

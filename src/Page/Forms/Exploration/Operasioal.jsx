@@ -7,7 +7,7 @@ import WorkBreakdownStructure from "../Planning/BorkBreakDowns";
 import HazardType from "../Planning/HazardType";
 import JobDocuments from "../Planning/JobDocuments";
 
-const Operasional = ({ onData, dataWRM, jobDocuments }) => {
+const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData }) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
   // console.log(data);
@@ -15,12 +15,12 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
   useEffect(() => {
     // Menggabungkan data baru dengan data sebelumnya dari parent
     onData(data);
-    dataWRM(datas);
-  }, [datas,data]);
+    // dataWRM(datas);
+  }, [ data]);
 
   // console.log(data);
 
-  const handleData = (newData) => {    
+  const handleData = (newData) => {
     setData((prevData) => ({ ...prevData, ...newData }));
   };
 
@@ -30,29 +30,23 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
 
   return (
     <div>
-      <ProposedJob onData={handleData} />
+      <ProposedJob
+        onData={(newData) => {
+          setData((prevJobPlan) => ({
+            ...prevJobPlan, // Mempertahankan data sebelumnya
+            ...newData, // Menambahkan atau memperbarui dengan data baru
+          }));
+        }}
+        handleChangeRigType={handleChangeRigType}
+        // handleChangeWPBYear = {handleChangeWPBYear}
+        handleChangeJobPlan={handleChangeJobPlan}
+      />
       <WRMRequirement onDataChange={datawrm} />
       <WorkBreakdownStructure
-        ondata={(newData) => {
-          setData((prevJobPlan) => ({
-            ...prevJobPlan,
-            job_plan: {
-              ...prevJobPlan.job_plan,
-              job_operation_days: newData,
-            },
-          }));
-        }}
+        ondata={WBSData}
       />
       <JobOpertionsDays
-        ondata={(newData) => {
-          setData((prevJobPlan) => ({
-            ...prevJobPlan,
-            job_plan: {
-              ...prevJobPlan.job_plan,
-              work_breakdown_structure: newData,
-            },
-          }));
-        }}
+        ondata={JobOperationData}
       />
       <HazardType
         onDataChange={(newData) => {
@@ -66,11 +60,11 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
         }}
       />
 
-      <JobDocuments
+      {/* <JobDocuments
         data={(newData) => {
           jobDocuments(newData);
         }}
-      />
+      /> */}
     </div>
   );
 };

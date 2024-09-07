@@ -117,7 +117,15 @@ const WellTrajectory = ({ ondata }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!selectedFile) {
+      toast({
+        title: "Please select a file first",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
     const formData = new FormData();
     formData.append("file", selectedFile);
 
@@ -133,7 +141,7 @@ const WellTrajectory = ({ ondata }) => {
           },
         }
       );
-      // console.log(response.data.file_info.id);
+      console.log(response);
 
       setDataParent({
         file_id: response.data.file_info.id,
@@ -151,8 +159,8 @@ const WellTrajectory = ({ ondata }) => {
     } catch (error) {
       console.error("Error uploading file:", error);
       toast({
-        title: "File read successfully",
-        status: "success",
+        title: "File Error to Upload",
+        status: "error",
         duration: 3000,
         isClosable: true,
       });
@@ -193,9 +201,9 @@ const WellTrajectory = ({ ondata }) => {
               value={fileType}
               onChange={handleFileTypeChange}
             >
-              <option value="CSV">CSV</option>
-              <option value="XLSX">XLSX</option>
-              <option value="XLS">XLS</option>
+              <option value="PDF">PDF</option>
+              <option value="IMAGE">IMAGE</option>
+              <option value="PLAIN TEXT">PLAIN TEXT</option>
             </Select>
           </FormControl>
 

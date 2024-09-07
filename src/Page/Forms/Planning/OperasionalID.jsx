@@ -16,8 +16,15 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
+import { setDate } from "date-fns";
 
-const ProposedJob = ({ onData, children }) => {
+const ProposedJob = ({
+  onData,
+  children,
+  handleChangeRigType,
+  handleChangeJobPlan
+  
+}) => {
   const areaId = [
     {
       name: "AREA 2",
@@ -87,20 +94,24 @@ const ProposedJob = ({ onData, children }) => {
     contract_type: "COST-RECOVERY",
     afe_number: "",
     wpb_year: null,
-    job_plan: {
-      start_date: "",
-      end_date: "",
-      total_budget: 0,
-      rig_name: null,
-      rig_type: null,
-      rig_horse_power: 0,
-    },
+    
+  });
+  const [DateChange, setDateChange] = useState({
+    total_budget: 0,
+    rig_name: null,
+    rig_type: null,
+    rig_horse_power: 0,
+    well_name: null,
   });
 
+  // console.log(DateChange);
+  
   // Send formData to parent component whenever formData changes
   useEffect(() => {
     onData(formData);
-  }, [formData]);
+    handleChangeJobPlan(DateChange)
+    
+  }, [formData,DateChange]);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -128,7 +139,7 @@ const ProposedJob = ({ onData, children }) => {
       [name]: processedValue,
     }));
   };
-// console.log(formData);
+  // console.log(formData);
 
   const handleRig = (e) => {
     const { name, value, type } = e.target;
@@ -151,23 +162,16 @@ const ProposedJob = ({ onData, children }) => {
       processedValue = value;
     }
 
-    setFormData((prev) => ({
-      ...prev,
-      job_plan: {
-        ...prev.job_plan,
-        [name]: processedValue,
-      },
-    }));
+    handleChangeRigType({
+      [name]: processedValue,
+    });
   };
   const handleDateChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
+    setDateChange((prev) => ({
       ...prev,
-      job_plan: {
-        ...prev.job_plan,
-        [name]: value,
-      },
+      [name]: value,
     }));
   };
 
@@ -194,7 +198,6 @@ const ProposedJob = ({ onData, children }) => {
           <FormControl>
             <FormLabel>Area</FormLabel>
             <Select name="area_id" onChange={handleChange}>
-              
               {areaId.map((item) => (
                 <option value={item.value}>{item.name}</option>
               ))}
@@ -259,7 +262,7 @@ const ProposedJob = ({ onData, children }) => {
             <Input
               name="start_date"
               type="date"
-              value={formData.job_plan.start_date}
+              value={DateChange.start_date}
               onChange={handleDateChange}
               placeholder="Start Date"
             />
@@ -269,9 +272,9 @@ const ProposedJob = ({ onData, children }) => {
             <Input
               name="end_date"
               type="date"
-              min={formData.job_plan.start_date}
-              value={formData.job_plan.end_date}
-              disabled={formData.job_plan.start_date ? false : true}
+              min={DateChange.start_date}
+              value={DateChange.end_date}
+              disabled={DateChange.start_date ? false : true}
               onChange={handleDateChange}
               placeholder="End Date"
             />
@@ -282,8 +285,13 @@ const ProposedJob = ({ onData, children }) => {
             <FormLabel>Rig Type</FormLabel>
             <Select
               name="rig_type"
-              value={formData.job_plan.rig_type}
-              onChange={handleRig}
+              value={DateChange.rig_type}
+              onChange={(e)=> {
+                setDateChange((prev) => ({
+                  ...prev,
+                  rig_type: e.target.value,
+                }))
+              }}
             >
               <option value="Select Rig Type" disabled></option>
               {rigType.map((item, index) => (
@@ -298,8 +306,13 @@ const ProposedJob = ({ onData, children }) => {
             <Input
               name="rig_name"
               type="text"
-              value={formData.job_plan.rig_name}
-              onChange={handleRig}
+              value={DateChange.rig_name}
+              onChange={(e)=> {
+                setDateChange((prev) => ({
+                  ...prev,
+                  rig_name: e.target.value,
+                }))
+              }}
               placeholder="Rig Name"
             />
           </FormControl>
@@ -311,8 +324,13 @@ const ProposedJob = ({ onData, children }) => {
               <Input
                 name="rig_horse_power"
                 type="number"
-                value={formData.job_plan.rig_horse_power}
-                onChange={handleRig}
+                value={DateChange.rig_horse_power}
+                onChange={(e)=> {
+                  setDateChange((prev) => ({
+                    ...prev,
+                    rig_horse_power: parseInt(e.target.value),
+                  }))
+                }}
                 placeholder="Rig Horse Power"
               />
               <InputRightAddon>METERS</InputRightAddon>
