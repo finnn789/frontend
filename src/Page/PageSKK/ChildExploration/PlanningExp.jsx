@@ -7,74 +7,67 @@ import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx, getCombinedData } from "../../API/APISKK";
+import { getJobPhase } from "../../API/APISKK";
 const PlanningWellService = () => {
-  const [countStatus, setCountStatus] = React.useState(null);
+  const [phaseData, setPhaseData] = React.useState(null);
 
   React.useEffect(() => {
     const getData = async () => {
-      const data = await getCombinedData();
-      setCountStatus(data);
+      const data = await getJobPhase('exploration', 'plan');
+      setPhaseData(data);
     };
     getData();
   }, []);
 // console.log(countStatus);
 
-  const proposedCount = countStatus ? countStatus.Exploration.planning_status_counts.PROPOSED : null;
-  const AprovedCount = countStatus ? countStatus.Exploration.planning_status_counts.APPROVED : null;
-  const ReturnedCount = countStatus ? countStatus.Exploration.planning_status_counts.RETURNED : null;
+  const proposedCount = phaseData ? phaseData.summary.diajukan : null;
+  const AprovedCount = phaseData ? phaseData.summary.disetujui : null;
+  const ReturnedCount = phaseData ? phaseData.summary.dikembalikan : null;
+
+  const dataWell = phaseData ? phaseData.job_details : null;
 
   
-  console.log(countStatus);
   
-  
-
-  const dataWell = countStatus ? countStatus.Exploration.wells : null;
-  
-  console.log('dataWell', dataWell);
-  
-  const StatusBadge = ({ status }) => {
-    console.log('StatusBadge props:', status); // Tambahkan log untuk debugging
+  const StatusBadge = (props) => {
+    console.log('StatusBadge props:', props); // Tambahkan log untuk debugging
   
     const colorScheme =
-      status === "PROPOSED"
+    props.value === "PROPOSED"
         ? "blue"
-        : status === "APPROVED"
+        : props.value === "APPROVED"
         ? "green"
-        : status === "RETURNED"
+        : props.value === "RETURNED"
         ? "red"
         : "gray";
   
     return (
       <Badge
         colorScheme={colorScheme}
-        variant="subtle"
-        px={4}
-        py={2}
-        rounded={"full"}
+        size="sm"
       >
-        {status || 'No Status'} 
+        {props.value || 'No Status'} 
         {/* // Tampilkan 'No Status' jika status tidak ada */}
       </Badge>
     );
   };
 
   const headerstable1 = [
-    { headerName: "Nama Sumur", field: "well_name" },
-    { headerName: "Wilayah Kerja", field: "wilayah_kerja" },
-    { headerName: "Lapangan", field: "lapangan" },
-    { headerName: "Tanggal Mulai", field: "date_started" },
-    { headerName: "Tanggal Selesai", field: "date_approved" },
-    { headerName: "Tanggal Diajukan", field: "date_proposed" },
+    { headerName: "Nama Sumur", field: "NAMA SUMUR" },
+    { headerName: "Wilayah Kerja", field: "WILAYAH KERJA" },
+    { headerName: "Lapangan", field: "LAPANGAN" },
+    { headerName: "KKKS", field: "KKKS" },
+    { headerName: "Rencana Mulai", field: "RENCANA MULAI" },
+    { headerName: "Rencana Mulai", field: "RENCANA SELESAI" },
+    { headerName: "Tanggal Diajukan", field: "TANGGAL DIAJUKAN" },
     {
       headerName: "Status",
-      field: "planning_status",
-      cellRendererFramework: StatusBadge,
+      field: "STATUS",
+      cellRenderer: StatusBadge,
     },
     {
       headerName: "Aksi",
-      field: "aksi",
-      cellRendererFramework: (params) => (
+      field: "STATUS",
+      cellRenderer: (status) => (
         <div>
           <Button leftIcon={<FaEye />} colorScheme="gray" size="sm" mr={2}>
             View
@@ -83,7 +76,7 @@ const PlanningWellService = () => {
             leftIcon={<FaCheck />}
             colorScheme="green"
             size="sm"
-            isDisabled={params.data.planning_status !== "PROPOSED"} // Correct condition
+            isDisabled={status.value !== "PROPOSED"} // Correct condition
           >
             Approve
           </Button>

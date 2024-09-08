@@ -63,6 +63,20 @@ export async function getJobDasboard(job_type) {
   }
 }
 
+export async function getJobInfo(job_type) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/dashboard/view-job/${job_type}/`
+    );
+    console.log(response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error get Job Info", error);
+    return null;
+  }
+}
+
 export async function getKKKSInfo(kkks_id) {
   try {
     const response = await axios.get(
@@ -143,6 +157,18 @@ export async function getJobWellStatusChart() {
     return response.data;
   } catch (error) {
     console.error("Error get Data Well", error);
+    return null;
+  }
+}
+
+export async function getJobPhase(job_type, job_phase) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/dashboard/job-phase/${job_type}/${job_phase}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data Well And Start Date", error);
     return null;
   }
 }

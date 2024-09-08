@@ -3,9 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Flex,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
+
 } from "@chakra-ui/react";
 // import Sidebar from "../Components/Sidebar";
 // import Navbar from "../Components/Navbar";
@@ -16,12 +14,10 @@ import NavbarKKKS from "./Components/NavbarSKK";
 
 export function DashboardSKK() {
   const [selectedNav, setSelectedNav] = useState("homeDash");
-  const [pageForm, setPageForm] = useState("");
   const location = useLocation();
 
   const handleNavClick = (value) => {
     setSelectedNav(value);
-    setPageForm("");
   };
   const username = JSON.parse(localStorage.getItem("user")).username;;
 

@@ -8,12 +8,7 @@ import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import { Flex, Text, Icon, Box } from "@chakra-ui/react";
 import {
-  getBarChartDataSKK,
-  // getTableRealization,
-  getJobTypeSummarySKK,
-  getRigTypePieChart,
-  getBudgetSummaryCharts,
-  getJobWellStatusChart,
+  getJobDasboard
 } from "../API/APISKK";
 import {
   IconCalendar,
@@ -23,48 +18,44 @@ import {
   IconMapPin2,
 } from "@tabler/icons-react";
 
-const DevelopmentSKK = () => {
-  const [dataSummarySKK, setDataSummarySKK] = useState(null);
-  const [dataCharts, setDataCharts] = useState(null);
+const Development = () => {
+  const [dataSummarySKK, setSummarySKK] = useState(null);
   const [dataTableReal, setDataTableReal] = useState([]);
-  const [dataRigTypePieChart, setDataRigTypePieChart] = useState([]);
-  const [dataBudgetSummary, setDataBudgetSummary] = useState([]);
-  const [dataJobWellStatus, setDataJobWellStatus] = useState([]);
+  const [dataRigTypePieChart, setDataRigTypePieChart] = useState(null);
+  const [dataBudgetSummaryChart, setDataBudgetSummaryChart] = useState(null);
+  const [dataJobWellStatusChart, setDataJobWellStatusChart] = useState(null);
+  const [dataCharts, setDataCharts] = useState(null);
 
-   useEffect(() => {
+
+  useEffect(() => {
     const getData = async () => {
       try {
-        const dataSummarySKK = await getJobTypeSummarySKK();
-        const dataChart = await getBarChartDataSKK(); // Ambil data dari API
-        // const dataTableRealization = await getTableRealization();
-        const dataRigTypePieChart = await getRigTypePieChart();
-        const dataBudgetSummary = await getBudgetSummaryCharts();
-        const dataJobWellStatus = await getJobWellStatusChart();
-
-        setDataSummarySKK(dataSummarySKK);
-        // Set dataChart ke dalam state dataCharts
-        setDataCharts(dataChart);
-
-        console.log('dataTableRealization', dataTableRealization);
+        const dataJobDasboardResponse = await getJobDasboard("development");
+ 
+        setSummarySKK(dataJobDasboardResponse.summary);
+        // console.log(dataJobDasboard.summary);
         
+        // Set dataChart ke dalam state dataCharts
+        setDataCharts(dataJobDasboardResponse.job_graph.month);
 
-        if (Array.isArray(dataTableRealization)) {
-          const processedData = dataTableRealization.map((item) => ({
-            id: item.kkks_id,
-            kkks: item.kkks_name,
-            rencana: item.approved_plans,
-            realisasi: item.completed_operations,
-            persentase: item.realization_percentage,
-          }));
+        if (Array.isArray(dataJobDasboardResponse.tablekkks)) {
+          const processedData = dataJobDasboardResponse.tablekkks.map(
+            (item) => ({
+              id: item.id,
+              kkks: item.name,
+              rencana: item.rencana,
+              realisasi: item.realisasi,
+              persentase: item.percentage,
+            })
+          );
           setDataTableReal(processedData);
+          setDataRigTypePieChart(dataJobDasboardResponse.environment_type_graph);
+          setDataBudgetSummaryChart(dataJobDasboardResponse.cost_graph);
+          setDataJobWellStatusChart(dataJobDasboardResponse.status_akhir_graph);
         } else {
-          console.error("Expected an array but got:", dataTableRealization);
           setDataTableReal([]); // Handle error atau set array kosong
         }
 
-        setDataRigTypePieChart(dataRigTypePieChart); // Pie Chart Rig
-        setDataBudgetSummary(dataBudgetSummary); // Bar Chart Budget
-        setDataJobWellStatus(dataJobWellStatus); // Chart Status Selesai
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -74,52 +65,48 @@ const DevelopmentSKK = () => {
   }, []);
 
   // RIG TYPE DATA PIE CHART
-  const dataPieRigType = dataRigTypePieChart?.development?.chart_data
-    ? dataRigTypePieChart.development.chart_data
+  const fixDataPieRigType = dataRigTypePieChart
+    ? dataRigTypePieChart
     : null;
-
-  const fixDataPieRigType = dataPieRigType
-    ? JSON.parse(dataPieRigType)
-    : "loading...";
 
   // console.log("fixDataPieRigType.data", fixDataPieRigType.data);
 
   // BUDGET DATA BAR CHART
-  const dataBudget = dataBudgetSummary?.charts?.Development
-    ? dataBudgetSummary.charts.Development
+  const fixDataBudget = dataBudgetSummaryChart
+    ? dataBudgetSummaryChart
     : null;
-
-  const fixDataBudget = dataBudget ? dataBudget : "loading...";
 
   // console.log("fixDataBudget", fixDataBudget);
 
   // JOB WELLS STATUS SELESAI
-  const dataJobWells = dataJobWellStatus?.development?.chart
-    ? dataJobWellStatus.development.chart
+  const dataJobWells = dataJobWellStatusChart
+    ? dataJobWellStatusChart
     : null;
 
   // console.log("testcoy", dataJobWells);
 
   const fixDataJobWells = dataJobWells
-    ? JSON.parse(dataJobWells)
+    ? dataJobWells
     : "loading...";
 
-  console.log("fixDataJobWells", fixDataJobWells);
+  // console.log('sama kontol satu:', fixDataJobWells.data[0].values);
+
+  //   if (fixDataJobWells.data[0].values && fixDataJobWells.data[0].values.length === 0) {
+  //     console.log("Data tidak tersedia");
+  // } else {
+  //     console.log("fixDataJobWells", fixDataJobWells);
+  // }
 
   const developmentRealisasi = dataSummarySKK
-  ? dataSummarySKK.Development.operating
-  : "Loading...";
-const developmentRencana = dataSummarySKK
-  ? dataSummarySKK.Development.approved
-  : "Loading...";
-const developmentSelesai = dataSummarySKK
-  ? dataSummarySKK.Development.finished
-  : "Loading...";
+    ? dataSummarySKK.realisasi
+    : "Loading...";
+  const developmentRencana = dataSummarySKK
+    ? dataSummarySKK.rencana
+    : "Loading...";
+  const developmentSelesai = dataSummarySKK
+    ? dataSummarySKK.selesai
+    : "Loading...";
 
-  // console.log('dataSummarySKK', dataSummarySKK);
-  
-
-  // console.log("dataSummarySKK", dataSummarySKK);
 
   return (
     <Flex gap={6} direction={"column"}>
@@ -174,14 +161,24 @@ const developmentSelesai = dataSummarySKK
         title="Realisasi Kegiatan Development"
         subtitle="Realisasi pekerjaan tiap bulan"
       >
-        {dataCharts ? (
-          <BarChartComponent
-            datas={dataCharts.data}
-            layout={dataCharts.layout}
-          />
-        ) : (
-          <p>Loading...</p>
-        )}
+        <Box width="100%" height="100%">
+          {dataCharts ? (
+            <BarChartComponent
+              datas={dataCharts.data}
+              layouts={{
+                ...dataCharts.layout,
+                autosize: true,
+                width: undefined, // Supaya tidak ada pengaturan lebar statis
+                height: 400, // Supaya tidak ada pengaturan tinggi statis
+                responsive: true, // Membuat chart responsif
+              }}
+              style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
+              useResizeHandler={true} // Mengaktifkan penanganan resize
+            />
+          ) : (
+            <p>Loading...</p>
+          )}
+        </Box>
       </HeaderCard>
       {/* // chart tiga */}
       <Flex flexDirection={"row"} width={"100%"} mt={5} gap={4}>
@@ -191,18 +188,22 @@ const developmentSelesai = dataSummarySKK
           subtitle="Perbandingan Perencanaan dan Realisasi"
         >
           <Box width="100%" height="100%">
-            <PieChart3D
-              data={fixDataBudget.data}
-              layout={{
-                ...fixDataBudget.layout,
-                autosize: true,
-                width: undefined, // Supaya tidak ada pengaturan lebar statis
-                height: 600, // Supaya tidak ada pengaturan tinggi statis
-                responsive: true, // Membuat chart responsif
-              }}
-              style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
-              useResizeHandler={true} // Mengaktifkan penanganan resize
-            />
+            {fixDataBudget ? (
+              <PieChart3D
+                data={fixDataBudget.data}
+                layout={{
+                  ...fixDataBudget.layout,
+                  autosize: true,
+                  width: undefined, // Supaya tidak ada pengaturan lebar statis
+                  height: 400, // Supaya tidak ada pengaturan tinggi statis
+                  responsive: true, // Membuat chart responsif
+                }}
+                style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
+                useResizeHandler={true} // Mengaktifkan penanganan resize
+              />
+            ) : (
+              <p>Loading...</p>
+            )}
           </Box>
         </HeaderCard>
         <HeaderCard
@@ -211,19 +212,39 @@ const developmentSelesai = dataSummarySKK
           subtitle="Status akhir sumur"
         >
           <Box width="100%" height="100%">
-            <PieChart3D
-              data={fixDataJobWells.data}
-              layout={{
-                ...fixDataJobWells.layout,
-                autosize: true,
-                width: undefined,
-                height: 600,
-                responsive: true,
-              }}
-              style={{ width: "100%", height: "100" }}
-              useResizeHandler={true}
-            />
+            {fixDataJobWells ? (
+              <PieChart3D
+                data={fixDataJobWells.data}
+                layout={{
+                  ...fixDataJobWells.layout,
+                  autosize: true,
+                  width: undefined,
+                  height: 400,
+                  responsive: true,
+                }}
+                style={{ width: "100%", height: "100" }}
+                useResizeHandler={true}
+              />
+            ) : (
+              <p>Loading...</p>
+            )}
           </Box>
+          {/* {fixDataJobWells.data.values && fixDataJobWells.data.values.length === 0 ? (
+              <PieChart3D
+                data={fixDataJobWells.data}
+                layout={{
+                  ...fixDataJobWells.layout,
+                  autosize: true,
+                  width: undefined,
+                  height: 400,
+                  responsive: true,
+                }}
+                style={{ width: "100%", height: "100" }}
+                useResizeHandler={true}
+              />
+            ) : (
+              <div>Data tidak tersedia</div>
+            )} */}
         </HeaderCard>
         <HeaderCard
           icon={IconTruck}
@@ -231,18 +252,22 @@ const developmentSelesai = dataSummarySKK
           subtitle="Total rig yang beroperasi"
         >
           <Box width="100%" height="100%">
-            <PieChart3D
-              data={fixDataPieRigType.data}
-              layout={{
-                ...fixDataPieRigType.layout,
-                autosize: true,
-                width: undefined,
-                height: 600,
-                responsive: true,
-              }}
-              style={{ width: "100%", height: "100" }}
-              useResizeHandler={true}
-            />
+            {fixDataPieRigType ? (
+              <PieChart3D
+                data={fixDataPieRigType.data}
+                layout={{
+                  ...fixDataPieRigType.layout,
+                  autosize: true,
+                  width: undefined,
+                  height: 400,
+                  responsive: true,
+                }}
+                style={{ width: "100%", height: "100" }}
+                useResizeHandler={true}
+              />
+            ) : (
+              <p>Loading...</p>
+            )}
           </Box>
         </HeaderCard>
       </Flex>
@@ -263,4 +288,4 @@ const developmentSelesai = dataSummarySKK
   );
 };
 
-export default DevelopmentSKK;
+export default Development;
