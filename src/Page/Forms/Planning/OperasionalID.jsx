@@ -343,7 +343,7 @@ const ProposedJob = ({
             />
           </FormControl>
         </HStack>
-        {TypeOperasional === "WORKOVER" ? (
+        {TypeOperasional === "WORKOVER" || TypeOperasional === "WELLSERVICE" ? (
           <>
             <VStack spacing={4}>
               <FormControl>

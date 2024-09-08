@@ -27,40 +27,10 @@ const PlanWellServiceForm = () => {
       start_date: "2024-09-08",
       end_date: "2024-09-08",
       total_budget: 0,
-      job_operation_days: [
-        {
-          unit_type: "Metrics",
-          phase: "string",
-          depth_datum: "RT",
-          depth_in: 0,
-          depth_out: 0,
-          operation_days: 0,
-        },
-      ],
-      work_breakdown_structure: [
-        {
-          event: "string",
-          start_date: "2024-09-08",
-          end_date: "2024-09-08",
-          remarks: "string",
-        },
-      ],
-      job_hazards: [
-        {
-          hazard_type: "GAS KICK",
-          hazard_description: "string",
-          severity: "LOW",
-          mitigation: "string",
-          remark: "string",
-        },
-      ],
-      job_documents: [
-        {
-          file_id: "string",
-          document_type: "Drilling Plan",
-          remark: "string",
-        },
-      ],
+      job_operation_days: [],
+      work_breakdown_structure: [],
+      job_hazards: [],
+      job_documents: [],
       equipment: "string",
       equipment_sepesifications: "string",
       well_id: "string",
@@ -89,6 +59,16 @@ const PlanWellServiceForm = () => {
     }));
   };
 
+  const handleChangeJobPlan = (name) => (newData) => {
+    setJobPlan((prevJobPlan) => ({
+      ...prevJobPlan,
+      job_plan: {
+        ...prevJobPlan.job_plan,
+        [name]: newData,
+      },
+    }));
+  };
+
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
@@ -96,7 +76,7 @@ const PlanWellServiceForm = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/exploration`,
+        `${import.meta.env.VITE_APP_URL}/job/planning/create/wellservice`,
         jobPlan,
         {
           headers: {
@@ -158,6 +138,16 @@ const PlanWellServiceForm = () => {
             </TabPanel>
             <TabPanel>
               <Operasional
+                WBSdata={handleChangeJobPlan("work_breakdown_structure")}
+                jobPlanData={(e) =>
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: {
+                      ...prevJobPlan.job_plan,
+                      ...e,
+                    },
+                  }))
+                }
                 onData={(operasional) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
@@ -173,6 +163,11 @@ const PlanWellServiceForm = () => {
                     },
                   }));
                 }}
+                TypeOperasionalJob={"WELLSERVICE"}
+                jobOperationData={handleChangeJobPlan("job_operation_days")}
+                HazardTypeData={handleChangeJobPlan("job_hazards")}
+                jobDocumentsData={handleChangeJobPlan("job_documents")}
+
               />
             </TabPanel>
           </TabPanels>

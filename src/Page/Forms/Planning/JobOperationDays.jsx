@@ -28,8 +28,8 @@ import {IconTable, IconStopwatch} from "@tabler/icons-react";
 const WorkBreakdownForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
     unit_type: "Metrics",
-    phase: "string",
-    depth_datum: "RT",
+    phase: "",
+    depth_datum: "RT        ",
     depth_in: 0,
     depth_out: 0,
     operation_days: 0,
@@ -54,8 +54,8 @@ const WorkBreakdownForm = ({ onAddItem }) => {
   const handleAdd = () => {
     onAddItem(formData);
     setFormData({
-      unit_type: "Metrics",
-      phase: "string",
+      unit_type: "",
+      phase: "",
       depth_datum: "RT",
       depth_in: 0,
       depth_out: 0,

@@ -45,14 +45,14 @@ const Operasional = ({
     <div>
       <ProposedJob
         onData={handleData}
-        handleChangeJobPlan={(e) => console.log(e)}
-        TypeOperasional={(e)  => console.log(e)}
+        handleChangeJobPlan={jobPlanData}
+        TypeOperasional={TypeOperasionalJob}
       />
-      {/* <WRMRequirement datawrm={datawrm} onDataChange={handleData} /> */}
-      {/* <WorkBreakDownStructure ondata={WBSdata} /> */}
-      {/* <JobOpertionsDays ondata={jobOperationData} /> */}
-      {/* <HazardType onDataChange={HazardTypeData} /> */}
-      {/* <JobDocuments data={jobDocumentsData} /> */}
+      <WRMRequirement datawrm={datawrm} onDataChange={handleData} />
+      <WorkBreakDownStructure ondata={WBSdata} />
+      <JobOpertionsDays ondata={jobOperationData} />
+      <HazardType onDataChange={HazardTypeData} />
+      <JobDocuments data={jobDocumentsData} />
     </div>
   );
 };
