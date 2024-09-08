@@ -14,7 +14,7 @@ import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
 import ExistingWell from "../Planning/ExistingWell";
 
-const TecnicalForm = ({ onFormChange, unitType, dataExistingWell,JobType }) => {
+const TecnicalForm = ({ onFormChange, unitType, dataExistingWell,JobType ,formErrors}) => {
   
 
   const [formData, setFormData] = useState({

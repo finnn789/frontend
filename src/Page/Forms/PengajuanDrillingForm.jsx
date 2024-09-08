@@ -273,6 +273,7 @@ const PengajuanDrillingForm = () => {
             </TabPanel>
             <TabPanel>
               <Operasional
+                errorForms={formErrors}
                 onData={(operasional) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,

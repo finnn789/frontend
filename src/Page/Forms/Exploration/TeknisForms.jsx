@@ -69,6 +69,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
     well_summary: [],
     well_casing: [],
     well_stratigraphy: [],
+    work_breakdown_structure: [],
   });
   console.log(formData);
 
@@ -272,11 +273,12 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         errorForms={errorForms}
       />
       <WellPorePressureForm
+        errorForms={errorForms}
         handleDataSubmit={(e) =>
           setFormData((prev) => ({ ...prev, well_ppfg: e }))
         }
       />
-      <WellTest onData={handleData} unitype={unitType} />
+      <WellTest onData={handleData} unitype={unitType} errorForms={errorForms} />
     </>
   );
 };

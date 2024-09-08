@@ -16,6 +16,7 @@ const Operasional = ({
   WBSdata,
   HazardTypeData,
   jobDocumentsData,
+  formErrors
 }) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
@@ -44,6 +45,7 @@ const Operasional = ({
   return (
     <div>
       <ProposedJob
+        errorForms={formErrors}
         onData={handleData}
         handleChangeJobPlan={jobPlanData}
         TypeOperasional={TypeOperasionalJob}

@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { IconTableAlias } from "@tabler/icons-react";
 
-const WellTest = ({ onData, errorForms, unitype }) => {
+const WellTest = ({ onData, unitype, errorForms }) => {
   const [formData, setFormData] = useState([]);
   const [wellTest, setWellTest] = useState({
     unit_type: "Metrics",

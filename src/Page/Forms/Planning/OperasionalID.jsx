@@ -15,6 +15,7 @@ import {
   Flex,
   Text,
   Textarea,
+  FormErrorMessage
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 import { setDate } from "date-fns";
@@ -25,6 +26,7 @@ const ProposedJob = ({
   handleChangeRigType,
   handleChangeJobPlan,
   TypeOperasional,
+  errorForms
 }) => {
   const areaId = [
     {
@@ -152,15 +154,17 @@ const ProposedJob = ({
   const [formData, setFormData] = useState({
     area_id: "",
     field_id: "",
-    contract_type: "COST-RECOVERY",
+    contract_type: "",
     afe_number: "",
     wpb_year: null,
   });
   const [DateChange, setDateChange] = useState({
-    total_budget: 0,
-    rig_name: null,
+    start_date: null,
+    end_date: null,
     rig_type: null,
+    rig_name: null,
     rig_horse_power: 0,
+    total_budget: 0,
     well_name: null,
   });
 
@@ -254,39 +258,46 @@ const ProposedJob = ({
       </Flex>
       <VStack spacing={4} align="stretch">
         <HStack spacing={4}>
-          <FormControl>
+          <FormControl isInvalid={!!errorForms["area_id"]}>
             <FormLabel>Area</FormLabel>
             <Select name="area_id" onChange={handleChange}>
+              <option value="" disabled selected> Select Area</option>
               {areaId.map((item) => (
                 <option value={item.value}>{item.name}</option>
               ))}
             </Select>
+            {errorForms["area_id"] && <FormErrorMessage>Area ID is required</FormErrorMessage>}
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!!errorForms["field_id"]}>
             <FormLabel>Field</FormLabel>
             <Select name="field_id" onChange={handleChange}>
-              <option value="Select Field" disabled>
-                Select Are
+              <option value="" disabled selected>
+                Select Field
               </option>
               {fieldId.map((item) => (
                 <option value={item.value}>{item.name}</option>
               ))}
             </Select>
+            {errorForms["field_id"] && <FormErrorMessage>Field ID is required</FormErrorMessage>}
           </FormControl>
         </HStack>
         <HStack spacing={4}>
-          <FormControl>
+          <FormControl isInvalid={!!errorForms["contract_type"]}>
             <FormLabel>Contract Type</FormLabel>
             <Select
               name="contract_type"
               value={formData.contract_type}
               onChange={handleChange}
             >
+              <option value="" disabled selected>Select Contract Type</option>
               <option value="COST-RECOVERY">COST-RECOVERY</option>
               <option value="GROSS-SPLIT">GROSS-SPLIT</option>
             </Select>
+            {errorForms["contract_type"] && (
+              <FormErrorMessage>Contract Type is required</FormErrorMessage>
+            )}
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!!errorForms["afe_number"]}>
             <FormLabel>AFE Number</FormLabel>
             <Input
               name="afe_number"
@@ -294,10 +305,13 @@ const ProposedJob = ({
               onChange={handleChange}
               placeholder="AFE Number"
             />
+            {errorForms["afe_number"] && (
+              <FormErrorMessage>AFE Number is required</FormErrorMessage>
+            )}
           </FormControl>
         </HStack>
         <HStack spacing={4}>
-          <FormControl>
+          <FormControl isInvalid={!!errorForms["wpb_year"]}>
             <FormLabel>WPNB Year</FormLabel>
             <InputGroup>
               <Input
@@ -309,6 +323,9 @@ const ProposedJob = ({
               />
               <InputRightAddon>METERS</InputRightAddon>
             </InputGroup>
+            {errorForms["wpb_year"] && (
+              <FormErrorMessage>WPNB Year is required</FormErrorMessage>
+            )}
           </FormControl>
         </HStack>
       </VStack>
@@ -316,7 +333,7 @@ const ProposedJob = ({
 
       <VStack spacing={4} align="stretch">
         <HStack spacing={4}>
-          <FormControl>
+          <FormControl isInvalid={!!errorForms["job_plan.start_date"]}>
             <FormLabel>Start Date</FormLabel>
             <Input
               name="start_date"
@@ -325,8 +342,11 @@ const ProposedJob = ({
               onChange={handleDateChange}
               placeholder="Start Date"
             />
+            {errorForms["job_plan.start_date"] && (
+              <FormErrorMessage>Start Date is required</FormErrorMessage>
+            )}
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!!errorForms["job_plan.end_date"]}>
             <FormLabel>End Date</FormLabel>
             <Input
               name="end_date"
@@ -337,6 +357,9 @@ const ProposedJob = ({
               onChange={handleDateChange}
               placeholder="End Date"
             />
+            {errorForms["job_plan.end_date"] && (
+              <FormErrorMessage>End Date is required</FormErrorMessage>
+            )}
           </FormControl>
         </HStack>
         {TypeOperasional === "WORKOVER" || TypeOperasional === "WELLSERVICE" ? (
@@ -419,7 +442,7 @@ const ProposedJob = ({
         ) : (
           <>
             <HStack spacing={4}>
-              <FormControl>
+              <FormControl isInvalid={!!errorForms["job_plan.rig_type"]}>
                 <FormLabel>Rig Type</FormLabel>
                 <Select
                   name="rig_type"
@@ -438,9 +461,12 @@ const ProposedJob = ({
                       {item.name}
                     </option>
                   ))}
-                </Select>
+                  </Select>
+                {errorForms["job_plan.rig_type"] && (
+                  <FormErrorMessage>Rig Type is required</FormErrorMessage> 
+                )}
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={!!errorForms["job_plan.rig_name"]}>
                 <FormLabel>Rig Name</FormLabel>
                 <Input
                   name="rig_name"
@@ -453,11 +479,14 @@ const ProposedJob = ({
                     }));
                   }}
                   placeholder="Rig Name"
-                />
+                  />
+                {errorForms["job_plan.rig_name"] && (
+                  <FormErrorMessage>Rig Name is required</FormErrorMessage>
+                )}
               </FormControl>
             </HStack>
             <HStack spacing={4}>
-              <FormControl>
+              <FormControl isInvalid={!!errorForms["job_plan.rig_horse_power"]}>
                 <FormLabel>Rig Horse Power</FormLabel>
                 <InputGroup>
                   <Input
@@ -473,7 +502,10 @@ const ProposedJob = ({
                     placeholder="Rig Horse Power"
                   />
                   <InputRightAddon>METERS</InputRightAddon>
-                </InputGroup>
+                  </InputGroup>
+                {errorForms["job_plan.rig_horse_power"] && (
+                  <FormErrorMessage>Rig Horse Power is required</FormErrorMessage>
+                )}
               </FormControl>
             </HStack>
           </>

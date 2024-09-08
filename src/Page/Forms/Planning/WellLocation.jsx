@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { IconDropCircle } from "@tabler/icons-react";
 
-const WellLocation = ({ handleChange }) => {
+const WellLocation = ({ handleChange ,errorForms }) => {
   // State lokal untuk menangani input sebelum diformat dan dikirim ke parent
   const [localValues, setLocalValues] = useState({
     surface_longitude: '',

@@ -69,10 +69,46 @@ const PlanWellServiceForm = () => {
     }));
   };
 
+  const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
+  const validateForm = (formData, parentKey = "") => {
+    let errors = {};
+  
+    // Iterasi melalui setiap key dalam formData
+    Object.entries(formData).forEach(([key, value]) => {
+      // Tentukan nama lengkap key termasuk parent jika ada (dot notation)
+      const fullKey = parentKey ? `${parentKey}.${key}` : key;
+  
+      // Jika value adalah object dan bukan array, lakukan rekursi
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        errors = { ...errors, ...validateForm(value, fullKey) };
+      } else if (Array.isArray(value) && value.length === 0) {
+        // Jika value adalah array kosong, tambahkan pesan error
+        errors[fullKey] = `${fullKey.replace(/_/g, " ")} cannot be empty.`;
+      } else if (!value || (typeof value === "string" && value.trim() === "")) {
+        // Tambahkan pesan error jika value kosong atau string kosong
+        errors[fullKey] = `${fullKey.replace(/_/g, " ")} is required.`;
+      }
+    });
+  
+    return errors;
+  };
   const PostDatanya = async () => {
+    const errors = validateForm(jobPlan);
+    if (Object.keys(errors).length > 0) {
+      console.log("errors", errors);
+      setFormErrors(errors);
+      toast({
+        title: "Terjadi kesalahan.",
+        description: "Tolong isi semua field yang diperlukan.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
     try {
       setLoading(true);
       const response = await axios.post(
@@ -129,15 +165,16 @@ const PlanWellServiceForm = () => {
       <Box borderRadius="lg">
         <Tabs variant={"soft-rounded"}>
           <TabList>
-            <Tab>Teknis</Tab>
+            {/* <Tab>Teknis</Tab> */}
             <Tab>Operasional</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
+            {/* <TabPanel> */}
               {/* <CardFormWell onFormChange={handleWellDataChange} /> */}
-            </TabPanel>
+            {/* </TabPanel> */}
             <TabPanel>
               <Operasional
+                formErrors={formErrors}
                 WBSdata={handleChangeJobPlan("work_breakdown_structure")}
                 jobPlanData={(e) =>
                   setJobPlan((prevJobPlan) => ({

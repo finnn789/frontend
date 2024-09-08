@@ -105,7 +105,7 @@ const JobOperationForm = ({ onAddItem }) => {
   );
 };
 
-const WorkBreakDownStructure = ({ ondata }) => {
+const WorkBreakDownStructure = ({ ondata, errorForms }) => {
   const [items, setItems] = useState([]);
 
   const handleAddItem = (newItem) => {
@@ -143,6 +143,7 @@ const WorkBreakDownStructure = ({ ondata }) => {
             </Text>
           </Flex>
         </Flex>
+        {items.length > 0 ? (
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -162,7 +163,20 @@ const WorkBreakDownStructure = ({ ondata }) => {
               </Tr>
             ))}
           </Tbody>
-        </Table>
+          </Table>
+        ) : (
+          <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
+          <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+
+              {errorForms && errorForms["job_plan.well.work_breakdown_structure"] && errorForms["job_plan.well.work_breakdown_structure"] && (
+  <Text color="red.500" fontSize="sm" mt={2}>
+    Job Operation Day cannot be empty.
+  </Text>
+)}
+        </Flex>
+          )}
+        {/* job_plan.well.work_breakdown_structure */}
+
       </Box>
     </Flex>
   );
