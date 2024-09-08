@@ -28,8 +28,7 @@ const PengajuanDrillingForm = () => {
       start_date: "2024-08-31",
       end_date: "2024-08-31",
       total_budget: 0,
-      job_operation_days: [
-      ],
+      job_operation_days: [],
       work_breakdown_structure: [
         {
           event: "string",
@@ -220,14 +219,52 @@ const PengajuanDrillingForm = () => {
     }));
   };
 
+  const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
+  // Fungsi rekursif untuk memvalidasi form secara otomatis
+  const validateForm = (formData, parentKey = "") => {
+    let errors = {};
+  
+    // Iterasi melalui setiap key dalam formData
+    Object.entries(formData).forEach(([key, value]) => {
+      // Tentukan nama lengkap key termasuk parent jika ada (dot notation)
+      const fullKey = parentKey ? `${parentKey}.${key}` : key;
+  
+      // Jika value adalah object dan bukan array, lakukan rekursi
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        errors = { ...errors, ...validateForm(value, fullKey) };
+      } else if (Array.isArray(value) && value.length === 0) {
+        // Jika value adalah array kosong, tambahkan pesan error
+        errors[fullKey] = `${fullKey.replace(/_/g, " ")} cannot be empty.`;
+      } else if (!value || (typeof value === "string" && value.trim() === "")) {
+        // Tambahkan pesan error jika value kosong atau string kosong
+        errors[fullKey] = `${fullKey.replace(/_/g, " ")} is required.`;
+      }
+    });
+  
+    return errors;
+  };
+  
+
   const onClickSubmitForm = async () => {
+    const errors = validateForm(jobPlan);
+    if (Object.keys(errors).length > 0) {
+      console.log("errors", errors);
+      setFormErrors(errors);
+      toast({
+        title: "Terjadi kesalahan.",
+        description: "Tolong isi semua field yang diperlukan.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
     setLoading(true);
     try {
       const post = await PostPlanningExploration(jobPlan, toast);
-
       if (post) {
         setLoading(false);
         return post.data;
@@ -270,11 +307,11 @@ const PengajuanDrillingForm = () => {
               <CardFormWell
                 onFormChange={handleWellDataChange}
                 unitType={dataMetricImperial}
+                errorForms={formErrors}
               />
             </TabPanel>
             <TabPanel>
               <Operasional
-                
                 onData={(operasional) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
@@ -328,17 +365,14 @@ const PengajuanDrillingForm = () => {
                         ...data,
                       ],
                     },
-                  }));  
+                  }));
                 }}
-
-                HazardTypeData={(data) => { 
+                HazardTypeData={(data) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
                     job_plan: {
                       ...prevJobPlan.job_plan,
-                      job_hazards: [
-                        ...data
-                      ]
+                      job_hazards: [...data],
                     },
                   }));
                 }}

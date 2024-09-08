@@ -8,9 +8,10 @@ import {
   Input,
   Text,
   VStack,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { IconCalendarDue } from "@tabler/icons-react";
-const KeyDates = ({ handleChange, formData }) => {
+const KeyDates = ({ handleChange, formData, errorForms }) => {
 
   
   return (
@@ -34,11 +35,12 @@ const KeyDates = ({ handleChange, formData }) => {
         </Flex>
         <VStack spacing={4} align="stretch" mt={5}>
           <HStack spacing={4}>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.spud_date"]}>
               <FormLabel>Spud Date</FormLabel>
               <Input name="spud_date" type="date" placeholder="Spud Date" value={formData.spud_date} onChange={handleChange} />
+              {errorForms["job_plan.well.spud_date"] && <FormErrorMessage>Rotary Table Elevation is required</FormErrorMessage>}
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.final_drill_date"]}>
               <FormLabel>Final Drill Date</FormLabel>
               <Input
                 name="final_drill_date"
@@ -47,10 +49,11 @@ const KeyDates = ({ handleChange, formData }) => {
                 onChange={handleChange}
                 placeholder="Final Drill Date"
               />
+              {errorForms["job_plan.well.final_drill_date"] && <FormErrorMessage>Final Drill Date is required</FormErrorMessage>}
             </FormControl>
           </HStack>
           <HStack spacing={4}>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.completion_date"]}>
               <FormLabel>Completion Date</FormLabel>
               <Input
                 type="date"
@@ -59,6 +62,7 @@ const KeyDates = ({ handleChange, formData }) => {
                 placeholder="Completion Date"
                 onChange={handleChange}
               />
+              {errorForms["job_plan.well.completion_date"] && <FormErrorMessage>Completion Date is required</FormErrorMessage>}
             </FormControl>
           </HStack>
         </VStack>

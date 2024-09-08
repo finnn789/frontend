@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { IconTableAlias } from "@tabler/icons-react";
 
-const WellTest = ({ onData }) => {
+const WellTest = ({ onData, errorForms }) => {
   const [formData, setFormData] = useState([]);
   const [wellTest, setWellTest] = useState({
     unit_type: "Metrics",
@@ -161,6 +161,7 @@ const WellTest = ({ onData }) => {
             <Heading size="lg" mb={6} fontFamily={"Montserrat"}>
               Table Well Test
             </Heading>
+            {formData.length > 0 ? (
             <Table variant="simple">
               <Thead>
                 <Tr>
@@ -182,7 +183,17 @@ const WellTest = ({ onData }) => {
                   </Tr>
                 ))}
               </Tbody>
-            </Table>
+              </Table>
+            ) : (
+              <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
+                      <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+                      {!!errorForms["job_plan.well.well_test"] && (
+                        <Text color="red.500" fontSize="sm" mt={2}>
+                          Well Test cannot be empty.
+                        </Text>
+                      )}
+                    </Flex>
+              )}
           </Box>
         </GridItem>
       </Grid>

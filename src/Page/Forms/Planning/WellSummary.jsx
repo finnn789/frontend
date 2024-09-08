@@ -21,6 +21,7 @@ import {
   Td,
   Text,
   Icon,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { IconTablePlus } from "@tabler/icons-react";
 
@@ -29,11 +30,17 @@ const WellSummary = ({
   handleInputChange,
   currentEntry,
   tableData,
+  errorForms,
 }) => {
-
   const [depthValue, setDepthValue] = React.useState("MSL");
+
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} fontFamily={"Montserrat"}>
+    <Grid
+      templateColumns="repeat(2, 1fr)"
+      gap={4}
+      mt={4}
+      fontFamily={"Montserrat"}
+    >
       <GridItem colSpan={1} width={"100%"}>
         <Box borderWidth="1px" borderRadius="lg" p={6} height="100%">
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
@@ -55,9 +62,7 @@ const WellSummary = ({
             </Flex>
             <Select
               width="auto"
-              onChange={(e) =>
-                setDepthValue(e.target.value)
-              }
+              onChange={(e) => setDepthValue(e.target.value)}
             >
               <option value="MSL">MSL</option>
               <option value="GL">GL</option>
@@ -72,6 +77,7 @@ const WellSummary = ({
             height="calc(100% - 80px)"
           >
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+              {/* Form Inputs */}
               <FormControl>
                 <FormLabel>Depth</FormLabel>
                 <InputGroup>
@@ -226,8 +232,13 @@ const WellSummary = ({
                 </Tbody>
               </Table>
             ) : (
-              <Flex justifyContent="center" alignItems="center" height="100%">
+              <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
                 <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+                {!!errorForms["job_plan.well.well_summary"] && (
+                  <Text color="red.500" fontSize="sm" mt={2}>
+                    Well Summary cannot be empty.
+                  </Text>
+                )}
               </Flex>
             )}
           </Box>

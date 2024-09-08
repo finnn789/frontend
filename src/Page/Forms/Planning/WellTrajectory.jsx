@@ -18,13 +18,14 @@ import {
   Heading,
   Flex,
   Icon,
+  FormErrorMessage
 } from "@chakra-ui/react";
 import Papa from "papaparse"; // You'll need to install this: npm install papaparse
 import axios from "axios";
 import { IconRoute2 } from "@tabler/icons-react";
 import Plot from "react-plotly.js";
 
-const WellTrajectory = ({ ondata }) => {
+const WellTrajectory = ({ ondata, errorForms }) => {
   const [fileType, setFileType] = useState("");
   const [file, setFile] = useState(null);
   const [csvData, setCsvData] = useState({
@@ -194,7 +195,8 @@ const WellTrajectory = ({ ondata }) => {
           </Flex>
         </Flex>
         <VStack spacing={4} align="stretch" mt={5}>
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={!!errorForms["job_plan.well.well_trajectory.data_format"]}
+          >
             <FormLabel>File Type</FormLabel>
             <Select
               placeholder="Select file type"
@@ -205,9 +207,11 @@ const WellTrajectory = ({ ondata }) => {
               <option value="IMAGE">IMAGE</option>
               <option value="PLAIN TEXT">PLAIN TEXT</option>
             </Select>
+            {errorForms["job_plan.well.well_trajectory.data_format"] && <FormErrorMessage>File Type is required</FormErrorMessage>}
+            
           </FormControl>
 
-          <FormControl isRequired>
+          <FormControl isRequired isInvalid={!!errorForms["job_plan.well.well_trajectory.file_id"]}>
             <FormLabel>Upload File</FormLabel>
             <Input
               hidden
@@ -219,6 +223,7 @@ const WellTrajectory = ({ ondata }) => {
             <Button onClick={() => fileInputRef.current.click()}>
               Upload File
             </Button>
+            {errorForms["job_plan.well.well_trajectory.file_id"] && <FormErrorMessage>File is required</FormErrorMessage>}
           </FormControl>
 
           {file && <Text>Selected file: {file.name}</Text>}

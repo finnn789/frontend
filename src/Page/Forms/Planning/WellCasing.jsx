@@ -24,11 +24,12 @@ import {
   InputRightAddon,
   Icon,
   Text,
+  Heading
 } from "@chakra-ui/react";
 import axios from "axios";
 import { IconCylinder } from "@tabler/icons-react";
 
-const WellCasing = ({ dataWellCasing }) => {
+const WellCasing = ({ dataWellCasing , errorForms}) => {
   const [showWellCasing, setShowWellCasing] = useState({
     names: [],
     top_depths: [],
@@ -378,6 +379,7 @@ const WellCasing = ({ dataWellCasing }) => {
           <TabPanels flex={1} overflowY="auto">
             <TabPanel height="100%" p={0}>
               <Box overflowX="auto" height="100%">
+                {tableWellCasing.length > 0 ? (
                 <Table variant="simple">
                   <Thead position="sticky" top={0} bg="white" zIndex={1}>
                     <Tr>
@@ -414,8 +416,19 @@ const WellCasing = ({ dataWellCasing }) => {
                         </Td>
                       </Tr>
                     ))}
+                      
                   </Tbody>
-                </Table>
+                  </Table>
+                  ): (
+                    <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
+                      <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+                      {!!errorForms["job_plan.well.well_casing"] && (
+                        <Text color="red.500" fontSize="sm" mt={2}>
+                          Well Cassing cannot be empty.
+                        </Text>
+                      )}
+                    </Flex>
+                  )}
               </Box>
             </TabPanel>
             <TabPanel>

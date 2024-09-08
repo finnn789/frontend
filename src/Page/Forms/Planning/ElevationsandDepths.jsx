@@ -12,10 +12,11 @@ import {
   InputGroup,
   Input,
   InputRightAddon,
+  FormErrorMessage
 } from "@chakra-ui/react";
 import { IconRuler2 } from "@tabler/icons-react"; // Import Tabler Icons
 
-const ElevationsAndDepths = ({ handleChange ,unittype}) => {
+const ElevationsAndDepths = ({ handleChange ,unittype, errorForms}) => {
   return (
     <Box
       borderWidth="1px"
@@ -45,7 +46,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
         {/* Rotary Table Elevation and Kelly Bushing Elevation */}
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.rotary_table_elev"]}>
               <FormLabel>Rotary Table Elevation</FormLabel>
               <InputGroup>
                 <Input
@@ -56,10 +57,11 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                 />
                 <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.rotary_table_elev"] && <FormErrorMessage>Rotary Table Elevation is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.kb_elev"]}>
               <FormLabel>Kelly Bushing Elevation</FormLabel>
               <InputGroup>
                 <Input
@@ -70,6 +72,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                 />
                 <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.kb_elev"] && <FormErrorMessage>Kelly Bushing Elevation is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
         </Grid>
@@ -77,7 +80,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
         {/* Derrick Floor Elevation and Ground Elevation */}
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.derrick_floor_elev"]}>
               <FormLabel>Derrick Floor Elevation</FormLabel>
               <InputGroup>
                 <Input
@@ -88,10 +91,11 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                 />
                 <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.derrick_floor_elev"] && <FormErrorMessage>Derrick Floor Elevation is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.ground_elev"]}>
               <FormLabel>Ground Elevation</FormLabel>
               <InputGroup>
                 <Input
@@ -102,12 +106,13 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                 />
                 <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.ground_elev"] && <FormErrorMessage>Ground Elevation is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
         </Grid>
 
         {/* Mean Sea Level */}
-        <FormControl>
+        <FormControl isInvalid={!!errorForms["job_plan.well.mean_sea_level"]}>
           <FormLabel>Mean Sea Level</FormLabel>
           <InputGroup>
             <Input
@@ -118,12 +123,13 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
             />
             <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
           </InputGroup>
+          {errorForms["job_plan.well.mean_sea_level"] && <FormErrorMessage>Mean Sea Level is required</FormErrorMessage>}
         </FormControl>
 
         {/* Final MD and Maximum TVD */}
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.final_md"]}>
               <FormLabel>Final MD</FormLabel>
               <InputGroup>
                 <Input
@@ -134,10 +140,11 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                 />
                 <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.final_md"] && <FormErrorMessage>Final MD is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.maximum_tvd"]}>
               <FormLabel>Maximum TVD</FormLabel>
               <InputGroup>
                 <Input
@@ -148,6 +155,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                 />
                 <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.maximum_tvd"] && <FormErrorMessage>Maximum TVD is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
         </Grid>
