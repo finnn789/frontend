@@ -109,9 +109,7 @@ export function Dashboard() {
           </Breadcrumb> */}
 
           <Box>
-            {/* {selectedNav === "homeDash" && (
-              <HomePage handleTambahData={setPageForm} />
-            )} */}
+            {path.includes("/dashboard") && <HomePage />}
             <Outlet />
           </Box>
         </Box>

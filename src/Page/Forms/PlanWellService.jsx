@@ -180,7 +180,7 @@ const PlanWellServiceForm = () => {
           isLoading={loading}
           onClick={PostDatanya}
         >
-          Submit
+         Save
         </Button>
       </Flex>
     </>

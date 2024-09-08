@@ -83,7 +83,7 @@ const PlanWorkOverForm = () => {
         setLoading(false);
         toast({
           title: "Success",
-          description: "Data Berhasil",
+          description: "Data Berhasil Disimpan",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -180,7 +180,7 @@ const PlanWorkOverForm = () => {
           isLoading={loading}
           onClick={PostDatanya}
         >
-          Submit
+          Save
         </Button>
       </Flex>
     </>

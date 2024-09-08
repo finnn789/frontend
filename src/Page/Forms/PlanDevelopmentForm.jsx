@@ -354,7 +354,7 @@ const PlanDevelopmentForm = () => {
           isLoading={loading}
           onClick={onClickSubmitForm}
         >
-          Submit
+          Save
         </Button>
       </Flex>
     </>
