@@ -53,7 +53,6 @@ const Exploration = () => {
           setDataBudgetSummaryChart(dataJobDasboardResponse.cost_graph);
           setDataJobWellStatusChart(dataJobDasboardResponse.status_akhir_graph);
         } else {
-          console.error("Expected an array but got:", dataTableRealization);
           setDataTableReal([]); // Handle error atau set array kosong
         }
 
@@ -162,14 +161,24 @@ const Exploration = () => {
         title="Realisasi Kegiatan Eksplorasi"
         subtitle="Realisasi pekerjaan tiap bulan"
       >
-        {dataCharts ? (
-          <BarChartComponent
-            datas={dataCharts.data}
-            layout={dataCharts.layout}
-          />
-        ) : (
-          <p>Loading...</p>
-        )}
+        <Box width="100%" height="100%">
+          {dataCharts ? (
+            <BarChartComponent
+              datas={dataCharts.data}
+              layouts={{
+                ...dataCharts.layout,
+                autosize: true,
+                width: undefined, // Supaya tidak ada pengaturan lebar statis
+                height: 400, // Supaya tidak ada pengaturan tinggi statis
+                responsive: true, // Membuat chart responsif
+              }}
+              style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
+              useResizeHandler={true} // Mengaktifkan penanganan resize
+            />
+          ) : (
+            <p>Loading...</p>
+          )}
+        </Box>
       </HeaderCard>
       {/* // chart tiga */}
       <Flex flexDirection={"row"} width={"100%"} mt={5} gap={4}>
@@ -186,7 +195,7 @@ const Exploration = () => {
                   ...fixDataBudget.layout,
                   autosize: true,
                   width: undefined, // Supaya tidak ada pengaturan lebar statis
-                  height: 600, // Supaya tidak ada pengaturan tinggi statis
+                  height: 400, // Supaya tidak ada pengaturan tinggi statis
                   responsive: true, // Membuat chart responsif
                 }}
                 style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
@@ -210,7 +219,7 @@ const Exploration = () => {
                   ...fixDataJobWells.layout,
                   autosize: true,
                   width: undefined,
-                  height: 600,
+                  height: 400,
                   responsive: true,
                 }}
                 style={{ width: "100%", height: "100" }}
@@ -227,7 +236,7 @@ const Exploration = () => {
                   ...fixDataJobWells.layout,
                   autosize: true,
                   width: undefined,
-                  height: 600,
+                  height: 400,
                   responsive: true,
                 }}
                 style={{ width: "100%", height: "100" }}
@@ -250,7 +259,7 @@ const Exploration = () => {
                   ...fixDataPieRigType.layout,
                   autosize: true,
                   width: undefined,
-                  height: 600,
+                  height: 400,
                   responsive: true,
                 }}
                 style={{ width: "100%", height: "100" }}

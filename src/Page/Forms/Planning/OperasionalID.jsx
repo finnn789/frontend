@@ -50,10 +50,6 @@ const ProposedJob = ({
   ];
   const rigType = [
     {
-      name: "GROSS-SPLIT",
-      value: "GROSS-SPLIT",
-    },
-    {
       name: "FLOATER",
       value: "FLOATER",
     },
@@ -302,14 +298,14 @@ const ProposedJob = ({
         </HStack>
         <HStack spacing={4}>
           <FormControl>
-            <FormLabel>WPB Year</FormLabel>
+            <FormLabel>WPNB Year</FormLabel>
             <InputGroup>
               <Input
                 name="wpb_year"
                 type="number"
                 value={formData.wpb_year}
                 onChange={handleChange}
-                placeholder="WPB Year"
+                placeholder="WPNB Year"
               />
               <InputRightAddon>METERS</InputRightAddon>
             </InputGroup>
@@ -428,6 +424,7 @@ const ProposedJob = ({
                 <Select
                   name="rig_type"
                   value={DateChange.rig_type}
+                  placeholder="Select Rig Type"
                   onChange={(e) => {
                     setDateChange((prev) => ({
                       ...prev,
@@ -435,7 +432,7 @@ const ProposedJob = ({
                     }));
                   }}
                 >
-                  <option value="Select Rig Type" disabled></option>
+                  
                   {rigType.map((item, index) => (
                     <option key={index} value={item.value}>
                       {item.name}

@@ -19,7 +19,7 @@ import {
   FaRegClock,
 } from "react-icons/fa";
 import HeaderCard from "./Card/HeaderCard";
-import ThreeDBarChartComponent from "./Card/3DBarchart";
+import BarChartComponent from "./Card/3DBarchart";
 import WellTable from "../../Components/Card/WellTable";
 import TableDashboard from "../../Components/Card/TableDashboard";
 
@@ -40,7 +40,7 @@ const HomeDashSKK = () => {
   const [isModalOpen1, setIsModalOpen1] = React.useState(false);
   const [isModalOpen2, setIsModalOpen2] = React.useState(false);
   const [selectedKkksId, setSelectedKkksId] = React.useState(null); // State for storing the selected ID
-
+  const [selectedJobType, setJobType] = React.useState(null);
   const chartsData = [
     {
       data: [
@@ -155,7 +155,7 @@ const HomeDashSKK = () => {
       },
       {
         id: 2,
-        pekerjaan: "Exploitation",
+        pekerjaan: "Development",
         rencana: datas.tablechart?.table.development?.rencana ?? "N/A",
         realisasi: datas.tablechart?.table.development?.realisasi ?? "N/A",
         percentage: datas.tablechart?.table.development?.percentage ?? "N/A",
@@ -205,11 +205,15 @@ const HomeDashSKK = () => {
       {value}         
     </Td>
   );
-  const handleInfoClick = (item) => {
+  const handleKKKSInfoClick = (item) => {
     setSelectedKkksId(item.id); // Save the selected ID
     setIsModalOpen2(true); // Open the modal
     //   alert(item.id)
   };
+  const handleJobInfoClick = (job_type) => {
+    setJobType(job_type);
+    setIsModalOpen1(true);
+  }
   return (
     <Box gap={16}>
       <Flex
@@ -243,16 +247,7 @@ const HomeDashSKK = () => {
                     <Td>
                       <IconButton
                         icon={<FaInfoCircle />}
-                        onClick={() => setIsModalOpen1(true)}
-                      />
-                     
-                      <ModalRealisasi
-                        isOpen={isModalOpen1}
-                        onClose={() => setIsModalOpen1(false)}
-                        link="https://your-link-here.com"
-                        title="Exploration"
-                        date="22 MARET 2024"
-                        chartsData={chartsData}
+                        onClick={() => handleJobInfoClick(item.pekerjaan)}
                       />
                     </Td>
                     <Td fontSize={"18px"} fontFamily={"Montserrat"}>
@@ -276,11 +271,25 @@ const HomeDashSKK = () => {
                 <p>Loading....</p>
               )}
             </TableDashboard>
+            <ModalRealisasi
+              isOpen={isModalOpen1}
+              onClose={() => setIsModalOpen1(false)}
+              job_type={selectedJobType}
+              title="Exploration"
+              date="22 MARET 2024"
+            />
           </GridItem>
           <GridItem colSpan={2}>
-            <ThreeDBarChartComponent
-              datas={datas.tablechart?.plot.data }
-              layouts={datas.tablechart?.plot.layout}
+            <BarChartComponent
+              datas={datas.tablechart?.plot.data}
+              layouts={{
+                ...datas.tablechart?.plot.layout,
+                autosize: true,
+                width: undefined, // Supaya tidak ada pengaturan lebar statis
+                responsive: true, // Membuat chart responsif
+              }}
+              style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
+              useResizeHandler={true} // Mengaktifkan penanganan resize
             />
           </GridItem>
         </Grid>
@@ -300,7 +309,7 @@ const HomeDashSKK = () => {
                     <IconButton
                       colorScheme="blue"
                       icon={<FaInfoCircle />}
-                      onClick={() => handleInfoClick(item)}
+                      onClick={() => handleKKKSInfoClick(item)}
                     />
                   </Td>
                   <Td fontSize="18px" fontWeight={600}>

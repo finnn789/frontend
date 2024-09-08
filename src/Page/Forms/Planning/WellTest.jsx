@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { IconTableAlias } from "@tabler/icons-react";
 
-const WellTest = ({ onData, errorForms }) => {
+const WellTest = ({ onData, errorForms, unitype }) => {
   const [formData, setFormData] = useState([]);
   const [wellTest, setWellTest] = useState({
     unit_type: "Metrics",
@@ -49,7 +49,7 @@ const WellTest = ({ onData, errorForms }) => {
     setFormData((prev) => [...prev, newData]);
     // onData([newData]);
     setWellTest({
-      unit_type: "Metrics",
+      unit_type: unitype,
       depth_datum: "RT",
       zone_name: "",
       zone_top_depth: 0,
@@ -114,7 +114,7 @@ const WellTest = ({ onData, errorForms }) => {
                       onChange={handleChange}
                       placeholder="Zone Top Depth"
                     />
-                    \<InputRightAddon>METERS</InputRightAddon>
+                    <InputRightAddon>{unitype === "Metrics" && "METERS" || unitype === "Imperial" && "FEET"}</InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </HStack>
@@ -129,7 +129,7 @@ const WellTest = ({ onData, errorForms }) => {
                       onChange={handleChange}
                       placeholder="Zone Bottom Depth"
                     />
-                    <InputRightAddon>METERS</InputRightAddon>
+                    <InputRightAddon>{unitype === "Metrics" && "METERS" || unitype === "Imperial" && "FEET"}</InputRightAddon>
                   </InputGroup>
                 </FormControl>
                 <FormControl>

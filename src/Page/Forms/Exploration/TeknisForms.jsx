@@ -70,6 +70,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
     well_casing: [],
     well_stratigraphy: [],
   });
+  console.log(formData);
 
   const [tableData, setTableData] = useState([]);
   const [currentEntry, setCurrentEntry] = useState({
@@ -104,13 +105,16 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
 
     let parsedValue;
     if (type === "number") {
+      // Konversi nilai menjadi string untuk melakukan operasi string seperti includes
+      const stringValue = String(value);
+
       // Cek apakah ada titik untuk memutuskan apakah itu float atau integer
       parsedValue =
-        value === ""
+        stringValue === ""
           ? ""
-          : value.includes(".")
-          ? parseFloat(value)
-          : parseInt(value, 10);
+          : stringValue.includes(".")
+          ? parseFloat(stringValue)
+          : parseInt(stringValue, 10);
     } else if (type === "text") {
       parsedValue = value; // Tetap sebagai string
     } else {
@@ -123,13 +127,21 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
     }));
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = useCallback((e) => {
+    const { name, value, type } = e.target;
+    let processedValue = value;
+    if (type === "number") {
+      processedValue = parseFloat(value);
+      if (isNaN(processedValue)) {
+        processedValue = "";
+      }
+    }
+
     setCurrentEntry((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: processedValue,
     }));
-  };
+  }, []);
 
   const handleInputChangeWellStraigraphy = (e) => {
     const { name, value } = e.target;
@@ -138,6 +150,32 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
       [name]: value,
     }));
   };
+
+  const handleInputChangeWellLocation = useCallback((e) => {
+    const { name, value, type } = e.target;
+
+    // Memproses nilai berdasarkan tipe input
+    let processedValue = value;
+
+    if (type === "number" || type === "text") {
+      // Mengizinkan hanya angka dan satu titik desimal
+      processedValue = processedValue.replace(/[^0-9.]/g, "");
+
+      // Mencegah lebih dari satu titik desimal
+      const parts = processedValue.split(".");
+      if (parts.length > 2) {
+        processedValue = `${parts[0]}.${parts.slice(1).join("")}`;
+      }
+
+      // Konversi ke float jika tidak kosong
+      processedValue = processedValue !== "" ? parseFloat(processedValue) : "";
+    }
+
+    setCurrentEntry((prevData) => ({
+      ...prevData,
+      [name]: processedValue,
+    }));
+  }, []);
 
   const handleAddClick = useCallback(() => {
     const newEntry = { ...currentEntry };
@@ -207,6 +245,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         currentEntry={currentEntry}
         tableData={tableData}
         errorForms={errorForms}
+        unittype={unitType}
       />
 
       <WellCasing
@@ -222,6 +261,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         handleInputChangeWellStraigraphy={handleInputChangeWellStraigraphy}
         handleWellStratichy={handleWellStratichy}
         errorForms={errorForms}
+        unittype={unitType}
         TablewellStratigraphy={TablewellStratigraphy}
       />
 
@@ -231,8 +271,12 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         }
         errorForms={errorForms}
       />
-      {/* <WellPorePressureForm /> */}
-      <WellTest onData={handleData} errorForms={errorForms} />
+      <WellPorePressureForm
+        handleDataSubmit={(e) =>
+          setFormData((prev) => ({ ...prev, well_ppfg: e }))
+        }
+      />
+      <WellTest onData={handleData} unitype={unitType} />
     </>
   );
 };

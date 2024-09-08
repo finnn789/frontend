@@ -22,8 +22,9 @@ import {
   Text,
   Icon,
   FormErrorMessage,
+  IconButton,
 } from "@chakra-ui/react";
-import { IconTablePlus } from "@tabler/icons-react";
+import { IconTablePlus, IconTrash } from "@tabler/icons-react";
 
 const WellSummary = ({
   handleAddClick,
@@ -31,28 +32,28 @@ const WellSummary = ({
   currentEntry,
   tableData,
   errorForms,
+  setTableData,
+  unittype // Tambahkan setTableData untuk memungkinkan penghapusan data
 }) => {
   const [depthValue, setDepthValue] = React.useState("MSL");
 
+
+  // Fungsi untuk menghapus baris berdasarkan indeks
+  const handleDeleteRow = (index) => {
+    const newData = tableData.filter((_, i) => i !== index);
+    setTableData(newData); // Update state tableData
+  };
+
   return (
-    <Grid
-      templateColumns="repeat(2, 1fr)"
-      gap={4}
-      mt={4}
-      fontFamily={"Montserrat"}
-    >
+    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} fontFamily={"Montserrat"}>
+      {/* Bagian Kiri: Form Input */}
       <GridItem colSpan={1} width={"100%"}>
-        <Box borderWidth="1px" borderRadius="lg" p={6} height="100%">
+        <Box borderWidth="1px" borderRadius="lg" width={"100%"} p={6} height="100%">
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Flex alignItems="center">
               <Icon as={IconTablePlus} boxSize={12} color="gray.800" mr={3} />
               <Flex flexDirection="column">
-                <Text
-                  fontSize="xl"
-                  fontWeight="bold"
-                  color="gray.700"
-                  fontFamily="Montserrat"
-                >
+                <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
                   Well Summary
                 </Text>
                 <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
@@ -60,22 +61,14 @@ const WellSummary = ({
                 </Text>
               </Flex>
             </Flex>
-            <Select
-              width="auto"
-              onChange={(e) => setDepthValue(e.target.value)}
-            >
+            <Select width="auto" onChange={(e) => setDepthValue(e.target.value)}>
               <option value="MSL">MSL</option>
               <option value="GL">GL</option>
               <option value="RT">RT</option>
               <option value="RKB">RKB</option>
             </Select>
           </Flex>
-          <VStack
-            spacing={4}
-            align="stretch"
-            overflowY="auto"
-            height="calc(100% - 80px)"
-          >
+          <VStack spacing={4} align="stretch" overflowY="auto" height="calc(100% - 80px)">
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
               {/* Form Inputs */}
               <FormControl>
@@ -88,7 +81,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Depth"
                   />
-                  <InputRightAddon>{depthValue}</InputRightAddon>
+                  <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -101,7 +94,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Hole Diameter"
                   />
-                  <InputRightAddon>{depthValue}</InputRightAddon>
+                  <InputRightAddon>{"INCH"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -114,7 +107,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Casing Outer Diameter"
                   />
-                  <InputRightAddon>{depthValue}</InputRightAddon>
+                  <InputRightAddon>{"INCH"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -129,12 +122,15 @@ const WellSummary = ({
               </FormControl>
               <FormControl>
                 <FormLabel>Bit</FormLabel>
+                <InputGroup>
                 <Input
                   name="bit"
                   value={currentEntry.bit}
                   onChange={handleInputChange}
                   placeholder="Bit"
                 />
+                <InputRightAddon>{"INCH"}</InputRightAddon>
+                </InputGroup>
               </FormControl>
               <FormControl>
                 <FormLabel>Logging Program</FormLabel>
@@ -165,7 +161,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Bottom Hole Temperature"
                   />
-                  <InputRightAddon>{depthValue}</InputRightAddon>
+                  <InputRightAddon>{"°C"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -178,7 +174,7 @@ const WellSummary = ({
                     type="number"
                     placeholder="Rate of Penetration"
                   />
-                  <InputRightAddon>{depthValue}</InputRightAddon>
+                  <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -197,11 +193,13 @@ const WellSummary = ({
           </VStack>
         </Box>
       </GridItem>
-      <GridItem>
-        <Box borderWidth="1px" borderRadius="lg" p={6} height="100%">
-          <Box height="100%" overflowY="auto">
+
+      {/* Bagian Kanan: Tabel */}
+      <GridItem colSpan={1} overflow="hidden"> {/* Membatasi overflow agar tabel tidak memakan tempat lebih */}
+        <Box borderWidth="1px" borderRadius="lg" p={6} height="100%" overflow="hidden">
+          <Box height="100%" overflowX="auto" overflowY="auto" maxWidth="100%"> {/* Mengaktifkan scroll horizontal dan vertikal */}
             {tableData.length > 0 ? (
-              <Table variant="simple">
+              <Table variant="simple" minWidth="800px"> {/* minWidth membuat scroll horizontal muncul */}
                 <Thead position="sticky" top={0} bg="white" zIndex={1}>
                   <Tr>
                     <Th>Bit</Th>
@@ -211,8 +209,9 @@ const WellSummary = ({
                     <Th>Logging</Th>
                     <Th>Mud Program</Th>
                     <Th>Bottom Hole Temperature</Th>
-                    <Th>RATE PENETRATION</Th>
+                    <Th>Rate of Penetration</Th>
                     <Th>Remarks</Th>
+                    <Th>Action</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -227,6 +226,14 @@ const WellSummary = ({
                       <Td>{row.bottom_hole_temperature}</Td>
                       <Td>{row.rate_of_penetration}</Td>
                       <Td>{row.remarks}</Td>
+                      <Td>
+                        <IconButton
+                          icon={<Icon as={IconTrash} />}
+                          colorScheme="red"
+                          onClick={() => handleDeleteRow(index)}
+                          aria-label="Delete row"
+                        />
+                      </Td>
                     </Tr>
                   ))}
                 </Tbody>

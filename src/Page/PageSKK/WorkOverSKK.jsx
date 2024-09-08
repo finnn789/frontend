@@ -8,98 +8,51 @@ import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import { Flex, Text, Icon, Box } from "@chakra-ui/react";
 import {
-  getBarChartDataSKK,
-  // getTableRealization,
-  getJobTypeSummarySKK,
-  getRigTypePieChart,
-  getBudgetSummaryCharts,
-  getJobWellStatusChart,
+  getJobDasboard
 } from "../API/APISKK";
 import {
   IconCalendar,
   IconChartBar,
   IconChecks,
-  IconTruck,
   IconMapPin2,
 } from "@tabler/icons-react";
 
-const WorkOverSKK = () => {
-  const [dataSummarySKK, setDataSummarySKK] = useState(null);
-  const [dataCharts, setDataCharts] = useState(null);
+const WorkOver = () => {
+  const [dataSummarySKK, setSummarySKK] = useState(null);
   const [dataTableReal, setDataTableReal] = useState([]);
-  const [dataRigTypePieChart, setDataRigTypePieChart] = useState([]);
-  const [dataBudgetSummary, setDataBudgetSummary] = useState([]);
-  const [dataJobWellStatus, setDataJobWellStatus] = useState([]);
+  const [dataBudgetSummaryChart, setDataBudgetSummaryChart] = useState(null);
+  const [dataJobProductionGain, setDataJobProductionGain] = useState(null);
+  const [dataCharts, setDataCharts] = useState(null);
 
-  // Define pieChartData here
-  const pieChartData = {
-    type: "pie",
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    values: [12, 19, 3, 5, 2, 3],
-    hole: 0.4,
-    pull: [0.1, 0, 0, 0, 0, 0],
-    marker: {
-      colors: [
-        "rgba(255, 99, 132, 0.6)",
-        "rgba(54, 162, 235, 0.6)",
-        "rgba(255, 206, 86, 0.6)",
-        "rgba(75, 192, 192, 0.6)",
-        "rgba(153, 102, 255, 0.6)",
-        "rgba(255, 159, 64, 0.6)",
-      ],
-      line: {
-        color: "rgba(255, 255, 255, 1)",
-        width: 2,
-      },
-    },
-    textinfo: "label+percent",
-    hoverinfo: "label+value",
-    hoverlabel: {
-      bgcolor: "white",
-      bordercolor: "gray",
-    },
-  };
 
-  const layout = {
-    height: 400,
-    width: 400,
-    showlegend: true,
-    paper_bgcolor: "rgba(0,0,0,0)",
-    plot_bgcolor: "rgba(0,0,0,0)",
-  };
   useEffect(() => {
     const getData = async () => {
       try {
-        const dataSummarySKK = await getJobTypeSummarySKK();
-        const dataChart = await getBarChartDataSKK(); // Ambil data dari API
-        // const dataTableRealization = await getTableRealization();
-        const dataRigTypePieChart = await getRigTypePieChart();
-        const dataBudgetSummary = await getBudgetSummaryCharts();
-        const dataJobWellStatus = await getJobWellStatusChart();
-
-        setDataSummarySKK(dataSummarySKK);
+        const dataJobDasboardResponse = await getJobDasboard("workover");
+ 
+        setSummarySKK(dataJobDasboardResponse.summary);
+        // console.log(dataJobDasboard.summary);
+        
         // Set dataChart ke dalam state dataCharts
-        setDataCharts(dataChart);
+        setDataCharts(dataJobDasboardResponse.job_graph.month);
 
-        if (Array.isArray(dataTableRealization.workover)) {
-          const processedData = dataTableRealization.workover.map(
+        if (Array.isArray(dataJobDasboardResponse.tablekkks)) {
+          const processedData = dataJobDasboardResponse.tablekkks.map(
             (item) => ({
-              id: item.kkks_id,
-              kkks: item.kkks_name,
-              rencana: item.approved_plans,
-              realisasi: item.completed_operations,
-              persentase: item.realization_percentage,
+              id: item.id,
+              kkks: item.name,
+              rencana: item.rencana,
+              realisasi: item.realisasi,
+              persentase: item.percentage,
             })
           );
           setDataTableReal(processedData);
+          setDataBudgetSummaryChart(dataJobDasboardResponse.cost_graph);
+          setDataJobProductionGain(dataJobDasboardResponse.well_stimulation_graph);
         } else {
-          console.error("Expected an array but got:", dataTableRealization);
           setDataTableReal([]); // Handle error atau set array kosong
         }
 
-        setDataRigTypePieChart(dataRigTypePieChart); // Pie Chart Rig
-        setDataBudgetSummary(dataBudgetSummary); // Bar Chart Budget
-        setDataJobWellStatus(dataJobWellStatus); // Chart Status Selesai
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -108,42 +61,44 @@ const WorkOverSKK = () => {
     getData();
   }, []);
 
-  // BUDGET DATA BAR CHART
-  const dataBudget = dataBudgetSummary?.charts?.Exploration
-    ? dataBudgetSummary.charts.Exploration
-    : null;
 
-  const fixDataBudget = dataBudget ? dataBudget : "loading...";
+
+  // console.log("fixDataPieRigType.data", fixDataPieRigType.data);
+
+  // BUDGET DATA BAR CHART
+  const fixDataBudget = dataBudgetSummaryChart
+    ? dataBudgetSummaryChart
+    : null;
 
   // console.log("fixDataBudget", fixDataBudget);
 
   // JOB WELLS STATUS SELESAI
-  const dataJobWells = dataJobWellStatus?.exploration?.chart
-    ? dataJobWellStatus.exploration.chart
+  const dataJobGain = dataJobProductionGain
+    ? dataJobProductionGain
     : null;
 
-  console.log("testcoy", dataJobWells);
+  // console.log("testcoy", dataJobGain);
 
-  const fixDataJobWells = dataJobWells
-    ? JSON.parse(dataJobWells)
+  const fixDataJobGain = dataJobGain
+    ? dataJobGain
     : "loading...";
 
-  // console.log('sama kontol satu:', fixDataJobWells.data[0].values);
+  // console.log('sama kontol satu:', fixDataJobGain.data[0].values);
 
-  //   if (fixDataJobWells.data[0].values && fixDataJobWells.data[0].values.length === 0) {
+  //   if (fixDataJobGain.data[0].values && fixDataJobGain.data[0].values.length === 0) {
   //     console.log("Data tidak tersedia");
   // } else {
-  //     console.log("fixDataJobWells", fixDataJobWells);
+  //     console.log("fixDataJobGain", fixDataJobGain);
   // }
 
-  const workOverRealisasi = dataSummarySKK
-    ? dataSummarySKK.Workover.operating
+  const workoverRealisasi = dataSummarySKK
+    ? dataSummarySKK.realisasi
     : "Loading...";
-  const workOverRencana = dataSummarySKK
-    ? dataSummarySKK.Workover.approved
+  const workoverRencana = dataSummarySKK
+    ? dataSummarySKK.rencana
     : "Loading...";
-  const workOverSelesai = dataSummarySKK
-    ? dataSummarySKK.Workover.finished
+  const workoverSelesai = dataSummarySKK
+    ? dataSummarySKK.selesai
     : "Loading...";
 
 
@@ -155,16 +110,16 @@ const WorkOverSKK = () => {
         color={"gray.600"}
         fontFamily="Montserrat"
       >
-        Work Over
+        WorkOver
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={workOverRencana}
+          number={workoverRencana}
           label="Rencana"
           subLabel="WP&B Year 2024"
         />
         <PerhitunganCard
-          number={workOverRealisasi}
+          number={workoverRealisasi}
           bgIcon="green.100"
           iconColor="green.500"
           label="Realisasi"
@@ -179,7 +134,7 @@ const WorkOverSKK = () => {
           }
         />
         <PerhitunganCard
-          number={workOverSelesai}
+          number={workoverSelesai}
           label="Selesai"
           bgIcon="red.100"
           iconColor="red.500"
@@ -197,17 +152,27 @@ const WorkOverSKK = () => {
 
       <HeaderCard
         icon={IconCalendar}
-        title="Realisasi Kegiatan Work Over"
+        title="Realisasi Kegiatan WorkOver"
         subtitle="Realisasi pekerjaan tiap bulan"
       >
-        {dataCharts ? (
-          <BarChartComponent
-            datas={dataCharts.data}
-            layout={dataCharts.layout}
-          />
-        ) : (
-          <p>Loading...</p>
-        )}
+        <Box width="100%" height="100%">
+          {dataCharts ? (
+            <BarChartComponent
+              datas={dataCharts.data}
+              layouts={{
+                ...dataCharts.layout,
+                autosize: true,
+                width: undefined, // Supaya tidak ada pengaturan lebar statis
+                height: 400, // Supaya tidak ada pengaturan tinggi statis
+                responsive: true, // Membuat chart responsif
+              }}
+              style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
+              useResizeHandler={true} // Mengaktifkan penanganan resize
+            />
+          ) : (
+            <p>Loading...</p>
+          )}
+        </Box>
       </HeaderCard>
       {/* // chart tiga */}
       <Flex flexDirection={"row"} width={"100%"} mt={5} gap={4}>
@@ -217,46 +182,70 @@ const WorkOverSKK = () => {
           subtitle="Perbandingan Perencanaan dan Realisasi"
         >
           <Box width="100%" height="100%">
-            <PieChart3D
-              data={fixDataBudget.data}
-              layout={{
-                ...fixDataBudget.layout,
-                autosize: true,
-                width: undefined, // Supaya tidak ada pengaturan lebar statis
-                height: 600, // Supaya tidak ada pengaturan tinggi statis
-                responsive: true, // Membuat chart responsif
-              }}
-              style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
-              useResizeHandler={true} // Mengaktifkan penanganan resize
-            />
+            {fixDataBudget ? (
+              <PieChart3D
+                data={fixDataBudget.data}
+                layout={{
+                  ...fixDataBudget.layout,
+                  autosize: true,
+                  width: undefined, // Supaya tidak ada pengaturan lebar statis
+                  height: 400, // Supaya tidak ada pengaturan tinggi statis
+                  responsive: true, // Membuat chart responsif
+                }}
+                style={{ width: "100%", height: "100" }} // Memastikan ukuran kontainer penuh
+                useResizeHandler={true} // Mengaktifkan penanganan resize
+              />
+            ) : (
+              <p>Loading...</p>
+            )}
           </Box>
         </HeaderCard>
         <HeaderCard
           icon={IconChecks}
-          title="Status Akhir"
-          subtitle="Status akhir sumur"
+          title="Production Gain"
+          subtitle="Hasil gain prduksi dari pekerjaan"
         >
           <Box width="100%" height="100%">
-            <PieChart3D
-              data={fixDataJobWells.data}
-              layout={{
-                ...fixDataJobWells.layout,
-                autosize: true,
-                width: undefined,
-                height: 600,
-                responsive: true,
-              }}
-              style={{ width: "100%", height: "100" }}
-              useResizeHandler={true}
-            />
+            {fixDataJobGain ? (
+              <PieChart3D
+                data={fixDataJobGain.data}
+                layout={{
+                  ...fixDataJobGain.layout,
+                  autosize: true,
+                  width: undefined,
+                  height: 400,
+                  responsive: true,
+                }}
+                style={{ width: "100%", height: "100" }}
+                useResizeHandler={true}
+              />
+            ) : (
+              <p>Loading...</p>
+            )}
           </Box>
+          {/* {fixDataJobGain.data.values && fixDataJobGain.data.values.length === 0 ? (
+              <PieChart3D
+                data={fixDataJobGain.data}
+                layout={{
+                  ...fixDataJobGain.layout,
+                  autosize: true,
+                  width: undefined,
+                  height: 400,
+                  responsive: true,
+                }}
+                style={{ width: "100%", height: "100" }}
+                useResizeHandler={true}
+              />
+            ) : (
+              <div>Data tidak tersedia</div>
+            )} */}
         </HeaderCard>
       </Flex>
 
       <Flex mt={5}>
         <HeaderCard
           icon={IconMapPin2}
-          title="Realisasi Kegiatan Work Over"
+          title="Realisasi Kegiatan WorkOver"
           subtitle="Realisasi pekerjaan tiap bulan"
         >
           <TableComponent data={dataTableReal} />
@@ -269,4 +258,4 @@ const WorkOverSKK = () => {
   );
 };
 
-export default WorkOverSKK;
+export default WorkOver;

@@ -19,7 +19,7 @@ import ViewPlanning from "./Page/WorkPlanning/ViewPlanning";
 import SplashScreen from "./Page/Components/SplashScreen"; // Import SplashScreen
 import RoleRedirect from "./Auth/RoleRedirect";
 // import GraphTable from "./Page/Components/PageExploitasi/GraphTable";
-import Exploration from "./Page/PageSKK/Exploration";
+import ExplorationSKK from "./Page/PageSKK/ExplorationSKK";
 import DevelopmentSKK from "./Page/PageSKK/DevelopmentSKK";
 import WellServiceSKK from "./Page/PageSKK/WellServiceSKK";
 import WorkOverSKK from "./Page/PageSKK/WorkOverSKK";
@@ -234,7 +234,7 @@ function App() {
           path: "exploration",
           element: (
             <ProtectedRoute
-              element={<Exploration />}
+              element={<ExplorationSKK />}
               allowedRoles={["Admin"]}
             />
           ),
