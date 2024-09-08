@@ -54,7 +54,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                   placeholder="rotary table elev"
                   onChange={handleChange}
                 />
-                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -68,7 +68,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                   onChange={handleChange}
                   type="number"
                 />
-                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -86,7 +86,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                   type="number"
                   onChange={handleChange}
                 />
-                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -100,7 +100,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                   type="number"
                   onChange={handleChange}
                 />
-                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -116,7 +116,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
               type="number"
               onChange={handleChange}
             />
-            <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
+            <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
           </InputGroup>
         </FormControl>
 
@@ -132,7 +132,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                   placeholder="final md"
                   onChange={handleChange}
                 />
-                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -146,7 +146,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype}) => {
                   onChange={handleChange}
                   type="number"
                 />
-                <InputRightAddon>{unittype === "Metrics" && "Meters" || unittype === "Imperial" && "Feet"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>

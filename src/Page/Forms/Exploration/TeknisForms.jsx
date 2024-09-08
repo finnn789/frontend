@@ -240,6 +240,7 @@ const CardFormWell = ({ onFormChange, unitType }) => {
         handleInputChange={handleInputChange}
         currentEntry={currentEntry}
         tableData={tableData}
+        unittype={unitType}
       />
 
       <WellCasing

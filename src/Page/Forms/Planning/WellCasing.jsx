@@ -67,7 +67,10 @@ const WellCasing = ({ dataWellCasing }) => {
         ...prevData.top_depths,
         calculationBottomDepth(newEntry.depth, newEntry.length),
       ],
-      diameters: [...prevData.diameters, parseFloat(newEntry.casing_outer_diameter)],
+      diameters: [
+        ...prevData.diameters,
+        parseFloat(newEntry.casing_outer_diameter),
+      ],
     }));
 
     dataWellCasing(updatedTable);
@@ -77,7 +80,8 @@ const WellCasing = ({ dataWellCasing }) => {
   const handleInputChangeWellCasing = (e) => {
     const { name, value, type } = e.target;
 
-    let processedValue = type === "number" && value !== "" ? parseFloat(value) : value;
+    let processedValue =
+      type === "number" && value !== "" ? parseFloat(value) : value;
 
     setWellCasing((prevData) => ({
       ...prevData,
@@ -118,7 +122,9 @@ const WellCasing = ({ dataWellCasing }) => {
         const sessionId = response.data.session_id;
         try {
           const visualizationResponse = await axios.get(
-            `${import.meta.env.VITE_APP_URL}/visualize/casing-visualization/${sessionId}`,
+            `${
+              import.meta.env.VITE_APP_URL
+            }/visualize/casing-visualization/${sessionId}`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -277,7 +283,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   placeholder="Hole Diameter"
                 />
                 <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
+                  {wellCasing.unit_type === "Metrics" ? "INCH" : "CM"}
                 </InputRightAddon>
               </InputGroup>
             </FormControl>
@@ -292,7 +298,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   placeholder="Casing Outer Diameter"
                 />
                 <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
+                  {wellCasing.unit_type === "Metrics" ? "INCH" : "CM"}
                 </InputRightAddon>
               </InputGroup>
             </FormControl>
@@ -307,18 +313,23 @@ const WellCasing = ({ dataWellCasing }) => {
                   placeholder="Casing Inner Diameter"
                 />
                 <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
+                  {wellCasing.unit_type === "Metrics" ? "INCH" : "CM"}
                 </InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
               <FormLabel>Casing Grade</FormLabel>
-              <Input
-                name="casing_grade"
-                value={wellCasing.casing_grade}
-                onChange={handleInputChangeWellCasing}
-                placeholder="Casing Grade"
-              />
+              <InputGroup>
+                <Input
+                  name="casing_grade"
+                  value={wellCasing.casing_grade}
+                  onChange={handleInputChangeWellCasing}
+                  placeholder="Casing Grade"
+                />
+                <InputRightAddon>
+                  {wellCasing.unit_type === "Metrics" ? "KSS" : "JSS"}
+                </InputRightAddon>
+              </InputGroup>
             </FormControl>
             <FormControl>
               <FormLabel>Casing Weight</FormLabel>
@@ -330,9 +341,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Weight"
                 />
-                <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
-                </InputRightAddon>
+                <InputRightAddon>{"PPF"}</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>

@@ -30,7 +30,8 @@ const WellSummary = ({
   handleInputChange,
   currentEntry,
   tableData,
-  setTableData, // Tambahkan setTableData untuk memungkinkan penghapusan data
+  setTableData,
+  unittype // Tambahkan setTableData untuk memungkinkan penghapusan data
 }) => {
   const [depthValue, setDepthValue] = React.useState("MSL");
 
@@ -76,7 +77,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Depth"
                   />
-                  <InputRightAddon>{depthValue}</InputRightAddon>
+                  <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -89,7 +90,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Hole Diameter"
                   />
-                  <InputRightAddon>{depthValue}</InputRightAddon>
+                  <InputRightAddon>{"INCH"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -102,7 +103,7 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Casing Outer Diameter"
                   />
-                  <InputRightAddon>{depthValue}</InputRightAddon>
+                  <InputRightAddon>{"INCH"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -117,12 +118,15 @@ const WellSummary = ({
               </FormControl>
               <FormControl>
                 <FormLabel>Bit</FormLabel>
+                <InputGroup>
                 <Input
                   name="bit"
                   value={currentEntry.bit}
                   onChange={handleInputChange}
                   placeholder="Bit"
                 />
+                <InputRightAddon>{"INCH"}</InputRightAddon>
+                </InputGroup>
               </FormControl>
               <FormControl>
                 <FormLabel>Logging Program</FormLabel>
@@ -166,7 +170,7 @@ const WellSummary = ({
                     type="number"
                     placeholder="Rate of Penetration"
                   />
-                  <InputRightAddon>{depthValue}</InputRightAddon>
+                  <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
