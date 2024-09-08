@@ -1,14 +1,39 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Box,
   FormControl,
   FormLabel,
   Input,
   VStack,
+  Select,
   HStack,
+  Heading,
 } from "@chakra-ui/react";
+import { all } from "axios";
 
 const ExistingWell = ({ onSubmit }) => {
+  const allWells = [
+    {
+      id: 1,
+      name: "Well 1",
+      value: "Well 1",
+    },
+    {
+      id: 2,
+      name: "Well 2",
+      value: "Well 2",
+    },
+    {
+      id: 3,
+      name: "Well 3",
+      value: "Well 3",
+    },
+    {
+      id: 4,
+      name: "Well 4",
+      value: "Well 4",
+    },
+  ];
   const [formData, setFormData] = useState({
     onstream_oil: 0,
     onstream_gas: 0,
@@ -18,6 +43,9 @@ const ExistingWell = ({ onSubmit }) => {
     target_water_cut: 0,
   });
 
+  useEffect(() => {
+    onSubmit(formData);
+  }, [formData]);
   const handleChange = useCallback(
     (e) => {
       const { name, value } = e.target;
@@ -35,12 +63,23 @@ const ExistingWell = ({ onSubmit }) => {
       <VStack spacing={4} align="stretch">
         <FormControl>
           <FormLabel fontWeight="bold">Existing Well</FormLabel>
-          <Input
-            name="wellName"
-            value={formData.wellName}
-            onChange={handleChange}
-            placeholder="Well Name"
-          />
+
+          <Select
+            name="well_id"
+            value={formData.well_id}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                well_id: e.target.value,
+              }))
+            }
+          >
+            {allWells.map((well) => (
+              <option key={well.id} value={well.value}>
+                {well.name}
+              </option>
+            ))}
+          </Select>
         </FormControl>
 
         <HStack spacing={4}>
@@ -49,7 +88,12 @@ const ExistingWell = ({ onSubmit }) => {
             <Input
               name="onstream_oil"
               value={formData.onstream_oil}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  onstream_oil: parseInt(e.target.value),
+                }));
+              }}
               placeholder="Onstream Oil"
             />
           </FormControl>
@@ -58,7 +102,12 @@ const ExistingWell = ({ onSubmit }) => {
             <Input
               name="onstream_gas"
               value={formData.onstream_gas}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  onstream_gas: parseInt(e.target.value),
+                }));
+              }}
               placeholder="Onstream Gas"
             />
           </FormControl>
@@ -67,7 +116,12 @@ const ExistingWell = ({ onSubmit }) => {
             <Input
               name="onstream_water_cut"
               value={formData.onstream_water_cut}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  onstream_water_cut: parseInt(e.target.value),
+                }));
+              }}
               placeholder="Onstream Water Cut"
             />
           </FormControl>
@@ -79,7 +133,12 @@ const ExistingWell = ({ onSubmit }) => {
             <Input
               name="target_oil"
               value={formData.target_oil}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  target_oil: parseInt(e.target.value),
+                }));
+              }}
               placeholder="Target Oil"
             />
           </FormControl>
@@ -88,7 +147,12 @@ const ExistingWell = ({ onSubmit }) => {
             <Input
               name="target_gas"
               value={formData.target_gas}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  target_gas: parseInt(e.target.value),
+                }));
+              }}
               placeholder="Target Gas"
             />
           </FormControl>
@@ -97,7 +161,12 @@ const ExistingWell = ({ onSubmit }) => {
             <Input
               name="target_water_cut"
               value={formData.target_water_cut}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  target_water_cut: parseInt(e.target.value),
+                }));
+              }}
               placeholder="Target Water Cut"
             />
           </FormControl>

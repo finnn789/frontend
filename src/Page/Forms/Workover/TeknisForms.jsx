@@ -12,8 +12,11 @@ import WellSummary from "./../Planning/WellSummary";
 import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
+import ExistingWell from "../Planning/ExistingWell";
 
-const CardFormWell = ({ onFormChange, unitType }) => {
+const CardFormWell = ({ onFormChange, unitType, dataExistingWell,JobType }) => {
+  
+
   const [formData, setFormData] = useState({
     unit_type: unitType,
     uwi: "",
@@ -75,8 +78,10 @@ const CardFormWell = ({ onFormChange, unitType }) => {
   });
 
   useEffect(() => {
-    onFormChange(formData);
-  }, [formData]);
+    if (JobType === "Exploration") {
+      onFormChange(formData);
+    }
+  }, [formData, JobType]);
 
   const handleChange = useCallback((e) => {
     const { name, value, type } = e.target;
@@ -197,7 +202,8 @@ const CardFormWell = ({ onFormChange, unitType }) => {
   // console.log('asd',handleInputChange);
   return (
     <>
-      <JobDetail
+    <ExistingWell onSubmit={dataExistingWell}/>
+      {/* <JobDetail
         handleChange={handleChange}
         formData={formData}
         unittype={unitType}
@@ -232,7 +238,7 @@ const CardFormWell = ({ onFormChange, unitType }) => {
         }
       />
       <WellPorePressureForm />
-      <WellTest onData={handleData} />
+      <WellTest onData={handleData} /> */}
     </>
   );
 };

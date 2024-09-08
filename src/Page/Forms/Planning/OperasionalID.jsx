@@ -14,6 +14,7 @@ import {
   Icon,
   Flex,
   Text,
+  Textarea,
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 import { setDate } from "date-fns";
@@ -22,8 +23,8 @@ const ProposedJob = ({
   onData,
   children,
   handleChangeRigType,
-  handleChangeJobPlan
-  
+  handleChangeJobPlan,
+  TypeOperasional,
 }) => {
   const areaId = [
     {
@@ -88,13 +89,34 @@ const ProposedJob = ({
       value: "FIELD 5",
     },
   ];
+  const WorkOverCategory = [
+    {
+      name: "ACID FACTURING",
+      value: "Acid Fracturing",
+    },
+    {
+      name: "CATEGORY2",
+      value: "CATEGORY2",
+    },
+    {
+      name: "CATEGORY 3",
+      value: "CATEGORY 3",
+    },
+    {
+      name: "CATEGORY 4",
+      value: "CATEGORY 4",
+    },
+    {
+      name: "CATEGORY 5",
+      value: "CATEGORY 5",
+    },
+  ];
   const [formData, setFormData] = useState({
     area_id: "",
     field_id: "",
     contract_type: "COST-RECOVERY",
     afe_number: "",
     wpb_year: null,
-    
   });
   const [DateChange, setDateChange] = useState({
     total_budget: 0,
@@ -105,13 +127,12 @@ const ProposedJob = ({
   });
 
   // console.log(DateChange);
-  
+
   // Send formData to parent component whenever formData changes
   useEffect(() => {
     onData(formData);
-    handleChangeJobPlan(DateChange)
-    
-  }, [formData,DateChange]);
+    handleChangeJobPlan(DateChange);
+  }, [formData, DateChange]);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -280,63 +301,142 @@ const ProposedJob = ({
             />
           </FormControl>
         </HStack>
-        <HStack spacing={4}>
-          <FormControl>
-            <FormLabel>Rig Type</FormLabel>
-            <Select
-              name="rig_type"
-              value={DateChange.rig_type}
-              onChange={(e)=> {
-                setDateChange((prev) => ({
-                  ...prev,
-                  rig_type: e.target.value,
-                }))
-              }}
-            >
-              <option value="Select Rig Type" disabled></option>
-              {rigType.map((item, index) => (
-                <option key={index} value={item.value}>
-                  {item.name}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Rig Name</FormLabel>
-            <Input
-              name="rig_name"
-              type="text"
-              value={DateChange.rig_name}
-              onChange={(e)=> {
-                setDateChange((prev) => ({
-                  ...prev,
-                  rig_name: e.target.value,
-                }))
-              }}
-              placeholder="Rig Name"
-            />
-          </FormControl>
-        </HStack>
-        <HStack spacing={4}>
-          <FormControl>
-            <FormLabel>Rig Horse Power</FormLabel>
-            <InputGroup>
-              <Input
-                name="rig_horse_power"
-                type="number"
-                value={DateChange.rig_horse_power}
-                onChange={(e)=> {
-                  setDateChange((prev) => ({
-                    ...prev,
-                    rig_horse_power: parseInt(e.target.value),
-                  }))
-                }}
-                placeholder="Rig Horse Power"
-              />
-              <InputRightAddon>METERS</InputRightAddon>
-            </InputGroup>
-          </FormControl>
-        </HStack>
+        {TypeOperasional === "WORKOVER" ? (
+          <>
+            <VStack spacing={4}>
+              <FormControl>
+                <FormLabel>Workover Job Type</FormLabel>
+                <Select
+                  name="job_category"
+                  value={DateChange.job_category}
+                  onChange={(e) => {
+                    setDateChange((prev) => ({
+                      ...prev,
+                      job_category: e.target.value,
+                    }));
+                  }}
+                >
+                  <option value="Select Work Over Job Tyoe" disabled></option>
+                  {WorkOverCategory.map((item, index) => (
+                    <option key={index} value={item.value}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Job Description</FormLabel>
+                <Textarea
+                  name="job_description"
+                  type="text"
+                  value={DateChange.job_description}
+                  onChange={(e) => {
+                    setDateChange((prev) => ({
+                      ...prev,
+                      job_description: e.target.value,
+                    }));
+                  }}
+                  placeholder="Job Description"
+                />
+              </FormControl>
+            </VStack>
+
+            <HStack spacing={4}>
+              <FormControl>
+                <FormLabel>Equipment</FormLabel>
+                <Input
+                  name="equipment"
+                  type="text"
+                  value={DateChange.equipment}
+                  onChange={(e) => {
+                    setDateChange((prev) => ({
+                      ...prev,
+                      equipment: e.target.value,
+                    }));
+                  }}
+                  placeholder="Equipment"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Equipment Spesification</FormLabel>
+                <Input
+                  name="equipment_sepesifications"
+                  type="text"
+                  
+                  value={DateChange.equipment_sepesifications}
+                  
+                  onChange={(e) => {
+                    setDateChange((prev) => ({
+                      ...prev,
+                      equipment_sepesifications: e.target.value,
+                    }));
+                  }}
+                  placeholder="Equipment Spesification"
+                />
+              </FormControl>
+            </HStack>
+          </>
+        ) : (
+          <>
+            <HStack spacing={4}>
+              <FormControl>
+                <FormLabel>Rig Type</FormLabel>
+                <Select
+                  name="rig_type"
+                  value={DateChange.rig_type}
+                  onChange={(e) => {
+                    setDateChange((prev) => ({
+                      ...prev,
+                      rig_type: e.target.value,
+                    }));
+                  }}
+                >
+                  <option value="Select Rig Type" disabled></option>
+                  {rigType.map((item, index) => (
+                    <option key={index} value={item.value}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Rig Name</FormLabel>
+                <Input
+                  name="rig_name"
+                  type="text"
+                  value={DateChange.rig_name}
+                  onChange={(e) => {
+                    setDateChange((prev) => ({
+                      ...prev,
+                      rig_name: e.target.value,
+                    }));
+                  }}
+                  placeholder="Rig Name"
+                />
+              </FormControl>
+            </HStack>
+            <HStack spacing={4}>
+              <FormControl>
+                <FormLabel>Rig Horse Power</FormLabel>
+                <InputGroup>
+                  <Input
+                    name="rig_horse_power"
+                    type="number"
+                    value={DateChange.rig_horse_power}
+                    onChange={(e) => {
+                      setDateChange((prev) => ({
+                        ...prev,
+                        rig_horse_power: parseInt(e.target.value),
+                      }));
+                    }}
+                    placeholder="Rig Horse Power"
+                  />
+                  <InputRightAddon>METERS</InputRightAddon>
+                </InputGroup>
+              </FormControl>
+            </HStack>
+          </>
+        )}
       </VStack>
     </Box>
   );

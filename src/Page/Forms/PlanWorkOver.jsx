@@ -25,43 +25,13 @@ const PlanWorkOverForm = () => {
     afe_number: "string",
     wpb_year: 0,
     job_plan: {
-      start_date: "2024-09-05",
-      end_date: "2024-09-05",
+      start_date: "2024-09-07",
+      end_date: "2024-09-07",
       total_budget: 0,
-      job_operation_days: [
-        {
-          unit_type: "Metrics",
-          phase: "string",
-          depth_datum: "RT",
-          depth_in: 0,
-          depth_out: 0,
-          operation_days: 0,
-        },
-      ],
-      work_breakdown_structure: [
-        {
-          event: "string",
-          start_date: "2024-09-05",
-          end_date: "2024-09-05",
-          remarks: "string",
-        },
-      ],
-      job_hazards: [
-        {
-          hazard_type: "GAS KICK",
-          hazard_description: "string",
-          severity: "LOW",
-          mitigation: "string",
-          remark: "string",
-        },
-      ],
-      job_documents: [
-        {
-          file_id: "string",
-          document_type: "Drilling Plan",
-          remark: "string",
-        },
-      ],
+      job_operation_days: [],
+      work_breakdown_structure: [],
+      job_hazards: [],
+      job_documents: [],
       equipment: "string",
       equipment_sepesifications: "string",
       well_id: "string",
@@ -90,6 +60,16 @@ const PlanWorkOverForm = () => {
     }));
   };
 
+  const handleChangeJobPlan =(name) => (newData) => {
+    setJobPlan((prevJobPlan) => ({
+      ...prevJobPlan,
+      job_plan: {
+        ...prevJobPlan.job_plan,
+        [name]: newData,
+      },
+    }));
+  };
+  
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
@@ -97,7 +77,7 @@ const PlanWorkOverForm = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/exploration`,
+        `${import.meta.env.VITE_APP_URL}/job/planning/create/workover`,
         jobPlan,
         {
           headers: {
@@ -134,7 +114,13 @@ const PlanWorkOverForm = () => {
 
   return (
     <>
-      <Flex justify={"flex-start"} mr={5} my={5} gap={5} justifyContent={"space-between"}>
+      <Flex
+        justify={"flex-start"}
+        mr={5}
+        my={5}
+        gap={5}
+        justifyContent={"space-between"}
+      >
         <Heading>New Workover</Heading>
         <Select width={"auto"} fontSize={"xl"}>
           <option value="Metrics">Metrics</option>
@@ -149,16 +135,26 @@ const PlanWorkOverForm = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <CardFormWell onFormChange={handleWellDataChange} />
+              <CardFormWell
+                onFormChange={handleWellDataChange}
+                dataExistingWell={(e) =>
+                  setJobPlan((prevJobPlan) => ({
+                    ...prevJobPlan,
+                    job_plan: { ...prevJobPlan.job_plan, ...e },
+                  }))
+                }
+                // JobType={"Exploration"}
+              />
             </TabPanel>
             <TabPanel>
               <Operasional
-                onData={(operasional) => {
-                  setJobPlan((prevJobPlan) => ({
-                    ...prevJobPlan,
-                    ...operasional,
-                  }));
-                }}
+                TypeOperasionalJob={"WORKOVER"}
+                onData={(e) =>
+                  setJobPlan((prevData) => ({
+                    ...prevData,
+                    ...e,
+                  }))
+                }
                 dataWRM={(data) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
@@ -168,8 +164,28 @@ const PlanWorkOverForm = () => {
                     },
                   }));
                 }}
+                jobPlanData={(e) =>
+                  setJobPlan((prev) => ({
+                    ...prev,
+                    job_plan: {
+                      ...prev.job_plan,
+                      ...e,
+                    },
+                  }))
+                }
+                WBSdata={(e) =>
+                  setJobPlan((prev) => ({
+                    ...prev,
+                    job_plan: {
+                      ...prev.job_plan,
+                      work_breakdown_structure: e,
+                    },
+                  }))
+                }
+                jobOperationData={handleChangeJobPlan("job_operation_days")}
+                HazardTypeData={handleChangeJobPlan("job_hazards")}
+                jobDocumentsData={handleChangeJobPlan("job_documents")}
               />
-              <ExistingWell onSubmit={(e)=> console.log(e)}  />
             </TabPanel>
           </TabPanels>
         </Tabs>

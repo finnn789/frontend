@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import ProposedJob from "../Planning/OperasionalID";
 import WRMRequirement from "../Planning/WRMRequirement";
 import JobOpertionsDays from "../Planning/JobOperationDays";
@@ -7,22 +7,25 @@ import WorkBreakDownStructure from "../Planning/BorkBreakDowns";
 import HazardType from "../Planning/HazardType";
 import JobDocuments from "../Planning/JobDocuments";
 
-const Operasional = ({ onData, dataWRM, jobDocuments }) => {
+const Operasional = ({
+  onData,
+  dataWRM,
+  jobOperationData,
+  jobPlanData,
+  TypeOperasionalJob,
+  WBSdata,
+  HazardTypeData,
+  jobDocumentsData,
+}) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
   // console.log(data);
 
   useEffect(() => {
     // Menggabungkan data baru dengan data sebelumnya dari parent
-    onData((prevData) => ({
-      ...prevData,
-      ...data,
-    }));
+    onData(data);
 
-    dataWRM((prevDatas) => ({
-      ...prevDatas,
-      ...datas,
-    }));
+    dataWRM(datas);
   }, [data, datas]);
 
   // console.log(data);
@@ -31,55 +34,25 @@ const Operasional = ({ onData, dataWRM, jobDocuments }) => {
     setData((prevData) => ({ ...prevData, ...newData }));
   };
 
-  const datawrm = useCallback((newData) => {
-    setDatas((prevData) => ({ ...prevData, ...newData }));
-  }, [setDatas]);
+  const datawrm = useCallback(
+    (newData) => {
+      setDatas((prevData) => ({ ...prevData, ...newData }));
+    },
+    [setDatas]
+  );
 
-
-  
   return (
     <div>
-      <ProposedJob onData={handleData} />
-      <WRMRequirement onDataChange={datawrm} />
-      <WorkBreakDownStructure
-        ondata={(newData) => {
-          setData((prevJobPlan) => ({
-            ...prevJobPlan,
-            job_plan: {
-              ...prevJobPlan.job_plan,
-              job_operation_days: newData,
-            },
-          }));
-        }}
+      <ProposedJob
+        onData={(e) => setData(e)}
+        handleChangeJobPlan={jobPlanData}
+        TypeOperasional={TypeOperasionalJob}
       />
-      <JobOpertionsDays
-        ondata={(newData) => {
-          setData((prevJobPlan) => ({
-            ...prevJobPlan,
-            job_plan: {
-              ...prevJobPlan.job_plan,
-              work_breakdown_structure: newData,
-            },
-          }));
-        }}
-      />
-      <HazardType
-        onDataChange={(newData) => {
-          setData((prevJobPlan) => ({
-            ...prevJobPlan,
-            job_plan: {
-              ...prevJobPlan.job_plan,
-              job_hazard: newData,
-            },
-          }));
-        }}
-      />
-
-      {/* <JobDocuments
-        data={(newData) => {
-          jobDocuments(newData);
-        }}
-      /> */}
+      <WRMRequirement datawrm={datawrm} onDataChange={handleData} />
+      <WorkBreakDownStructure ondata={WBSdata} />
+      <JobOpertionsDays ondata={jobOperationData} />
+      <HazardType onDataChange={HazardTypeData} />
+      <JobDocuments data={jobDocumentsData} />
     </div>
   );
 };
