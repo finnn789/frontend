@@ -12,17 +12,17 @@ import {
   InputRightAddon,
   InputGroup,
   Flex,
+  Select,
   Icon,
 } from "@chakra-ui/react";
 
-import {IconGraph} from "@tabler/icons-react";
+import { IconGraph } from "@tabler/icons-react";
+import axios from "axios";
 
-const WellPorePressureForm = () => {
+const WellPorePressureForm = ({handleDataSubmit}) => {
   const [formData, setFormData] = useState({
-    depth: "",
-    temperature: "",
-    porosity: "",
-    fluidDensity: "",
+    file_id: "",
+    data_format: "IMAGE",
   });
   const [fileName, setFileName] = useState("");
   const fileInputRef = useRef(null);
@@ -37,39 +37,75 @@ const WellPorePressureForm = () => {
   };
 
   const handleFileChange = (e) => {
+    // console.log(e.target.files[0]);
     if (e.target.files[0]) {
       setFileName(e.target.files[0].name);
     }
   };
 
-  const handleSubmit = (e) => {
+  React.useEffect(() => {
+    handleDataSubmit(formData);
+  }, [formData]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the data to a server or perform calculations
-    console.log("Form submitted with data:", formData);
-    console.log("File uploaded:", fileName);
-    toast({
-      title: "Form Submitted",
-      description:
-        "Your well pore pressure prediction data and file have been submitted.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-    // Reset form after submission
-    setFormData({
-      depth: "",
-      temperature: "",
-      porosity: "",
-      fluidDensity: "",
-    });
-    setFileName("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    const formData = new FormData();
+    formData.append("file", fileInputRef.current.files[0]);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_URL}/utils/upload/file`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+
+          },
+        }
+      );
+      if (response.status === 200) {
+        toast({
+          title: "Berhasil",
+          description: "File berhasil diupload",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+  
+        setFormData((prevData) => ({
+          ...prevData,
+          file_id: response.data.file_info.id,
+        }))
+      } else {
+        toast({
+          title: "Gagal",
+          description: "Gagal mengupload file",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      // console.error(error);
+      toast({
+        title: "Gagal",
+        description: "Gagal mengupload file",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
   return (
-    <Box margin="auto" mt={6} borderWidth="1px" borderRadius="lg" p={5} fontFamily={"Montserrat"}>
+    <Box
+      margin="auto"
+      mt={6}
+      borderWidth="1px"
+      borderRadius="lg"
+      p={5}
+      fontFamily={"Montserrat"}
+    >
       <Flex alignItems="center" mb={6}>
         <Icon as={IconGraph} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
@@ -82,78 +118,42 @@ const WellPorePressureForm = () => {
             {"Well Pore Pressure Prediction"}
           </Text>
           <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
-            {"subtitle"}
+            {"WPPFG"}
           </Text>
         </Flex>
       </Flex>
-      <form onSubmit={handleSubmit} >
+      <form onSubmit={handleSubmit}>
         <VStack spacing={4}>
-          <FormControl isRequired>
-            <FormLabel>Depth (m)</FormLabel>
-            <InputGroup>
+          <FormControl>
+            <Flex justifyContent={"space-between"}>
+              <FormLabel>Upload File</FormLabel>
               <Input
-                type="number"
-                name="depth"
-                value={formData.depth}
-                onChange={handleInputChange}
-                placeholder="Enter depth"
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept=".txt,.csv,.xlsx"
+                hidden
               />
-              <InputRightAddon>METERS</InputRightAddon>
-            </InputGroup>
+              <Flex flexDir={"row"} gap={2}>
+                <Select placeholder="Select Format"  name="data_format" onChange={handleInputChange} isRequired>
+                  <option value="IMAGE">IMAGE</option>
+                  <option value="CSV">CSV</option>
+                  <option value="XLSX">XLSX</option>
+                </Select>
+                <Button
+                  onClick={() => fileInputRef.current.click()}
+                  colorScheme="blue"
+                  width={"100%"}
+                >
+                  Choose File
+                </Button>
+              </Flex>
+            </Flex>
+            {fileName && <Text bg={"blue.100"} fontSize={"xl"}  mt={2}>Name File: {fileName}</Text>}
           </FormControl>
 
-          <FormControl isRequired>
-            <FormLabel>Temperature (°C)</FormLabel>
-            <InputGroup>
-              <Input
-                type="number"
-                name="temperature"
-                value={formData.temperature}
-                onChange={handleInputChange}
-                placeholder="Enter temperature"
-              />
-              <InputRightAddon>°C</InputRightAddon>
-            </InputGroup>
-          </FormControl>
-          <FormControl isRequired>
-            <FormLabel>Porosity (%)</FormLabel>
-            <InputGroup>
-              <Input
-                type="number"
-                name="porosity"
-                value={formData.porosity}
-                onChange={handleInputChange}
-                placeholder="Enter porosity"
-              />
-              <InputRightAddon>%</InputRightAddon>
-            </InputGroup>
-          </FormControl>
-          <FormControl isRequired>
-            <FormLabel>Fluid Density (kg/m³)</FormLabel>
-            <InputGroup>
-              <Input
-                type="number"
-                name="fluidDensity"
-                value={formData.fluidDensity}
-                onChange={handleInputChange}
-                placeholder="Enter fluid density"
-              />
-              <InputRightAddon>kg/m³</InputRightAddon>
-            </InputGroup>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Upload File</FormLabel>
-            <Input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              accept=".txt,.csv,.xlsx"
-              
-            />
-            {fileName && <Text mt={2}>File selected: {fileName}</Text>}
-          </FormControl>
           <Button type="submit" colorScheme="blue" width="full">
-            Submit
+            Upload
           </Button>
         </VStack>
       </form>

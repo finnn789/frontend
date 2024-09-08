@@ -98,29 +98,9 @@ const PengajuanDrillingForm = () => {
           },
         ],
         well_summary: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            depth: 0,
-            hole_diameter: 0,
-            bit: "string",
-            casing_outer_diameter: 0,
-            logging: "string",
-            mud_program: "string",
-            cementing_program: "string",
-            bottom_hole_temperature: 0,
-            rate_of_penetration: 0,
-            remarks: "string",
-          },
+          
         ],
         well_test: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            zone_name: "string",
-            zone_top_depth: 0,
-            zone_bottom_depth: 0,
-          },
         ],
         well_trajectory: {
           file_id: "string",
@@ -131,37 +111,15 @@ const PengajuanDrillingForm = () => {
           data_format: "IMAGE",
         },
         well_logs: [
-          {
-            file_id: "string",
-            data_format: "IMAGE",
-          },
         ],
         well_drilling_parameter: {
           file_id: "string",
           data_format: "IMAGE",
         },
         well_casing: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            depth: 0,
-            length: 0,
-            hole_diameter: 0,
-            casing_outer_diameter: 0,
-            casing_inner_diameter: 0,
-            casing_grade: "string",
-            casing_weight: 0,
-            connection: "string",
-            description: "string",
-          },
+          
         ],
         well_stratigraphy: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            depth: 0,
-            stratigraphy_id: "string",
-          },
         ],
       },
       wrm_pembebasan_lahan: true,
@@ -240,6 +198,9 @@ const PengajuanDrillingForm = () => {
         duration: 5000,
         isClosable: true,
       });
+    }
+
+    finally{
       setLoading(false);
     }
   };

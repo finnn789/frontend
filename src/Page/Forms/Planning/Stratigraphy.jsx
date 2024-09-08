@@ -29,6 +29,7 @@ const Stratigraphy = ({
   handleInputChangeWellStraigraphy,
   handleWellStratichy,
   TablewellStratigraphy,
+  unittype
 }) => {
   const selectType = [
     {
@@ -115,7 +116,7 @@ const Stratigraphy = ({
                       onChange={handleInputChangeWellStraigraphy}
                       placeholder="Depth"
                     />
-                    <InputRightAddon>123</InputRightAddon>
+                    <InputRightAddon>{unittype === "Metrics" && "METER"  || unittype === "Imperial" && "FEET"}</InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </GridItem>

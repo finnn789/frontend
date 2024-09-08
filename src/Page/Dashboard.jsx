@@ -109,7 +109,7 @@ export function Dashboard() {
           </Breadcrumb> */}
 
           <Box>
-            {path.includes("/dashboard") && <HomePage />}
+            {/* {path.includes("/dashboard") && <HomePage />} */}
             <Outlet />
           </Box>
         </Box>
