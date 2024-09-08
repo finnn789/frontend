@@ -90,27 +90,69 @@ const ProposedJob = ({
     },
   ];
   const WorkOverCategory = [
+    { label: "Acid Fracturing", value: "Acid Fracturing" },
+    { label: "Add Perforation", value: "Add Perforation" },
     {
-      name: "ACID FACTURING",
-      value: "Acid Fracturing",
+      label: "Aditional Perfor & New Perfo",
+      value: "Aditional Perfor & New Perfo",
+    },
+    { label: "CTG", value: "CTG" },
+    { label: "CTI", value: "CTI" },
+    { label: "CTO", value: "CTO" },
+    { label: "Change Layer", value: "Change Layer" },
+    {
+      label: "Conversion from Injector to Producer",
+      value: "Conversion from Injector to Producer",
+    },
+    { label: "Convert to Injector", value: "Convert to Injector" },
+    { label: "ESP Installation", value: "ESP Installation" },
+    { label: "Fract Pack", value: "Fract Pack" },
+    { label: "Fracturing", value: "Fracturing" },
+    { label: "GLV Installation", value: "GLV Installation" },
+    { label: "GTO", value: "GTO" },
+    { label: "HPU Installation", value: "HPU Installation" },
+    { label: "Hydraulic Fracturing", value: "Hydraulic Fracturing" },
+    { label: "Install ESP", value: "Install ESP" },
+    { label: "Install HPU", value: "Install HPU" },
+    { label: "New Perforation", value: "New Perforation" },
+    { label: "New Zone Behind Pipe", value: "New Zone Behind Pipe" },
+    { label: "P&A", value: "P&A" },
+    { label: "PCTGL", value: "PCTGL" },
+    { label: "POP", value: "POP" },
+    { label: "Put On Production", value: "Put On Production" },
+    {
+      label: "Re-perforation & Acid Fracturing",
+      value: "Re-perforation & Acid Fracturing",
+    },
+    { label: "Reactivation Well", value: "Reactivation Well" },
+    {
+      label: "Reactivation and Recompletion",
+      value: "Reactivation and Recompletion",
+    },
+    { label: "Recompletion", value: "Recompletion" },
+    {
+      label: "Recompletion and Reperforation",
+      value: "Recompletion and Reperforation",
+    },
+    { label: "Retubing", value: "Retubing" },
+    { label: "SCON", value: "SCON" },
+    { label: "SRP Installation", value: "SRP Installation" },
+    {
+      label: "Sand Cleanout - Add Perforation - Sand Screen",
+      value: "Sand Cleanout - Add Perforation - Sand Screen",
     },
     {
-      name: "CATEGORY2",
-      value: "CATEGORY2",
+      label: "Stimulation & Change Layer",
+      value: "Stimulation & Change Layer",
     },
+    { label: "Stimulation / Acidizing", value: "Stimulation / Acidizing" },
+    { label: "Thru Tubing Perforation", value: "Thru Tubing Perforation" },
     {
-      name: "CATEGORY 3",
-      value: "CATEGORY 3",
-    },
-    {
-      name: "CATEGORY 4",
-      value: "CATEGORY 4",
-    },
-    {
-      name: "CATEGORY 5",
-      value: "CATEGORY 5",
+      label: "Water Shut Off & Change Layer",
+      value: "Water Shut Off & Change Layer",
     },
   ];
+
   const [formData, setFormData] = useState({
     area_id: "",
     field_id: "",
@@ -323,7 +365,7 @@ const ProposedJob = ({
                   <option value="Select Work Over Job Tyoe" disabled></option>
                   {WorkOverCategory.map((item, index) => (
                     <option key={index} value={item.value}>
-                      {item.name}
+                      {item.label}
                     </option>
                   ))}
                 </Select>
