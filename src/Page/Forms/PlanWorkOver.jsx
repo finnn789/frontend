@@ -17,6 +17,7 @@ import Operasional from "./Workover/Operasioal";
 import axios from "axios";
 import ExistingWell from "./Planning/ExistingWell";
 import TecnicalForm from "./WellService/TeknisForms";
+import PostWorkover from "../API/PostKkks";
 
 const PlanWorkOverForm = () => {
   const [jobPlan, setJobPlan] = useState({
@@ -61,7 +62,7 @@ const PlanWorkOverForm = () => {
     }));
   };
 
-  const handleChangeJobPlan =(name) => (newData) => {
+  const handleChangeJobPlan = (name) => (newData) => {
     setJobPlan((prevJobPlan) => ({
       ...prevJobPlan,
       job_plan: {
@@ -70,44 +71,27 @@ const PlanWorkOverForm = () => {
       },
     }));
   };
-  
+
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
   const PostDatanya = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/workover`,
-        jobPlan,
-        {
-          headers: {
-            "Content-Type": "application/json",
-
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
+      const submit = await PostWorkover(jobPlan);
+      if (submit) {
+        setLoading(false);
         toast({
-          title: "Data berhasil dikirim.",
-          description: "Data telah berhasil disimpan ke database.",
+          title: "Success",
+          description: "Data Berhasil",
           status: "success",
-          duration: 5000,
+          duration: 3000,
           isClosable: true,
         });
       }
     } catch (error) {
-      console.error("Error Dalam Kirim Data", error);
-
-      toast({
-        title: "Terjadi kesalahan.",
-        description: "Data gagal dikirim ke server.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      console.error(error);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -136,7 +120,14 @@ const PlanWorkOverForm = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <TecnicalForm  dataExistingWell={(e)=> setJobPlan(e)}/>
+              <TecnicalForm
+                dataExistingWell={(e) =>
+                  setJobPlan((prev) => ({ ...prev, job_plan: {
+                    ...prev.job_plan,
+                    ...e   
+                  } }))
+                }
+              />
             </TabPanel>
             <TabPanel>
               <Operasional
