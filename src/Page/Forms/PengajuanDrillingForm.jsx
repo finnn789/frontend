@@ -208,18 +208,18 @@ const PengajuanDrillingForm = () => {
 
   const onClickSubmitForm = async () => {
     const errors = validateForm(jobPlan);
-    if (Object.keys(errors).length > 0) {
-      console.log("errors", errors);
-      setFormErrors(errors);
-      toast({
-        title: "Terjadi kesalahan.",
-        description: "Tolong isi semua field yang diperlukan.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-      return;
-    }
+    setFormErrors(errors);
+    // if (Object.keys(errors).length > 0) {
+    //   console.log("errors", errors);
+    //   toast({
+    //     title: "Terjadi kesalahan.",
+    //     description: "Tolong isi semua field yang diperlukan.",
+    //     status: "error",
+    //     duration: 5000,
+    //     isClosable: true,
+    //   });
+    //   return;
+    // }
     setLoading(true);
     try {
       const post = await PostPlanningExploration(jobPlan, toast);

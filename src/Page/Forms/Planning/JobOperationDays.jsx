@@ -29,7 +29,7 @@ const WorkBreakdownForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
     unit_type: "Metrics",
     phase: "",
-    depth_datum: "RT        ",
+    depth_datum: "RT",
     depth_in: 0,
     depth_out: 0,
     operation_days: 0,
