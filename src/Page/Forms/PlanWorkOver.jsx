@@ -16,6 +16,7 @@ import {
 import Operasional from "./Workover/Operasioal";
 import axios from "axios";
 import ExistingWell from "./Planning/ExistingWell";
+import TecnicalForm from "./WellService/TeknisForms";
 
 const PlanWorkOverForm = () => {
   const [jobPlan, setJobPlan] = useState({
@@ -135,16 +136,7 @@ const PlanWorkOverForm = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <CardFormWell
-                onFormChange={handleWellDataChange}
-                dataExistingWell={(e) =>
-                  setJobPlan((prevJobPlan) => ({
-                    ...prevJobPlan,
-                    job_plan: { ...prevJobPlan.job_plan, ...e },
-                  }))
-                }
-                // JobType={"Exploration"}
-              />
+              <TecnicalForm  dataExistingWell={(e)=> setJobPlan(e)}/>
             </TabPanel>
             <TabPanel>
               <Operasional

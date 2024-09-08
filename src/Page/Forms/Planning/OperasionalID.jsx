@@ -305,7 +305,11 @@ const ProposedJob = ({
           <>
             <VStack spacing={4}>
               <FormControl>
-                <FormLabel>Workover Job Type</FormLabel>
+                <FormLabel>
+                  {(TypeOperasional === "WORKOVER" && "Workover Job Type") ||
+                    (TypeOperasional === "WELLSERVICE" &&
+                      "Well Service Job Type")}
+                </FormLabel>
                 <Select
                   name="job_category"
                   value={DateChange.job_category}
@@ -362,9 +366,7 @@ const ProposedJob = ({
                 <Input
                   name="equipment_sepesifications"
                   type="text"
-                  
                   value={DateChange.equipment_sepesifications}
-                  
                   onChange={(e) => {
                     setDateChange((prev) => ({
                       ...prev,
