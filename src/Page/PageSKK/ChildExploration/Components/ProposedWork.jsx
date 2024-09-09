@@ -5,6 +5,7 @@ import { AgGridReact } from "ag-grid-react";
 import { IconBriefcase } from '@tabler/icons-react';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import '../../../../assets/css/grid-style.css';
 
 // Komponen StatusBadge untuk status
 const StatusBadge = ({ value }) => {
@@ -57,6 +58,14 @@ const ProposedWorkTable = ({ columnDefs, rowData, title, subtitle }) => {
     ...columnDefs
   ], [columnDefs]);
 
+  const gridOptions = useMemo(() => ({
+    rowHeight: 70,
+    headerHeight: 70,
+    autoSizeStrategy: {
+      type: 'fitCellContents'
+  },
+  }), []);
+
   return (
     <Box bg="white" borderRadius="lg" boxShadow="md" p={4}>
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
@@ -81,11 +90,12 @@ const ProposedWorkTable = ({ columnDefs, rowData, title, subtitle }) => {
         </Button>
       </Flex>
 
-      <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+      <div className="ag-theme-alpine" style={{ height: 600, width: "100%" }}>
         <AgGridReact
           columnDefs={extendedColumnDefs}
           rowData={rowData}
           defaultColDef={defaultColDef}
+          gridOptions={gridOptions}
         />
       </div>
     </Box>
