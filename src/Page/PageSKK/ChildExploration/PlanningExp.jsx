@@ -1,14 +1,13 @@
 import React from "react";
 import ProposedWorkTable from "./Components/ProposedWork";
-import { Box, Badge, Flex, Text, Tr, Td, Button, Icon } from "@chakra-ui/react";
+import { Box, Badge, Flex, Text, Button} from "@chakra-ui/react";
 import PerhitunganCard from "../Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
-import HeaderCard from "../Components/Card/HeaderCard";
 import { getJobPhase } from "../../API/APISKK";
-const PlanningWellService = () => {
+const PlanningExploration = () => {
   const [phaseData, setPhaseData] = React.useState(null);
 
   React.useEffect(() => {
@@ -23,11 +22,8 @@ const PlanningWellService = () => {
   const proposedCount = phaseData ? phaseData.summary.diajukan : null;
   const AprovedCount = phaseData ? phaseData.summary.disetujui : null;
   const ReturnedCount = phaseData ? phaseData.summary.dikembalikan : null;
-
   const dataWell = phaseData ? phaseData.job_details : null;
 
-  
-  
   const StatusBadge = (props) => {
     console.log('StatusBadge props:', props); // Tambahkan log untuk debugging
   
@@ -43,7 +39,9 @@ const PlanningWellService = () => {
     return (
       <Badge
         colorScheme={colorScheme}
-        size="sm"
+        variant="subtle"
+        px={3}
+        rounded={"full"}
       >
         {props.value || 'No Status'} 
         {/* // Tampilkan 'No Status' jika status tidak ada */}
@@ -84,9 +82,6 @@ const PlanningWellService = () => {
       ),
     },
   ];
-  
-
-  
 
   return (
     <Flex gap={6} direction={"column"}>
@@ -100,13 +95,13 @@ const PlanningWellService = () => {
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={proposedCount ? proposedCount : <p>Loading...</p>}
+          number={proposedCount !== undefined && proposedCount !== null ? proposedCount : <p>Loading...</p>}
           icon={FaCopy}
           label={"PROPOSED"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-          number={AprovedCount ? AprovedCount : <p>Loading...</p>}
+          number={AprovedCount !== undefined && AprovedCount !== null ? AprovedCount : <p>Loading...</p>}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
@@ -114,7 +109,7 @@ const PlanningWellService = () => {
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={ReturnedCount ? ReturnedCount : <p>Loading...</p>}
+          number={ReturnedCount !== undefined && ReturnedCount !== null ? ReturnedCount : <p>Loading...</p>}
           label={"RETURNED"}
           bgIcon="red.100"
           iconColor="red.500"
@@ -122,7 +117,7 @@ const PlanningWellService = () => {
           subLabel="Pekerjaan Dikembalikan"
         />
       </Flex>
-      <Box my={6}>
+      <Box >
       <ProposedWorkTable
         columnDefs={headerstable1}
         rowData={dataWell}
@@ -135,4 +130,4 @@ const PlanningWellService = () => {
   );
 };
 
-export default PlanningWellService;
+export default PlanningExploration;

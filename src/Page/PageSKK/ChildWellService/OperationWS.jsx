@@ -1,121 +1,95 @@
 import React from "react";
 import ProposedWorkTable from "./Components/ProposedWork";
-import { Box, Badge, Flex, Text, Tr, Td, Button, Icon } from "@chakra-ui/react";
+import { Box, Badge, Flex, Text, Button} from "@chakra-ui/react";
 import PerhitunganCard from "../Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
-import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx, getCombinedData } from "../../API/APISKK";
-const OperationWS = () => {
-  const [countStatus, setCountStatus] = React.useState(null);
+import { getJobPhase } from "../../API/APISKK";
+const OperationWellService = () => {
+  const [phaseData, setPhaseData] = React.useState(null);
 
   React.useEffect(() => {
     const getData = async () => {
-      const data = await getCombinedData();
-      setCountStatus(data);
+      const data = await getJobPhase('wellservice', 'operation');
+      setPhaseData(data);
     };
     getData();
   }, []);
 // console.log(countStatus);
 
-  const proposedCount = countStatus ? countStatus.Exploration.planning_status_counts.PROPOSED : null;
-  const AprovedCount = countStatus ? countStatus.Exploration.planning_status_counts.APPROVED : null;
-  const ReturnedCount = countStatus ? countStatus.Exploration.planning_status_counts.RETURNED : null;
+  const operatingCount = phaseData ? phaseData.summary.beroperasi : null;
+  const AprovedCount = phaseData ? phaseData.summary.disetujui : null;
+  const finishedCount = phaseData ? phaseData.summary.selesai_beroperasi : null;
+  const dataWell = phaseData ? phaseData.job_details : null;
 
+  const StatusBadge = (props) => {
+    console.log('StatusBadge props:', props); // Tambahkan log untuk debugging
   
-  console.log(countStatus);
-  
-  
-
-  const dataWell = countStatus ? countStatus.Exploration.wells : null;
-  
-  
-  
-
-  const headerstable1 = [
-    "NO.",
-    "NAMA SUMUR",
-    "WILAYAH KERJA",
-    "LAPANGAN",
-    "TANGGAL MULAI",
-    "TANGGAL SELESAI",
-    "TANGGAL DIAJUKAN",
-    "STATUS",
-    "AKSI",
-  ];
-
-  const data = [
-    {
-      id: 1,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "PROPOSED",
-    },
-    {
-      id: 2,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "APPROVED",
-    },
-    {
-      id: 3,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "RETURNED",
-    },
-    // Add more data as needed
-  ];
-
-  const StatusBadge = ({ status }) => {
     const colorScheme =
-      status === "PROPOSED"
+    props.value === "OPERATING"
         ? "blue"
-        : status === "APPROVED"
+        : props.value === "APPROVED"
         ? "green"
-        : status === "RETURNED"
+        : props.value === "FINISHED OPS"
         ? "red"
         : "gray";
-
+  
     return (
       <Badge
         colorScheme={colorScheme}
         variant="subtle"
-        px={4}
-        py={2}
+        px={3}
         rounded={"full"}
       >
-        {status}
+        {props.value || 'No Status'} 
+        {/* // Tampilkan 'No Status' jika status tidak ada */}
       </Badge>
     );
   };
+
+  const headerstable1 = [
+    { headerName: "Nama Sumur", field: "NAMA SUMUR" },
+    { headerName: "Wilayah Kerja", field: "WILAYAH KERJA" },
+    { headerName: "Lapangan", field: "LAPANGAN" },
+    { headerName: "KKKS", field: "KKKS" },
+    { headerName: "Jenis Pekerjaan", field: "JENIS PEKERJAAN" },
+    { headerName: "Rencana Mulai", field: "RENCANA MULAI" },
+    { headerName: "Rencana Mulai", field: "RENCANA SELESAI" },
+    { headerName: "Realisasi Mulai", field: "REALISASI MULAI" },
+    { headerName: "Realisasi Mulai", field: "REALISASI SELESAI" },
+    {
+      headerName: "Status",
+      field: "STATUS",
+      cellRenderer: StatusBadge,
+    },
+    {
+      headerName: "Aksi",
+      field: "STATUS",
+      cellRenderer: () => (
+        <div>
+          <Button leftIcon={<FaEye />} colorScheme="gray" size="sm" mr={2}>
+            View
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
   return (
-    <div>
-      <Text fontSize={"3em"} fontWeight={"bold"}>
-        Planning WorkOver
+    <Flex gap={6} direction={"column"}>
+    <Text
+      fontSize={"2em"}
+      fontWeight={"bold"}
+      color={"gray.600"}
+      fontFamily="Montserrat"
+    >
+        WellService Operations
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={proposedCount ? proposedCount : <p>Loading...</p>}
-          icon={FaCopy}
-          label={"PROPOSED"}
-          subLabel="Pekerjaan Diajukan"
-        />
-        <PerhitunganCard
-          number={AprovedCount ? AprovedCount : <p>Loading...</p>}
+          number={AprovedCount !== undefined && AprovedCount !== null ? AprovedCount : <p>Loading...</p>}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
@@ -123,53 +97,31 @@ const OperationWS = () => {
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={ReturnedCount ? ReturnedCount : <p>Loading...</p>}
-          label={"RETURNED"}
+          number={operatingCount !== undefined && operatingCount !== null ? operatingCount : <p>Loading...</p>}
+          icon={FaCopy}
+          label={"OPERATING"}
+          subLabel="Pekerjaan Berlangsung"
+        />
+        <PerhitunganCard
+          number={finishedCount !== undefined && finishedCount !== null ? finishedCount : <p>Loading...</p>}
+          label={"FINISHED"}
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
-          subLabel="Pekerjaan Dikembalikan"
+          subLabel="Pekerjaan Selesai"
         />
       </Flex>
-      <Box my={6}>
-        <ProposedWorkTable headers={headerstable1} title={"List Development "}>
-          {dataWell ? dataWell.map((row,index) => (
-            <Tr key={index}>
-              <Td>{index}</Td>
-              <Td>{row.well_name}</Td>
-              <Td>{row.wilayah_kerja}</Td>
-              <Td>{row.lapangan}</Td>
-              <Td>{row.date_started}</Td>
-              <Td>{row.date_finished}</Td>
-              <Td>{row.date_proposed}</Td>
-              <Td>
-                <StatusBadge status={row.planning_status} />
-              </Td>
-              <Td>
-                <Button
-                  leftIcon={<Icon as={FaEye} />}
-                  colorScheme="gray"
-                  size="sm"
-                  mr={2}
-                >
-                  View
-                </Button>
-                <Button
-                  leftIcon={<Icon as={FaCheck} />}
-                  colorScheme="green"
-                  size="sm"
-                  isDisabled={row.planning_status !== "PROPOSED"}
-                >
-                  Approve
-                </Button>
-              </Td>
-            </Tr>
-          )): <p>Loading...</p>}
-        </ProposedWorkTable>
-      </Box>
+      <Box >
+      <ProposedWorkTable
+        columnDefs={headerstable1}
+        rowData={dataWell}
+        title={"Pekerjaan beroperasi"}
+        subtitle={"Pekerjaan yang disetujui dan beroperasi"}
+      />
+    </Box>  
       <Footer />
-    </div>
+    </Flex>
   );
 };
 
-export default OperationWS;
+export default OperationWellService;

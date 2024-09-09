@@ -35,7 +35,7 @@ import PlanningExpKKKS from "./Page/Components/PageExplorasi/PlanningExp";
 import OperationDev from "./Page/PageSKK/ChildDevelopment/OperationDev";
 import PPPDev from "./Page/PageSKK/ChildDevelopment/PPPDev";
 import CloseOutDev from "./Page/PageSKK/ChildDevelopment/CloseOutDev";
-import OperationsWO from "./Page/PageSKK/ChildWorkOver/OperationsWO";
+import OperationWO from "./Page/PageSKK/ChildWorkOver/OperationWO";
 import PPPWO from "./Page/PageSKK/ChildWorkOver/PPPWO";
 import CloseOutWO from "./Page/PageSKK/ChildWorkOver/CloseOutWO";
 import OperationWS from "./Page/PageSKK/ChildWellService/OperationWS";
@@ -375,7 +375,7 @@ function App() {
           path: "workover/operationsworkover",
           element: (
             <ProtectedRoute
-              element={<OperationsWO />}
+              element={<OperationWO />}
               allowedRoles={["Admin"]}
             />
           ),

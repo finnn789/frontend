@@ -7,31 +7,32 @@ import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import { getJobPhase } from "../../API/APISKK";
-const PPPExploration = () => {
+const OperationWorkOver = () => {
   const [phaseData, setPhaseData] = React.useState(null);
 
   React.useEffect(() => {
     const getData = async () => {
-      const data = await getJobPhase('exploration', 'ppp');
+      const data = await getJobPhase('workover', 'operation');
       setPhaseData(data);
     };
     getData();
   }, []);
 // console.log(countStatus);
 
-  const proposedCount = phaseData ? phaseData.summary.diajukan : null;
-  const aprovedCount = phaseData ? phaseData.summary.disetujui : null;
+  const operatingCount = phaseData ? phaseData.summary.beroperasi : null;
+  const AprovedCount = phaseData ? phaseData.summary.disetujui : null;
   const finishedCount = phaseData ? phaseData.summary.selesai_beroperasi : null;
   const dataWell = phaseData ? phaseData.job_details : null;
 
   const StatusBadge = (props) => {
-    
+    console.log('StatusBadge props:', props); // Tambahkan log untuk debugging
+  
     const colorScheme =
-    props.value === "FINISHED OPS"
+    props.value === "OPERATING"
         ? "blue"
-        : props.value === "P3 PROPOSED"
+        : props.value === "APPROVED"
         ? "green"
-        : props.value === "P3 APPROVED"
+        : props.value === "FINISHED OPS"
         ? "red"
         : "gray";
   
@@ -53,10 +54,11 @@ const PPPExploration = () => {
     { headerName: "Wilayah Kerja", field: "WILAYAH KERJA" },
     { headerName: "Lapangan", field: "LAPANGAN" },
     { headerName: "KKKS", field: "KKKS" },
+    { headerName: "Jenis Pekerjaan", field: "JENIS PEKERJAAN" },
+    { headerName: "Rencana Mulai", field: "RENCANA MULAI" },
+    { headerName: "Rencana Mulai", field: "RENCANA SELESAI" },
     { headerName: "Realisasi Mulai", field: "REALISASI MULAI" },
     { headerName: "Realisasi Mulai", field: "REALISASI SELESAI" },
-    { headerName: "Tanggal P3 Diajukan", field: "TANGGAL P3 DIAJUKAN" },
-    { headerName: "Tanggal P3 Disetujui", field: "TANGGAL P3 DISETUJUI" },
     {
       headerName: "Status",
       field: "STATUS",
@@ -83,39 +85,38 @@ const PPPExploration = () => {
       color={"gray.600"}
       fontFamily="Montserrat"
     >
-        Exploration PPP
+        WorkOver Operations
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={finishedCount !== undefined && finishedCount !== null ? finishedCount : <p>Loading...</p>}
-          icon={FaCopy}
-          label={"FNISHED OPS"}
-          subLabel="Pekerjaan Selesai Operasi"
-        />
-        <PerhitunganCard
-          number={proposedCount !== undefined && proposedCount !== null ? proposedCount : <p>Loading...</p>}
+          number={AprovedCount !== undefined && AprovedCount !== null ? AprovedCount : <p>Loading...</p>}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
           label={"APPROVED"}
-          subLabel="Pekerjaan P3 Disetujui"
+          subLabel="Pekerjaan Disetujui"
         />
-
-      <PerhitunganCard
-          number={aprovedCount !== undefined && aprovedCount !== null ? aprovedCount : <p>Loading...</p>}
-          label={"APPROVED"}
+        <PerhitunganCard
+          number={operatingCount !== undefined && operatingCount !== null ? operatingCount : <p>Loading...</p>}
+          icon={FaCopy}
+          label={"OPERATING"}
+          subLabel="Pekerjaan Berlangsung"
+        />
+        <PerhitunganCard
+          number={finishedCount !== undefined && finishedCount !== null ? finishedCount : <p>Loading...</p>}
+          label={"FINISHED"}
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
-          subLabel="Pekerjaan P3 Selesai"
+          subLabel="Pekerjaan Selesai"
         />
       </Flex>
       <Box >
       <ProposedWorkTable
         columnDefs={headerstable1}
         rowData={dataWell}
-        title={"Pekerjaan P3"}
-        subtitle={"Pekerjaan yang selesai beroperasi dan P3"}
+        title={"Pekerjaan beroperasi"}
+        subtitle={"Pekerjaan yang disetujui dan beroperasi"}
       />
     </Box>  
       <Footer />
@@ -123,4 +124,4 @@ const PPPExploration = () => {
   );
 };
 
-export default PPPExploration;
+export default OperationWorkOver;
