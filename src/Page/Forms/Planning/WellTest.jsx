@@ -58,12 +58,9 @@ const WellTest = ({ onData, unitype }) => {
     });
   };
 
-
   useEffect(() => {
     onData(formData);
   }, [formData]);
-
-  
 
   return (
     <div fontFamily={"Montserrat"}>
@@ -104,6 +101,8 @@ const WellTest = ({ onData, unitype }) => {
                     />
                   </InputGroup>
                 </FormControl>
+              </HStack>
+              <HStack spacing={4}>
                 <FormControl>
                   <FormLabel>Zone Top Depth</FormLabel>
                   <InputGroup>
@@ -114,11 +113,12 @@ const WellTest = ({ onData, unitype }) => {
                       onChange={handleChange}
                       placeholder="Zone Top Depth"
                     />
-                    <InputRightAddon>{unitype === "Metrics" && "METERS" || unitype === "Imperial" && "FEET"}</InputRightAddon>
+                    <InputRightAddon>
+                      {(unitype === "Metrics" && "METERS") ||
+                        (unitype === "Imperial" && "FEET")}
+                    </InputRightAddon>
                   </InputGroup>
                 </FormControl>
-              </HStack>
-              <HStack spacing={4}>
                 <FormControl>
                   <FormLabel>Zone Bottom Depth</FormLabel>
                   <InputGroup>
@@ -129,10 +129,13 @@ const WellTest = ({ onData, unitype }) => {
                       onChange={handleChange}
                       placeholder="Zone Bottom Depth"
                     />
-                    <InputRightAddon>{unitype === "Metrics" && "METERS" || unitype === "Imperial" && "FEET"}</InputRightAddon>
+                    <InputRightAddon>
+                      {(unitype === "Metrics" && "METERS") ||
+                        (unitype === "Imperial" && "FEET")}
+                    </InputRightAddon>
                   </InputGroup>
                 </FormControl>
-                <FormControl>
+                {/* <FormControl>
                   <FormLabel>Depth UOM</FormLabel>
                   <Select
                     name="depth_uom"
@@ -142,7 +145,7 @@ const WellTest = ({ onData, unitype }) => {
                     <option value="FEET">FEET</option>
                     <option value="METER">METER</option>
                   </Select>
-                </FormControl>
+                </FormControl> */}
               </HStack>
               <Button colorScheme="blue" onClick={handleAddClick}>
                 Add
