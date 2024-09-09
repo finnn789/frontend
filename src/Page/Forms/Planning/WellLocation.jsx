@@ -11,11 +11,12 @@ import {
   Flex,
   Text,
   Icon,
+  FormErrorMessage,
   GridItem,
 } from "@chakra-ui/react";
 import { IconDropCircle } from "@tabler/icons-react";
 
-const WellLocation = ({ handleChange }) => {
+const WellLocation = ({ handleChange ,errorForms }) => {
   // State lokal untuk menangani input sebelum diformat dan dikirim ke parent
   const [localValues, setLocalValues] = useState({
     surface_longitude: '',
@@ -75,7 +76,7 @@ const WellLocation = ({ handleChange }) => {
 
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.surface_longitude"]}>
               <FormLabel>Surface Longitude</FormLabel>
               <InputGroup>
                 <Input
@@ -87,10 +88,11 @@ const WellLocation = ({ handleChange }) => {
                 />
                 <InputRightAddon>°</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.surface_longitude"] && <FormErrorMessage>Surface longitude is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.surface_latitude"]}>
               <FormLabel>Surface Latitude</FormLabel>
               <InputGroup>
                 <Input
@@ -102,13 +104,14 @@ const WellLocation = ({ handleChange }) => {
                 />
                 <InputRightAddon>°</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.surface_latitude"] && <FormErrorMessage>Surface latitude is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
         </Grid>
 
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.bottom_hole_longitude"]}>
               <FormLabel>Bottom Hole Longitude</FormLabel>
               <InputGroup>
                 <Input
@@ -120,10 +123,11 @@ const WellLocation = ({ handleChange }) => {
                 />
                 <InputRightAddon>°</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.bottom_hole_longitude"] && <FormErrorMessage>Bottom hole longitude is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
           <GridItem>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.bottom_hole_latitude"]}>
               <FormLabel>Bottom Hole Latitude</FormLabel>
               <InputGroup>
                 <Input
@@ -135,6 +139,7 @@ const WellLocation = ({ handleChange }) => {
                 />
                 <InputRightAddon>°</InputRightAddon>
               </InputGroup>
+              {errorForms["job_plan.well.bottom_hole_latitude"] && <FormErrorMessage>Bottom hole latitude is required</FormErrorMessage>}
             </FormControl>
           </GridItem>
         </Grid>

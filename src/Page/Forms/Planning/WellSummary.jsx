@@ -21,6 +21,7 @@ import {
   Td,
   Text,
   Icon,
+  FormErrorMessage,
   IconButton,
 } from "@chakra-ui/react";
 import { IconTablePlus, IconTrash } from "@tabler/icons-react";
@@ -30,10 +31,12 @@ const WellSummary = ({
   handleInputChange,
   currentEntry,
   tableData,
+  errorForms,
   setTableData,
   unittype // Tambahkan setTableData untuk memungkinkan penghapusan data
 }) => {
   const [depthValue, setDepthValue] = React.useState("MSL");
+
 
   // Fungsi untuk menghapus baris berdasarkan indeks
   const handleDeleteRow = (index) => {
@@ -67,6 +70,7 @@ const WellSummary = ({
           </Flex>
           <VStack spacing={4} align="stretch" overflowY="auto" height="calc(100% - 80px)">
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+              {/* Form Inputs */}
               <FormControl>
                 <FormLabel>Depth</FormLabel>
                 <InputGroup>
@@ -235,8 +239,13 @@ const WellSummary = ({
                 </Tbody>
               </Table>
             ) : (
-              <Flex justifyContent="center" alignItems="center" height="100%">
+              <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
                 <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+                {!!errorForms["job_plan.well.well_summary"] && (
+                  <Text color="red.500" fontSize="sm" mt={2}>
+                    Well Summary cannot be empty.
+                  </Text>
+                )}
               </Flex>
             )}
           </Box>

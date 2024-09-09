@@ -13,7 +13,7 @@ import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
 
-const CardFormWell = ({ onFormChange, unitType }) => {
+const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
   const [formData, setFormData] = useState({
     unit_type: unitType,
     uwi: "",
@@ -22,11 +22,11 @@ const CardFormWell = ({ onFormChange, unitType }) => {
     kkks_id: "",
     well_name: "",
     alias_long_name: "",
-    well_type: "WILDCAT",
+    well_type: "",
     well_status: "Active",
     well_profile_type: "",
     hydrocarbon_target: "OIL",
-    environment_type: "MARINE",
+    environment_type: "",
     surface_longitude: 0,
     surface_latitude: 0,
     bottom_hole_longitude: 0,
@@ -66,6 +66,10 @@ const CardFormWell = ({ onFormChange, unitType }) => {
       data_format: "IMAGE",
     },
     well_documents: [],
+    well_summary: [],
+    well_casing: [],
+    well_stratigraphy: [],
+    work_breakdown_structure: [],
   });
   console.log(formData);
 
@@ -230,16 +234,18 @@ const CardFormWell = ({ onFormChange, unitType }) => {
         handleChange={handleChange}
         formData={formData}
         unittype={unitType}
+        errorForms={errorForms}
       />
-      <WellLocation handleChange={handleChange} />
-      <ElevationsAndDepths handleChange={handleChange} unittype={unitType} />
-      <Seismic handleChange={handleChange} formData={formData} />
-      <KeyDates handleChange={handleChange} formData={formData} />
+      <WellLocation handleChange={handleChange} errorForms={errorForms} />
+      <ElevationsAndDepths handleChange={handleChange} unittype={unitType} errorForms={errorForms} />
+      {/* <Seismic handleChange={handleChange} formData={formData} />  */}
+      <KeyDates handleChange={handleChange} formData={formData} errorForms={errorForms} />
       <WellSummary
         handleAddClick={handleAddClick}
         handleInputChange={handleInputChange}
         currentEntry={currentEntry}
         tableData={tableData}
+        errorForms={errorForms}
         unittype={unitType}
       />
 
@@ -248,12 +254,14 @@ const CardFormWell = ({ onFormChange, unitType }) => {
           setFormData((prev) => ({ ...prev, well_casing: data }))
         }
         unitType={unitType}
+        errorForms={errorForms}
       />
       <Stratigraphy
         setWellStratigraphy={setWellStratigraphy}
         WellStratigraphy={WellStratigraphy}
         handleInputChangeWellStraigraphy={handleInputChangeWellStraigraphy}
         handleWellStratichy={handleWellStratichy}
+        errorForms={errorForms}
         unittype={unitType}
         TablewellStratigraphy={TablewellStratigraphy}
       />
@@ -262,13 +270,15 @@ const CardFormWell = ({ onFormChange, unitType }) => {
         ondata={(data) =>
           setFormData((prev) => ({ ...prev, well_trajectory: data }))
         }
+        errorForms={errorForms}
       />
       <WellPorePressureForm
+        errorForms={errorForms}
         handleDataSubmit={(e) =>
           setFormData((prev) => ({ ...prev, well_ppfg: e }))
         }
       />
-      <WellTest onData={handleData} unitype={unitType} />
+      <WellTest onData={handleData} unitype={unitType} errorForms={errorForms} />
     </>
   );
 };

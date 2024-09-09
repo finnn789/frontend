@@ -29,7 +29,7 @@ const WorkBreakdownForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
     unit_type: "Metrics",
     phase: "",
-    depth_datum: "RT        ",
+    depth_datum: "RT",
     depth_in: 0,
     depth_out: 0,
     operation_days: 0,
@@ -144,7 +144,7 @@ const WorkBreakdownForm = ({ onAddItem }) => {
   );
 };
 
-const JobOperationDays = ({ ondata }) => {
+const JobOperationDays = ({ ondata, errorForms }) => {
   const [items, setItems] = useState([]);
 
   const handleAddItem = (newItem) => {
@@ -182,6 +182,7 @@ const JobOperationDays = ({ ondata }) => {
             </Text>
           </Flex>
         </Flex>
+        {items.length > 0 ? (
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -201,7 +202,19 @@ const JobOperationDays = ({ ondata }) => {
               </Tr>
             ))}
           </Tbody>
-        </Table>
+          </Table>
+        ) : (
+          <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
+          <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+          {/* Tampilkan pesan error hanya jika objek dan propertinya ada */}
+{errorForms && errorForms["job_plan.job_operation_days"] && errorForms["job_plan.job_operation_days"] && (
+  <Text color="red.500" fontSize="sm" mt={2}>
+    Job Operation Day cannot be empty.
+  </Text>
+)}
+
+        </Flex>
+          )}
       </Box>
     </Flex>
   );

@@ -16,6 +16,7 @@ const Operasional = ({
   WBSdata,
   HazardTypeData,
   jobDocumentsData,
+  formErrors
 }) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
@@ -47,11 +48,12 @@ const Operasional = ({
         onData={(e) => setData(e)}
         handleChangeJobPlan={jobPlanData}
         TypeOperasional={TypeOperasionalJob}
+        errorForms={formErrors}
       />
       <WRMRequirement datawrm={datawrm} onDataChange={handleData} />
-      <WorkBreakDownStructure ondata={WBSdata} />
-      <JobOpertionsDays ondata={jobOperationData} />
-      <HazardType onDataChange={HazardTypeData} />
+      <WorkBreakDownStructure ondata={WBSdata} errorForms={formErrors} />
+      <JobOpertionsDays ondata={jobOperationData} formErrors={formErrors}/>
+      <HazardType onDataChange={HazardTypeData} formErrors={formErrors} />
       <JobDocuments data={jobDocumentsData} />
     </div>
   );

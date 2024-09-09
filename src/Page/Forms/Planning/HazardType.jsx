@@ -182,7 +182,7 @@ const HazardTypeForm = ({ onAddItem }) => {
   );
 };
 
-const HazardType = ({ onDataChange }) => {
+const HazardType = ({ onDataChange, errorForms }) => {
   const [items, setItems] = useState([]);
 
   const handleAddItem = (newItem) => {
@@ -224,6 +224,7 @@ const HazardType = ({ onDataChange }) => {
             </Text>
           </Flex>
         </Flex>
+        {items.length > 0 ? (
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -245,7 +246,17 @@ const HazardType = ({ onDataChange }) => {
               </Tr>
             ))}
           </Tbody>
-        </Table>
+          </Table>
+        ) : (
+          <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
+          <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+          {/* {!!errorForms["job_plan.job_hazards"] && (
+            <Text color="red.500" fontSize="sm" mt={2}>
+              Job Operation Day cannot be empty.
+            </Text>
+          )} */}
+        </Flex>
+          )}
       </Box>
     </Flex>
   );

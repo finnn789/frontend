@@ -15,10 +15,11 @@ import {
   Flex,
   Icon,
   Text,
+  FormErrorMessage
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 
-const JobDetail = ({ handleChange, formData, unittype }) => {
+const JobDetail = ({ handleChange, formData, unittype, errorForms }) => {
   const wellType = [
     "DEALINATION",
     "WILDCAT",
@@ -43,7 +44,6 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
     },
   ]
 
-  
 
   return (
     <VStack spacing={6} align="stretch" fontFamily={"Montserrat"}>
@@ -66,7 +66,7 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
         </Flex>
         <VStack spacing={4} align="stretch" mt={5}>
           <HStack spacing={4}>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.uwi"]}>
               <FormLabel>UWI</FormLabel>
               <Input
                 name="uwi"
@@ -75,8 +75,9 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
                 onChange={handleChange}
                 placeholder="UWI"
               />
+              {errorForms["job_plan.well.uwi"] && <FormErrorMessage>UWI is required</FormErrorMessage>}
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.well_name"]}>
               <FormLabel>Well Name</FormLabel>
               <Input
                 name="well_name"
@@ -85,10 +86,11 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
                 onChange={handleChange}
                 placeholder="Nama Sumur"
               />
+              {errorForms["job_plan.well.well_name"] && <FormErrorMessage>Well Name is required</FormErrorMessage>}
             </FormControl>
           </HStack>
           <HStack spacing={4}>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.alias_long_name"]}>
               <FormLabel>Alias Long Name</FormLabel>
               <Input
                 name="alias_long_name"
@@ -97,8 +99,9 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
                 onChange={handleChange}
                 placeholder="Nama Lengkap Sumur"
               />
+              {errorForms["job_plan.well.alias_long_name"] && <FormErrorMessage>Alias Long Name is required</FormErrorMessage>}
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.well_type"]}>
               <FormLabel>Well Type</FormLabel>
               <Select
                 name="well_type"
@@ -113,10 +116,11 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
                   <option value={item}>{item}</option>
                 ))}
               </Select>
+              {errorForms["job_plan.well.well_type"] && <FormErrorMessage>Well Type is required</FormErrorMessage>}
             </FormControl>
           </HStack>
           <HStack spacing={4}>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.well_profile_type"]} >
               <FormLabel>Well Profile Type</FormLabel>
               <Select
                 name="well_profile_type"
@@ -128,19 +132,21 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
                   <option key={index} value={item.value}>{item.name}</option>
                 ))}
               </Select>
+              {errorForms["job_plan.well.well_profile_type"] && <FormErrorMessage>Well Profile Type is required</FormErrorMessage>}
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={!!errorForms["job_plan.well.environment_type"]}>
               <FormLabel>Environment Type</FormLabel>
               <Select
                 name="environment_type"
                 value={formData.environment_type}
                 onChange={handleChange}
               >
-                <option value="">Select Environment Type</option>
+                <option value="" disabled>Select Environment Type</option>
                 <option value="SWAMP">SWAMP</option>
                 <option value="MARINE">MARINE</option>
                 <option value="LAND">LAND</option>
               </Select>
+              {errorForms["job_plan.well.environment_type"] && <FormErrorMessage>Environment Type is required</FormErrorMessage>}
             </FormControl>
           </HStack>
         </VStack>
@@ -159,7 +165,7 @@ const JobDetail = ({ handleChange, formData, unittype }) => {
               Directional
             </Heading>
 
-            <FormControl>
+            <FormControl >
               <FormLabel>Directional Type</FormLabel>
               <Select
                 name="directionalType"

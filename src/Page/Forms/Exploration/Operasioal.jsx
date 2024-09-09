@@ -8,7 +8,7 @@ import HazardType from "../Planning/HazardType";
 import JobDocuments from "../Planning/JobDocuments";
 
 
-const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData,HazardTypeData, CuttingDumping }) => {
+const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData,HazardTypeData, CuttingDumping, errorForms }) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
   // console.log(data);
@@ -32,6 +32,7 @@ const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleC
   return (
     <div>
       <ProposedJob
+        errorForms={errorForms}
         onData={(newData) => {
           setData((prevJobPlan) => ({
             ...prevJobPlan, // Mempertahankan data sebelumnya
@@ -42,14 +43,17 @@ const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleC
         // handleChangeWPBYear = {handleChangeWPBYear}
         handleChangeJobPlan={handleChangeJobPlan}
       />
-      <WRMRequirement onDataChange={datawrm} showCuttingDumpingCheckbox={CuttingDumping}/>
+      <WRMRequirement onDataChange={datawrm} showCuttingDumpingCheckbox={CuttingDumping} errorForms={errorForms} />
       <WorkBreakdownStructure
+        errorForms={errorForms}
         ondata={WBSData}
       />
       <JobOpertionsDays
+        errorForms={errorForms}
         ondata={JobOperationData}
       />
       <HazardType
+        errorForms={errorForms}
         onDataChange={HazardTypeData}
       />
 

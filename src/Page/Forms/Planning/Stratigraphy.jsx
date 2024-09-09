@@ -18,9 +18,9 @@ import {
   Tbody,
   Tr,
   Th,
-    Td,
-    Icon,
-  Text
+  Td,
+  Icon,
+  Text,
 } from "@chakra-ui/react";
 import { IconLayersSubtract } from "@tabler/icons-react";
 const Stratigraphy = ({
@@ -29,6 +29,7 @@ const Stratigraphy = ({
   handleInputChangeWellStraigraphy,
   handleWellStratichy,
   TablewellStratigraphy,
+  errorForms,
   unittype
 }) => {
   const selectType = [
@@ -44,14 +45,24 @@ const Stratigraphy = ({
       name: "MSL",
       value: "MSL",
     },
-  ]
+  ];
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={3} mt={7} fontFamily={"Montserrat"}>
+    <Grid
+      templateColumns="repeat(2, 1fr)"
+      gap={3}
+      mt={7}
+      fontFamily={"Montserrat"}
+    >
       <GridItem colSpan={1} height={"100%"}>
         <Box borderWidth="1px" borderRadius="lg" p={6}>
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Flex alignItems="center">
-              <Icon as={IconLayersSubtract} boxSize={12} color="gray.800" mr={3} />
+              <Icon
+                as={IconLayersSubtract}
+                boxSize={12}
+                color="gray.800"
+                mr={3}
+              />
               <Flex flexDirection="column">
                 <Text
                   fontSize="xl"
@@ -129,32 +140,43 @@ const Stratigraphy = ({
       </GridItem>
 
       <GridItem height={"100%"}>
-        <Box
-          borderWidth="1px"
-          height={"325px"}
-          borderRadius="lg"
-          p={6}
-        >
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>Depth</Th>
-                <Th>Hole Diameter</Th>
+        <Box borderWidth="1px" height={"325px"} borderRadius="lg" p={6}>
+          {TablewellStratigraphy.length > 0 ? (
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>Depth</Th>
+                  <Th>Hole Diameter</Th>
 
-                {/* Tambahkan header lain sesuai kebutuhan */}
-              </Tr>
-            </Thead>
-            <Tbody>
-              {TablewellStratigraphy.map((row, index) => (
-                <Tr key={index}>
-                  <Td>{row.depth}</Td>
-                  <Td>{row.stratigraphy_id}</Td>
-
-                  {/* Tambahkan sel lain sesuai kebutuhan */}
+                  {/* Tambahkan header lain sesuai kebutuhan */}
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
+              </Thead>
+              <Tbody>
+                {TablewellStratigraphy.map((row, index) => (
+                  <Tr key={index}>
+                    <Td>{row.depth}</Td>
+                    <Td>{row.stratigraphy_id}</Td>
+
+                    {/* Tambahkan sel lain sesuai kebutuhan */}
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          ) : (
+            <Flex
+              justifyContent="center"
+              flexDirection={"column"}
+              alignItems="center"
+              height="100%"
+            >
+              <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+              {!!errorForms["job_plan.well.well_stratigraphy"] && (
+                <Text color="red.500" fontSize="sm" mt={2}>
+                  Well Stratigraphy cannot be empty.
+                </Text>
+              )}
+            </Flex>
+          )}
         </Box>
       </GridItem>
     </Grid>

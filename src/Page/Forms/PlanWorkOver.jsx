@@ -72,30 +72,88 @@ const PlanWorkOverForm = () => {
     }));
   };
 
+  const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
+  const validateForm = (formData, parentKey = "") => {
+    let errors = {};
+  
+    // Iterasi melalui setiap key dalam formData
+    Object.entries(formData).forEach(([key, value]) => {
+      // Tentukan nama lengkap key termasuk parent jika ada (dot notation)
+      const fullKey = parentKey ? `${parentKey}.${key}` : key;
+  
+      // Jika value adalah object dan bukan array, lakukan rekursi
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        errors = { ...errors, ...validateForm(value, fullKey) };
+      } else if (Array.isArray(value) && value.length === 0) {
+        // Jika value adalah array kosong, tambahkan pesan error
+        errors[fullKey] = `${fullKey.replace(/_/g, " ")} cannot be empty.`;
+      } else if (!value || (typeof value === "string" && value.trim() === "")) {
+        // Tambahkan pesan error jika value kosong atau string kosong
+        errors[fullKey] = `${fullKey.replace(/_/g, " ")} is required.`;
+      }
+    });
+  
+    return errors;
+  };
+
   const PostDatanya = async () => {
+    // Lakukan validasi form sebelum pengiriman data
+    const errors = validateForm(jobPlan);
+    
+    if (Object.keys(errors).length > 0) {
+      console.log("errors", errors);
+      setFormErrors(errors);
+      toast({
+        title: "Terjadi kesalahan.",
+        description: "Tolong isi semua field yang diperlukan.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+  
     setLoading(true);
     try {
-      const submit = await PostWorkover(jobPlan);
-      if (submit) {
-        setLoading(false);
+      // Lakukan pengiriman data setelah validasi berhasil
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_URL}/job/planning/create/wellservice`,
+        jobPlan,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+  
+      if (response.status === 200) {
         toast({
-          title: "Success",
-          description: "Data Berhasil Disimpan",
+          title: "Data berhasil dikirim.",
+          description: "Data telah berhasil disimpan ke database.",
           status: "success",
-          duration: 3000,
+          duration: 5000,
           isClosable: true,
         });
       }
     } catch (error) {
-      console.error(error);
-      setLoading(false);
+      console.error("Error Dalam Kirim Data", error);
+  
+      toast({
+        title: "Terjadi kesalahan.",
+        description: "Data gagal dikirim ke server.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <>
@@ -121,6 +179,7 @@ const PlanWorkOverForm = () => {
           <TabPanels>
             <TabPanel>
               <TecnicalForm
+                formErrors={formErrors}
                 dataExistingWell={(e) =>
                   setJobPlan((prev) => ({ ...prev, job_plan: {
                     ...prev.job_plan,
@@ -131,6 +190,7 @@ const PlanWorkOverForm = () => {
             </TabPanel>
             <TabPanel>
               <Operasional
+                formErrors={formErrors}
                 TypeOperasionalJob={"WORKOVER"}
                 onData={(e) =>
                   setJobPlan((prevData) => ({
