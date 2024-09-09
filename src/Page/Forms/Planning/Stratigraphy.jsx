@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   GridItem,
@@ -23,64 +23,94 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IconLayersSubtract } from "@tabler/icons-react";
+
 const Stratigraphy = ({
-  setWellStratigraphy,
-  WellStratigraphy,
-  handleInputChangeWellStraigraphy,
-  handleWellStratichy,
-  TablewellStratigraphy,
+  setWellStratigraphy, // From parent to synchronize state
+  unittype,
   errorForms,
-  unittype
 }) => {
+  // Internal state to manage stratigraphy data
+  const [WellStratigraphy, setLocalWellStratigraphy] = useState({
+    stratigraphy_id: "",
+    depth: "",
+    depth_datum: "",
+    TablewellStratigraphy: [],
+  });
+
+  // Update the parent component whenever local state changes
+  useEffect(() => {
+    setWellStratigraphy(WellStratigraphy);
+  }, [WellStratigraphy, setWellStratigraphy]);
+
+  // Options for select dropdown
   const selectType = [
-    {
-      name: "RT",
-      value: "RT",
-    },
-    {
-      name: "KB",
-      value: "KB",
-    },
-    {
-      name: "MSL",
-      value: "MSL",
-    },
+    { name: "RT", value: "RT" },
+    { name: "KB", value: "KB" },
+    { name: "MSL", value: "MSL" },
   ];
+
+  // Handle input changes
+  const handleInputChangeWellStratigraphy = (e) => {
+    const { name, value } = e.target;
+    setLocalWellStratigraphy((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Add new stratigraphy data to the table
+  const handleWellStratichy = () => {
+    const { stratigraphy_id, depth } = WellStratigraphy;
+
+    // Basic validation
+    if (!stratigraphy_id || !depth) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Update table data with new entry
+    setLocalWellStratigraphy((prev) => ({
+      ...prev,
+      TablewellStratigraphy: [
+        ...prev.TablewellStratigraphy,
+        { stratigraphy_id, depth },
+      ],
+      stratigraphy_id: "",
+      depth: "",
+    }));
+  };
+
+  // Handle deletion of a table row
+  const handleDelete = (index) => {
+    const updatedStratigraphy = WellStratigraphy.TablewellStratigraphy.filter(
+      (_, i) => i !== index
+    );
+    setLocalWellStratigraphy({
+      ...WellStratigraphy,
+      TablewellStratigraphy: updatedStratigraphy,
+    });
+  };
+
   return (
-    <Grid
-      templateColumns="repeat(2, 1fr)"
-      gap={3}
-      mt={7}
-      fontFamily={"Montserrat"}
-    >
-      <GridItem colSpan={1} height={"100%"}>
+    <Grid templateColumns="repeat(2, 1fr)" gap={3} mt={7} fontFamily="Montserrat">
+      <GridItem colSpan={1} height="100%">
         <Box borderWidth="1px" borderRadius="lg" p={6}>
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Flex alignItems="center">
-              <Icon
-                as={IconLayersSubtract}
-                boxSize={12}
-                color="gray.800"
-                mr={3}
-              />
+              <Icon as={IconLayersSubtract} boxSize={12} color="gray.800" mr={3} />
               <Flex flexDirection="column">
-                <Text
-                  fontSize="xl"
-                  fontWeight="bold"
-                  color="gray.700"
-                  fontFamily="Montserrat"
-                >
+                <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
                   Stratigraphy
                 </Text>
                 <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
-                  subtitle
+                  Subtitle
                 </Text>
               </Flex>
             </Flex>
             <Select
-              width={"auto"}
+              width="auto"
               onChange={(e) =>
-                setWellStratigraphy({
+                setLocalWellStratigraphy({
                   ...WellStratigraphy,
                   depth_datum: e.target.value,
                 })
@@ -101,15 +131,11 @@ const Stratigraphy = ({
                   <Select
                     name="stratigraphy_id"
                     value={WellStratigraphy.stratigraphy_id}
-                    onChange={handleInputChangeWellStraigraphy}
+                    onChange={handleInputChangeWellStratigraphy}
                     placeholder="Stratigraphy"
                   >
-                    <option value="LITHOSTRATIGRAPHIC">
-                      LITHOSTRATIGRAPHIC
-                    </option>
-                    <option value="CHRONOSTRATIGRAPHIC">
-                      CHRONOSTRATIGRAPHIC
-                    </option>
+                    <option value="LITHOSTRATIGRAPHIC">LITHOSTRATIGRAPHIC</option>
+                    <option value="CHRONOSTRATIGRAPHIC">CHRONOSTRATIGRAPHIC</option>
                     <option value="OTHER">OTHER</option>
                     <option value="RADIOMETRIC">RADIOMETRIC</option>
                     <option value="BIOSTRATIGRAPHIC">BIOSTRATIGRAPHIC</option>
@@ -124,10 +150,12 @@ const Stratigraphy = ({
                       name="depth"
                       type="number"
                       value={WellStratigraphy.depth}
-                      onChange={handleInputChangeWellStraigraphy}
+                      onChange={handleInputChangeWellStratigraphy}
                       placeholder="Depth"
                     />
-                    <InputRightAddon>{unittype === "Metrics" && "METER"  || unittype === "Imperial" && "FEET"}</InputRightAddon>
+                    <InputRightAddon>
+                      {unittype === "Metrics" ? "METER" : "FEET"}
+                    </InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </GridItem>
@@ -139,25 +167,31 @@ const Stratigraphy = ({
         </Box>
       </GridItem>
 
-      <GridItem height={"100%"}>
-        <Box borderWidth="1px" height={"325px"} borderRadius="lg" p={6}>
-          {TablewellStratigraphy.length > 0 ? (
+      <GridItem height="100%">
+        <Box borderWidth="1px" height="325px" borderRadius="lg" p={6}>
+          {WellStratigraphy.TablewellStratigraphy.length > 0 ? (
             <Table variant="simple">
               <Thead>
                 <Tr>
                   <Th>Depth</Th>
-                  <Th>Hole Diameter</Th>
-
-                  {/* Tambahkan header lain sesuai kebutuhan */}
+                  <Th>Stratigraphy</Th>
+                  <Th>Action</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {TablewellStratigraphy.map((row, index) => (
+                {WellStratigraphy.TablewellStratigraphy.map((row, index) => (
                   <Tr key={index}>
                     <Td>{row.depth}</Td>
                     <Td>{row.stratigraphy_id}</Td>
-
-                    {/* Tambahkan sel lain sesuai kebutuhan */}
+                    <Td>
+                      <Button
+                        colorScheme="red"
+                        size="sm"
+                        onClick={() => handleDelete(index)}
+                      >
+                        Delete
+                      </Button>
+                    </Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -165,11 +199,11 @@ const Stratigraphy = ({
           ) : (
             <Flex
               justifyContent="center"
-              flexDirection={"column"}
+              flexDirection="column"
               alignItems="center"
               height="100%"
             >
-              <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+              <Heading fontFamily="Montserrat">Tidak Ada Data</Heading>
               {!!errorForms["job_plan.well.well_stratigraphy"] && (
                 <Text color="red.500" fontSize="sm" mt={2}>
                   Well Stratigraphy cannot be empty.

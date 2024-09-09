@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Box,
   VStack,
@@ -24,12 +24,12 @@ import {
   InputRightAddon,
   Icon,
   Text,
-  Heading
+  Heading,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { IconCylinder } from "@tabler/icons-react";
 
-const WellCasing = ({ dataWellCasing , errorForms}) => {
+const WellCasing = ({ dataWellCasing, errorForms ,unittype = "Metrics"}) => {
   const [showWellCasing, setShowWellCasing] = useState({
     names: [],
     top_depths: [],
@@ -40,7 +40,7 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [tableWellCasing, setTableWellCasing] = useState([]);
   const [wellCasing, setWellCasing] = useState({
-    unit_type: "Metrics",
+    unit_type: unittype,
     depth_datum: "RT",
     depth: "",
     length: "",
@@ -92,7 +92,7 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
 
   const resetWellCasing = () => {
     setWellCasing({
-      unit_type: "Metrics",
+      unit_type: unittype ,
       depth_datum: "RT",
       depth: "",
       length: "",
@@ -105,6 +105,9 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
       description: "",
     });
   };
+
+  
+  
 
   const clickShowCasing = async () => {
     try {
@@ -186,6 +189,13 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
     },
   ];
 
+  useEffect(() => {
+    setWellCasing((prevData) => ({
+      ...prevData,
+      unit_type: unittype,
+    }));
+  }, [unittype]);
+
   return (
     <Grid
       templateColumns="repeat(2, 1fr)"
@@ -227,22 +237,7 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
         </Flex>
         <VStack spacing={4} align="stretch">
           <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-            <FormControl>
-              <FormLabel>Unit Type</FormLabel>
-              <Select
-                name="unit_type"
-                value={wellCasing.unit_type}
-                onChange={(e) =>
-                  setWellCasing({ ...wellCasing, unit_type: e.target.value })
-                }
-              >
-                {optionUnitType.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.name}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
+            
             <FormControl>
               <FormLabel>Depth</FormLabel>
               <InputGroup>
@@ -284,7 +279,7 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
                   placeholder="Hole Diameter"
                 />
                 <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "INCH" : "CM"}
+                  {wellCasing.unit_type === "Metrics" ? "INCH" : "mm"}
                 </InputRightAddon>
               </InputGroup>
             </FormControl>
@@ -299,7 +294,7 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
                   placeholder="Casing Outer Diameter"
                 />
                 <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "INCH" : "CM"}
+                  {wellCasing.unit_type === "Metrics" ? "INCH" : "mm"}
                 </InputRightAddon>
               </InputGroup>
             </FormControl>
@@ -314,22 +309,31 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
                   placeholder="Casing Inner Diameter"
                 />
                 <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "INCH" : "CM"}
+                  {wellCasing.unit_type === "Metrics" ? "INCH" : "mm"}
                 </InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
               <FormLabel>Casing Grade</FormLabel>
               <InputGroup>
-                <Input
-                  name="casing_grade"
+                <Select
+                  onChange={(e) =>
+                    setWellCasing({
+                      ...wellCasing,
+                      casing_grade: e.target.value,
+                    })
+                  }
+
                   value={wellCasing.casing_grade}
-                  onChange={handleInputChangeWellCasing}
-                  placeholder="Casing Grade"
-                />
-                <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "KSS" : "JSS"}
-                </InputRightAddon>
+                >
+                  <option value="H40">H40</option>
+                  <option value="K55">K55</option>
+                  <option value="J55">J55</option>
+                  <option value="N80">N80</option>
+                  <option value="C95">C95</option>
+                  <option value="P10">P10</option>
+                  <option value="S125">S125</option>
+                </Select>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -342,7 +346,7 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Weight"
                 />
-                <InputRightAddon>{"PPF"}</InputRightAddon>
+                <InputRightAddon>{wellCasing.unit_type ? "KG/m": "PPF"}</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -389,55 +393,59 @@ const WellCasing = ({ dataWellCasing , errorForms}) => {
             <TabPanel height="100%" p={0}>
               <Box overflowX="auto" height="100%">
                 {tableWellCasing.length > 0 ? (
-                <Table variant="simple">
-                  <Thead position="sticky" top={0} bg="white" zIndex={1}>
-                    <Tr>
-                      <Th>Depth</Th>
-                      <Th>Length</Th>
-                      <Th>Hole Diameter</Th>
-                      <Th>Casing Outer</Th>
-                      <Th>Casing Inner</Th>
-                      <Th>Casing Grade</Th>
-                      <Th>Casing Weight</Th>
-                      <Th>Description</Th>
-                      <Th>Action</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {tableWellCasing.map((row, index) => (
-                      <Tr key={index}>
-                        <Td>{row.depth}</Td>
-                        <Td>{row.length}</Td>
-                        <Td>{row.hole_diameter}</Td>
-                        <Td>{row.casing_outer_diameter}</Td>
-                        <Td>{row.casing_inner_diameter}</Td>
-                        <Td>{row.casing_grade}</Td>
-                        <Td>{row.casing_weight}</Td>
-                        <Td>{row.description}</Td>
-                        <Td>
-                          <Button
-                            colorScheme="red"
-                            size="sm"
-                            onClick={() => handleDeleteRow(index)}
-                          >
-                            Delete
-                          </Button>
-                        </Td>
+                  <Table variant="simple">
+                    <Thead position="sticky" top={0} bg="white" zIndex={1}>
+                      <Tr>
+                        <Th>Depth</Th>
+                        <Th>Length</Th>
+                        <Th>Hole Diameter</Th>
+                        <Th>Casing Outer</Th>
+                        <Th>Casing Inner</Th>
+                        <Th>Casing Grade</Th>
+                        <Th>Casing Weight</Th>
+                        <Th>Description</Th>
+                        <Th>Action</Th>
                       </Tr>
-                    ))}
-                      
-                  </Tbody>
+                    </Thead>
+                    <Tbody>
+                      {tableWellCasing.map((row, index) => (
+                        <Tr key={index}>
+                          <Td>{row.depth}</Td>
+                          <Td>{row.length}</Td>
+                          <Td>{row.hole_diameter}</Td>
+                          <Td>{row.casing_outer_diameter}</Td>
+                          <Td>{row.casing_inner_diameter}</Td>
+                          <Td>{row.casing_grade}</Td>
+                          <Td>{row.casing_weight}</Td>
+                          <Td>{row.description}</Td>
+                          <Td>
+                            <Button
+                              colorScheme="red"
+                              size="sm"
+                              onClick={() => handleDeleteRow(index)}
+                            >
+                              Delete
+                            </Button>
+                          </Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
                   </Table>
-                  ): (
-                    <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
-                      <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
-                      {!!errorForms["job_plan.well.well_casing"] && (
-                        <Text color="red.500" fontSize="sm" mt={2}>
-                          Well Cassing cannot be empty.
-                        </Text>
-                      )}
-                    </Flex>
-                  )}
+                ) : (
+                  <Flex
+                    justifyContent="center"
+                    flexDirection={"column"}
+                    alignItems="center"
+                    height="100%"
+                  >
+                    <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+                    {!!errorForms["job_plan.well.well_casing"] && (
+                      <Text color="red.500" fontSize="sm" mt={2}>
+                        Well Cassing cannot be empty.
+                      </Text>
+                    )}
+                  </Flex>
+                )}
               </Box>
             </TabPanel>
             <TabPanel>

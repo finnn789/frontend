@@ -115,7 +115,7 @@ const WellPorePressureForm = ({handleDataSubmit}) => {
             color="gray.700"
             fontFamily="Montserrat"
           >
-            {"Well Pore Pressure Prediction"}
+            {"Well Pore Pressure & Fracture Gradient"}
           </Text>
           <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
             {"WPPFG"}

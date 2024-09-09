@@ -253,7 +253,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         dataWellCasing={(data) =>
           setFormData((prev) => ({ ...prev, well_casing: data }))
         }
-        unitType={unitType}
+        unittype={unitType}
         errorForms={errorForms}
       />
       <Stratigraphy

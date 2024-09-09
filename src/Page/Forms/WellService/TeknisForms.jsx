@@ -13,10 +13,15 @@ import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
 import ExistingWell from "../Planning/ExistingWell";
+import CardFormWell from "../Exploration/TeknisForms";
 
-const TecnicalForm = ({ onFormChange, unitType, dataExistingWell,JobType ,formErrors}) => {
-  
-
+const TecnicalForm = ({
+  onFormChange,
+  unitType,
+  dataExistingWell,
+  JobType,
+  formErrors,
+}) => {
   const [formData, setFormData] = useState({
     unit_type: unitType,
     uwi: "",
@@ -198,47 +203,31 @@ const TecnicalForm = ({ onFormChange, unitType, dataExistingWell,JobType ,formEr
       well_test: newData,
     }));
   };
+  const handleWellDataChange = (wellData) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      wellData
+    }));
+  
+  };
+
+  const [newWell, setNewWell] = useState("")
+
+  
+  const [dataMetricImperial, setDataMetricImperial] = useState("Metrics");
+  
 
   // console.log('asd',handleInputChange);
   return (
     <>
-    <ExistingWell onSubmit={dataExistingWell}/>
-      {/* <JobDetail
-        handleChange={handleChange}
-        formData={formData}
-        unittype={unitType}
-      />
-      <WellLocation handleChange={handleChange} />
-      <ElevationsAndDepths handleChange={handleChange} unittype={unitType} />
-      <Seismic handleChange={handleChange} formData={formData} />
-      <KeyDates handleChange={handleChange} formData={formData} />
-      <WellSummary
-        handleAddClick={handleAddClick}
-        handleInputChange={handleInputChange}
-        currentEntry={currentEntry}
-        tableData={tableData}
-      />
+      <ExistingWell onSubmit={dataExistingWell} />
 
-      <WellCasing
-        dataWellCasing={(data) =>
-          setFormData((prev) => ({ ...prev, well_casing: data }))
-        }
-      />
-      <Stratigraphy
-        setWellStratigraphy={setWellStratigraphy}
-        WellStratigraphy={WellStratigraphy}
-        handleInputChangeWellStraigraphy={handleInputChangeWellStraigraphy}
-        handleWellStratichy={handleWellStratichy}
-        TablewellStratigraphy={TablewellStratigraphy}
-      />
 
-      <WellTrajectory
-        ondata={(data) =>
-          setFormData((prev) => ({ ...prev, well_trajectory: data }))
-        }
+      <CardFormWell
+        onFormChange={handleWellDataChange}
+        unitType={dataMetricImperial}
+        errorForms={formErrors}
       />
-      <WellPorePressureForm />
-      <WellTest onData={handleData} /> */}
     </>
   );
 };
