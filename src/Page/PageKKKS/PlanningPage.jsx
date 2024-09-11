@@ -6,7 +6,7 @@ import BarChartComponent from "./Components/Card/3DBarchart";
 import PieChart3D from "./Components/Card/3DPieChart";
 import TableComponent from "./Components/Card/AGGridCustom";
 import Footer from "./Components/Card/Footer";
-import <PerhitunganCard></PerhitunganCard> from "./Components/Card/CardPerhitunganBox";
+import PerhitunganCard from "./Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import { RiArrowRightUpLine } from "react-icons/ri";

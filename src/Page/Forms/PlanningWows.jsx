@@ -45,6 +45,7 @@ const NavigationMenu = ({ completedSections, activeTab }) => (
           </ListItem>
         )
       )}
+
     </List>
   </VStack>
 );
@@ -72,6 +73,7 @@ const WowsForm = () => {
     },
   });
 
+
   // Teknis Tab States
   const [wellData, setWellData] = useState({
     uwi:"",
@@ -83,6 +85,8 @@ const WowsForm = () => {
     hydrocarbonTarget: "",
     environmentType: "",
   });
+
+  console.log(wellData);
 
   const [koordinatData, setKoordinatData] = useState({
     surfaceLongitude: "",

@@ -89,6 +89,9 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
     remarks: "",
   });
 
+  console.log(currentEntry);
+  
+
   const [TablewellStratigraphy, setTablewellStratigraphy] = useState([]);
   const [WellStratigraphy, setWellStratigraphy] = useState({
     unit_type: "Metrics",
@@ -245,6 +248,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         handleInputChange={handleInputChange}
         currentEntry={currentEntry}
         tableData={tableData}
+        setTableData={setTableData}
         errorForms={errorForms}
         unittype={unitType}
       />
