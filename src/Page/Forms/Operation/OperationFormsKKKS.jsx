@@ -18,6 +18,8 @@ import WRMUpdates from "./FormHandling/WRMUpdates";
 import WRMUissues from "./FormHandling/WRMUissues";
 import WRMRequirement from "./FormParent.jsx/WRMRequirement";
 import AreaWell from "./FormHandling/AreaWell";
+import WellProfile from "./FormHandling/WellProfile";
+import OperationalParent from "./FormParent.jsx/Operational";
 
 const OperationFormsKKKS = () => {
   const [data, setData] = React.useState({
@@ -41,7 +43,7 @@ const OperationFormsKKKS = () => {
               <WRMRequirement />
             </TabPanel>
             <TabPanel>
-              <AreaWell/>
+              <OperationalParent/>
             </TabPanel>
           </TabPanels>
         </Tabs>

@@ -60,7 +60,7 @@ const WRMUissues = () => {
         </GridLayout.Item>
       </GridLayout>
 
-      <TableComponent columns={columns} data={data} headerKey="Head" />
+      <TableComponent headers={columns} data={data} headerKey="Head" />
     </CardFormK3>
   );
 };

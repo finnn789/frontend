@@ -20,7 +20,8 @@ const FormControlCard = ({
   alignInput = "Vertical",
   inputRightOn = null,
   isTextArea = false,
-  isDisabled = false, // New prop to disable the input or textarea
+  isDisabled = false, 
+  ...props// New prop to disable the input or textarea
 }) => {
   // Memoize the handleChange function to avoid unnecessary renders
   const memoizedHandleChange = useCallback(
@@ -39,7 +40,9 @@ const FormControlCard = ({
           value={value}
           onChange={memoizedHandleChange}
           placeholder={placeholder}
-          isDisabled={isDisabled} // Apply isDisabled prop
+          isDisabled={isDisabled} 
+          {...props}
+          // Apply isDisabled prop
         />
       );
     } else {
@@ -50,7 +53,9 @@ const FormControlCard = ({
           value={value}
           onChange={memoizedHandleChange}
           placeholder={placeholder}
-          isDisabled={isDisabled} // Apply isDisabled prop
+          isDisabled={isDisabled} 
+          {...props}
+          // Apply isDisabled prop
         />
       );
     }

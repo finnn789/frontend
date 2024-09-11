@@ -2,9 +2,10 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import React from "react";
 
 
-const Item = ({ children }) => {
+const Item = ({ children,colSpan }) => {
     return (
         <GridItem
+        colSpan={colSpan}
             gap={1}
             width="100%"
         >
