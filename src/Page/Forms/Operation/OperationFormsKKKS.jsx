@@ -21,6 +21,8 @@ import AreaWell from "./FormHandling/AreaWell";
 import WellProfile from "./FormHandling/WellProfile";
 import OperationalParent from "./FormParent.jsx/Operational";
 import Technical from "./FormParent.jsx/Technical";
+import DailyReport from "./FormParent.jsx/DailyReport";
+import TimeBreakdown from "./FormHandling/TimeBreakdown";
 
 const OperationFormsKKKS = () => {
   const [data, setData] = React.useState({
@@ -30,7 +32,7 @@ const OperationFormsKKKS = () => {
   return (
     <div>
       <Heading>+ Job Report</Heading>
-      <Box mt={4}>
+      <Box mt={4} fontFamily={"Montserrat"}>
         <Tabs>
           <TabList>
             <Tab>WRM</Tab>
@@ -48,6 +50,13 @@ const OperationFormsKKKS = () => {
             </TabPanel>
             <TabPanel>
               <Technical/>
+            </TabPanel>
+            <TabPanel>
+              <DailyReport/>
+              
+            </TabPanel>
+            <TabPanel>
+              
             </TabPanel>
           </TabPanels>
         </Tabs>
