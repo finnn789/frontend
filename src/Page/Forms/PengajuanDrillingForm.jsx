@@ -18,6 +18,7 @@ import axios from "axios";
 import { PostPlanningExploration } from "../API/APISKK";
 
 const PengajuanDrillingForm = () => {
+  
   const [jobPlan, setJobPlan] = useState({
     area_id: "string",
     field_id: "string",
@@ -135,7 +136,7 @@ const PengajuanDrillingForm = () => {
   });
   console.log(jobPlan);
 
-  const [dataMetricImperial, setDataMetricImperial] = useState("Metrics");
+  const [dataMetricImperial, setDataMetricImperial] = React.useState("Metrics");
   const metricImperialChange = (e) => {
     setJobPlan((prevJobPlan) => ({
       ...prevJobPlan,
