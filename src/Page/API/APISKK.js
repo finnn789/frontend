@@ -164,7 +164,9 @@ export async function getJobWellStatusChart() {
 export async function getJobPhase(job_type, job_phase) {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_APP_URL}/dashboard/job-phase/${job_type}/${job_phase}`
+      `${
+        import.meta.env.VITE_APP_URL
+      }/dashboard/job-phase/${job_type}/${job_phase}`
     );
     return response.data;
   } catch (error) {
@@ -219,77 +221,112 @@ export async function getDataTypeSummarySKK() {
   }
 }
 export async function PostPlanningExploration(data, toast) {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/exploration`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-  
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      
-      console.log('response.status',response);
-      if (response.status === 200) {
-        toast({
-          title: "Data berhasil dikirim.",
-          description: "Data telah berhasil disimpan ke database.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/job/planning/create/exploration`,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    } catch (error) {
-      console.error("Error Dalam Kirim Data", error);
-  
+    );
+
+    console.log("response.status", response);
+    if (response.status === 200) {
       toast({
-        title: "Terjadi kesalahan.",
-        description: "Data gagal dikirim ke server.",
-        status: "error",
+        title: "Data berhasil dikirim.",
+        description: "Data telah berhasil disimpan ke database.",
+        status: "success",
         duration: 5000,
         isClosable: true,
       });
     }
+  } catch (error) {
+    console.error("Error Dalam Kirim Data", error);
+
+    toast({
+      title: "Terjadi kesalahan.",
+      description: "Data gagal dikirim ke server.",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
   }
+}
 
 //   API UNTUK PLANNING DEVELOPMENT
 
 export async function PostPlanningDevelopment(data, toast) {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/development`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-  
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      
-      console.log('response.status',response);
-      if (response.status === 200) {
-        toast({
-          title: "Data berhasil dikirim.",
-          description: "Data telah berhasil disimpan ke database.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/job/planning/create/development`,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    } catch (error) {
-      console.error("Error Dalam Kirim Data", error);
-  
+    );
+
+    console.log("response.status", response);
+    if (response.status === 200) {
       toast({
-        title: "Terjadi kesalahan.",
-        description: "Data gagal dikirim ke server.",
-        status: "error",
+        title: "Data berhasil dikirim.",
+        description: "Data telah berhasil disimpan ke database.",
+        status: "success",
         duration: 5000,
         isClosable: true,
       });
     }
+  } catch (error) {
+    console.error("Error Dalam Kirim Data", error);
+
+    toast({
+      title: "Terjadi kesalahan.",
+      description: "Data gagal dikirim ke server.",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
   }
+}
+
+export async function GetViewPlanning(data) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/job/planning/view/${data}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data View Planning", error);
+    return null;
+  }
+}
+
+export async function GetImageWellCasing(path) {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_APP_URL}${path}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      responseType: "blob", // Tambahkan ini untuk mendapatkan response sebagai blob
+    });
+    return response.data; // Mengembalikan blob dari gambar
+  } catch (error) {
+    console.error("Error get Data View Planning", error);
+    return null;
+  }
+}
