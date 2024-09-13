@@ -182,6 +182,9 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
               </Text>
             </Box>
             <Badge
+              px={4}
+              py={2}
+              borderRadius={"lg"}
               colorScheme={
                 planningData?.operational["Planning Status"] === "APPROVED"
                   ? "green"
