@@ -8,6 +8,15 @@ import DrillingFluid from "../FormHandling/DrillingFluid";
 import MudAdditive from "../FormHandling/MudAdditive";
 import BottomHoleAssembly from "../FormHandling/BottomHoleAssembly";
 import BitRecord from "../FormHandling/BitRecord";
+import CasingOps from "../FormHandling/Casing";
+import GasForm from "../FormHandling/Gas";
+import HydraulicAnalysisForm from "../FormHandling/HydraulicAnalisys";
+import MaterialForm from "../FormHandling/MaterialForm";
+import HealthSafety from "../FormHandling/HealthSafety";
+import DirectionalSurvey from "../FormHandling/DirectionalSurvey";
+import Personel from "../FormHandling/Personel";
+import Pumps from "../FormHandling/Pumps";
+import WeatherForm from "../FormHandling/WeatherForm";
 
 const DailyReport = () => {
   return (
@@ -19,6 +28,15 @@ const DailyReport = () => {
         <MudAdditive/>
         <BottomHoleAssembly/>
         <BitRecord/>
+        <CasingOps/>
+        <GasForm/>
+        <HydraulicAnalysisForm/>
+        <MaterialForm/>
+        <HealthSafety/>
+        <DirectionalSurvey/>
+        <Personel/>
+        <Pumps/>
+        <WeatherForm/>
       </SimpleGrid>
     </>
   );
