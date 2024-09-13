@@ -32,7 +32,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/auth/token",
+        `${import.meta.env.VITE_APP_URL}/auth/login`,
         new URLSearchParams({
           username: username,
           password: password,
@@ -48,7 +48,7 @@ const Login = () => {
       localStorage.setItem("token", token);
 
       const userResponse = await axios.get(
-        "http://localhost:8000/auth/user/me",
+        `${import.meta.env.VITE_APP_URL}/auth/user/me`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -17,26 +17,29 @@ import DirectionalSurvey from "../FormHandling/DirectionalSurvey";
 import Personel from "../FormHandling/Personel";
 import Pumps from "../FormHandling/Pumps";
 import WeatherForm from "../FormHandling/WeatherForm";
+import FormControlCard from "../../Components/FormControl";
 
 const DailyReport = () => {
+
   return (
     <>
       <SimpleGrid columns={1} spacing={2}>
+        
         <DailyDates />
         <TimeBreakdown />
-        <DrillingFluid/>
-        <MudAdditive/>
-        <BottomHoleAssembly/>
-        <BitRecord/>
-        <CasingOps/>
-        <GasForm/>
-        <HydraulicAnalysisForm/>
-        <MaterialForm/>
-        <HealthSafety/>
-        <DirectionalSurvey/>
-        <Personel/>
-        <Pumps/>
-        <WeatherForm/>
+        <DrillingFluid />
+        <MudAdditive />
+        <BottomHoleAssembly />
+        <BitRecord />
+        <CasingOps />
+        <GasForm />
+        <HydraulicAnalysisForm />
+        <MaterialForm />
+        <HealthSafety />
+        <DirectionalSurvey />
+        <Personel />
+        <Pumps />
+        <WeatherForm data={(e) => console.log(e)} />
       </SimpleGrid>
     </>
   );

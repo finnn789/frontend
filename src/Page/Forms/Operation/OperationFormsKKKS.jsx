@@ -23,6 +23,7 @@ import OperationalParent from "./FormParent.jsx/Operational";
 import Technical from "./FormParent.jsx/Technical";
 import DailyReport from "./FormParent.jsx/DailyReport";
 import TimeBreakdown from "./FormHandling/TimeBreakdown";
+import FinishOperation from "./FormParent.jsx/FinishOperation";
 
 const OperationFormsKKKS = () => {
   const [data, setData] = React.useState({
@@ -56,7 +57,7 @@ const OperationFormsKKKS = () => {
               
             </TabPanel>
             <TabPanel>
-              
+              <FinishOperation/>
             </TabPanel>
           </TabPanels>
         </Tabs>

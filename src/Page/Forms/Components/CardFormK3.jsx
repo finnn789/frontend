@@ -15,23 +15,30 @@ const CardFormK3 = ({
   title = "Title",
   subtitle = "subtitle",
   icon = IconBriefcase,
-  padding= "6px",
+  padding = "6px",
   ...props
 }) => {
+
+  console.log
+  const { color,colorTitle,bgColor } = props;
   return (
-    <Box borderWidth="1px"  borderRadius="lg" p={padding}>
+    <Box borderWidth="1px" borderRadius="lg" p={padding} bgColor={bgColor}>
       <Flex alignItems="center">
         {icon && <Icon as={icon} boxSize={12} color="gray.800" mr={3} />}
         <Flex flexDirection={"column"}>
           <Text
             fontSize="xl"
             fontWeight="bold"
-            color="gray.700"
+            color={props.colorTitle ? props.colorTitle : "gray.700"}
             fontFamily="Montserrat"
           >
             {title}
           </Text>
-          <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+          <Text
+            fontSize="md"
+            color={props.colorSubtitle ? props.scolorSubtitle : "gray.600"}
+            fontFamily="Montserrat"
+          >
             {subtitle}
           </Text>
         </Flex>

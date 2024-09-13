@@ -21,7 +21,7 @@ const Register = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/utils/db/all').then((response) => {
+        axios.get(`${import.meta.env.VITE_APP_URL}/utils/db/all`).then((response) => {
             console.log(response.data);
         })
     })
@@ -37,7 +37,7 @@ const Register = () => {
         }
         try {
             const response = await axios.post(
-                "http://localhost:8000/auth/user/create",
+                `${import.meta.env.VITE_APP_URL}/auth/user/create`,
                 {
                     username: username,
                     email: email,
