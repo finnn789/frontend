@@ -15,10 +15,11 @@ const CardFormK3 = ({
   title = "Title",
   subtitle = "subtitle",
   icon = IconBriefcase,
+  padding= "6px",
   ...props
 }) => {
   return (
-    <Box borderWidth="1px" borderRadius="lg" p={6}>
+    <Box borderWidth="1px"  borderRadius="lg" p={padding}>
       <Flex alignItems="center">
         {icon && <Icon as={icon} boxSize={12} color="gray.800" mr={3} />}
         <Flex flexDirection={"column"}>
