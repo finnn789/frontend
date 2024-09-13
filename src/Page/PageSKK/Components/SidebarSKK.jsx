@@ -23,6 +23,7 @@ import {
 } from "react-icons/fa";
 import Logo from "../../../assets/logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
+import {IconBrain, IconClipboardData} from '@tabler/icons-react'
 
 const SidebarKKS = ({ handleMenuValue }) => {
   const location = useLocation();
@@ -54,7 +55,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
   return (
     <Box
       bg="white"
-      w="250px"
+      w="350px"
       h="100vh"
       p={4}
       color="#10042C"
@@ -488,6 +489,61 @@ const SidebarKKS = ({ handleMenuValue }) => {
               </ListItem>
             </List>
           </Collapse>
+          
+        </Box>
+
+        {/* ANCHOR Machine Learning */}
+        <Box width="full">
+          <Button
+            // disabled
+            px={4}
+            py={4}
+            rounded="md"
+            as={Link}
+            // to="/skk/wellservice"
+            _hover={{ bg: "#f5f5f5" }}
+            width="full"
+            justifyContent="flex-start"
+            onClick={() => handleMenuClick("machineLearning")}
+            leftIcon={<Icon as={IconBrain} />}
+            // rightIcon={
+            //   openMenu === "machineLearning" ? (
+            //     <FaChevronDown />
+            //   ) : (
+            //     <FaChevronRight />
+            //   )
+            // }
+            // variant="ghost"
+          >
+            Data Analitics & Machine Learning
+          </Button>
+          
+        </Box>
+        <Box width="full">
+          <Button
+            // disabled
+            px={4}
+            py={4}
+            rounded="md"
+            as={Link}
+            // to="/skk/wellservice"
+            _hover={{ bg: "#f5f5f5" }}
+            width="full"
+            justifyContent="flex-start"
+            onClick={() => handleMenuClick("machineLearning")}
+            leftIcon={<Icon as={IconClipboardData} />}
+            // rightIcon={
+            //   openMenu === "machineLearning" ? (
+            //     <FaChevronDown />
+            //   ) : (
+            //     <FaChevronRight />
+            //   )
+            // }
+            // variant="ghost"
+          >
+            Laporan
+          </Button>
+          
         </Box>
       </VStack>
     </Box>

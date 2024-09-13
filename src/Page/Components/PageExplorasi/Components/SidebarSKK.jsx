@@ -487,6 +487,81 @@ const SidebarKKS = ({ handleMenuValue }) => {
               </ListItem>
             </List>
           </Collapse>
+          <Collapse in={openMenu === "wellservice"}>
+            <List spacing={2} pl={4} mt={2} styleType="none">
+              <ListItem>
+                <Button
+                  as={Link}
+                  to="/skk/wellservice/planningwellservice"
+                  px={3}
+                  py={2}
+                  rounded="md"
+                  _hover={{ bg: "#e0e0e0" }}
+                  width="full"
+                  justifyContent="flex-start"
+                  bg="#f9f9f9"
+                  leftIcon={<Icon as={FaToolbox} />}
+                  variant="ghost"
+                >
+                  Machine Learning
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  as={Link}
+                  to="/dashboard/wellservice/operations"
+                  px={3}
+                  py={2}
+                  rounded="md"
+                  _hover={{ bg: "#e0e0e0" }}
+                  width="full"
+                  isDisabled={true}
+                  justifyContent="flex-start"
+                  bg="#f9f9f9"
+                  leftIcon={<Icon as={FaCog} />}
+                  variant="ghost"
+                >
+                  Operasional
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  as={Link}
+                  to="/dashboard/wellservice/p3"
+                  px={3}
+                  py={2}
+                  rounded="md"
+                  isDisabled={true}
+                  _hover={{ bg: "#e0e0e0" }}
+                  width="full"
+                  justifyContent="flex-start"
+                  bg="#f9f9f9"
+                  leftIcon={<Icon as={FaToolbox} />}
+                  variant="ghost"
+                >
+                  PPP
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  as={Link}
+                  to="/dashboard/wellservice/closeout"
+                  px={3}
+                  py={2}
+                  rounded="md"
+                  _hover={{ bg: "#e0e0e0" }}
+                  width="full"
+                  isDisabled={true}
+                  justifyContent="flex-start"
+                  bg="#f9f9f9"
+                  leftIcon={<Icon as={FaCog} />}
+                  variant="ghost"
+                >
+                  AFE Close Out
+                </Button>
+              </ListItem>
+            </List>
+          </Collapse>
         </Box>
       </VStack>
     </Box>
