@@ -24,7 +24,7 @@ export function DashboardSKK() {
   return (
     <Flex backgroundColor={"#F9FAFB"}>
       <SidebarKKS handleMenuValue={handleNavClick} selectedNav={selectedNav} />
-      <Box flex="1" p={4}>
+      <Box flex="1" p={4} width={"100%"}>
         <NavbarKKKS
           backgroundColor={"white"}
           appName={location.pathname === "/skk/dashboard" && "Dashboard" || location.pathname === "/skk/exploration" && "Eksplorasi" || location.pathname === "/skk/development" && "Eksploitasi" || location.pathname === "/skk/workover" && "Work Over" || location.pathname === "/skk/wellservice" && "Well Service" || location.pathname === "/skk/exploration/planningexploration" && "Planning Exploration"}
