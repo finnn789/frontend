@@ -104,6 +104,7 @@ const WellPorePressureForm = ({handleDataSubmit}) => {
       borderWidth="1px"
       borderRadius="lg"
       p={5}
+      w={"100%"}
       fontFamily={"Montserrat"}
     >
       <Flex alignItems="center" mb={6}>

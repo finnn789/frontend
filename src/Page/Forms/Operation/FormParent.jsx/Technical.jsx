@@ -10,6 +10,10 @@ import WellStratigraphyForm from "../FormHandling/WellStratigraphy";
 import WellTest from "../../Planning/WellTest";
 import WellTestForm from "../FormHandling/WellTest";
 import WellTrajectory from "../../Planning/WellTrajectory";
+import WellPorePressureForm from "../../Planning/WellPPFG";
+import MudLogs from "../FormHandling/MudLogs";
+import MudLogsCard from "../FormHandling/MudLogs";
+import WellLogsCard from "../FormHandling/WellLogs";
 
 const Technical = () => {
   const [jobPlan, setJobPlan] = React.useState({
@@ -178,6 +182,9 @@ const Technical = () => {
         }
         errorForms={formErrors}
       />
+      <WellPorePressureForm handleDataSubmit={(e) => console.log(e)} />
+      <MudLogsCard/>
+      <WellLogsCard/>
     </SimpleGrid>
   );
 };
