@@ -93,7 +93,7 @@ const PlanningDevelopment = () => {
     >
         Planning Development
       </Text>
-      <Flex gap={6}>
+      <Flex gap={6} wrap={"wrap"}>
         <PerhitunganCard
           number={proposedCount !== undefined && proposedCount !== null ? proposedCount : <p>Loading...</p>}
           icon={FaCopy}
