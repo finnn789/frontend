@@ -29,7 +29,7 @@ import {
 import axios from "axios";
 import { IconCylinder } from "@tabler/icons-react";
 
-const WellCasing = ({ dataWellCasing, errorForms ,unittype = "Metrics"}) => {
+const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) => {
   const [showWellCasing, setShowWellCasing] = useState({
     names: [],
     top_depths: [],

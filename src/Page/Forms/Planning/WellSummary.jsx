@@ -195,11 +195,11 @@ const WellSummary = ({
       </GridItem>
 
       {/* Bagian Kanan: Tabel */}
-      <GridItem colSpan={1} overflow="hidden"> {/* Membatasi overflow agar tabel tidak memakan tempat lebih */}
+      <GridItem colSpan={1} overflow="hidden"> 
         <Box borderWidth="1px" borderRadius="lg" p={6} height="100%" overflow="hidden">
-          <Box height="100%" overflowX="auto" overflowY="auto" maxWidth="100%"> {/* Mengaktifkan scroll horizontal dan vertikal */}
+          <Box height="100%" overflowX="auto" overflowY="auto" maxWidth="100%"> 
             {tableData.length > 0 ? (
-              <Table variant="simple" minWidth="800px"> {/* minWidth membuat scroll horizontal muncul */}
+              <Table variant="simple" minWidth="800px"> 
                 <Thead position="sticky" top={0} bg="white" zIndex={1}>
                   <Tr>
                     <Th>Bit</Th>

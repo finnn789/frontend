@@ -26,10 +26,7 @@ import TimeBreakdown from "./FormHandling/TimeBreakdown";
 import FinishOperation from "./FormParent.jsx/FinishOperation";
 
 const OperationFormsKKKS = () => {
-  const [data, setData] = React.useState({
-    kks: 0,
-  });
-  console.log(data);
+  
   return (
     <div>
       <Heading>+ Job Report</Heading>
@@ -47,17 +44,16 @@ const OperationFormsKKKS = () => {
               <WRMRequirement />
             </TabPanel>
             <TabPanel>
-              <OperationalParent/>
+              <OperationalParent />
             </TabPanel>
             <TabPanel>
-              <Technical/>
+              <Technical />
             </TabPanel>
             <TabPanel>
-              <DailyReport/>
-              
+              <DailyReport />
             </TabPanel>
             <TabPanel>
-              <FinishOperation/>
+              <FinishOperation />
             </TabPanel>
           </TabPanels>
         </Tabs>

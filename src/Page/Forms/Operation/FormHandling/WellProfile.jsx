@@ -3,10 +3,11 @@ import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 import GridLayout from "../../Layout/GridLayout";
 import { Flex, Grid, GridItem, HStack, VStack } from "@chakra-ui/react";
-
+import { FaOilWell } from "react-icons/fa6";
 const WellProfile = () => {
+  
   return (
-    <CardFormK3 title="" icon={""} subtitle="">
+    <CardFormK3 title="Well Profile" icon={FaOilWell} subtitle="Well Profile" iconColor="black" padding="18px 36px" >
       <Flex gap={2}>
         <FormControlCard labelForm="AFE Number" placeholder="Area"  />
         <FormControlCard labelForm="Total Budget" placeholder="Area"  />
