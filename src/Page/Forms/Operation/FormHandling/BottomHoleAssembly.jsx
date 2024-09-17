@@ -3,7 +3,7 @@ import { Box, Button, Flex, Grid, GridItem, Input } from "@chakra-ui/react";
 import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 
-const BottomHoleAssembly = () => {
+const BottomHoleAssembly = ({handleFormData}) => {
   const [formData, setFormData] = React.useState({
     daily_operations_report_id: "",
     bha_number: 0,
@@ -16,6 +16,10 @@ const BottomHoleAssembly = () => {
       },
     ],
   });
+
+  React.useEffect(()=>{
+    handleFormData(formData)
+  },[formData])
 
   const handleInputChange = (field, index) => (e) => {
     const value =

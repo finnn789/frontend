@@ -17,7 +17,7 @@ import {
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const MudAdditive = () => {
+const MudAdditive = ({ handleChangeOfData }) => {
   const [tableData, setTableData] = React.useState([]);
   const [radio, setRadio] = React.useState("");
   const [formData, setFormData] = React.useState({
@@ -26,8 +26,15 @@ const MudAdditive = () => {
     amount: 0,
   });
 
+  React.useEffect(() => {
+    handleChangeOfData(tableData);
+  }, [tableData]);
+
   const headers = [
-    { Header: "Daily Operations Report ID", accessor: "daily_operations_report_id" },
+    {
+      Header: "Daily Operations Report ID",
+      accessor: "daily_operations_report_id",
+    },
     { Header: "Mud Additive Type", accessor: "mud_additive_type" },
     { Header: "Amount", accessor: "amount" },
     {
@@ -53,7 +60,11 @@ const MudAdditive = () => {
 
   const handleAddData = () => {
     setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData({ daily_operations_report_id: "", mud_additive_type: "", amount: 0 }); // Reset form
+    setFormData({
+      daily_operations_report_id: "",
+      mud_additive_type: "",
+      amount: 0,
+    }); // Reset form
   };
 
   const handleDelete = (row) => {
@@ -93,7 +104,13 @@ const MudAdditive = () => {
         </CardFormK3>
       </GridItem>
       <GridItem>
-        <Box rounded="lg" overflowX="auto" overflowY="auto" borderWidth="1px" p={0}>
+        <Box
+          rounded="lg"
+          overflowX="auto"
+          overflowY="auto"
+          borderWidth="1px"
+          p={0}
+        >
           <Tabs>
             <TabList>
               <Tab>Table</Tab>

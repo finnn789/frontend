@@ -54,7 +54,7 @@ import OperationExpKKKS from "./Page/Components/PageExploitasi/OperationExpKKKS"
 import OperationFormsKKKS from "./Page/Forms/Operation/OperationFormsKKKS";
 import JobDocuments from "./Page/Forms/Planning/JobDocuments";
 import ExistingWell from "./Page/Forms/Planning/ExistingWell";
-import '../src/assets/css/ag-grid-theme-builder.css'
+import "../src/assets/css/ag-grid-theme-builder.css";
 function App() {
   const { isAuthenticated } = useAuth();
   const [showSplashScreen, setShowSplashScreen] = useState(false);
@@ -94,8 +94,8 @@ function App() {
       ),
       children: [
         {
-          path:"homepage",
-          element:<HomeDashKKKS/>
+          path: "homepage",
+          element: <HomeDashKKKS />,
         },
         {
           path: "planning",

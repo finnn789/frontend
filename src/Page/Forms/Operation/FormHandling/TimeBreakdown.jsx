@@ -18,8 +18,12 @@ import {
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const TimeBreakdown = () => {
+const TimeBreakdown = ({ handleChange }) => {
   const [tableData, setTableData] = React.useState([]);
+
+  React.useEffect(() => {
+    handleChange(tableData);
+  }, [tableData]);
   const [radio, setRadio] = React.useState("");
   const [formData, setFormData] = React.useState({
     daily_operations_report_id: "",
