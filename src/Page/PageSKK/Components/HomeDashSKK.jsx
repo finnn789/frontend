@@ -90,7 +90,7 @@ const HomeDashSKK = () => {
     getData();
   }, []);
 
-  console.log(datas?.tablekkks);
+  // console.log(datas?.tablekkks);
   
 
   // console.log(dataTable);
@@ -140,7 +140,9 @@ const HomeDashSKK = () => {
     }));
   }, [dataTable]);
 
-  console.log(dataKks);
+  // console.log(dataKks);
+
+  // console.log("datas", datas);
 
   const data = () => {
     if (!datas) return [];
@@ -148,34 +150,34 @@ const HomeDashSKK = () => {
       {
         id: 1,
         pekerjaan: "Exploration",
-        rencana: datas.tablechart?.table.exploration?.rencana ?? "N/A",
-        realisasi: datas.tablechart?.table.exploration?.realisasi ?? "N/A",
-        percentage: datas.tablechart?.table.exploration?.percentage ?? "N/A",
-        change: datas.tablechart?.table.exploration?.change ?? "N/A",
+        rencana: datas?.tablechart?.table.exploration?.rencana ?? "N/A",
+        realisasi: datas?.tablechart?.table.exploration?.realisasi ?? "N/A",
+        percentage: datas?.tablechart?.table.exploration?.percentage ?? "N/A",
+        change: datas?.tablechart?.table.exploration?.change ?? "N/A",
       },
       {
         id: 2,
         pekerjaan: "Development",
-        rencana: datas.tablechart?.table.development?.rencana ?? "N/A",
-        realisasi: datas.tablechart?.table.development?.realisasi ?? "N/A",
-        percentage: datas.tablechart?.table.development?.percentage ?? "N/A",
-        change: datas.tablechart?.table.development?.change ?? "N/A",
+        rencana: datas?.tablechart?.table.development?.rencana ?? "N/A",
+        realisasi: datas?.tablechart?.table.development?.realisasi ?? "N/A",
+        percentage: datas?.tablechart?.table.development?.percentage ?? "N/A",
+        change: datas?.tablechart?.table.development?.change ?? "N/A",
       },
       {
         id: 3,
         pekerjaan: "Work Over",
-        rencana: datas.tablechart?.table.workover?.rencana ?? "N/A",
-        realisasi: datas.tablechart?.table.workover?.realisasi ?? "N/A",
-        percentage: datas.tablechart?.table.workover?.percentage ?? "N/A",
-        change: datas.tablechart?.table.workover?.change ?? "N/A",
+        rencana: datas?.tablechart?.table.workover?.rencana ?? "N/A",
+        realisasi: datas?.tablechart?.table.workover?.realisasi ?? "N/A",
+        percentage: datas?.tablechart?.table.workover?.percentage ?? "N/A",
+        change: datas?.tablechart?.table.workover?.change ?? "N/A",
       },
       {
         id: 4,
         pekerjaan: "Well Service",
-        rencana: datas.tablechart?.table["well service"]?.rencana ?? "N/A",
-        realisasi: datas.tablechart?.table["well service"]?.realisasi ?? "N/A",
-        percentage: datas.tablechart?.table["well service"]?.percentage ?? "N/A",
-        change: datas.tablechart?.table["well service"]?.change ?? "N/A",
+        rencana: datas?.tablechart?.table["well service"]?.rencana ?? "N/A",
+        realisasi: datas?.tablechart?.table["well service"]?.realisasi ?? "N/A",
+        percentage: datas?.tablechart?.table["well service"]?.percentage ?? "N/A",
+        change: datas?.tablechart?.table["well service"]?.change ?? "N/A",
       },
     ];
   };
@@ -281,9 +283,9 @@ const HomeDashSKK = () => {
           </GridItem>
           <GridItem colSpan={2}>
             <BarChartComponent
-              datas={datas.tablechart?.plot.data}
+              datas={datas?.tablechart?.plot.data}
               layouts={{
-                ...datas.tablechart?.plot.layout,
+                ...datas?.tablechart?.plot.layout,
                 autosize: true,
                 width: undefined, // Supaya tidak ada pengaturan lebar statis
                 responsive: true, // Membuat chart responsif

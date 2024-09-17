@@ -17,12 +17,12 @@ const CloseOutExploration = () => {
     };
     getData();
   }, []);
-// console.log(countStatus);
+// console.log(phaseData);
 
-  const proposedCount = phaseData ? phaseData.summary.diajukan : null;
-  const aprovedCount = phaseData ? phaseData.summary.disetujui : null;
-  const finishedCount = phaseData ? phaseData.summary.selesai_p3 : null;
-  const dataWell = phaseData ? phaseData.job_details : null;
+  const proposedCount = phaseData ? phaseData.data.summary.diajukan : null;
+  const aprovedCount = phaseData ? phaseData.data.summary.disetujui : null;
+  const finishedCount = phaseData ? phaseData.data.summary.selesai_p3 : null;
+  const dataWell = phaseData ? phaseData.data.job_details : null;
 
   const StatusBadge = (props) => {
     

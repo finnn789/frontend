@@ -3,14 +3,32 @@ import axios from "axios";
 export async function getDataDashboardSKK() {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_APP_URL}/dashboard/home`
+      `${import.meta.env.VITE_APP_URL}/dashboard/home`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
-    return response.data;
+    return response.data?.data;
   } catch (error) {
     console.error("Error get Data Well", error);
     return null;
   }
 }
+
+// const response = await axios.post(
+//   `${import.meta.env.VITE_APP_URL}/job/planning/create/development`,
+//   data,
+//   {
+//     headers: {
+//       "Content-Type": "application/json",
+
+//       Authorization: `Bearer ${localStorage.getItem("token")}`,
+//     },
+//   }
+// );
 export async function getChartDashboardSKK() {
   try {
     const response = await axios.get(
@@ -166,7 +184,13 @@ export async function getJobPhase(job_type, job_phase) {
     const response = await axios.get(
       `${
         import.meta.env.VITE_APP_URL
-      }/dashboard/job-phase/${job_type}/${job_phase}`
+      }/dashboard/job-phase/${job_type}/${job_phase}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {

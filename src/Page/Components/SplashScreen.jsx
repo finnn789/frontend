@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Box, Text, Image, Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import BackgroundSplash from "../../assets/background-splash.jpg";
@@ -6,6 +7,26 @@ import Logos from "../../assets/logos.jpeg";
 const MotionFlex = motion(Flex);
 
 const SplashScreen = ({ onAnimationComplete }) => {
+  const [showSplashScreen, setShowSplashScreen] = useState(true);
+
+  useEffect(() => {
+    // Timer untuk menyembunyikan splash screen setelah 3 detik
+    const timer = setTimeout(() => {
+      setShowSplashScreen(false);
+      if (onAnimationComplete) {
+        onAnimationComplete(); // Panggil fungsi setelah animasi selesai
+      }
+    }, 3000); // Durasi splash screen tampil (3 detik)
+
+    // Bersihkan timer saat komponen di-unmount
+    return () => clearTimeout(timer);
+  }, [onAnimationComplete]);
+
+  // Jangan render splash screen jika sudah tidak perlu ditampilkan
+  if (!showSplashScreen) {
+    return null;
+  }
+
   return (
     <MotionFlex
       direction="column"
@@ -19,12 +40,8 @@ const SplashScreen = ({ onAnimationComplete }) => {
       position="relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, y: '-100vh' }}
-      transition={{ duration: 0.5, ease: 'easeInOut' }}
-      onAnimationComplete={() => {
-        console.log('Animasi splash screen selesai');
-        onAnimationComplete(); // Pastikan fungsi ini dipanggil
-      }}
+      exit={{ opacity: 0, y: "-100vh" }}
+      transition={{ duration: 1, ease: "easeInOut" }}
     >
       <Box position="absolute" display="flex" top="20px" left="0px" backgroundColor="white" rounded="2xl">
         <Box width="10px" backgroundColor="red"></Box>

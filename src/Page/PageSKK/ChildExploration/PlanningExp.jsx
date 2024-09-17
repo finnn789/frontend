@@ -23,11 +23,12 @@ const PlanningExploration = () => {
   React.useEffect(() => {
     const getData = async () => {
       const data = await getJobPhase("exploration", "plan");
-      setPhaseData(data);
+      setPhaseData(data.data);
     };
     getData();
   }, []);
 
+  console.log("phaseData", phaseData);
   const proposedCount = phaseData ? phaseData.summary.diajukan : null;
   const AprovedCount = phaseData ? phaseData.summary.disetujui : null;
   const ReturnedCount = phaseData ? phaseData.summary.dikembalikan : null;

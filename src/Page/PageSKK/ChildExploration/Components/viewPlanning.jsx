@@ -56,8 +56,8 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
   // Fetch gambar well casing saat path tersedia
   useEffect(() => {
     const fetchWellCasingImage = async () => {
-      if (planningData?.technical?.well_casing?.path) {
-        const blob = await GetImageWellCasing(planningData.technical.well_casing.path);
+      if (planningData?.data.technical?.well_casing?.path) {
+        const blob = await GetImageWellCasing(planningData.data.technical.well_casing.path);
         if (blob) {
           const imageUrl = URL.createObjectURL(blob);
           setWellCasing(imageUrl);
@@ -73,7 +73,7 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
         URL.revokeObjectURL(wellCasing);
       }
     };
-  }, [planningData?.technical?.well_casing?.path]);
+  }, [planningData?.data.technical?.well_casing?.path]);
 
   const keysOperational = [
     "Jenis Kontrak",
@@ -156,12 +156,13 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
   }
 
   const jobOperationData = transformData(
-    planningData?.operational?.job_operation_days?.table
+    planningData?.data.operational?.job_operation_days?.table
   );
 
   const workBreakDownStructureData =
-    planningData?.operational?.work_breakdown_structure?.table;
+    planningData?.data.operational?.work_breakdown_structure?.table;
 
+    console.log("planningData", planningData);
   return (
     <Modal
       isOpen={isOpen}
@@ -175,10 +176,10 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
           <Flex justifyContent={"space-between"} alignItems="center" fontFamily={"Montserrat"}>
             <Box>
               <Text fontSize="2xl" fontWeight="bold">
-                {planningData?.technical?.["Nama Well"] || "No Data"}
+                {planningData?.data.technical?.["Nama Well"] || "No Data"}
               </Text>
               <Text color="gray.500" textTransform="uppercase">
-                {planningData?.operational?.["Tipe Pekerjaan"] || "No Data"}
+                {planningData?.data.operational?.["Tipe Pekerjaan"] || "No Data"}
               </Text>
             </Box>
             <Badge
@@ -186,13 +187,16 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
               py={2}
               borderRadius={"lg"}
               colorScheme={
-                planningData?.operational["Planning Status"] === "APPROVED"
+                planningData?.data.operational["Planning Status"] === "APPROVED"
                   ? "green"
+                  : planningData?.data.operational["Planning Status"] === "PROPOSED"
+                  ? "blue"
                   : "red"
               }
+              
               fontSize="lg"
             >
-              {planningData?.operational["Planning Status"]}
+              {planningData?.data.operational["Planning Status"]}
             </Badge>
           </Flex>
         </ModalHeader>
@@ -230,7 +234,7 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
                               <Tr key={index}>
                                 <Td py={5}>{key}</Td>
                                 <Td py={5}>
-                                  {planningData.operational[key] || "No Data"}
+                                  {planningData?.data?.operational[key] || "No Data"}
                                 </Td>
                               </Tr>
                             ))}
@@ -246,15 +250,15 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
                             <TabPanels>
                                {/* ANCHOR JOB OPERATION DAYS */}
                             <TabPanel>
-                              {planningData.operational?.job_operation_days?.plot?.data ? (
+                              {planningData.data.operational?.job_operation_days?.plot?.data ? (
                                 <Box width="100%" overflow="hidden">
                                   <Plot
                                     data={
-                                      planningData.operational
+                                      planningData.data.operational
                                         .job_operation_days.plot.data
                                     }
                                     layout={{
-                                      ...planningData.operational
+                                      ...planningData.data.operational
                                         .job_operation_days.plot.layout,
                                       autosize: true,
                                       responsive: true,
@@ -279,15 +283,15 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
 
                             {/* ANCHOR WORK BREAKDOWN STRUCTURE */}
                             <TabPanel>
-                              {planningData.operational?.work_breakdown_structure?.plot?.data ? (
+                              {planningData.data.operational?.work_breakdown_structure?.plot?.data ? (
                                 <Box width="100%" overflow="hidden">
                                   <Plot
                                     data={
-                                      planningData.operational
+                                      planningData.data.operational
                                         .work_breakdown_structure.plot.data
                                     }
                                     layout={{
-                                      ...planningData.operational
+                                      ...planningData.data.operational
                                         .work_breakdown_structure.plot.layout,
                                       autosize: true,
                                       responsive: true,
@@ -335,7 +339,7 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
                               <Tr key={index}>
                                 <Td py={5}>{key}</Td>
                                 <Td py={5}>
-                                  {planningData.technical[key] || "No Data"}
+                                  {planningData.data.technical[key] || "No Data"}
                                 </Td>
                               </Tr>
                             ))}
@@ -362,14 +366,14 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
                             </TabPanel>
                               {/* ANCHOR WELL TRAJECTORY */}
                             <TabPanel>
-                              {planningData.technical?.well_trajectory?.plot ? (
+                              {planningData.data.technical?.well_trajectory?.plot ? (
                                 <Box>
                                   <Plot
                                     data={
-                                      planningData.technical?.well_trajectory.plot.data
+                                      planningData.data.technical?.well_trajectory.plot.data
                                     }
                                     layout={
-                                      planningData.technical?.well_trajectory.plot.layout
+                                      planningData.data.technical?.well_trajectory.plot.layout
                                     }
                                   />
                                 </Box>

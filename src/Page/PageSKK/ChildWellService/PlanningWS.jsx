@@ -19,10 +19,10 @@ const PlanningWellService = () => {
   }, []);
 // console.log(countStatus);
 
-  const proposedCount = phaseData ? phaseData.summary.diajukan : null;
-  const AprovedCount = phaseData ? phaseData.summary.disetujui : null;
-  const ReturnedCount = phaseData ? phaseData.summary.dikembalikan : null;
-  const dataWell = phaseData ? phaseData.job_details : null;
+  const proposedCount = phaseData ? phaseData?.data.summary.diajukan : null;
+  const AprovedCount = phaseData ? phaseData?.data.summary.disetujui : null;
+  const ReturnedCount = phaseData ? phaseData?.data.summary.dikembalikan : null;
+  const dataWell = phaseData ? phaseData?.data.job_details : null;
 
   const StatusBadge = (props) => {
     console.log('StatusBadge props:', props); // Tambahkan log untuk debugging

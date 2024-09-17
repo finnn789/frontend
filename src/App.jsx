@@ -58,25 +58,20 @@ import '../src/assets/css/ag-grid-theme-builder.css'
 function App() {
   const { isAuthenticated } = useAuth();
   const [showSplashScreen, setShowSplashScreen] = useState(false);
+  const [splashScreenShown, setSplashScreenShown] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const splashScreenShown = localStorage.getItem("splashScreenShown");
-
-      if (!splashScreenShown) {
-        setShowSplashScreen(true);
-        localStorage.setItem("splashScreenShown", "true");
-
-        const timer = setTimeout(() => {
-          setShowSplashScreen(false);
-        }, 3000); // Tampilkan splash screen selama 3 detik
-
-        return () => clearTimeout(timer);
-      }
+    if (isAuthenticated && !splashScreenShown) {
+      setShowSplashScreen(true);
+      setSplashScreenShown(true); // Tandai splash screen telah ditampilkan
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, splashScreenShown]);
 
-  const router = createBrowserRouter([
+  const handleSplashScreenComplete = () => {
+    setShowSplashScreen(false); // Sembunyikan splash screen setelah selesai
+  };
+
+    const router = createBrowserRouter([
     {
       path: "/login",
       element: <Login />,
@@ -92,7 +87,8 @@ function App() {
     {
       path: "/dashboard",
       element: showSplashScreen ? (
-        <SplashScreen />
+        <SplashScreen onAnimationComplete={handleSplashScreenComplete} />
+
       ) : (
         <ProtectedRoute element={<Dashboard />} allowedRoles={["KKKS"]} />
       ),

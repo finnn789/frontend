@@ -17,12 +17,12 @@ const OperationExploration = () => {
     };
     getData();
   }, []);
-// console.log(countStatus);
+console.log("phaseData", phaseData);
 
-  const operatingCount = phaseData ? phaseData.summary.beroperasi : null;
-  const AprovedCount = phaseData ? phaseData.summary.disetujui : null;
-  const finishedCount = phaseData ? phaseData.summary.selesai_beroperasi : null;
-  const dataWell = phaseData ? phaseData.job_details : null;
+  const operatingCount = phaseData ? phaseData.data.summary?.beroperasi : null;
+  const AprovedCount = phaseData ? phaseData.data.summary?.disetujui : null;
+  const finishedCount = phaseData ? phaseData.data.summary?.selesai_beroperasi : null;
+  const dataWell = phaseData ? phaseData.data.job_details : null;
 
   const StatusBadge = (props) => {
     console.log('StatusBadge props:', props); // Tambahkan log untuk debugging
