@@ -1,5 +1,15 @@
-import { Box, Grid, HStack, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  HStack,
+  SimpleGrid,
+  Spacer,
+  Text,
+} from "@chakra-ui/react";
 import React from "react";
+import { PostOperationReport } from "../../../API/PostKkks";
 import SimpleButton from "../../Components/SimpleButton";
 import DailyDates from "../FormHandling/DailyDates";
 import CardFormK3 from "../../Components/CardFormK3";
@@ -229,6 +239,15 @@ const DailyReport = () => {
 
   console.log(handleData);
 
+  const postData = async () => {
+    try {
+      const response = await PostOperationReport(handleData);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const handleChangeNoName = React.useCallback(
     (data) => {
       setHandleData((prev) => ({ ...prev, ...data }));
@@ -245,24 +264,42 @@ const DailyReport = () => {
   );
   return (
     <>
-      <SimpleGrid columns={1} spacing={2}>
-        <DailyDates  handleChangeOfData={handleChangeNoName}/>
-        <TimeBreakdown />
-        <DrillingFluid />
-        <MudAdditive />
-        <BottomHoleAssembly />
-        <BitRecord />
-        <CasingOps />
-        <MudVolumes />
-        <GasForm />
-        <HydraulicAnalysisForm />
-        <MaterialForm />
-        <HealthSafety />
-        <DirectionalSurvey />
-        <Personel />
-        <Pumps />
-        <WeatherForm data={handleDataWithName("weather")} />
-      </SimpleGrid>
+      <CardFormK3 title="" subtitle="" icon={null}>
+        <Flex padding={"2px 14px"}>
+          <Text fontSize="2xl"  fontWeight="bold" color="gray.700">
+            Daily Report
+          </Text>
+          <Spacer />
+
+          <Button colorScheme="teal" onClick={postData}>+ Update</Button>
+        </Flex>
+        <SimpleGrid columns={1} spacing={2}>
+          <DailyDates handleChangeOfData={handleChangeNoName} />
+          <TimeBreakdown handleChange={handleDataWithName("time_breakdowns")} />
+          <DrillingFluid
+            handleChangeOfData={handleDataWithName("drilling_fluids")}
+          />
+          <MudAdditive
+            handleChangeOfData={handleDataWithName("mud_additives")}
+          />
+          <BottomHoleAssembly handleFormData={handleDataWithName("bottom_hole_assemblies")} />
+          <BitRecord handleChangeOfData={handleDataWithName("bit_records")} />
+          <CasingOps handleChangeOfData={handleDataWithName("casing_operations")} />
+          <MudVolumes handleChangeOfData={handleChangeNoName} />
+          <GasForm handleChangeOfData={handleChangeNoName} />
+          <HydraulicAnalysisForm handleChangeOfData={handleChangeNoName} />
+          <MaterialForm
+            handleChangeOfData={handleDataWithName("bulk_materials")}
+          />
+          <HealthSafety handleChangeDataIncident={handleDataWithName("Incidents")} />
+          <DirectionalSurvey
+            handleChangeOfData={handleDataWithName("directional_surveys")}
+          />
+          <Personel handleChangeOfData={handleDataWithName("personels")} />
+          <Pumps handleChangeOfData={handleDataWithName("pumps")} />
+          <WeatherForm data={handleDataWithName("weather")} />
+        </SimpleGrid>
+      </CardFormK3>
     </>
   );
 };

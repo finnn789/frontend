@@ -3,7 +3,7 @@ import CardFormK3 from "../../Components/CardFormK3";
 import { Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 
-const MudVolumes = () => {
+const MudVolumes = ({handleChangeOfData}) => {
   const [formData, setFormData] = React.useState({
     start_mud_volume: 0,
     lost_surface_mud_volume: 0,

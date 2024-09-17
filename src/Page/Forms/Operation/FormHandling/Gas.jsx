@@ -3,7 +3,7 @@ import CardFormK3 from "../../Components/CardFormK3";
 import { Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 
-const GasForm = () => {
+const GasForm = ({handleChangeOfData}) => {
   const [formData, setFormData] = React.useState({
     max_gas: "",
     conn_gas: "",

@@ -15,7 +15,7 @@ import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const DrillingFluid = () => {
+const DrillingFluid = ({handleChangeOfData}) => {
   const [tableData, setTableData] = useState([]);
   const [formData, setFormData] = useState({
     time: "",
@@ -46,6 +46,10 @@ const DrillingFluid = () => {
     pm: "",
     ecd: "",
   });
+
+  React.useEffect(()=>{
+    handleChangeOfData(tableData)
+  },[tableData])
 
   const headers = [
     { Header: "Time", accessor: "time" },

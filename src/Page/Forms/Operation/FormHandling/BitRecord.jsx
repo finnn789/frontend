@@ -3,7 +3,7 @@ import { Box, Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl"; // Pastikan path ini sesuai dengan lokasi komponen Anda
 import CardFormK3 from "../../Components/CardFormK3";
 
-const BitRecord = () => {
+const BitRecord = ({handleChangeOfData}) => {
   const [formData, setFormData] = useState({
     daily_operations_report_id: "string",
     id: "string",
@@ -22,6 +22,9 @@ const BitRecord = () => {
     dull_grade: "string",
   });
 
+  React.useEffect(()=> {
+    handleChangeOfData(formData)
+  },[formData])
   const handleChangeData = (name) => (e) => {
     setFormData((prevData) => ({
       ...prevData,

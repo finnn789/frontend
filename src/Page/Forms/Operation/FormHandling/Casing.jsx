@@ -3,7 +3,7 @@ import CardFormK3 from "../../Components/CardFormK3";
 import { Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 
-const CasingOps = () => {
+const CasingOps = ({ handleChangeOfData }) => {
   const [formData, setFormData] = React.useState({
     start: "",
     set_md: "",
@@ -13,7 +13,11 @@ const CasingOps = () => {
     tol: "",
   });
 
-//   console.log(formData);
+  //   console.log(formData);
+
+  React.useEffect(() => {
+    handleChangeOfData(formData);
+  }, [formData]);
 
   const handleChangeData = (fieldName) => (e) => {
     let { value, type } = e.target;

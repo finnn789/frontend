@@ -3,7 +3,7 @@ import CardFormK3 from "../../Components/CardFormK3";
 import { Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 
-const HydraulicAnalysisForm = () => {
+const HydraulicAnalysisForm = ({handleChangeOfData}) => {
   const [formData, setFormData] = React.useState({
     annular_velocity: "",
     pb: "",
@@ -15,6 +15,10 @@ const HydraulicAnalysisForm = () => {
     impact_force: "",
     if_area: "",
   });
+
+  React.useEffect(() => {
+    handleChangeOfData(formData);
+  }, [formData]);
 
   const handleChangeData = (fieldName) => (e) => {
     let { value, type } = e.target;
