@@ -17,9 +17,11 @@ import {
   Select,
   Icon,
   Text,
+  IconButton,
+  HStack,
 } from "@chakra-ui/react";
+import { IconAlertTriangle, IconTable, IconEdit, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 
-import { IconAlertTriangle, IconTable } from "@tabler/icons-react";
 const HazardTypeForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
     hazard_type: "",
@@ -50,49 +52,19 @@ const HazardTypeForm = ({ onAddItem }) => {
   };
 
   const severity = [
-    {
-      name: "LOW",
-      value: "LOW",
-    },
-    {
-      name: "MEDIUM",
-      value: "MEDIUM",
-    },
-    {
-      name: "HIGH",
-      value: "HIGH",
-    },
-    {
-      name: "CRITICAL",
-      value: "CRITICAL",
-    },
+    { name: "LOW", value: "LOW" },
+    { name: "MEDIUM", value: "MEDIUM" },
+    { name: "HIGH", value: "HIGH" },
+    { name: "CRITICAL", value: "CRITICAL" },
   ];
 
   const hazardType = [
-    {
-      name: "GAS KICK",
-      value: "GAS KICK",
-    },
-    {
-      name: "STUCK PIPE",
-      value: "STUCK PIPE",
-    },
-    {
-      name: "LOST CIRCULATION",
-      value: "LOST CIRCULATION",
-    },
-    {
-      name: "WELL CONTROL",
-      value: "WELL CONTROL",
-    },
-    {
-      name: "EQUIPMENT FAILURE",
-      value: "EQUIPMENT FAILURE",
-    },
-    {
-      name: "OTHER",
-      value: "OTHER",
-    },
+    { name: "GAS KICK", value: "GAS KICK" },
+    { name: "STUCK PIPE", value: "STUCK PIPE" },
+    { name: "LOST CIRCULATION", value: "LOST CIRCULATION" },
+    { name: "WELL CONTROL", value: "WELL CONTROL" },
+    { name: "EQUIPMENT FAILURE", value: "EQUIPMENT FAILURE" },
+    { name: "OTHER", value: "OTHER" },
   ];
 
   return (
@@ -100,12 +72,7 @@ const HazardTypeForm = ({ onAddItem }) => {
       <Flex alignItems="center" mb={6}>
         <Icon as={IconAlertTriangle} boxSize={12} color="gray.800" mr={3} />
         <Flex flexDirection={"column"}>
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            color="gray.700"
-            fontFamily="Montserrat"
-          >
+          <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
             {"Hazard Type"}
           </Text>
           <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
@@ -117,11 +84,7 @@ const HazardTypeForm = ({ onAddItem }) => {
         <VStack spacing={4} align="stretch">
           <FormControl>
             <FormLabel>Hazard Type</FormLabel>
-            <Select
-              name="hazard_type"
-              value={formData.hazard_type}
-              onChange={handleInputChange}
-            >
+            <Select name="hazard_type" value={formData.hazard_type} onChange={handleInputChange}>
               <option value="">Select Hazard Type</option>
               {hazardType.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -142,11 +105,7 @@ const HazardTypeForm = ({ onAddItem }) => {
           </FormControl>
           <FormControl>
             <FormLabel>Severity</FormLabel>
-            <Select
-              name="severity"
-              value={formData.severity}
-              onChange={handleInputChange}
-            >
+            <Select name="severity" value={formData.severity} onChange={handleInputChange}>
               <option value="">Select Severity</option>
               {severity.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -166,12 +125,7 @@ const HazardTypeForm = ({ onAddItem }) => {
           </FormControl>
           <FormControl>
             <FormLabel>Remarks</FormLabel>
-            <Input
-              name="remark"
-              value={formData.remark}
-              onChange={handleInputChange}
-              placeholder="remarks"
-            />
+            <Input name="remark" value={formData.remark} onChange={handleInputChange} placeholder="remarks" />
           </FormControl>
           <Button type="submit" colorScheme="blue">
             Add
@@ -184,39 +138,56 @@ const HazardTypeForm = ({ onAddItem }) => {
 
 const HazardType = ({ onDataChange, errorForms }) => {
   const [items, setItems] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
+  const [editFormData, setEditFormData] = useState({});
 
   const handleAddItem = (newItem) => {
     const updatedItems = [...items, newItem];
-    console.log(updatedItems);
-    
     setItems(updatedItems);
-    onDataChange(updatedItems); // Kirim data ke Parent component
+    onDataChange(updatedItems);
   };
 
+  const handleEditClick = (index) => {
+    setEditIndex(index);
+    setEditFormData(items[index]);
+  };
 
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveEdit = (index) => {
+    const updatedItems = [...items];
+    updatedItems[index] = editFormData;
+    setItems(updatedItems);
+    setEditIndex(null);
+    onDataChange(updatedItems);
+  };
+
+  const handleCancelEdit = () => {
+    setEditIndex(null);
+  };
+
+  const handleDeleteItem = (index) => {
+    const updatedItems = items.filter((_, i) => i !== index);
+    setItems(updatedItems);
+    onDataChange(updatedItems);
+  };
 
   return (
     <Flex mt={4}>
       <Box flex={1} mr={4}>
         <HazardTypeForm onAddItem={handleAddItem} />
       </Box>
-      <Box
-        flex={1}
-        maxHeight={"465px"}
-        overflowY={"auto"}
-        borderWidth="1px"
-        borderRadius="lg"
-        p={4}
-      >
+      <Box flex={1} maxHeight={"465px"} overflowY={"auto"} borderWidth="1px" borderRadius="lg" p={4}>
         <Flex alignItems="center" mb={6}>
           <Icon as={IconTable} boxSize={12} color="gray.800" mr={3} />
           <Flex flexDirection={"column"}>
-            <Text
-              fontSize="xl"
-              fontWeight="bold"
-              color="gray.700"
-              fontFamily="Montserrat"
-            >
+            <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
               {"Table"}
             </Text>
             <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
@@ -225,38 +196,112 @@ const HazardType = ({ onDataChange, errorForms }) => {
           </Flex>
         </Flex>
         {items.length > 0 ? (
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>Hazard Type</Th>
-              <Th>Hazard Desc</Th>
-              <Th>Severity</Th>
-              <Th>Mitigation</Th>
-              <Th>Remarks</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {items.map((item, index) => (
-              <Tr key={index}>
-                <Td>{item.hazard_type}</Td>
-                <Td>{item.hazard_description}</Td>
-                <Td>{item.severity}</Td>
-                <Td>{item.mitigation}</Td>
-                <Td>{item.remark}</Td>
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th>Hazard Type</Th>
+                <Th>Hazard Desc</Th>
+                <Th>Severity</Th>
+                <Th>Mitigation</Th>
+                <Th>Remarks</Th>
+                <Th>Actions</Th>
               </Tr>
-            ))}
-          </Tbody>
+            </Thead>
+            <Tbody>
+              {items.map((item, index) => (
+                <Tr key={index}>
+                  {editIndex === index ? (
+                    <>
+                      <Td>
+                        <Select name="hazard_type" value={editFormData.hazard_type} onChange={handleEditChange}>
+                          <option value="">Select Hazard Type</option>
+                          <option value="GAS KICK">GAS KICK</option>
+                          <option value="STUCK PIPE">STUCK PIPE</option>
+                          <option value="LOST CIRCULATION">LOST CIRCULATION</option>
+                          <option value="WELL CONTROL">WELL CONTROL</option>
+                          <option value="EQUIPMENT FAILURE">EQUIPMENT FAILURE</option>
+                          <option value="OTHER">OTHER</option>
+                        </Select>
+                      </Td>
+                      <Td>
+                        <Input
+                          name="hazard_description"
+                          value={editFormData.hazard_description}
+                          onChange={handleEditChange}
+                        />
+                      </Td>
+                      <Td>
+                        <Select name="severity" value={editFormData.severity} onChange={handleEditChange}>
+                          <option value="">Select Severity</option>
+                          <option value="LOW">LOW</option>
+                          <option value="MEDIUM">MEDIUM</option>
+                          <option value="HIGH">HIGH</option>
+                          <option value="CRITICAL">CRITICAL</option>
+                        </Select>
+                      </Td>
+                      <Td>
+                        <Input name="mitigation" value={editFormData.mitigation} onChange={handleEditChange} />
+                      </Td>
+                      <Td>
+                        <Input name="remark" value={editFormData.remark} onChange={handleEditChange} />
+                      </Td>
+                      <Td>
+                        <HStack spacing={2}>
+                          <IconButton
+                            icon={<Icon as={IconCheck} />}
+                            colorScheme="green"
+                            onClick={() => handleSaveEdit(index)}
+                            aria-label="Save"
+                          />
+                          <IconButton
+                            icon={<Icon as={IconX} />}
+                            colorScheme="red"
+                            onClick={handleCancelEdit}
+                            aria-label="Cancel"
+                          />
+                        </HStack>
+                      </Td>
+                    </>
+                  ) : (
+                    <>
+                      <Td>{item.hazard_type}</Td>
+                      <Td>{item.hazard_description}</Td>
+                      <Td>{item.severity}</Td>
+                      <Td>{item.mitigation}</Td>
+                      <Td>{item.remark}</Td>
+                      <Td>
+                        <HStack spacing={2}>
+                          <IconButton
+                            icon={<Icon as={IconEdit} />}
+                            colorScheme="blue"
+                            onClick={() => handleEditClick(index)}
+                            aria-label="Edit"
+                          />
+                          <IconButton
+                            icon={<Icon as={IconTrash} />}
+                            colorScheme="red"
+                            onClick={() => handleDeleteItem(index)}
+                            aria-label="Delete"
+                          />
+                        </HStack>
+                      </Td>
+                    </>
+                  )}
+                </Tr>
+              ))}
+            </Tbody>
           </Table>
         ) : (
           <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
-          <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
-          {/* {!!errorForms["job_plan.job_hazards"] && (
-            <Text color="red.500" fontSize="sm" mt={2}>
-              Job Operation Day cannot be empty.
-            </Text>
-          )} */}
-        </Flex>
-          )}
+            <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+            {/* Uncomment this block if errorForms prop is provided */}
+            {errorForms && errorForms["job_plan.job_hazards"] && (
+              <Text color="red.500" fontSize="sm" mt={2}>
+                Job Operation Day cannot be empty.
+              </Text>
+            )}
+          </Flex>
+        )}
       </Box>
     </Flex>
   );

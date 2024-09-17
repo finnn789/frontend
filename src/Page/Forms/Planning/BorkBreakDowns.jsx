@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   FormControl,
@@ -16,8 +16,17 @@ import {
   Td,
   Icon,
   Text,
+  IconButton,
+  HStack,
 } from "@chakra-ui/react";
-import { IconBinaryTree, IconTable } from "@tabler/icons-react";
+import {
+  IconBinaryTree,
+  IconTable,
+  IconEdit,
+  IconTrash,
+  IconCheck,
+  IconX,
+} from "@tabler/icons-react";
 
 const JobOperationForm = ({ onAddItem }) => {
   const [formData, setFormData] = useState({
@@ -107,11 +116,44 @@ const JobOperationForm = ({ onAddItem }) => {
 
 const WorkBreakDownStructure = ({ ondata, errorForms }) => {
   const [items, setItems] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
+  const [editFormData, setEditFormData] = useState({});
 
   const handleAddItem = (newItem) => {
     const updatedItems = [...items, newItem];
     setItems(updatedItems);
-    ondata(updatedItems); // Kirim data ke Parent component
+    ondata(updatedItems);
+  };
+
+  const handleEditClick = (index) => {
+    setEditIndex(index);
+    setEditFormData(items[index]);
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveEdit = (index) => {
+    const updatedItems = [...items];
+    updatedItems[index] = editFormData;
+    setItems(updatedItems);
+    setEditIndex(null);
+    ondata(updatedItems);
+  };
+
+  const handleCancelEdit = () => {
+    setEditIndex(null);
+  };
+
+  const handleDeleteItem = (index) => {
+    const updatedItems = items.filter((_, i) => i !== index);
+    setItems(updatedItems);
+    ondata(updatedItems);
   };
 
   return (
@@ -144,39 +186,113 @@ const WorkBreakDownStructure = ({ ondata, errorForms }) => {
           </Flex>
         </Flex>
         {items.length > 0 ? (
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>Event</Th>
-              <Th>Start Date</Th>
-              <Th>End Date</Th>
-              <Th>Remarks</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {items.map((item, index) => (
-              <Tr key={index}>
-                <Td>{item.event}</Td>
-                <Td>{item.start_date}</Td>
-                <Td>{item.end_date}</Td>
-                <Td>{item.remarks}</Td>
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th>Event</Th>
+                <Th>Start Date</Th>
+                <Th>End Date</Th>
+                <Th>Remarks</Th>
+                <Th>Actions</Th>
               </Tr>
-            ))}
-          </Tbody>
+            </Thead>
+            <Tbody>
+              {items.map((item, index) => (
+                <Tr key={index}>
+                  {editIndex === index ? (
+                    <>
+                      <Td>
+                        <Input
+                          width={"200px"}
+                          name="event"
+                          value={editFormData.event}
+                          onChange={handleEditChange}
+                        />
+                      </Td>
+                      <Td>
+                        <Input
+                          name="start_date"
+                          type="date"
+                          value={editFormData.start_date}
+                          onChange={handleEditChange}
+                        />
+                      </Td>
+                      <Td>
+                        <Input
+                          name="end_date"
+                          type="date"
+                          value={editFormData.end_date}
+                          onChange={handleEditChange}
+                        />
+                      </Td>
+                      <Td>
+                        <Input
+                          name="remarks"
+                          value={editFormData.remarks}
+                          onChange={handleEditChange}
+                        />
+                      </Td>
+                      <Td>
+                        <HStack spacing={2}>
+                          <IconButton
+                            icon={<Icon as={IconCheck} />}
+                            colorScheme="green"
+                            onClick={() => handleSaveEdit(index)}
+                            aria-label="Save"
+                          />
+                          <IconButton
+                            icon={<Icon as={IconX} />}
+                            colorScheme="red"
+                            onClick={handleCancelEdit}
+                            aria-label="Cancel"
+                          />
+                        </HStack>
+                      </Td>
+                    </>
+                  ) : (
+                    <>
+                      <Td>{item.event}</Td>
+                      <Td>{item.start_date}</Td>
+                      <Td>{item.end_date}</Td>
+                      <Td>{item.remarks}</Td>
+                      <Td>
+                        <HStack spacing={2}>
+                          <IconButton
+                            icon={<Icon as={IconEdit} />}
+                            colorScheme="blue"
+                            onClick={() => handleEditClick(index)}
+                            aria-label="Edit"
+                          />
+                          <IconButton
+                            icon={<Icon as={IconTrash} />}
+                            colorScheme="red"
+                            onClick={() => handleDeleteItem(index)}
+                            aria-label="Delete"
+                          />
+                        </HStack>
+                      </Td>
+                    </>
+                  )}
+                </Tr>
+              ))}
+            </Tbody>
           </Table>
         ) : (
-          <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
-          <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
-
-              {errorForms && errorForms["job_plan.well.work_breakdown_structure"] && errorForms["job_plan.well.work_breakdown_structure"] && (
-  <Text color="red.500" fontSize="sm" mt={2}>
-    Job Operation Day cannot be empty.
-  </Text>
-)}
-        </Flex>
-          )}
-        {/* job_plan.well.work_breakdown_structure */}
-
+          <Flex
+            justifyContent="center"
+            flexDirection={"column"}
+            alignItems="center"
+            height="100%"
+          >
+            <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
+            {errorForms &&
+              errorForms["job_plan.well.work_breakdown_structure"] && (
+                <Text color="red.500" fontSize="sm" mt={2}>
+                  Job Operation Day cannot be empty.
+                </Text>
+              )}
+          </Flex>
+        )}
       </Box>
     </Flex>
   );
