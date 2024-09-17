@@ -89,7 +89,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
       setdataSumbit({
         proposed_job: {
           ...newJobData,
-          well: plannedWellData,
+          
           work_breakdown_structure: work_breakdown,
           contract_type: "COST-RECOVERY",
           drilling_class: "EXPLORATION",
@@ -97,6 +97,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
           job_operation_days: newjobOperationDays,
           total_budget: 0,
           well: {
+            ...plannedWellData,
             uwi: "string",
             field_id: "string",
             area_id: "string",
@@ -139,7 +140,7 @@ const PengajuanPekerjaan = ({ handleTambahData }) => {
             remark: "string",
             well_summary: dataDrilling.teknisData.wellSummary,
             well_stratigraphy: dataDrilling.teknisData.stratigraphy,
-            well_casing: dataDrilling.teknisData.wellCasing,
+            // well_document: dataDrilling.operasionalData.jobDocument,
             well_test: dataDrilling.teknisData.wellTest,
             well_casing: well_casing,
             well_document: jobDocument,

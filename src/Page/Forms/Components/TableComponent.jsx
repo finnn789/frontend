@@ -13,7 +13,7 @@ import {
 const TableComponent = ({ data=[{}], headers=[{}], headerKey = "Header" }) => {
   return (
     <TableContainer>
-      <Table variant="simple" colorScheme="gray" >
+      <Table variant="simple" colorScheme="gray">
         <Thead >
           <Tr>
             {headers.map((column, index) => (

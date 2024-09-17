@@ -5,7 +5,7 @@ import WRMUissues from "../FormHandling/WRMUissues";
 
 const WRMRequirement = () => {
   return (
-    <GridLayout Columns={2} Gap={2}>
+    <GridLayout Columns={2}  Gap={2}>
       <WRMUpdates />
       <WRMUissues />
     </GridLayout>

@@ -77,10 +77,10 @@ const WellTrajectory = ({ ondata, errorForms }) => {
           );
           setCsvData((prevData) => ({
             ...prevData,
-            fileinfo: response.data.fileinfo,
+            fileinfo: response.data.data.fileinfo,
             plot: {
-              data: response.data.plot.data,
-              layout: response.data.plot.layout,
+              data: response.data.data.plot.data,
+              layout: response.data.data.plot.layout,
             },
           }));
 
@@ -95,7 +95,7 @@ const WellTrajectory = ({ ondata, errorForms }) => {
           toast({
             title: "Error reading file",
             description:
-              error.response?.data?.message || "An unexpected error occurred",
+              error.response?.data?.message || "Header File Tidak Cocok",
             status: "error",
             duration: 3000,
             isClosable: true,
@@ -145,11 +145,11 @@ const WellTrajectory = ({ ondata, errorForms }) => {
       console.log(response);
 
       setDataParent({
-        file_id: response.data.file_info.id,
+        file_id: response.data.data.file_info.id,
         data_format: fileType,
       });
 
-      setMsg(response.data.message);
+      setMsg(response.data.data.message);
 
       toast({
         title: msg,

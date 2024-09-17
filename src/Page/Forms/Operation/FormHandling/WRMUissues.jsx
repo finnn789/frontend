@@ -99,7 +99,7 @@ const WRMUissues = () => {
   ];
 
   return (
-    <CardFormK3 title="WRM Issues" subtitle="">
+    <CardFormK3 title="WRM Issues" subtitle="" overflowY="auto"  >
       <GridLayout Columns={1} Gap={2}>
         <GridLayout.Item>
           <SelectComponent label="Severity" placeholder="Select Severity">

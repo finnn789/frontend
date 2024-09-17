@@ -48,6 +48,7 @@ const CardFormK3 = ({
       borderRadius="lg"
       p={padding}
       bgColor={bgColor ? bgColor : "white"}
+      {...props}
     >
       <Flex justifyContent={"space-between"}>
         <Flex alignItems="center">

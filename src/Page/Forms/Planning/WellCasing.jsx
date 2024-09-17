@@ -106,7 +106,7 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
     });
   };
 
-  
+  console.log(showWellCasing);
   
 
   const clickShowCasing = async () => {
@@ -122,8 +122,10 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
         }
       );
 
+      console.log(response);
+
       if (response) {
-        const sessionId = response.data.session_id;
+        const sessionId = response.data.data.session_id;
         try {
           const visualizationResponse = await axios.get(
             `${
