@@ -96,7 +96,8 @@ const Exploration = () => {
   // } else {
   //     console.log("fixDataJobWells", fixDataJobWells);
   // }
-
+  console.log("dataSummarySKK", dataSummarySKK);
+  
   const explorationRealisasi = dataSummarySKK
     ? dataSummarySKK.realisasi
     : "Loading...";

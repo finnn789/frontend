@@ -70,11 +70,17 @@ export async function getBarChartDataSKK() {
 export async function getJobDasboard(job_type) {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_APP_URL}/dashboard/job/${job_type}`
+      `${import.meta.env.VITE_APP_URL}/dashboard/job/${job_type}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     console.log(response.data);
 
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Error get Data Table", error);
     return null;

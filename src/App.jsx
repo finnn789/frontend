@@ -61,14 +61,22 @@ function App() {
   const [splashScreenShown, setSplashScreenShown] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated && !splashScreenShown) {
+    // Cek apakah splash screen sudah pernah ditampilkan dari localStorage
+    const hasShownSplash = localStorage.getItem("splashScreenShown") === "true";
+  
+    // Set nilai splashScreenShown berdasarkan localStorage
+    setSplashScreenShown(hasShownSplash);
+  
+    if (isAuthenticated && !hasShownSplash) {
       setShowSplashScreen(true);
-      setSplashScreenShown(true); // Tandai splash screen telah ditampilkan
+      localStorage.setItem("splashScreenShown", true);
     }
-  }, [isAuthenticated, splashScreenShown]);
-
+  }, [isAuthenticated]);
+  
+  
   const handleSplashScreenComplete = () => {
     setShowSplashScreen(false); // Sembunyikan splash screen setelah selesai
+    
   };
 
     const router = createBrowserRouter([
