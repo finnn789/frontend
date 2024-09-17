@@ -49,6 +49,10 @@ const SidebarKKS = ({ handleMenuValue }) => {
     setOpenMenu(openMenu === menuName ? null : menuName);
   };
 
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
   return (
     <Flex
       direction="row"
@@ -97,14 +101,16 @@ const SidebarKKS = ({ handleMenuValue }) => {
             isOpen={isOpen}
             link="/skk/dashboard"
             selected={onClickPage === "homeDash"}
-            tooltip="Dashboard"
           />
           <SidebarMenu
             label="Exploration"
             icon={IconMap}
             isOpen={isOpen}
             isExpanded={openMenu === "exploration"}
-            onToggle={() => handleMenuClick("exploration")}
+            onToggle={() => {
+              handleNavigate("/skk/exploration");
+              handleMenuClick("exploration");
+            }}
             tooltip="Exploration"
           >
             <SidebarSubItem
@@ -145,7 +151,10 @@ const SidebarKKS = ({ handleMenuValue }) => {
             icon={IconTools}
             isOpen={isOpen}
             isExpanded={openMenu === "development"}
-            onToggle={() => handleMenuClick("development")}
+            onToggle={() => {
+              handleNavigate("/skk/development");
+              handleMenuClick("development");
+            }}
             tooltip="Development"
           >
             <SidebarSubItem
@@ -186,7 +195,10 @@ const SidebarKKS = ({ handleMenuValue }) => {
             icon={IconHammer}
             isOpen={isOpen}
             isExpanded={openMenu === "workover"}
-            onToggle={() => handleMenuClick("workover")}
+            onToggle={() => {
+              handleNavigate("/skk/workover");
+              handleMenuClick("workover");
+            }}
             tooltip="Work Over"
           >
             <SidebarSubItem
@@ -226,7 +238,10 @@ const SidebarKKS = ({ handleMenuValue }) => {
             label="Well Service"
             isOpen={isOpen}
             isExpanded={openMenu === "wellservice"}
-            onToggle={() => handleMenuClick("wellservice")}
+            onToggle={() => {
+              handleNavigate("/skk/wellservice");
+              handleMenuClick("wellservice");
+            }}
             tooltip="Well Service"
           >
             <SidebarSubItem
