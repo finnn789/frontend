@@ -22,6 +22,7 @@ import {
   Icon,
   IconButton,
   HStack,
+  Heading,
 } from "@chakra-ui/react";
 import { IconTablePlus, IconTrash, IconEdit, IconCheck, IconX } from "@tabler/icons-react";
 
