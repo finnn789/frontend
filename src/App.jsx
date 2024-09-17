@@ -50,7 +50,7 @@ import PlanWellServiceKKKS from "./Page/Components/PageWellService/PlanningExp";
 import PlanDevelopKKKS from "./Page/Components/PageExploitasi/PlanningExp";
 import PlanWorkOverForm from "./Page/Forms/PlanWorkOver";
 import PlanWellServiceForm from "./Page/Forms/PlanWellService";
-import OperationExpKKKS from "./Page/Components/PageExploitasi/OperationExpKKKS";
+import OperationExpKKKS from "./Page/Components/PageExplorasi/OperationExpKKKS";
 import OperationFormsKKKS from "./Page/Forms/Operation/OperationFormsKKKS";
 import JobDocuments from "./Page/Forms/Planning/JobDocuments";
 import ExistingWell from "./Page/Forms/Planning/ExistingWell";
@@ -121,7 +121,7 @@ function App() {
           element: <OperationExpKKKS />,
         },
         {
-          path: "operasiform",
+          path: "operasiform/:job_id",
           element: <OperationFormsKKKS />,
         },
         {

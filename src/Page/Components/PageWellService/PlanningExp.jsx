@@ -1,36 +1,33 @@
 import React, { useEffect } from "react";
 import ProposedWorkTable from "./ProposedWork";
-import { Box,Badge, Flex, Text,Tr,Td,Button,Icon } from "@chakra-ui/react";
+import { Box, Badge, Flex, Text, Tr, Td, Button, Icon } from "@chakra-ui/react";
 import PerhitunganCard from "../../PageKKKS/Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../../PageKKKS/Components/Card/Footer";
 // import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx } from "../../API/APISKK";
+import { getTableKKKS } from "../../API/APIKKKS";
 const PlanWellServiceKKKS = () => {
-
   const [countStatus, setCountStatus] = React.useState(null);
 
-
-  React.useEffect(()=> {
+  React.useEffect(() => {
     const getData = async () => {
-      const data = await getDataJobCountPlanningEx();
-      setCountStatus(data);
-    }
+      const data = await getTableKKKS("wellservice", "plan");
+      // console.log(data.data)
+      setCountStatus(data.data);
+    };
     getData();
-  },[])
+  }, []);
 
-  
-  
   const headerstable1 = [
     "NO.",
-    "NAMA SUMUR",
-    "WILAYAH KERJA",
+    "KKKS",
     "LAPANGAN",
-    "TANGGAL MULAI",
-    "TANGGAL SELESAI",
-    "TANGGAL DIAJUKAN",
+    "WILAYAH KERJA",
+    "NAMA SUMUR",
+    "RENCANA MULAI",
+    "RENCANA SELESAI",
     "STATUS",
     "AKSI",
   ];
@@ -93,32 +90,32 @@ const PlanWellServiceKKKS = () => {
   };
   return (
     <Flex gap={6} direction={"column"}>
-       <Text
+      <Text
         fontSize={"2em"}
         fontWeight={"bold"}
         color={"gray.600"}
         fontFamily="Montserrat"
       >
-        Planning Well Service
+        Planning Development
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={countStatus ? countStatus[1].count : 0}
+          number={countStatus ? countStatus.summary.diajukan : 0}
           icon={FaCopy}
-          label={countStatus ? countStatus[1].status : ''}
+          label={"Diajukan"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-         number={countStatus ? countStatus[3].count: 0}
+          number={countStatus ? countStatus.summary.disetujui : 0}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
-          label={countStatus ? countStatus[3].status : ''}
+          label={"DISETUJUI"}
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-         number={countStatus ? countStatus[2].count: 0}
-         label={countStatus ? countStatus[2].status : ''}
+          number={countStatus ? countStatus.summary.dikembalikan : 0}
+          label={"DIKEMBALIKAN"}
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
@@ -126,39 +123,47 @@ const PlanWellServiceKKKS = () => {
         />
       </Flex>
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1} title={"Planning Well Service"} subtitle={"List Planning Eksplorasi"}>
-          {data.map((row) => (
-            <Tr key={row.id}>
-              <Td>{row.id}</Td>
-              <Td>{row.namaSumur}</Td>
-              <Td>{row.wilayahKerja}</Td>
-              <Td>{row.lapangan}</Td>
-              <Td>{row.tanggalMulai}</Td>
-              <Td>{row.tanggalSelesai}</Td>
-              <Td>{row.tanggalDiajukan}</Td>
-              <Td>
-                <StatusBadge status={row.status} />
-              </Td>
-              <Td>
-                <Button
-                  leftIcon={<Icon as={FaEye} />}
-                  colorScheme="gray"
-                  size="sm"
-                  mr={2}
-                >
-                  View
-                </Button>
-                <Button
-                  leftIcon={<Icon as={FaCheck} />}
-                  colorScheme="green"
-                  size="sm"
-                  isDisabled={row.status !== "PROPOSED"}
-                >
-                  Approve
-                </Button>
-              </Td>
-            </Tr>
-          ))}
+        <ProposedWorkTable
+          headers={headerstable1}
+          title={"Planning Development"}
+          subtitle={"List Planning Development"}
+        >
+          {countStatus ? (
+            countStatus.job_details.map((row, index) => (
+              <Tr key={row.id}>
+                <Td>{index + 1}</Td>
+                <Td>{row.KKKS}</Td>
+                <Td>{row.LAPANGAN}</Td>
+                <Td>{row["WILAYAH KERJA"]}</Td>
+                <Td>{row['NAMA SUMUR']}</Td>
+                <Td>{row["RENCANA MULAI"]}</Td>
+                <Td>{row["RENCANA SELESAI"]}</Td>
+                <Td>
+                  <StatusBadge status={row.STATUS} />
+                </Td>
+                <Td>
+                  <Button
+                    leftIcon={<Icon as={FaEye} />}
+                    colorScheme="gray"
+                    size="sm"
+                    mr={2}
+                  >
+                    View
+                  </Button>
+                  <Button
+                    leftIcon={<Icon as={FaCheck} />}
+                    colorScheme="green"
+                    size="sm"
+                    isDisabled={row.status !== "PROPOSED"}
+                  >
+                    Approve
+                  </Button>
+                </Td>
+              </Tr>
+            ))
+          ) : (
+            <p>Loading ...</p>
+          )}
         </ProposedWorkTable>
       </Box>
       <Footer />

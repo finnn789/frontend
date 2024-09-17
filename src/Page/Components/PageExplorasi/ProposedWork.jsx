@@ -74,7 +74,7 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-const ProposedWorkTable = ({ headers = [], children,title,subtitle }) => {
+const ProposedWorkTable = ({ headers = [], children,title,subtitle,link="/dashboard/planning/form" }) => {
   return (
     <Box bg="white" borderRadius="lg" boxShadow="md" p={4}>
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
@@ -91,7 +91,7 @@ const ProposedWorkTable = ({ headers = [], children,title,subtitle }) => {
         </Flex>
         <Button
           as={Link}
-          to={"/dashboard/planning/form"}
+          to={link}
           leftIcon={<Icon as={FaCheck} />}
           colorScheme="blue"
           size="md"

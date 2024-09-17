@@ -26,24 +26,15 @@ import {
 } from "@chakra-ui/react";
 import { IconLayersSubtract, IconEdit, IconCheck, IconX } from "@tabler/icons-react";
 
-const Stratigraphy = ({
-  setWellStratigraphy,
-  unittype,
-  errorForms,
-}) => {
-  const [WellStratigraphy, setLocalWellStratigraphy] = useState({
-    stratigraphy_id: "",
-    depth: "",
-    depth_datum: "",
-    TablewellStratigraphy: [],
-  });
-
+const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
+  const [WellStratigraphy, setLocalWellStratigraphy] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const [formData, setFormData] = useState({ stratigraphy_id: "", depth: "" });
   const [editFormData, setEditFormData] = useState({ stratigraphy_id: "", depth: "" });
 
   useEffect(() => {
     setWellStratigraphy(WellStratigraphy);
-  }, [WellStratigraphy, setWellStratigraphy]);
+  }, [WellStratigraphy]);
 
   const selectType = [
     { name: "RT", value: "RT" },
@@ -51,9 +42,9 @@ const Stratigraphy = ({
     { name: "MSL", value: "MSL" },
   ];
 
-  const handleInputChangeWellStratigraphy = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setLocalWellStratigraphy((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -67,36 +58,29 @@ const Stratigraphy = ({
     }));
   };
 
-  const handleWellStratichy = () => {
-    const { stratigraphy_id, depth } = WellStratigraphy;
-    if (!stratigraphy_id || !depth) {
+  const handleAddStratigraphy = () => {
+    const { stratigraphy_id, depth } = formData;
+    if (!stratigraphy_id || depth === "") {
       alert("Please fill in all fields.");
       return;
     }
 
-    setLocalWellStratigraphy((prev) => ({
+    setLocalWellStratigraphy((prev) => [
       ...prev,
-      TablewellStratigraphy: [
-        ...prev.TablewellStratigraphy,
-        { stratigraphy_id, depth },
-      ],
-      stratigraphy_id: "",
-      depth: "",
-    }));
+      { stratigraphy_id, depth: parseFloat(depth) },
+    ]);
+    setFormData({ stratigraphy_id: "", depth: "" });
   };
 
   const handleEditRow = (index) => {
     setEditIndex(index);
-    setEditFormData({ ...WellStratigraphy.TablewellStratigraphy[index] });
+    setEditFormData({ ...WellStratigraphy[index] });
   };
 
   const handleSaveEdit = (index) => {
-    const updatedTable = [...WellStratigraphy.TablewellStratigraphy];
-    updatedTable[index] = editFormData;
-    setLocalWellStratigraphy((prev) => ({
-      ...prev,
-      TablewellStratigraphy: updatedTable,
-    }));
+    const updatedTable = [...WellStratigraphy];
+    updatedTable[index] = { ...editFormData, depth: parseFloat(editFormData.depth) };
+    setLocalWellStratigraphy(updatedTable);
     setEditIndex(null);
   };
 
@@ -105,13 +89,8 @@ const Stratigraphy = ({
   };
 
   const handleDelete = (index) => {
-    const updatedStratigraphy = WellStratigraphy.TablewellStratigraphy.filter(
-      (_, i) => i !== index
-    );
-    setLocalWellStratigraphy({
-      ...WellStratigraphy,
-      TablewellStratigraphy: updatedStratigraphy,
-    });
+    const updatedStratigraphy = WellStratigraphy.filter((_, i) => i !== index);
+    setLocalWellStratigraphy(updatedStratigraphy);
   };
 
   return (
@@ -133,8 +112,8 @@ const Stratigraphy = ({
             <Select
               width="auto"
               onChange={(e) =>
-                setLocalWellStratigraphy({
-                  ...WellStratigraphy,
+                setFormData({
+                  ...formData,
                   depth_datum: e.target.value,
                 })
               }
@@ -153,8 +132,8 @@ const Stratigraphy = ({
                   <FormLabel>Stratigraphy</FormLabel>
                   <Select
                     name="stratigraphy_id"
-                    value={WellStratigraphy.stratigraphy_id}
-                    onChange={handleInputChangeWellStratigraphy}
+                    value={formData.stratigraphy_id}
+                    onChange={handleInputChange}
                     placeholder="Stratigraphy"
                   >
                     <option value="LITHOSTRATIGRAPHIC">LITHOSTRATIGRAPHIC</option>
@@ -172,8 +151,9 @@ const Stratigraphy = ({
                     <Input
                       name="depth"
                       type="number"
-                      value={WellStratigraphy.depth}
-                      onChange={handleInputChangeWellStratigraphy}
+                      step="0.01"
+                      value={formData.depth}
+                      onChange={handleInputChange}
                       placeholder="Depth"
                     />
                     <InputRightAddon>
@@ -183,7 +163,7 @@ const Stratigraphy = ({
                 </FormControl>
               </GridItem>
             </Grid>
-            <Button colorScheme="blue" onClick={handleWellStratichy}>
+            <Button colorScheme="blue" onClick={handleAddStratigraphy}>
               Add
             </Button>
           </VStack>
@@ -192,7 +172,7 @@ const Stratigraphy = ({
 
       <GridItem height="100%">
         <Box borderWidth="1px" height="325px" borderRadius="lg" p={6}>
-          {WellStratigraphy.TablewellStratigraphy.length > 0 ? (
+          {WellStratigraphy.length > 0 ? (
             <Table variant="simple">
               <Thead>
                 <Tr>
@@ -202,7 +182,7 @@ const Stratigraphy = ({
                 </Tr>
               </Thead>
               <Tbody>
-                {WellStratigraphy.TablewellStratigraphy.map((row, index) => (
+                {WellStratigraphy.map((row, index) => (
                   <Tr key={index}>
                     {editIndex === index ? (
                       <>
@@ -210,6 +190,7 @@ const Stratigraphy = ({
                           <Input
                             name="depth"
                             type="number"
+                            step="0.01"
                             value={editFormData.depth}
                             onChange={handleEditChange}
                           />

@@ -1,36 +1,40 @@
-import { Heading } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import ProposedWorkTable from "./ProposedWork";
 import { Box, Badge, Flex, Text, Tr, Td, Button, Icon } from "@chakra-ui/react";
 import PerhitunganCard from "../../PageKKKS/Components/Card/CardPerhitunganBox";
-import { FaCopy, FaCheck } from "react-icons/fa";
+import { FaCopy, FaCheck, FaPen } from "react-icons/fa";
+import { useNavigate,Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../../PageKKKS/Components/Card/Footer";
 // import HeaderCard from "../Components/Card/HeaderCard";
-import { getDataJobCountPlanningEx } from "../../API/APISKK";
-
+import { getTableKKKS } from "../../API/APIKKKS";
+import { FaGear } from "react-icons/fa6";
 const OperationExpKKKS = () => {
   const [countStatus, setCountStatus] = React.useState(null);
+  const navigate = useNavigate();
+
+  // const handleNavgiateId = (id) => {
+  //   navigate(`dashboard/operasi/${id}`);
+  // };
 
   React.useEffect(() => {
     const getData = async () => {
-      const data = await getDataJobCountPlanningEx();
-      setCountStatus(data);
-
-      console.log(data);
+      const data = await getTableKKKS("exploration", "operation");
+      console.log(data.data)
+      setCountStatus(data.data);
     };
     getData();
   }, []);
 
   const headerstable1 = [
     "NO.",
-    "NAMA SUMUR",
-    "WILAYAH KERJA",
+    "KKKS",
     "LAPANGAN",
-    "TANGGAL MULAI",
-    "TANGGAL SELESAI",
-    "TANGGAL DIAJUKAN",
+    "WILAYAH KERJA",
+    "NAMA SUMUR",
+    "RENCANA MULAI",
+    "RENCANA SELESAI",
     "STATUS",
     "AKSI",
   ];
@@ -99,26 +103,26 @@ const OperationExpKKKS = () => {
         color={"gray.600"}
         fontFamily="Montserrat"
       >
-        Operation Development
+        Operasi Explorasi
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={countStatus ? countStatus[1].count : 0}
-          icon={FaCopy}
-          label={countStatus ? countStatus[1].status : ""}
+          number={countStatus ? countStatus.summary.beroperasi : 0}
+          icon={FaGear}
+          label={"Beropeasi"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-          number={countStatus ? countStatus[3].count : 0}
+          number={countStatus ? countStatus.summary.disetujui : 0}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
-          label={countStatus ? countStatus[3].status : ""}
+          label={"DISETUJUI"}
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={countStatus ? countStatus[2].count : 0}
-          label={countStatus ? countStatus[2].status : ""}
+          number={countStatus ? countStatus.summary.selesai_beroperasi : 0}
+          label={"SELESAI"}
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
@@ -128,41 +132,41 @@ const OperationExpKKKS = () => {
       <Box my={6}>
         <ProposedWorkTable
           headers={headerstable1}
-          title={"Operation Development"}
-          subtitle={"List Operation Development"}
+          title={"Operation Exploration"}
+          subtitle={"List Operation Exploration"}
+          link="/dashboard/operasiform"
         >
-          {data.map((row) => (
-            <Tr key={row.id}>
-              <Td>{row.id}</Td>
-              <Td>{row.namaSumur}</Td>
-              <Td>{row.wilayahKerja}</Td>
-              <Td>{row.lapangan}</Td>
-              <Td>{row.tanggalMulai}</Td>
-              <Td>{row.tanggalSelesai}</Td>
-              <Td>{row.tanggalDiajukan}</Td>
-              <Td>
-                <StatusBadge status={row.status} />
-              </Td>
-              <Td>
-                <Button
-                  leftIcon={<Icon as={FaEye} />}
-                  colorScheme="gray"
-                  size="sm"
-                  mr={2}
-                >
-                  View
-                </Button>
-                <Button
-                  leftIcon={<Icon as={FaCheck} />}
-                  colorScheme="green"
-                  size="sm"
-                  isDisabled={row.status !== "PROPOSED"}
-                >
-                  Approve
-                </Button>
-              </Td>
-            </Tr>
-          ))}
+          {countStatus ? (
+            countStatus.job_details.map((row, index) => (
+              <Tr key={row.id}>
+                <Td>{index + 1}</Td>
+                <Td>{row.KKKS}</Td>
+                <Td>{row.LAPANGAN}</Td>
+                <Td>{row["WILAYAH KERJA"]}</Td>
+                <Td>{row['NAMA SUMUR']}</Td>
+                <Td>{row["RENCANA MULAI"]}</Td>
+                <Td>{row["RENCANA SELESAI"]}</Td>
+                <Td>
+                  <StatusBadge status={row.STATUS} />
+                </Td>
+                <Td>
+                  <Button
+                    leftIcon={<Icon as={FaPen} />}
+                    colorScheme="gray"
+                    size="sm"
+                    mr={2}
+                    as={Link}
+                    to={`/dashboard/operasiform/${row.id}`}
+                  >
+                    Update
+                  </Button>
+                  
+                </Td>
+              </Tr>
+            ))
+          ) : (
+            <p>Loading ...</p>
+          )}
         </ProposedWorkTable>
       </Box>
       <Footer />
