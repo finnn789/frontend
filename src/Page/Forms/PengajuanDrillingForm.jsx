@@ -314,7 +314,7 @@ const PengajuanDrillingForm = () => {
                     ...prevJobPlan,
                     job_plan: {
                       ...prevJobPlan.job_plan,
-                      ...data,
+                      work_breakdown_structure:[...data],
                     },
                   }));
                 }}
@@ -339,6 +339,8 @@ const PengajuanDrillingForm = () => {
                     },
                   }));
                 }}
+
+                unitType={dataMetricImperial}
               />
             </TabPanel>
           </TabPanels>

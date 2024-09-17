@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   VStack,
@@ -25,11 +25,13 @@ import {
   Icon,
   Text,
   Heading,
+  HStack,
+  IconButton,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { IconCylinder } from "@tabler/icons-react";
+import { IconCylinder, IconEdit, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 
-const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) => {
+const WellCasing = ({ dataWellCasing, errorForms = false, unittype = "Metrics" }) => {
   const [showWellCasing, setShowWellCasing] = useState({
     names: [],
     top_depths: [],
@@ -52,6 +54,8 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
     connection: "",
     description: "",
   });
+  const [editIndex, setEditIndex] = useState(null);
+  const [editFormData, setEditFormData] = useState({});
 
   const handleWellCasing = () => {
     const calculationBottomDepth = (depth, length) => {
@@ -64,35 +68,35 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
     setShowWellCasing((prevData) => ({
       names: [...prevData.names, newEntry.description],
       bottom_depths: [...prevData.bottom_depths, parseFloat(newEntry.depth)],
-      top_depths: [
-        ...prevData.top_depths,
-        calculationBottomDepth(newEntry.depth, newEntry.length),
-      ],
-      diameters: [
-        ...prevData.diameters,
-        parseFloat(newEntry.casing_outer_diameter),
-      ],
+      top_depths: [...prevData.top_depths, calculationBottomDepth(newEntry.depth, newEntry.length)],
+      diameters: [...prevData.diameters, parseFloat(newEntry.casing_outer_diameter)],
     }));
 
     dataWellCasing(updatedTable);
-    resetWellCasing(); // Reset form after adding data
+    resetWellCasing();
   };
 
   const handleInputChangeWellCasing = (e) => {
     const { name, value, type } = e.target;
-
-    let processedValue =
-      type === "number" && value !== "" ? parseFloat(value) : value;
-
+    let processedValue = type === "number" && value !== "" ? parseFloat(value) : value;
     setWellCasing((prevData) => ({
       ...prevData,
       [name]: processedValue,
     }));
   };
 
+  const handleEditChange = (e) => {
+    const { name, value, type } = e.target;
+    let processedValue = type === "number" && value !== "" ? parseFloat(value) : value;
+    setEditFormData((prev) => ({
+      ...prev,
+      [name]: processedValue,
+    }));
+  };
+
   const resetWellCasing = () => {
     setWellCasing({
-      unit_type: unittype ,
+      unit_type: unittype,
       depth_datum: "RT",
       depth: "",
       length: "",
@@ -105,9 +109,6 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
       description: "",
     });
   };
-
-  console.log(showWellCasing);
-  
 
   const clickShowCasing = async () => {
     try {
@@ -122,15 +123,11 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
         }
       );
 
-      console.log(response);
-
       if (response) {
         const sessionId = response.data.data.session_id;
         try {
           const visualizationResponse = await axios.get(
-            `${
-              import.meta.env.VITE_APP_URL
-            }/visualize/casing-visualization/${sessionId}`,
+            `${import.meta.env.VITE_APP_URL}/visualize/casing-visualization/${sessionId}`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -165,30 +162,27 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
     }));
   };
 
-  const optionsWellCasing = [
-    {
-      name: "RT",
-      value: "RT",
-    },
-    {
-      name: "KB",
-      value: "KB",
-    },
-    {
-      name: "MSL",
-      value: "MSL",
-    },
-  ];
+  const handleEditRow = (index) => {
+    setEditIndex(index);
+    setEditFormData(tableWellCasing[index]);
+  };
 
-  const optionUnitType = [
-    {
-      name: "Metrics",
-      value: "Metrics",
-    },
-    {
-      name: "Imperial",
-      value: "Imperial",
-    },
+  const handleSaveEdit = (index) => {
+    const updatedTable = [...tableWellCasing];
+    updatedTable[index] = editFormData;
+    setTableWellCasing(updatedTable);
+    setEditIndex(null);
+    dataWellCasing(updatedTable);
+  };
+
+  const handleCancelEdit = () => {
+    setEditIndex(null);
+  };
+
+  const optionsWellCasing = [
+    { name: "RT", value: "RT" },
+    { name: "KB", value: "KB" },
+    { name: "MSL", value: "MSL" },
   ];
 
   useEffect(() => {
@@ -199,24 +193,13 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
   }, [unittype]);
 
   return (
-    <Grid
-      templateColumns="repeat(2, 1fr)"
-      gap={4}
-      mt={4}
-      height="600px"
-      fontFamily={"Montserrat"}
-    >
+    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} height="600px" fontFamily={"Montserrat"}>
       <Box borderWidth="1px" borderRadius="lg" p={6} height="100%">
         <Flex justifyContent="space-between" alignItems="center" mb={6}>
           <Flex alignItems="center" flexDirection={"row"}>
             <Icon as={IconCylinder} boxSize={12} color="gray.800" mr={3} />
             <Flex flexDirection="column">
-              <Text
-                fontSize="xl"
-                fontWeight="bold"
-                color="gray.700"
-                fontFamily="Montserrat"
-              >
+              <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
                 Well Casing
               </Text>
               <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
@@ -226,9 +209,7 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
           </Flex>
           <Select
             width="auto"
-            onChange={(e) =>
-              setWellCasing({ ...wellCasing, depth_datum: e.target.value })
-            }
+            onChange={(e) => setWellCasing({ ...wellCasing, depth_datum: e.target.value })}
           >
             {optionsWellCasing.map((option) => (
               <option key={option.value} value={option.value}>
@@ -239,7 +220,6 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
         </Flex>
         <VStack spacing={4} align="stretch">
           <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-            
             <FormControl>
               <FormLabel>Depth</FormLabel>
               <InputGroup>
@@ -250,9 +230,7 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
                   onChange={handleInputChangeWellCasing}
                   placeholder="Depth"
                 />
-                <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
-                </InputRightAddon>
+                <InputRightAddon>{wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -265,9 +243,7 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
                   onChange={handleInputChangeWellCasing}
                   placeholder="Length"
                 />
-                <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}
-                </InputRightAddon>
+                <InputRightAddon>{wellCasing.unit_type === "Metrics" ? "METERS" : "FEET"}</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -280,9 +256,7 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
                   onChange={handleInputChangeWellCasing}
                   placeholder="Hole Diameter"
                 />
-                <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "INCH" : "mm"}
-                </InputRightAddon>
+                <InputRightAddon>{wellCasing.unit_type === "Metrics" ? "INCH" : "mm"}</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -295,9 +269,7 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Outer Diameter"
                 />
-                <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "INCH" : "mm"}
-                </InputRightAddon>
+                <InputRightAddon>{wellCasing.unit_type === "Metrics" ? "INCH" : "mm"}</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -310,9 +282,7 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
                   type="number"
                   placeholder="Casing Inner Diameter"
                 />
-                <InputRightAddon>
-                  {wellCasing.unit_type === "Metrics" ? "INCH" : "mm"}
-                </InputRightAddon>
+                <InputRightAddon>{wellCasing.unit_type === "Metrics" ? "INCH" : "mm"}</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -325,7 +295,6 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
                       casing_grade: e.target.value,
                     })
                   }
-
                   value={wellCasing.casing_grade}
                 >
                   <option value="H40">H40</option>
@@ -348,7 +317,7 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Weight"
                 />
-                <InputRightAddon>{wellCasing.unit_type ? "KG/m": "PPF"}</InputRightAddon>
+                <InputRightAddon>{wellCasing.unit_type ? "KG/m" : "PPF"}</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -372,19 +341,11 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
             </FormControl>
           </Grid>
           <Button colorScheme="blue" onClick={handleWellCasing}>
-            Add Data
+            {editIndex !== null ? "Update Data" : "Add Data"}
           </Button>
         </VStack>
       </Box>
-      <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        boxShadow="md"
-        height="100%"
-        display="flex"
-        flexDirection="column"
-        overflow="hidden"
-      >
+      <Box borderWidth="1px" borderRadius="lg" boxShadow="md" height="100%" display="flex" flexDirection="column" overflow="hidden">
         <Tabs display="flex" flexDirection="column" height="100%">
           <TabList position="sticky" top={0} bg="white" zIndex={1}>
             <Tab>Table</Tab>
@@ -406,44 +367,148 @@ const WellCasing = ({ dataWellCasing, errorForms=false ,unittype = "Metrics"}) =
                         <Th>Casing Grade</Th>
                         <Th>Casing Weight</Th>
                         <Th>Description</Th>
-                        <Th>Action</Th>
+                        <Th>Actions</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
                       {tableWellCasing.map((row, index) => (
                         <Tr key={index}>
-                          <Td>{row.depth}</Td>
-                          <Td>{row.length}</Td>
-                          <Td>{row.hole_diameter}</Td>
-                          <Td>{row.casing_outer_diameter}</Td>
-                          <Td>{row.casing_inner_diameter}</Td>
-                          <Td>{row.casing_grade}</Td>
-                          <Td>{row.casing_weight}</Td>
-                          <Td>{row.description}</Td>
-                          <Td>
-                            <Button
-                              colorScheme="red"
-                              size="sm"
-                              onClick={() => handleDeleteRow(index)}
-                            >
-                              Delete
-                            </Button>
-                          </Td>
+                          {editIndex === index ? (
+                            <>
+                              <Td>
+                                <Input
+                                  name="depth"
+                                  type="number"
+                                  value={editFormData.depth}
+                                  onChange={handleEditChange}
+                                />
+                              </Td>
+                              <Td>
+                                <Input
+                                  name="length"
+                                  type="number"
+                                  value={editFormData.length}
+                                  onChange={handleEditChange}
+                                />
+                              </Td>
+                              <Td>
+                                <Input
+                                  name="hole_diameter"
+                                  type="number"
+                                  value={editFormData.hole_diameter}
+                                  onChange={handleEditChange}
+                                />
+                              </Td>
+                              <Td>
+                                <Input
+                                  name="casing_outer_diameter"
+                                  type="number"
+                                  value={editFormData.casing_outer_diameter}
+                                  onChange={handleEditChange}
+                                />
+                              </Td>
+                              <Td>
+                                <Input
+                                  name="casing_inner_diameter"
+                                  type="number"
+                                  value={editFormData.casing_inner_diameter}
+                                  onChange={handleEditChange}
+                                />
+                              </Td>
+                              <Td>
+                                <Select
+                                  value={editFormData.casing_grade}
+                                  onChange={(e) =>
+                                    setEditFormData({
+                                      ...editFormData,
+                                      casing_grade: e.target.value,
+                                    })
+                                  }
+                                >
+                                  <option value="H40">H40</option>
+                                  <option value="K55">K55</option>
+                                  <option value="J55">J55</option>
+                                  <option value="N80">N80</option>
+                                  <option value="C95">C95</option>
+                                  <option value="P10">P10</option>
+                                  <option value="S125">S125</option>
+                                </Select>
+                              </Td>
+                              <Td>
+                                <Input
+                                  name="casing_weight"
+                                  type="number"
+                                  value={editFormData.casing_weight}
+                                  onChange={handleEditChange}
+                                />
+                              </Td>
+                              <Td>
+                                <Input
+                                  name="description"
+                                  type="text"
+                                  value={editFormData.description}
+                                  onChange={handleEditChange}
+                                />
+                              </Td>
+                              <Td>
+                                <HStack spacing={2}>
+                                  <IconButton
+                                    icon={<Icon as={IconCheck} />}
+                                    colorScheme="green"
+                                    size="sm"
+                                    onClick={() => handleSaveEdit(index)}
+                                    aria-label="Save"
+                                  />
+                                  <IconButton
+                                    icon={<Icon as={IconX} />}
+                                    colorScheme="red"
+                                    size="sm"
+                                    onClick={handleCancelEdit}
+                                    aria-label="Cancel"
+                                  />
+                                </HStack>
+                              </Td>
+                            </>
+                          ) : (
+                            <>
+                              <Td>{row.depth}</Td>
+                              <Td>{row.length}</Td>
+                              <Td>{row.hole_diameter}</Td>
+                              <Td>{row.casing_outer_diameter}</Td>
+                              <Td>{row.casing_inner_diameter}</Td>
+                              <Td>{row.casing_grade}</Td>
+                              <Td>{row.casing_weight}</Td>
+                              <Td>{row.description}</Td>
+                              <Td>
+                                <HStack spacing={2}>
+                                  <IconButton
+                                    icon={<Icon as={IconEdit} />}
+                                    colorScheme="blue"
+                                    size="sm"
+                                    onClick={() => handleEditRow(index)}
+                                    aria-label="Edit row"
+                                  />
+                                  <IconButton
+                                    icon={<Icon as={IconTrash} />}
+                                    colorScheme="red"
+                                    size="sm"
+                                    onClick={() => handleDeleteRow(index)}
+                                    aria-label="Delete row"
+                                  />
+                                </HStack>
+                              </Td>
+                            </>
+                          )}
                         </Tr>
                       ))}
                     </Tbody>
                   </Table>
                 ) : (
-                  <Flex
-                    justifyContent="center"
-                    flexDirection={"column"}
-                    alignItems="center"
-                    height="100%"
-                  >
+                  <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
                     <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
                     {!!errorForms["job_plan.well.well_casing"] && (
                       <Text color="red.500" fontSize="sm" mt={2}>
-                        Well Cassing cannot be empty.
+                        Well Casing cannot be empty.
                       </Text>
                     )}
                   </Flex>

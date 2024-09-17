@@ -8,7 +8,7 @@ import HazardType from "../Planning/HazardType";
 import JobDocuments from "../Planning/JobDocuments";
 
 
-const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData,HazardTypeData, CuttingDumping, errorForms }) => {
+const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData,HazardTypeData, CuttingDumping, errorForms,unitType }) => {
   const [data, setData] = useState({});
   const [datas, setDatas] = useState({});
   // console.log(data);
@@ -51,6 +51,7 @@ const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleC
       <JobOpertionsDays
         errorForms={errorForms}
         ondata={JobOperationData}
+        unitType={unitType}
       />
       <HazardType
         errorForms={errorForms}

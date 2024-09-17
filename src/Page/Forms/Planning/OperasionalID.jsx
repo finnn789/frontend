@@ -317,11 +317,11 @@ const ProposedJob = ({
               <Input
                 name="wpb_year"
                 type="number"
-                value={formData.wpb_year}
+                
                 onChange={handleChange}
                 placeholder="WPNB Year"
               />
-              <InputRightAddon>METERS</InputRightAddon>
+              
             </InputGroup>
             {errorForms["wpb_year"] && (
               <FormErrorMessage>WPNB Year is required</FormErrorMessage>
@@ -501,7 +501,7 @@ const ProposedJob = ({
                     }}
                     placeholder="Rig Horse Power"
                   />
-                  <InputRightAddon>METERS</InputRightAddon>
+                  <InputRightAddon>HP</InputRightAddon>
                   </InputGroup>
                 {errorForms["job_plan.rig_horse_power"] && (
                   <FormErrorMessage>Rig Horse Power is required</FormErrorMessage>

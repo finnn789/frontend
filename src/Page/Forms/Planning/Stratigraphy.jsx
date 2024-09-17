@@ -21,15 +21,16 @@ import {
   Td,
   Icon,
   Text,
+  HStack,
+  IconButton,
 } from "@chakra-ui/react";
-import { IconLayersSubtract } from "@tabler/icons-react";
+import { IconLayersSubtract, IconEdit, IconCheck, IconX } from "@tabler/icons-react";
 
 const Stratigraphy = ({
-  setWellStratigraphy, // From parent to synchronize state
+  setWellStratigraphy,
   unittype,
   errorForms,
 }) => {
-  // Internal state to manage stratigraphy data
   const [WellStratigraphy, setLocalWellStratigraphy] = useState({
     stratigraphy_id: "",
     depth: "",
@@ -37,19 +38,19 @@ const Stratigraphy = ({
     TablewellStratigraphy: [],
   });
 
-  // Update the parent component whenever local state changes
+  const [editIndex, setEditIndex] = useState(null);
+  const [editFormData, setEditFormData] = useState({ stratigraphy_id: "", depth: "" });
+
   useEffect(() => {
     setWellStratigraphy(WellStratigraphy);
   }, [WellStratigraphy, setWellStratigraphy]);
 
-  // Options for select dropdown
   const selectType = [
     { name: "RT", value: "RT" },
     { name: "KB", value: "KB" },
     { name: "MSL", value: "MSL" },
   ];
 
-  // Handle input changes
   const handleInputChangeWellStratigraphy = (e) => {
     const { name, value } = e.target;
     setLocalWellStratigraphy((prev) => ({
@@ -58,17 +59,21 @@ const Stratigraphy = ({
     }));
   };
 
-  // Add new stratigraphy data to the table
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleWellStratichy = () => {
     const { stratigraphy_id, depth } = WellStratigraphy;
-
-    // Basic validation
     if (!stratigraphy_id || !depth) {
       alert("Please fill in all fields.");
       return;
     }
 
-    // Update table data with new entry
     setLocalWellStratigraphy((prev) => ({
       ...prev,
       TablewellStratigraphy: [
@@ -80,7 +85,25 @@ const Stratigraphy = ({
     }));
   };
 
-  // Handle deletion of a table row
+  const handleEditRow = (index) => {
+    setEditIndex(index);
+    setEditFormData({ ...WellStratigraphy.TablewellStratigraphy[index] });
+  };
+
+  const handleSaveEdit = (index) => {
+    const updatedTable = [...WellStratigraphy.TablewellStratigraphy];
+    updatedTable[index] = editFormData;
+    setLocalWellStratigraphy((prev) => ({
+      ...prev,
+      TablewellStratigraphy: updatedTable,
+    }));
+    setEditIndex(null);
+  };
+
+  const handleCancelEdit = () => {
+    setEditIndex(null);
+  };
+
   const handleDelete = (index) => {
     const updatedStratigraphy = WellStratigraphy.TablewellStratigraphy.filter(
       (_, i) => i !== index
@@ -181,17 +204,72 @@ const Stratigraphy = ({
               <Tbody>
                 {WellStratigraphy.TablewellStratigraphy.map((row, index) => (
                   <Tr key={index}>
-                    <Td>{row.depth}</Td>
-                    <Td>{row.stratigraphy_id}</Td>
-                    <Td>
-                      <Button
-                        colorScheme="red"
-                        size="sm"
-                        onClick={() => handleDelete(index)}
-                      >
-                        Delete
-                      </Button>
-                    </Td>
+                    {editIndex === index ? (
+                      <>
+                        <Td>
+                          <Input
+                            name="depth"
+                            type="number"
+                            value={editFormData.depth}
+                            onChange={handleEditChange}
+                          />
+                        </Td>
+                        <Td>
+                          <Select
+                            name="stratigraphy_id"
+                            value={editFormData.stratigraphy_id}
+                            onChange={handleEditChange}
+                          >
+                            <option value="LITHOSTRATIGRAPHIC">LITHOSTRATIGRAPHIC</option>
+                            <option value="CHRONOSTRATIGRAPHIC">CHRONOSTRATIGRAPHIC</option>
+                            <option value="OTHER">OTHER</option>
+                            <option value="RADIOMETRIC">RADIOMETRIC</option>
+                            <option value="BIOSTRATIGRAPHIC">BIOSTRATIGRAPHIC</option>
+                          </Select>
+                        </Td>
+                        <Td>
+                          <HStack spacing={2}>
+                            <IconButton
+                              icon={<Icon as={IconCheck} />}
+                              colorScheme="green"
+                              size="sm"
+                              onClick={() => handleSaveEdit(index)}
+                              aria-label="Save"
+                            />
+                            <IconButton
+                              icon={<Icon as={IconX} />}
+                              colorScheme="red"
+                              size="sm"
+                              onClick={handleCancelEdit}
+                              aria-label="Cancel"
+                            />
+                          </HStack>
+                        </Td>
+                      </>
+                    ) : (
+                      <>
+                        <Td>{row.depth}</Td>
+                        <Td>{row.stratigraphy_id}</Td>
+                        <Td>
+                          <HStack spacing={2}>
+                            <IconButton
+                              icon={<Icon as={IconEdit} />}
+                              colorScheme="blue"
+                              size="sm"
+                              onClick={() => handleEditRow(index)}
+                              aria-label="Edit row"
+                            />
+                            <Button
+                              colorScheme="red"
+                              size="sm"
+                              onClick={() => handleDelete(index)}
+                            >
+                              Delete
+                            </Button>
+                          </HStack>
+                        </Td>
+                      </>
+                    )}
                   </Tr>
                 ))}
               </Tbody>

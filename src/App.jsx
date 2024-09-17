@@ -157,7 +157,7 @@ function App() {
           path: "operasi",
           element: (
             <ProtectedRoute
-              element={<PlanDevelopKKKS />}
+              element={<OperationExpKKKS />}
               allowedRoles={["KKKS"]}
             />
           ),

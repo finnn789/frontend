@@ -230,6 +230,8 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
     }));
   };
 
+  
+
   // console.log('asd',handleInputChange);
   return (
     <>
@@ -238,6 +240,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         formData={formData}
         unittype={unitType}
         errorForms={errorForms}
+        wellType={["DELINATION", "WILDCAT"]}
       />
       <WellLocation handleChange={handleChange} errorForms={errorForms} />
       <ElevationsAndDepths handleChange={handleChange} unittype={unitType} errorForms={errorForms} />

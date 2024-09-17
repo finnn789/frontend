@@ -19,15 +19,15 @@ import {
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 
-const JobDetail = ({ handleChange, formData, unittype, errorForms }) => {
-  const wellType = [
-    "DEALINATION",
-    "WILDCAT",
-    "INFILL",
-    "PRODUCER",
-    "INJECTION",
-    "STEPOUT",
-  ];
+const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
+  "DEALINATION",
+  "WILDCAT",
+  "INFILL",
+  "PRODUCER",
+  "INJECTION",
+  "STEPOUT",
+] }) => {
+   
 
   const  profileType = [
     {
