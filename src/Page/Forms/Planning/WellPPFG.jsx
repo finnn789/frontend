@@ -74,7 +74,7 @@ const WellPorePressureForm = ({handleDataSubmit}) => {
   
         setFormData((prevData) => ({
           ...prevData,
-          file_id: response.data.file_info.id,
+          file_id: response.data.data.file_info.id,
         }))
       } else {
         toast({

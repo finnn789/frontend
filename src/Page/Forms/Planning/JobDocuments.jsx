@@ -109,8 +109,8 @@ const JobDocuments = ({ data }) => {
 
       const newData = {
         ...formData,
-        file_id: response.data.file_info.id,
-        fileName: response.data.file_info.filename,
+        file_id: response.data.data.file_info.id,
+        fileName: response.data.data.file_info.filename,
       };
 
       setOnChangeData([...onChangeData, newData]);

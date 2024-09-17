@@ -116,11 +116,11 @@ const WellTrajectory = ({ ondata }) => {
       // console.log(response.data.file_info.id);
 
       setDataParent({
-        file_id: response.data.file_info.id,
+        file_id: response.data.data.file_info.id,
         data_format: fileType,
       });
 
-      setMsg(response.data.message);
+      setMsg(response.data.data.message);
 
       toast({
         title: msg,
