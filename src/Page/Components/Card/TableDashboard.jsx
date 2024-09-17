@@ -3,7 +3,7 @@ import { Table, Thead, Tbody, Tr, Th, TableContainer } from "@chakra-ui/react";
 const TableDashboard = ({ datas, headers = [], children, props }) => {
   return (
     <TableContainer>
-      <Table variant="striped" {...props} mt={2} size={"sm"}>
+      <Table variant="simple" {...props} mt={2} size={"sm"}>
         <Thead bg={"gray.200"} fontWeight={"bold"} borderRadius="lg">
           <Tr>
             {headers.map((head, index) => (

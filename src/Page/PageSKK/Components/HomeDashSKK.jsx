@@ -204,7 +204,7 @@ const HomeDashSKK = () => {
       color={getColorByValue2(getColorByValue(value))}
       fontWeight={600}
     >
-      {value}         
+      {value}%         
     </Td>
   );
   const handleKKKSInfoClick = (item) => {
@@ -265,7 +265,7 @@ const HomeDashSKK = () => {
                       </Flex>
                     </Td>
                     <Td fontSize={"18px"} fontFamily={"Montserrat"}>
-                      {item.percentage}
+                      {item.percentage} %
                     </Td>
                   </Tr>
                 ))
