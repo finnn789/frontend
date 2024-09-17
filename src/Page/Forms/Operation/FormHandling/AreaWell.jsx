@@ -4,7 +4,7 @@ import FormControlCard from "../../Components/FormControl";
 
 const AreaWell = () => {
   return (
-    <CardFormK3 title="Operational" subtitle="Area">
+    <CardFormK3 title="Operational"  subtitle="Area">
       <FormControlCard labelForm="Area Well" placeholder="Area" isDisabled />
       <FormControlCard labelForm="Field ID" placeholder="Area" isDisabled />
     </CardFormK3>

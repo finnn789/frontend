@@ -10,7 +10,7 @@ import JobDocuments from "../../Planning/JobDocuments";
 const OperationalParent = () => {
   return (
     <>
-      <Grid gap={2}>
+      <Grid gap={2} >
         <GridItem>
           <AreaWell />
         </GridItem>
@@ -27,7 +27,7 @@ const OperationalParent = () => {
           <HazardType/>
         </GridItem>
         <GridItem mt={4}>
-          <JobDocuments data={(e)=> console.log(encodeURI)}/>
+          <JobDocuments data={(e)=> console.log(e)}/>
         </GridItem>
       </Grid>
     </>

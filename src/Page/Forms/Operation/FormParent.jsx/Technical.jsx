@@ -1,5 +1,19 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import CardFormWell from "../../Exploration/TeknisForms";
+import WellProfile from "../FormHandling/WellProfile";
+import { Grid, SimpleGrid } from "@chakra-ui/react";
+import DirectionalType from "../FormHandling/DirectionalType";
+import WellCasing from "../../Planning/WellCasing";
+import WellSummary from "../../Planning/WellSummary";
+import WellSummaryForm from "../FormHandling/WellSumarry";
+import WellStratigraphyForm from "../FormHandling/WellStratigraphy";
+import WellTest from "../../Planning/WellTest";
+import WellTestForm from "../FormHandling/WellTest";
+import WellTrajectory from "../../Planning/WellTrajectory";
+import WellPorePressureForm from "../../Planning/WellPPFG";
+import MudLogs from "../FormHandling/MudLogs";
+import MudLogsCard from "../FormHandling/MudLogs";
+import WellLogsCard from "../FormHandling/WellLogs";
 
 const Technical = () => {
   const [jobPlan, setJobPlan] = React.useState({
@@ -110,6 +124,8 @@ const Technical = () => {
       wrm_evaluasi_subsurface: true,
     },
   });
+
+  console.log(jobPlan);
   const handleWellDataChange = (wellData) => {
     setJobPlan((prevJobPlan) => ({
       ...prevJobPlan,
@@ -121,6 +137,7 @@ const Technical = () => {
       },
     }));
   };
+
   const [dataMetricImperial, setDataMetricImperial] = useState("Metrics");
   const metricImperialChange = (e) => {
     setJobPlan((prevJobPlan) => ({
@@ -143,11 +160,32 @@ const Technical = () => {
   const [formErrors, setFormErrors] = useState({});
 
   return (
-    <CardFormWell
-      onFormChange={handleWellDataChange}
-      unitType={dataMetricImperial}
-      errorForms={formErrors}
-    />
+    <SimpleGrid columns={1} gap={6}>
+      <WellProfile />
+      <DirectionalType />
+      <WellSummaryForm />
+      <WellCasing />
+      <WellStratigraphyForm />
+      <WellTestForm />
+      <WellTrajectory
+        ondata={(data) =>
+          setJobPlan((prevJobPlan) => ({
+            ...prevJobPlan,
+            job_plan: {
+              ...prevJobPlan.job_plan,
+              well: {
+                ...prevJobPlan.job_plan.well,
+                well_trajectory: data,
+              },
+            },
+          }))
+        }
+        errorForms={formErrors}
+      />
+      <WellPorePressureForm handleDataSubmit={(e) => console.log(e)} />
+      <MudLogsCard/>
+      <WellLogsCard/>
+    </SimpleGrid>
   );
 };
 

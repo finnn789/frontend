@@ -218,7 +218,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
       depth_datum: "RT",
       depth: 0,
       stratigraphy_id: "",
-    });
+    });  
   };
 
   const handleData = (newData) => {
