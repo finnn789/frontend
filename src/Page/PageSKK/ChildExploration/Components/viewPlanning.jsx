@@ -33,6 +33,7 @@ import { GetViewPlanning, GetImageWellCasing } from "../../../API/APISKK";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import CustomMap from "./MapComponents";
 
 const DetailModal = ({ isOpen, onClose, selectedId }) => {
   const [planningData, setPlanningData] = useState(null);
@@ -162,7 +163,16 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
   const workBreakDownStructureData =
     planningData?.data.operational?.work_breakdown_structure?.table;
 
-    console.log("planningData", planningData);
+  console.log("Latitude Permukaan", planningData?.data?.technical["Latitude Permukaan"]);
+  console.log("Longitude Permukaan", planningData?.data?.technical["Longitude Permukaan"]);
+  
+  const coordinates = [
+    {
+      lat: planningData?.data?.technical["Latitude Permukaan"],
+      lng: planningData?.data?.technical["Longitude Permukaan"],
+      // label: 'Jakarta'
+    },
+  ];
   return (
     <Modal
       isOpen={isOpen}
@@ -206,10 +216,8 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
             <Skeleton height="400px" width="100%" borderRadius="md" />
           ) : (
             <Flex direction="column" gap={4} fontFamily={"Montserrat"}>
-              <Box bg="gray.200" height="200px" borderRadius="md">
-                <Text textAlign="center" pt="80px" color="gray.600">
-                  Map/Image Placeholder
-                </Text>
+              <Box bg="gray.200" height="300px" borderRadius="md">
+                <CustomMap coordinates={coordinates} /> {/* Include Custom Map */}
               </Box>
 
               <Tabs variant="enclosed">
@@ -250,7 +258,7 @@ const DetailModal = ({ isOpen, onClose, selectedId }) => {
                             <TabPanels>
                                {/* ANCHOR JOB OPERATION DAYS */}
                             <TabPanel>
-                              {planningData.data.operational?.job_operation_days?.plot?.data ? (
+                              {planningData?.data?.operational?.job_operation_days?.plot?.data ? (
                                 <Box width="100%" overflow="hidden">
                                   <Plot
                                     data={
