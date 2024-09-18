@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import CardFormWell from "./Workover/TeknisForms";
+// PlanWorkOver.jsx
+import React, { useState } from "react";
 import {
   Tabs,
   TabList,
@@ -14,10 +14,8 @@ import {
   Select,
 } from "@chakra-ui/react";
 import Operasional from "./Workover/Operasioal";
-import axios from "axios";
-import ExistingWell from "./Planning/ExistingWell";
-import TecnicalForm from "./WellService/TeknisForms";
-import PostWorkover from "../API/PostKkks";
+import TeknisForm from "./WellService/TeknisForms"; // Sesuaikan path sesuai dengan struktur folder Anda
+import PostWorkover from "../API/PostKkks"; // Sesuaikan path sesuai dengan struktur folder Anda
 
 const PlanWorkOverForm = () => {
   const [jobPlan, setJobPlan] = useState({
@@ -27,8 +25,8 @@ const PlanWorkOverForm = () => {
     afe_number: "string",
     wpb_year: 0,
     job_plan: {
-      start_date: "2024-09-07",
-      end_date: "2024-09-07",
+      start_date: "2024-09-18",
+      end_date: "2024-09-18",
       total_budget: 0,
       job_operation_days: [],
       work_breakdown_structure: [],
@@ -47,19 +45,72 @@ const PlanWorkOverForm = () => {
       target_water_cut: 0,
     },
   });
-  // console.log(jobPlan);
 
-  const handleWellDataChange = (wellData) => {
-    // console.log("Previous Job Plan:", jobPlan);
-    setJobPlan((prevJobPlan) => ({
-      ...prevJobPlan,
-      job_plan: {
-        ...prevJobPlan.job_plan,
-        well_plan: {
-          ...wellData,
-        },
-      },
-    }));
+  const [formErrors, setFormErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const validateForm = (formData, parentKey = "") => {
+    let errors = {};
+
+    Object.entries(formData).forEach(([key, value]) => {
+      const fullKey = parentKey ? `${parentKey}.${key}` : key;
+
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        errors = { ...errors, ...validateForm(value, fullKey) };
+      } else if (Array.isArray(value) && value.length === 0) {
+        errors[fullKey] = `${fullKey.replace(/_/g, " ")} cannot be empty.`;
+      } else if (!value || (typeof value === "string" && value.trim() === "")) {
+        errors[fullKey] = `${fullKey.replace(/_/g, " ")} is required.`;
+      }
+    });
+
+    return errors;
+  };
+
+  const PostDatanya = async () => {
+    // const errors = validateForm(jobPlan);
+
+    // if (Object.keys(errors).length > 0) {
+    //   setFormErrors(errors);
+    //   toast({
+    //     title: "Terjadi kesalahan.",
+    //     description: "Tolong isi semua field yang diperlukan.",
+    //     status: "error",
+    //     duration: 5000,
+    //     isClosable: true,
+    //   });
+    //   console.log("formErrors", errors)
+    //   console.log("formErrors", formErrors)
+    //   return;
+    // }
+
+    setLoading(true);
+    try {
+      const response = await PostWorkover(jobPlan);
+
+      if (response) {
+        toast({
+          title: "Data berhasil dikirim.",
+          description: "Data telah berhasil disimpan ke database.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error("Error Dalam Kirim Data", error);
+
+      toast({
+        title: "Terjadi kesalahan.",
+        description: "Data gagal dikirim ke server.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChangeJobPlan = (name) => (newData) => {
@@ -72,99 +123,11 @@ const PlanWorkOverForm = () => {
     }));
   };
 
-  const [formErrors, setFormErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-  const toast = useToast();
-
-  const validateForm = (formData, parentKey = "") => {
-    let errors = {};
-  
-    // Iterasi melalui setiap key dalam formData
-    Object.entries(formData).forEach(([key, value]) => {
-      // Tentukan nama lengkap key termasuk parent jika ada (dot notation)
-      const fullKey = parentKey ? `${parentKey}.${key}` : key;
-  
-      // Jika value adalah object dan bukan array, lakukan rekursi
-      if (value && typeof value === "object" && !Array.isArray(value)) {
-        errors = { ...errors, ...validateForm(value, fullKey) };
-      } else if (Array.isArray(value) && value.length === 0) {
-        // Jika value adalah array kosong, tambahkan pesan error
-        errors[fullKey] = `${fullKey.replace(/_/g, " ")} cannot be empty.`;
-      } else if (!value || (typeof value === "string" && value.trim() === "")) {
-        // Tambahkan pesan error jika value kosong atau string kosong
-        errors[fullKey] = `${fullKey.replace(/_/g, " ")} is required.`;
-      }
-    });
-  
-    return errors;
-  };
-
-  const PostDatanya = async () => {
-    // Lakukan validasi form sebelum pengiriman data
-    const errors = validateForm(jobPlan);
-    
-    if (Object.keys(errors).length > 0) {
-      console.log("errors", errors);
-      setFormErrors(errors);
-      toast({
-        title: "Terjadi kesalahan.",
-        description: "Tolong isi semua field yang diperlukan.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-      return;
-    }
-  
-    setLoading(true);
-    try {
-      // Lakukan pengiriman data setelah validasi berhasil
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/wellservice`,
-        jobPlan,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-  
-      if (response.status === 200) {
-        toast({
-          title: "Data berhasil dikirim.",
-          description: "Data telah berhasil disimpan ke database.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
-      }
-    } catch (error) {
-      console.error("Error Dalam Kirim Data", error);
-  
-      toast({
-        title: "Terjadi kesalahan.",
-        description: "Data gagal dikirim ke server.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-    console.log("Job Plan:", jobPlan);
+  console.log("jobPlan", jobPlan)
 
   return (
     <>
-      <Flex
-        justify={"flex-start"}
-        mr={5}
-        my={5}
-        gap={5}
-        justifyContent={"space-between"}
-      >
+      <Flex justify={"space-between"} mr={5} my={5} gap={5}>
         <Heading>New Workover</Heading>
         <Select width={"auto"} fontSize={"xl"}>
           <option value="Metrics">Metrics</option>
@@ -179,13 +142,16 @@ const PlanWorkOverForm = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <TecnicalForm
+              <TeknisForm
                 formErrors={formErrors}
                 dataExistingWell={(e) =>
-                  setJobPlan((prev) => ({ ...prev, job_plan: {
-                    ...prev.job_plan,
-                    ...e   
-                  } }))
+                  setJobPlan((prev) => ({
+                    ...prev,
+                    job_plan: {
+                      ...prev.job_plan,
+                      ...e,
+                    },
+                  }))
                 }
               />
             </TabPanel>
@@ -199,30 +165,12 @@ const PlanWorkOverForm = () => {
                     ...e,
                   }))
                 }
-                dataWRM={(data) => {
-                  setJobPlan((prevJobPlan) => ({
-                    ...prevJobPlan,
-                    job_plan: {
-                      ...prevJobPlan.job_plan,
-                      ...data,
-                    },
-                  }));
-                }}
                 jobPlanData={(e) =>
                   setJobPlan((prev) => ({
                     ...prev,
                     job_plan: {
                       ...prev.job_plan,
                       ...e,
-                    },
-                  }))
-                }
-                WBSdata={(e) =>
-                  setJobPlan((prev) => ({
-                    ...prev,
-                    job_plan: {
-                      ...prev.job_plan,
-                      work_breakdown_structure: e,
                     },
                   }))
                 }

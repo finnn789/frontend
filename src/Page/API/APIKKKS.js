@@ -55,3 +55,21 @@ export async function GetFieldID() {
     return response.data;
   }
 }
+
+export async function getWellInstance() {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/spatial/api/well-instance`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data Well", error);
+    return response.data;
+  }
+}

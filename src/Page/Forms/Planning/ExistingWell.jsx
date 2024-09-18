@@ -1,177 +1,147 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Box,
   FormControl,
   FormLabel,
   Input,
-  VStack,
-  Select,
-  HStack,
-  Heading,
+  FormErrorMessage,
+  Box,
+  Grid,
 } from "@chakra-ui/react";
-import { all } from "axios";
+import { getWellInstance } from "../../../Page/API/APIKKKS";
+import AsyncSelect from "react-select/async";
 
-const ExistingWell = ({ onSubmit }) => {
-  const allWells = [
-    {
-      id: 1,
-      name: "Well 1",
-      value: "Well 1",
-    },
-    {
-      id: 2,
-      name: "Well 2",
-      value: "Well 2",
-    },
-    {
-      id: 3,
-      name: "Well 3",
-      value: "Well 3",
-    },
-    {
-      id: 4,
-      name: "Well 4",
-      value: "Well 4",
-    },
-  ];
-  const [formData, setFormData] = useState({
-    onstream_oil: 0,
-    onstream_gas: 0,
-    onstream_water_cut: 0,
-    target_oil: 0,
-    target_gas: 0,
-    target_water_cut: 0,
-  });
+const ExistingWell = ({ formErrors, dataExistingWell }) => {
+  const [wellInstance, setWellInstance] = useState([]);
 
   useEffect(() => {
-    onSubmit(formData);
-  }, [formData]);
-  const handleChange = useCallback(
-    (e) => {
-      const { name, value } = e.target;
-      setFormData((prevData) => {
-        const newData = { ...prevData, [name]: value };
-        onSubmit(newData); // Kirim data ke parent component setiap kali ada perubahan
-        return newData;
-      });
-    },
-    [formData]
-  );
+    const getData = async () => {
+      const data = await getWellInstance();
+      setWellInstance(data);
+    };
+    getData();
+  }, []);
+
+  const handleChange = (field) => (e) => {
+    dataExistingWell({ [field]: e.target.value });
+  };
+
+  const handleChangeNumber = (field) => (e) => {
+    dataExistingWell({ [field]: Number(e.target.value) });
+  };
+
+  // Function to filter well options with flexible search
+  const filterWellOptions = (inputValue) => {
+    return wellInstance
+      .filter((well) =>
+        well.well_name.toLowerCase().includes(inputValue.toLowerCase()) ||
+        well.well_name.toLowerCase().replace(/\s+/g, '').includes(inputValue.toLowerCase()) ||
+        well.well_name.match(new RegExp(inputValue, 'i'))
+      )
+      .map((well) => ({
+        value: well.id,
+        label: well.well_name,
+      }));
+  };
+
+  const loadOptions = (inputValue, callback) => {
+    const filteredOptions = filterWellOptions(inputValue);
+    callback(filteredOptions);
+  };
 
   return (
-    <Box as="form" borderWidth="1px" borderRadius="lg" p={4}>
-      <VStack spacing={4} align="stretch">
-        <FormControl>
-          <FormLabel fontWeight="bold">Existing Well</FormLabel>
+    <Box>
+      {/* Searchable Dropdown for Existing Well */}
+      <FormControl isInvalid={formErrors["job_plan.well_id"]}>
+        <FormLabel>Existing Well</FormLabel>
+        <AsyncSelect
+          cacheOptions
+          defaultOptions={wellInstance.map((well) => ({
+            value: well.id,
+            label: well.well_name,
+          }))}
+          loadOptions={loadOptions}
+          onChange={(selectedOption) => handleChange("well_id")({ target: { value: selectedOption.value } })}
+          placeholder="Select Existing Well"
+        />
+        {formErrors["job_plan.well_id"] && (
+          <FormErrorMessage>{formErrors["job_plan.well_id"]}</FormErrorMessage>
+        )}
+      </FormControl>
 
-          <Select
-            name="well_id"
-            value={formData.well_id}
-            onChange={(e) =>
-              setFormData((prevData) => ({
-                ...prevData,
-                well_id: e.target.value,
-              }))
-            }
-          >
-            {allWells.map((well) => (
-              <option key={well.id} value={well.value}>
-                {well.name}
-              </option>
-            ))}
-          </Select>
+      {/* Grid Layout for Onstream to Target Water Cut Fields */}
+      <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={4}>
+        {/* Field Onstream Oil */}
+        <FormControl isInvalid={formErrors["job_plan.onstream_oil"]}>
+          <FormLabel>Onstream Oil</FormLabel>
+          <Input
+            type="number"
+            onChange={handleChangeNumber("onstream_oil")}
+          />
+          {formErrors["job_plan.onstream_oil"] && (
+            <FormErrorMessage>{formErrors["job_plan.onstream_oil"]}</FormErrorMessage>
+          )}
         </FormControl>
 
-        <HStack spacing={4}>
-          <FormControl>
-            <FormLabel>Onstream Oil</FormLabel>
-            <Input
-              name="onstream_oil"
-              value={formData.onstream_oil}
-              onChange={(e) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  onstream_oil: parseInt(e.target.value),
-                }));
-              }}
-              placeholder="Onstream Oil"
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Onstream Gas</FormLabel>
-            <Input
-              name="onstream_gas"
-              value={formData.onstream_gas}
-              onChange={(e) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  onstream_gas: parseInt(e.target.value),
-                }));
-              }}
-              placeholder="Onstream Gas"
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Onstream Water Cut</FormLabel>
-            <Input
-              name="onstream_water_cut"
-              value={formData.onstream_water_cut}
-              onChange={(e) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  onstream_water_cut: parseInt(e.target.value),
-                }));
-              }}
-              placeholder="Onstream Water Cut"
-            />
-          </FormControl>
-        </HStack>
+        {/* Field Onstream Gas */}
+        <FormControl isInvalid={formErrors["job_plan.onstream_gas"]}>
+          <FormLabel>Onstream Gas</FormLabel>
+          <Input
+            type="number"
+            onChange={handleChangeNumber("onstream_gas")}
+          />
+          {formErrors["job_plan.onstream_gas"] && (
+            <FormErrorMessage>{formErrors["job_plan.onstream_gas"]}</FormErrorMessage>
+          )}
+        </FormControl>
 
-        <HStack spacing={4}>
-          <FormControl>
-            <FormLabel>Target Oil</FormLabel>
-            <Input
-              name="target_oil"
-              value={formData.target_oil}
-              onChange={(e) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  target_oil: parseInt(e.target.value),
-                }));
-              }}
-              placeholder="Target Oil"
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Target Gas</FormLabel>
-            <Input
-              name="target_gas"
-              value={formData.target_gas}
-              onChange={(e) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  target_gas: parseInt(e.target.value),
-                }));
-              }}
-              placeholder="Target Gas"
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Target Water Cut</FormLabel>
-            <Input
-              name="target_water_cut"
-              value={formData.target_water_cut}
-              onChange={(e) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  target_water_cut: parseInt(e.target.value),
-                }));
-              }}
-              placeholder="Target Water Cut"
-            />
-          </FormControl>
-        </HStack>
-      </VStack>
+        {/* Field Onstream Water Cut */}
+        <FormControl isInvalid={formErrors["job_plan.onstream_water_cut"]}>
+          <FormLabel>Onstream Water Cut</FormLabel>
+          <Input
+            type="number"
+            onChange={handleChangeNumber("onstream_water_cut")}
+          />
+          {formErrors["job_plan.onstream_water_cut"] && (
+            <FormErrorMessage>{formErrors["job_plan.onstream_water_cut"]}</FormErrorMessage>
+          )}
+        </FormControl>
+
+        {/* Field Target Oil */}
+        <FormControl isInvalid={formErrors["job_plan.target_oil"]}>
+          <FormLabel>Target Oil</FormLabel>
+          <Input
+            type="number"
+            onChange={handleChangeNumber("target_oil")}
+          />
+          {formErrors["job_plan.target_oil"] && (
+            <FormErrorMessage>{formErrors["job_plan.target_oil"]}</FormErrorMessage>
+          )}
+        </FormControl>
+
+        {/* Field Target Gas */}
+        <FormControl isInvalid={formErrors["job_plan.target_gas"]}>
+          <FormLabel>Target Gas</FormLabel>
+          <Input
+            type="number"
+            onChange={handleChangeNumber("target_gas")}
+          />
+          {formErrors["job_plan.target_gas"] && (
+            <FormErrorMessage>{formErrors["job_plan.target_gas"]}</FormErrorMessage>
+          )}
+        </FormControl>
+
+        {/* Field Target Water Cut */}
+        <FormControl isInvalid={formErrors["job_plan.target_water_cut"]}>
+          <FormLabel>Target Water Cut</FormLabel>
+          <Input
+            type="number"
+            onChange={handleChangeNumber("target_water_cut")}
+          />
+          {formErrors["job_plan.target_water_cut"] && (
+            <FormErrorMessage>{formErrors["job_plan.target_water_cut"]}</FormErrorMessage>
+          )}
+        </FormControl>
+      </Grid>
     </Box>
   );
 };

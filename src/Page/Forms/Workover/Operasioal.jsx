@@ -9,7 +9,7 @@ import JobDocuments from "../Planning/JobDocuments";
 
 const Operasional = ({
   onData,
-  dataWRM,
+  // dataWRM,
   jobOperationData,
   jobPlanData,
   TypeOperasionalJob,
@@ -26,7 +26,7 @@ const Operasional = ({
     // Menggabungkan data baru dengan data sebelumnya dari parent
     onData(data);
 
-    dataWRM(datas);
+    // dataWRM(datas);
   }, [data, datas]);
 
   // console.log(data);
@@ -35,12 +35,12 @@ const Operasional = ({
     setData((prevData) => ({ ...prevData, ...newData }));
   };
 
-  const datawrm = useCallback(
-    (newData) => {
-      setDatas((prevData) => ({ ...prevData, ...newData }));
-    },
-    [setDatas]
-  );
+  // const datawrm = useCallback(
+  //   (newData) => {
+  //     setDatas((prevData) => ({ ...prevData, ...newData }));
+  //   },
+  //   [setDatas]
+  // );
 
   return (
     <div>
@@ -50,8 +50,8 @@ const Operasional = ({
         TypeOperasional={TypeOperasionalJob}
         errorForms={formErrors}
       />
-      <WRMRequirement datawrm={datawrm} onDataChange={handleData} />
-      <WorkBreakDownStructure ondata={WBSdata} errorForms={formErrors} />
+      {/* <WRMRequirement datawrm={datawrm} onDataChange={handleData} /> */}
+      {/* <WorkBreakDownStructure ondata={WBSdata} errorForms={formErrors} /> */}
       <JobOpertionsDays ondata={jobOperationData} formErrors={formErrors}/>
       <HazardType onDataChange={HazardTypeData} formErrors={formErrors} />
       <JobDocuments data={jobDocumentsData} />

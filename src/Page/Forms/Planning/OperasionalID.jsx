@@ -24,7 +24,7 @@ import { getAreaID,GetFieldID } from "../../API/APIKKKS";
 const ProposedJob = ({
   onData,
   children,
-  handleChangeRigType,
+  // handleChangeRigType,
   handleChangeJobPlan,
   TypeOperasional,
   errorForms,
@@ -198,11 +198,10 @@ const ProposedJob = ({
   const [DateChange, setDateChange] = useState({
     start_date: null,
     end_date: null,
-    rig_type: null,
-    rig_name: null,
+    // rig_type: null,
+    // rig_name: null,
     rig_horse_power: 0,
     total_budget: 0,
-    well_name: null,
   });
 
   // console.log(DateChange);

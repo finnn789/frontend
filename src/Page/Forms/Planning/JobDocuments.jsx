@@ -38,6 +38,7 @@ const JobDocuments = ({ data }) => {
     file_id: "",
     document_type: "DRILLING_PLAN",
     remark: "",
+    filename: "",
   });
 
   const fileInputRef = useRef(null);
@@ -104,10 +105,14 @@ const JobDocuments = ({ data }) => {
         }
       );
 
+      // Extracting file info from the response
+      const fileInfo = response.data.data.file_info;
+
+      // Add filename to formData
       const newData = {
         ...formData,
-        file_id: response.data.data.file_info.id,
-        // fileName: response.data.data.file_info.filename,
+        file_id: fileInfo.id,
+        filename: fileInfo.filename, // Adding filename to formData
       };
 
       setOnChangeData([...onChangeData, newData]);
@@ -116,6 +121,7 @@ const JobDocuments = ({ data }) => {
         file_id: "",
         document_type: "DRILLING_PLAN",
         remark: "",
+        filename: "",
       });
 
       setFiles(null);
@@ -270,7 +276,7 @@ const JobDocuments = ({ data }) => {
               {onChangeData.map((row, index) => (
                 <Tr key={index}>
                   <Td>{row.document_type}</Td>
-                  <Td>{row.fileName}</Td>
+                  <Td>{row.filename}</Td>
                   <Td>{row.remark}</Td>
                   <Td>
                     <IconButton

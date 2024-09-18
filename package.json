@@ -38,6 +38,7 @@
     "react-leaflet": "^4.2.1",
     "react-plotly.js": "^2.6.0",
     "react-router-dom": "^6.26.1",
+    "react-select": "^5.8.0",
     "three": "^0.167.1"
   },
   "devDependencies": {
