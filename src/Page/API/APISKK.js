@@ -44,10 +44,16 @@ export async function getChartDashboardSKK() {
 export async function getKKSJobdata() {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_APP_URL}/dashboard/kkks-job-data`
+      `${import.meta.env.VITE_APP_URL}/dashboard/home`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
 
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Error get Data Well", error);
     return null;
@@ -101,12 +107,18 @@ export async function getJobInfo(job_type) {
   }
 }
 
-export async function getKKKSInfo(kkks_id) {
+export async function getKKKSInfo(job_type) {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_APP_URL}/dashboard/kkks/${kkks_id}/job-data`
+      `${import.meta.env.VITE_APP_URL}/dashboard/view-job/${job_type}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
-    console.log(response.data);
+    console.log(response.data.data);
 
     return response.data;
   } catch (error) {

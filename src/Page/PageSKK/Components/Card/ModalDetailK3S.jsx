@@ -107,7 +107,7 @@ const ModalDetailK3S = ({ isOpen, onClose, kkks_id }) => {
   const tableDataWorkover = data?.well_job_data?.workover || [];
   const tableDataWellService = data?.well_job_data?.["well service"] || [];
 
-  console.log("tableDataWellService", data?.well_job_data);
+  // console.log("tableDataWellService", data?.well_job_data);
 
   const columns = [
     { header: "No.", accessor: "index" },

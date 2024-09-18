@@ -3,28 +3,22 @@ import {
   Flex,
   Grid,
   GridItem,
-  Icon,
   IconButton,
   Td,
   Text,
   Tr,
-  Th,
 } from "@chakra-ui/react";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect,} from "react";
 
 import {
   FaArrowAltCircleUp,
-  FaBriefcase,
   FaInfoCircle,
-  FaRegClock,
 } from "react-icons/fa";
 import HeaderCard from "./Card/HeaderCard";
 import BarChartComponent from "./Card/3DBarchart";
-import WellTable from "../../Components/Card/WellTable";
 import TableDashboard from "../../Components/Card/TableDashboard";
 
 import { BiBriefcase } from "react-icons/bi";
-import ProgressTable from "./Card/Progressbar";
 import {
   getDataDashboardSKK,
   getChartDashboardSKK,
@@ -41,42 +35,8 @@ const HomeDashSKK = () => {
   const [isModalOpen2, setIsModalOpen2] = React.useState(false);
   const [selectedKkksId, setSelectedKkksId] = React.useState(null); // State for storing the selected ID
   const [selectedJobType, setJobType] = React.useState(null);
-  const chartsData = [
-    {
-      data: [
-        {
-          x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-          y: [500, 750, 250, 450, 600, 850, 700, 350, 400, 950],
-          type: "bar",
-          marker: { color: "lightblue" },
-        },
-        {
-          x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-          y: [300, 800, 100, 500, 600, 900, 650, 250, 450, 1000],
-          type: "bar",
-          marker: { color: "darkgreen" },
-        },
-      ],
-      layout: { title: "Chart 1", barmode: "group" },
-    },
-    {
-      data: [
-        {
-          x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-          y: [500, 750, 250, 450, 600, 850, 700, 350, 400, 150],
-          type: "bar",
-          marker: { color: "lightblue" },
-        },
-        {
-          x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-          y: [300, 800, 100, 500, 600, 900, 650, 250, 450, 1000],
-          type: "bar",
-          marker: { color: "darkgreen" },
-        },
-      ],
-      layout: { title: "Chart 2", barmode: "group" },
-    },
-  ];
+  const username = JSON.parse(localStorage.getItem("user")).username;
+
   useEffect(() => {
     const getData = async () => {
       const data = await getDataDashboardSKK();
@@ -89,11 +49,6 @@ const HomeDashSKK = () => {
 
     getData();
   }, []);
-
-  // console.log(datas?.tablekkks);
-  
-
-  // console.log(dataTable);
 
   const dataPerubahan = (data) => {
     return (
@@ -123,26 +78,23 @@ const HomeDashSKK = () => {
     "Work Over",
     "Well Service",
   ];
+  const dataTableKKKS = dataTable?.tablekkks;
 
   const dataKks = React.useMemo(() => {
-    if (!dataTable) return [];
+    if (!dataTableKKKS) return [];
 
     const formatToPersen = (value) => `${value}%`;
 
-    return dataTable.map((item, index) => ({
+    return dataTableKKKS.map((item, index) => ({
       no: index + 1,
       id: item.id,
       kkks: item.nama_kkks,
-      exploration: parseInt(item.exploration.percentage),
-      development: parseInt(item.development.percentage),
-      workover: parseInt(item.workover.percentage),
-      wellservice: parseInt(item.wellservice.percentage),
+      exploration: parseInt(item.exploration_percentage),
+      development: parseInt(item.development_percentage),
+      workover: parseInt(item.workover_percentage),
+      wellservice: parseInt(item.wellservice_percentage),
     }));
   }, [dataTable]);
-
-  // console.log(dataKks);
-
-  // console.log("datas", datas);
 
   const data = () => {
     if (!datas) return [];
@@ -174,10 +126,10 @@ const HomeDashSKK = () => {
       {
         id: 4,
         pekerjaan: "Well Service",
-        rencana: datas?.tablechart?.table["well service"]?.rencana ?? "N/A",
-        realisasi: datas?.tablechart?.table["well service"]?.realisasi ?? "N/A",
-        percentage: datas?.tablechart?.table["well service"]?.percentage ?? "N/A",
-        change: datas?.tablechart?.table["well service"]?.change ?? "N/A",
+        rencana: datas?.tablechart?.table.wellservice?.rencana ?? "N/A",
+        realisasi: datas?.tablechart?.table.wellservice?.realisasi ?? "N/A",
+        percentage: datas?.tablechart?.table.wellservice?.percentage ?? "N/A",
+        change: datas?.tablechart?.table.wellservice?.change ?? "N/A",
       },
     ];
   };
@@ -226,7 +178,7 @@ const HomeDashSKK = () => {
         color={"#333333"}
       >
         <Text fontSize={28} fontWeight={400} textTransform={"uppercase"}>
-          Halo, {JSON.parse(localStorage.getItem("user")).username}
+          Halo, {username}
         </Text>
         <Text fontSize={32} fontWeight={800}>
           Selamat Datang di ApDPS!

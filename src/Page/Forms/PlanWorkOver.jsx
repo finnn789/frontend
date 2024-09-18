@@ -47,10 +47,10 @@ const PlanWorkOverForm = () => {
       target_water_cut: 0,
     },
   });
-  console.log(jobPlan);
+  // console.log(jobPlan);
 
   const handleWellDataChange = (wellData) => {
-    console.log("Previous Job Plan:", jobPlan);
+    // console.log("Previous Job Plan:", jobPlan);
     setJobPlan((prevJobPlan) => ({
       ...prevJobPlan,
       job_plan: {
@@ -154,6 +154,7 @@ const PlanWorkOverForm = () => {
     }
   };
   
+    console.log("Job Plan:", jobPlan);
 
   return (
     <>
