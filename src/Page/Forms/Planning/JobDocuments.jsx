@@ -5,11 +5,9 @@ import {
   Button,
   Card,
   CardBody,
-  CardHeader,
   Flex,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   Table,
   Thead,
@@ -23,22 +21,25 @@ import {
   useToast,
   Text,
   Icon,
+  IconButton,
 } from "@chakra-ui/react";
-import { IconTable,  IconFiles } from "@tabler/icons-react";
+import { IconTable, IconFiles, IconTrash } from "@tabler/icons-react";
+
 const JobDocuments = ({ data }) => {
   const [onChangeData, setOnChangeData] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     data(onChangeData);
   }, [onChangeData]);
+
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     file_id: "",
     document_type: "DRILLING_PLAN",
     remark: "",
-    fileName: "",
   });
+
   const fileInputRef = useRef(null);
   const toast = useToast();
 
@@ -60,10 +61,6 @@ const JobDocuments = ({ data }) => {
       ];
       if (allowedTypes.includes(file.type)) {
         setFiles(file);
-        setFormData((prevData) => ({
-          ...prevData,
-          fileName: file.name,
-        }));
       } else {
         toast({
           title: "Invalid file type",
@@ -110,7 +107,7 @@ const JobDocuments = ({ data }) => {
       const newData = {
         ...formData,
         file_id: response.data.data.file_info.id,
-        fileName: response.data.data.file_info.filename,
+        // fileName: response.data.data.file_info.filename,
       };
 
       setOnChangeData([...onChangeData, newData]);
@@ -119,7 +116,6 @@ const JobDocuments = ({ data }) => {
         file_id: "",
         document_type: "DRILLING_PLAN",
         remark: "",
-        fileName: "",
       });
 
       setFiles(null);
@@ -147,65 +143,32 @@ const JobDocuments = ({ data }) => {
     }
   };
 
+  const handleDelete = (index) => {
+    setOnChangeData(onChangeData.filter((_, i) => i !== index));
+    toast({
+      title: "File deleted successfully",
+      status: "info",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
   const docType = [
-    {
-      name: "Drilling Plan",
-      value: "Drilling Plan",
-    },
-    {
-      name: "Completion Plan",
-      value: "Completion Plan",
-    },
-    {
-      name: "Well Design",
-      value: "Well Design",
-    },
-    {
-      name: "Mud Plan",
-      value: "Mud Plan",
-    },
-    {
-      name: "Cementing Plan",
-      value: "Cementing Plan",
-    },
-    {
-      name: "Well Trajectory Plan",
-      value: "Well Trajectory Plan",
-    },
-    {
-      name: "Risk Assessment Plan",
-      value: "Risk Assessment Plan",
-    },
-    {
-      name: "Safety Plan",
-      value: "Safety Plan",
-    },
-    {
-      name: "Environmental Plan",
-      value: "Environmental Plan",
-    },
-    {
-      name: "Logging Plan",
-      value: "Logging Plan",
-    },
-    {
-      name: "Pore Pressure Prediction",
-      value: "Pore Pressure Prediction",
-    },
-    {
-      name: "Hydraulics Plan",
-      value: "Hydraulics Plan",
-    },
-    {
-      name: "Casing Plan",
-      value: "Casing Plan",
-    },
-    {
-      name: "Contingency Plan",
-      value: "Contingency Plan",
-    },
-    
-  ]
+    { name: "Drilling Plan", value: "Drilling Plan" },
+    { name: "Completion Plan", value: "Completion Plan" },
+    { name: "Well Design", value: "Well Design" },
+    { name: "Mud Plan", value: "Mud Plan" },
+    { name: "Cementing Plan", value: "Cementing Plan" },
+    { name: "Well Trajectory Plan", value: "Well Trajectory Plan" },
+    { name: "Risk Assessment Plan", value: "Risk Assessment Plan" },
+    { name: "Safety Plan", value: "Safety Plan" },
+    { name: "Environmental Plan", value: "Environmental Plan" },
+    { name: "Logging Plan", value: "Logging Plan" },
+    { name: "Pore Pressure Prediction", value: "Pore Pressure Prediction" },
+    { name: "Hydraulics Plan", value: "Hydraulics Plan" },
+    { name: "Casing Plan", value: "Casing Plan" },
+    { name: "Contingency Plan", value: "Contingency Plan" },
+  ];
 
   return (
     <Flex gap={6}>
@@ -236,28 +199,10 @@ const JobDocuments = ({ data }) => {
                 onChange={handleInputChange}
               >
                 {docType.map((type) => (
-                  <option key={type.value} value={type.value}> {type.name} </option>
+                  <option key={type.value} value={type.value}>
+                    {type.name}
+                  </option>
                 ))}
-                {/* <option value="DRILLING_PLAN">Drilling Plan</option>
-                <option value="COMPLETION_PLAN">Completion Plan</option>
-                <option value="WELL_DESIGN">Well Design</option>
-                <option value="MUD_PLAN">Mud Plan</option>
-                <option value="CEMENTING_PLAN">Cementing Plan</option>
-                <option value="WELL_TRAJECTORY_PLAN">
-                  Well Trajectory Plan
-                </option>
-                <option value="RISK_ASSESSMENT_PLAN">
-                  Risk Assessment Plan
-                </option>
-                <option value="SAFETY_PLAN">Safety Plan</option>
-                <option value="ENVIRONMENTAL_PLAN">Environmental Plan</option>
-                <option value="LOGGING_PLAN">Logging Plan</option>
-                <option value="PORE_PRESSURE_PREDICTION">
-                  Pore Pressure Prediction
-                </option>
-                <option value="HYDRAULICS_PLAN">Hydraulics Plan</option>
-                <option value="CASING_PLAN">Casing Plan</option>
-                <option value="CONTINGENCY_PLAN">Contingency Plan</option> */}
               </Select>
             </FormControl>
             <FormControl>
@@ -268,9 +213,9 @@ const JobDocuments = ({ data }) => {
                 accept=".csv, .xls, .xlsx"
                 ref={fileInputRef}
               />
-              {formData.fileName && (
+              {files && (
                 <Text mt={2} fontSize="sm">
-                  Selected file: {formData.fileName}
+                  Selected file: {files.name}
                 </Text>
               )}
             </FormControl>
@@ -318,6 +263,7 @@ const JobDocuments = ({ data }) => {
                 <Th>Document Type</Th>
                 <Th>File Name</Th>
                 <Th>Remarks</Th>
+                <Th>Action</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -326,6 +272,15 @@ const JobDocuments = ({ data }) => {
                   <Td>{row.document_type}</Td>
                   <Td>{row.fileName}</Td>
                   <Td>{row.remark}</Td>
+                  <Td>
+                    <IconButton
+                      icon={<Icon as={IconTrash} />}
+                      colorScheme="red"
+                      size="sm"
+                      onClick={() => handleDelete(index)}
+                      aria-label="Delete row"
+                    />
+                  </Td>
                 </Tr>
               ))}
             </Tbody>

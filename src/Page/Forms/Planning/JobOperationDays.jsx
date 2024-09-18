@@ -49,6 +49,7 @@ const WorkBreakdownForm = ({ onAddItem, unitType = "Metrics" }) => {
       depth_in: 0,
       depth_out: 0,
       operation_days: 0,
+      depth_datum:"RT"
     });
   };
 

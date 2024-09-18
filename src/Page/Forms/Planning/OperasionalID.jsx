@@ -51,6 +51,8 @@ const ProposedJob = ({
     },
   ];
   const rigType = [
+
+    
     {
       name: "FLOATER",
       value: "FLOATER",

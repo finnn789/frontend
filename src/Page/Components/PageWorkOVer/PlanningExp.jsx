@@ -96,7 +96,7 @@ const PlanningWorkOverKKKS = () => {
         color={"gray.600"}
         fontFamily="Montserrat"
       >
-        Planning Development
+        Planning Workover
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
@@ -125,8 +125,8 @@ const PlanningWorkOverKKKS = () => {
       <Box my={6}>
         <ProposedWorkTable
           headers={headerstable1}
-          title={"Planning Development"}
-          subtitle={"List Planning Development"}
+          title={"Planning Workover"}
+          subtitle={"List Planning Workover"}
         >
           {countStatus ? (
             countStatus.job_details.map((row, index) => (

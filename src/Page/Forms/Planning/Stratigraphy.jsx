@@ -26,14 +26,24 @@ import {
 } from "@chakra-ui/react";
 import { IconLayersSubtract, IconEdit, IconCheck, IconX } from "@tabler/icons-react";
 
-const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
+const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms, onData }) => {
   const [WellStratigraphy, setLocalWellStratigraphy] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
-  const [formData, setFormData] = useState({ stratigraphy_id: "", depth: "" });
-  const [editFormData, setEditFormData] = useState({ stratigraphy_id: "", depth: "" });
+  const [formData, setFormData] = useState({
+    unit_type: unittype,
+    depth_datum: "RT",
+    depth: 0,
+    stratigraphy_id: "",
+  });
+  const [editFormData, setEditFormData] = useState({
+    unit_type: unittype,
+    depth_datum: "RT",
+    depth: 0,
+    stratigraphy_id: "",
+  });
 
   useEffect(() => {
-    setWellStratigraphy(WellStratigraphy);
+    onData(WellStratigraphy);
   }, [WellStratigraphy]);
 
   const selectType = [
@@ -46,7 +56,7 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "depth" ? parseFloat(value) : value,
     }));
   };
 
@@ -54,22 +64,21 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
     const { name, value } = e.target;
     setEditFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "depth" ? parseFloat(value) : value,
     }));
   };
 
   const handleAddStratigraphy = () => {
-    const { stratigraphy_id, depth } = formData;
-    if (!stratigraphy_id || depth === "") {
+    if (!formData.stratigraphy_id || formData.depth === "") {
       alert("Please fill in all fields.");
       return;
     }
 
     setLocalWellStratigraphy((prev) => [
       ...prev,
-      { stratigraphy_id, depth: parseFloat(depth) },
+      { ...formData, depth: parseFloat(formData.depth) },
     ]);
-    setFormData({ stratigraphy_id: "", depth: "" });
+    setFormData({ ...formData, stratigraphy_id: "", depth: 0 });
   };
 
   const handleEditRow = (index) => {
@@ -77,9 +86,9 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
     setEditFormData({ ...WellStratigraphy[index] });
   };
 
-  const handleSaveEdit = (index) => {
+  const handleSaveEdit = () => {
     const updatedTable = [...WellStratigraphy];
-    updatedTable[index] = { ...editFormData, depth: parseFloat(editFormData.depth) };
+    updatedTable[editIndex] = { ...editFormData };
     setLocalWellStratigraphy(updatedTable);
     setEditIndex(null);
   };
@@ -111,12 +120,8 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
             </Flex>
             <Select
               width="auto"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  depth_datum: e.target.value,
-                })
-              }
+              value={formData.depth_datum}
+              onChange={(e) => setFormData({ ...formData, depth_datum: e.target.value })}
             >
               {selectType.map((item, index) => (
                 <option key={index} value={item.value}>
@@ -146,7 +151,7 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
               </GridItem>
               <GridItem colSpan={2}>
                 <FormControl>
-                  <FormLabel>Bottom Depth</FormLabel>
+                  <FormLabel>Depth</FormLabel>
                   <InputGroup>
                     <Input
                       name="depth"
@@ -156,9 +161,7 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
                       onChange={handleInputChange}
                       placeholder="Depth"
                     />
-                    <InputRightAddon>
-                      {unittype === "Metrics" ? "METER" : "FEET"}
-                    </InputRightAddon>
+                    <InputRightAddon>{unittype === "Metrics" ? "METER" : "FEET"}</InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </GridItem>
@@ -214,7 +217,7 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
                               icon={<Icon as={IconCheck} />}
                               colorScheme="green"
                               size="sm"
-                              onClick={() => handleSaveEdit(index)}
+                              onClick={handleSaveEdit}
                               aria-label="Save"
                             />
                             <IconButton
@@ -240,11 +243,7 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
                               onClick={() => handleEditRow(index)}
                               aria-label="Edit row"
                             />
-                            <Button
-                              colorScheme="red"
-                              size="sm"
-                              onClick={() => handleDelete(index)}
-                            >
+                            <Button colorScheme="red" size="sm" onClick={() => handleDelete(index)}>
                               Delete
                             </Button>
                           </HStack>
@@ -256,12 +255,7 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms,onData }) => {
               </Tbody>
             </Table>
           ) : (
-            <Flex
-              justifyContent="center"
-              flexDirection="column"
-              alignItems="center"
-              height="100%"
-            >
+            <Flex justifyContent="center" flexDirection="column" alignItems="center" height="100%">
               <Heading fontFamily="Montserrat">Tidak Ada Data</Heading>
               {!!errorForms["job_plan.well.well_stratigraphy"] && (
                 <Text color="red.500" fontSize="sm" mt={2}>

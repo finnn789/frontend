@@ -240,7 +240,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         formData={formData}
         unittype={unitType}
         errorForms={errorForms}
-        wellType={["DELINATION", "WILDCAT"]}
+        wellType={["DELINEATION", "WILDCAT","INJECTION","PRODUCER"]}
       />
       <WellLocation handleChange={handleChange} errorForms={errorForms} />
       <ElevationsAndDepths handleChange={handleChange} unittype={unitType} errorForms={errorForms} />
@@ -271,6 +271,9 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         errorForms={errorForms}
         unittype={unitType}
         TablewellStratigraphy={TablewellStratigraphy}
+        onData={(data) =>
+          setFormData((prev) => ({ ...prev, well_stratigraphy: data }))
+        }
       />
 
       <WellTrajectory

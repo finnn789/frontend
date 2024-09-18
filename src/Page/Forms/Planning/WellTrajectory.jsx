@@ -142,17 +142,17 @@ const WellTrajectory = ({ ondata, errorForms }) => {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
 
       setDataParent({
         file_id: response.data.data.file_info.id,
         data_format: fileType,
       });
 
-      setMsg(response.data.data.message);
+      setMsg(response.data.message);
 
       toast({
-        title: msg,
+        title: "Berhasil Upload File",
         status: "success",
         duration: 3000,
         isClosable: true,

@@ -58,11 +58,11 @@ const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleC
         onDataChange={HazardTypeData}
       />
 
-      {/* <JobDocuments
+      <JobDocuments
         data={(newData) => {
           jobDocuments(newData);
         }}
-      /> */}
+      />
     </div>
   );
 };
