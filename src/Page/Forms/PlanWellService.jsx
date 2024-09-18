@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import TecnicalForm from "./WellService/TeknisForms";
+import React, { useState } from "react";
 import {
   Tabs,
   TabList,
@@ -13,8 +12,9 @@ import {
   useToast,
   Select,
 } from "@chakra-ui/react";
-import Operasional from "./WellService/Operasioal";
-import axios from "axios";
+import Operasional from "./Workover/Operasioal";
+import TeknisForm from "./WellService/TeknisForms"; // Sesuaikan path sesuai dengan struktur folder Anda
+import PostWellService from "../API/PostKkks"; // Sesuaikan path sesuai dengan struktur folder Anda
 
 const PlanWellServiceForm = () => {
   const [jobPlan, setJobPlan] = useState({
@@ -24,8 +24,8 @@ const PlanWellServiceForm = () => {
     afe_number: "string",
     wpb_year: 0,
     job_plan: {
-      start_date: "2024-09-08",
-      end_date: "2024-09-08",
+      start_date: "2024-09-18",
+      end_date: "2024-09-18",
       total_budget: 0,
       job_operation_days: [],
       work_breakdown_structure: [],
@@ -44,30 +44,6 @@ const PlanWellServiceForm = () => {
       target_water_cut: 0,
     },
   });
-  console.log(jobPlan);
-
-  const handleWellDataChange = (wellData) => {
-    console.log("Previous Job Plan:", jobPlan);
-    setJobPlan((prevJobPlan) => ({
-      ...prevJobPlan,
-      job_plan: {
-        ...prevJobPlan.job_plan,
-        well_plan: {
-          ...wellData,
-        },
-      },
-    }));
-  };
-
-  const handleChangeJobPlan = (name) => (newData) => {
-    setJobPlan((prevJobPlan) => ({
-      ...prevJobPlan,
-      job_plan: {
-        ...prevJobPlan.job_plan,
-        [name]: newData,
-      },
-    }));
-  };
 
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -75,55 +51,44 @@ const PlanWellServiceForm = () => {
 
   const validateForm = (formData, parentKey = "") => {
     let errors = {};
-  
-    // Iterasi melalui setiap key dalam formData
+
     Object.entries(formData).forEach(([key, value]) => {
-      // Tentukan nama lengkap key termasuk parent jika ada (dot notation)
       const fullKey = parentKey ? `${parentKey}.${key}` : key;
-  
-      // Jika value adalah object dan bukan array, lakukan rekursi
+
       if (value && typeof value === "object" && !Array.isArray(value)) {
         errors = { ...errors, ...validateForm(value, fullKey) };
       } else if (Array.isArray(value) && value.length === 0) {
-        // Jika value adalah array kosong, tambahkan pesan error
         errors[fullKey] = `${fullKey.replace(/_/g, " ")} cannot be empty.`;
       } else if (!value || (typeof value === "string" && value.trim() === "")) {
-        // Tambahkan pesan error jika value kosong atau string kosong
         errors[fullKey] = `${fullKey.replace(/_/g, " ")} is required.`;
       }
     });
-  
+
     return errors;
   };
+
   const PostDatanya = async () => {
-    const errors = validateForm(jobPlan);
-    if (Object.keys(errors).length > 0) {
-      console.log("errors", errors);
-      setFormErrors(errors);
-      toast({
-        title: "Terjadi kesalahan.",
-        description: "Tolong isi semua field yang diperlukan.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-      return;
-    }
+    // const errors = validateForm(jobPlan);
+
+    // if (Object.keys(errors).length > 0) {
+    //   setFormErrors(errors);
+    //   toast({
+    //     title: "Terjadi kesalahan.",
+    //     description: "Tolong isi semua field yang diperlukan.",
+    //     status: "error",
+    //     duration: 5000,
+    //     isClosable: true,
+    //   });
+    //   console.log("formErrors", errors)
+    //   console.log("formErrors", formErrors)
+    //   return;
+    // }
+
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/job/planning/create/wellservice`,
-        jobPlan,
-        {
-          headers: {
-            "Content-Type": "application/json",
+      const response = await PostWellService(jobPlan);
 
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
+      if (response) {
         toast({
           title: "Data berhasil dikirim.",
           description: "Data telah berhasil disimpan ke database.",
@@ -147,16 +112,22 @@ const PlanWellServiceForm = () => {
     }
   };
 
+  const handleChangeJobPlan = (name) => (newData) => {
+    setJobPlan((prevJobPlan) => ({
+      ...prevJobPlan,
+      job_plan: {
+        ...prevJobPlan.job_plan,
+        [name]: newData,
+      },
+    }));
+  };
+
+  console.log("jobPlan", jobPlan)
+
   return (
     <>
-      <Flex
-        justify={"flex-start"}
-        mr={5}
-        my={5}
-        gap={5}
-        justifyContent={"space-between"}
-      >
-        <Heading>New Well Service</Heading>
+      <Flex justify={"space-between"} mr={5} my={5} gap={5}>
+        <Heading>Planning Well Service</Heading>
         <Select width={"auto"} fontSize={"xl"}>
           <option value="Metrics">Metrics</option>
           <option value="Imperial">Imperial</option>
@@ -165,46 +136,46 @@ const PlanWellServiceForm = () => {
       <Box borderRadius="lg">
         <Tabs variant={"soft-rounded"}>
           <TabList>
-            {/* <Tab>Teknis</Tab> */}
+            <Tab>Teknis</Tab>
             <Tab>Operasional</Tab>
           </TabList>
           <TabPanels>
-            {/* <TabPanel> */}
-              {/* <CardFormWell onFormChange={handleWellDataChange} /> */}
-            {/* </TabPanel> */}
             <TabPanel>
-              <Operasional
+              <TeknisForm
                 formErrors={formErrors}
-                WBSdata={handleChangeJobPlan("work_breakdown_structure")}
-                jobPlanData={(e) =>
-                  setJobPlan((prevJobPlan) => ({
-                    ...prevJobPlan,
+                dataExistingWell={(e) =>
+                  setJobPlan((prev) => ({
+                    ...prev,
                     job_plan: {
-                      ...prevJobPlan.job_plan,
+                      ...prev.job_plan,
                       ...e,
                     },
                   }))
                 }
-                onData={(operasional) => {
-                  setJobPlan((prevJobPlan) => ({
-                    ...prevJobPlan,
-                    ...operasional,
-                  }));
-                }}
-                dataWRM={(data) => {
-                  setJobPlan((prevJobPlan) => ({
-                    ...prevJobPlan,
+              />
+            </TabPanel>
+            <TabPanel>
+              <Operasional
+                formErrors={formErrors}
+                TypeOperasionalJob={"WORKOVER"}
+                onData={(e) =>
+                  setJobPlan((prevData) => ({
+                    ...prevData,
+                    ...e,
+                  }))
+                }
+                jobPlanData={(e) =>
+                  setJobPlan((prev) => ({
+                    ...prev,
                     job_plan: {
-                      ...prevJobPlan.job_plan,
-                      ...data,
+                      ...prev.job_plan,
+                      ...e,
                     },
-                  }));
-                }}
-                TypeOperasionalJob={"WELLSERVICE"}
+                  }))
+                }
                 jobOperationData={handleChangeJobPlan("job_operation_days")}
                 HazardTypeData={handleChangeJobPlan("job_hazards")}
                 jobDocumentsData={handleChangeJobPlan("job_documents")}
-
               />
             </TabPanel>
           </TabPanels>
@@ -217,7 +188,7 @@ const PlanWellServiceForm = () => {
           isLoading={loading}
           onClick={PostDatanya}
         >
-         Save
+          Save
         </Button>
       </Flex>
     </>
