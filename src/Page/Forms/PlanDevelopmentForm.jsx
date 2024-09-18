@@ -24,38 +24,18 @@ const PlanDevelopmentForm = () => {
     afe_number: "string",
     wpb_year: 0,
     job_plan: {
-      start_date: "2024-08-31",
-      end_date: "2024-08-31",
+      start_date: "2024-09-18",
+      end_date: "2024-09-18",
       total_budget: 0,
       job_operation_days: [],
-      work_breakdown_structure: [
-        {
-          event: "string",
-          start_date: "2024-08-31",
-          end_date: "2024-08-31",
-          remarks: "string",
-        },
-      ],
-      job_hazards: [
-        {
-          hazard_type: "GAS KICK",
-          hazard_description: "string",
-          severity: "LOW",
-          mitigation: "string",
-          remark: "string",
-        },
-      ],
-      job_documents: [
-        {
-          file_id: "string",
-          document_type: "Drilling Plan",
-          remark: "string",
-        },
-      ],
+      work_breakdown_structure: [],
+      job_hazards: [],
+      job_documents: [],
       rig_name: "string",
       rig_type: "JACK-UP",
       rig_horse_power: 0,
       well: {
+        well_directional_type: "DIRECTIONAL",
         unit_type: "Metrics",
         uwi: "string",
         field_id: "string",
@@ -75,9 +55,9 @@ const PlanDevelopmentForm = () => {
         maximum_inclination: 0,
         azimuth: 0,
         line_name: "string",
-        spud_date: "2024-08-31T16:27:35.697Z",
-        final_drill_date: "2024-08-31T16:27:35.697Z",
-        completion_date: "2024-08-31T16:27:35.697Z",
+        spud_date: "2024-09-18",
+        final_drill_date: "2024-09-18",
+        completion_date: "2024-09-18",
         rotary_table_elev: 0,
         kb_elev: 0,
         derrick_floor_elev: 0,
@@ -246,19 +226,7 @@ const PlanDevelopmentForm = () => {
     return errors;
   };
   const onClickSubmitForm = async () => {
-    const errors = validateForm(jobPlan);
-    if (Object.keys(errors).length > 0) {
-      console.error("errors", errors);
-      setFormErrors(errors);
-      toast({
-        title: "Terjadi kesalahan.",
-        description: "Tolong isi semua field yang diperlukan.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-      return;
-    }
+    
     setLoading(true);
     try {
       const post = await PostPlanningDevelopment(jobPlan, toast);
@@ -363,10 +331,7 @@ const PlanDevelopmentForm = () => {
                     ...prevJobPlan,
                     job_plan: {
                       ...prevJobPlan.job_plan,
-                      job_operation_days: [
-                        ...prevJobPlan.job_plan.job_operation_days,
-                        ...data,
-                      ],
+                      job_operation_days: data,
                     },
                   }));
                 }}

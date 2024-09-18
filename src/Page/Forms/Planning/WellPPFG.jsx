@@ -150,8 +150,8 @@ const WellPorePressureForm = ({ handleDataSubmit }) => {
               isRequired
             >
               <option value="IMAGE">IMAGE</option>
-              <option value="CSV">CSV</option>
-              <option value="XLSX">XLSX</option>
+              <option value="PDF">PDF</option>
+              <option value="PLAIN TEXT">PLAIN TEXT</option>
             </Select>
             <Button
               onClick={() => fileInputRef.current.click()}

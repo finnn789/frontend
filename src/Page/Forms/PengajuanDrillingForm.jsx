@@ -18,7 +18,6 @@ import axios from "axios";
 import { PostPlanningExploration } from "../API/APISKK";
 
 const PengajuanDrillingForm = () => {
-  
   const [jobPlan, setJobPlan] = useState({
     area_id: "string",
     field_id: "string",
@@ -97,11 +96,8 @@ const PengajuanDrillingForm = () => {
             remark: "string",
           },
         ],
-        well_summary: [
-          
-        ],
-        well_test: [
-        ],
+        well_summary: [],
+        well_test: [],
         well_trajectory: {
           file_id: "string",
           data_format: "IMAGE",
@@ -110,17 +106,13 @@ const PengajuanDrillingForm = () => {
           file_id: "string",
           data_format: "IMAGE",
         },
-        well_logs: [
-        ],
+        well_logs: [],
         well_drilling_parameter: {
           file_id: "string",
           data_format: "IMAGE",
         },
-        well_casing: [
-          
-        ],
-        well_stratigraphy: [
-        ],
+        well_casing: [],
+        well_stratigraphy: [],
       },
       wrm_pembebasan_lahan: true,
       wrm_ippkh: true,
@@ -185,12 +177,12 @@ const PengajuanDrillingForm = () => {
   // Fungsi rekursif untuk memvalidasi form secara otomatis
   const validateForm = (formData, parentKey = "") => {
     let errors = {};
-  
+
     // Iterasi melalui setiap key dalam formData
     Object.entries(formData).forEach(([key, value]) => {
       // Tentukan nama lengkap key termasuk parent jika ada (dot notation)
       const fullKey = parentKey ? `${parentKey}.${key}` : key;
-  
+
       // Jika value adalah object dan bukan array, lakukan rekursi
       if (value && typeof value === "object" && !Array.isArray(value)) {
         errors = { ...errors, ...validateForm(value, fullKey) };
@@ -202,10 +194,9 @@ const PengajuanDrillingForm = () => {
         errors[fullKey] = `${fullKey.replace(/_/g, " ")} is required.`;
       }
     });
-  
+
     return errors;
   };
-  
 
   const onClickSubmitForm = async () => {
     const errors = validateForm(jobPlan);
@@ -236,9 +227,7 @@ const PengajuanDrillingForm = () => {
         duration: 5000,
         isClosable: true,
       });
-    }
-
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -270,7 +259,7 @@ const PengajuanDrillingForm = () => {
                 onFormChange={handleWellDataChange}
                 unitType={dataMetricImperial}
                 errorForms={formErrors}
-                wellType={["DELINEATION","WILDCAT"]}
+                wellType={["DELINEATION", "WILDCAT"]}
               />
             </TabPanel>
             <TabPanel>
@@ -315,7 +304,7 @@ const PengajuanDrillingForm = () => {
                     ...prevJobPlan,
                     job_plan: {
                       ...prevJobPlan.job_plan,
-                      well:{
+                      well: {
                         ...prevJobPlan.job_plan.well,
                         work_breakdown_structure: [...data],
                       },
@@ -327,10 +316,7 @@ const PengajuanDrillingForm = () => {
                     ...prevJobPlan,
                     job_plan: {
                       ...prevJobPlan.job_plan,
-                      job_operation_days: [
-                        ...prevJobPlan.job_plan.job_operation_days,
-                        ...data,
-                      ],
+                      job_operation_days: data,
                     },
                   }));
                 }}
@@ -343,7 +329,6 @@ const PengajuanDrillingForm = () => {
                     },
                   }));
                 }}
-
                 unitType={dataMetricImperial}
               />
             </TabPanel>

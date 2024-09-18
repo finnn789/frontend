@@ -34,6 +34,7 @@ import {
 
 const WellSummary = ({ handleChange, errorForms, unittype }) => {
   const [currentEntry, setCurrentEntry] = useState({
+    unit_type: unittype,
     depth: "",
     hole_diameter: "",
     casing_outer_diameter: "",
@@ -45,11 +46,13 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
     rate_of_penetration: "",
     remarks: "",
   });
+
   const [tableData, setTableData] = useState([]);
   const [depthValue, setDepthValue] = useState("MSL");
   const [editIndex, setEditIndex] = useState(null);
   const [editFormData, setEditFormData] = useState({});
 
+  // Menangani perubahan input
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
     const processedValue =
@@ -57,6 +60,7 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
     setCurrentEntry((prev) => ({ ...prev, [name]: processedValue }));
   };
 
+  // Menangani perubahan input saat mengedit
   const handleEditChange = (e) => {
     const { name, value, type } = e.target;
     const processedValue =
@@ -64,11 +68,13 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
     setEditFormData((prev) => ({ ...prev, [name]: processedValue }));
   };
 
+  // Menangani pengeditan baris data
   const handleEditRow = (index) => {
     setEditIndex(index);
     setEditFormData(tableData[index]);
   };
 
+  // Menyimpan hasil edit
   const handleSaveEdit = (index) => {
     const updatedData = [...tableData];
     updatedData[index] = editFormData;
@@ -80,11 +86,13 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
     setEditIndex(null);
   };
 
+  // Menghapus baris data
   const handleDeleteRow = (index) => {
     const newData = tableData.filter((_, i) => i !== index);
     setTableData(newData);
   };
 
+  // Menambah entry baru ke tabel
   const handleAddClickLocal = () => {
     const newEntry = {
       ...currentEntry,
@@ -92,6 +100,7 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
     };
     setTableData((prev) => [...prev, newEntry]); // Update the local table data state
     setCurrentEntry({
+      unit_type: unittype,
       depth: "",
       hole_diameter: "",
       casing_outer_diameter: "",
@@ -105,35 +114,20 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
     });
   };
 
+  // Mengirim data terbaru ke parent component saat `tableData` berubah
   useEffect(() => {
     handleChange(tableData);
   }, [tableData]);
 
   return (
-    <Grid
-      templateColumns="repeat(2, 1fr)"
-      gap={4}
-      mt={4}
-      fontFamily={"Montserrat"}
-    >
+    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} fontFamily={"Montserrat"}>
       <GridItem colSpan={1} width={"100%"}>
-        <Box
-          borderWidth="1px"
-          borderRadius="lg"
-          width={"100%"}
-          p={6}
-          height="100%"
-        >
+        <Box borderWidth="1px" borderRadius="lg" width={"100%"} p={6} height="100%">
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Flex alignItems="center">
               <Icon as={IconTablePlus} boxSize={12} color="gray.800" mr={3} />
               <Flex flexDirection="column">
-                <Text
-                  fontSize="xl"
-                  fontWeight="bold"
-                  color="gray.700"
-                  fontFamily="Montserrat"
-                >
+                <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
                   Well Summary
                 </Text>
                 <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
@@ -151,12 +145,7 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
               <option value="RKB">RKB</option>
             </Select>
           </Flex>
-          <VStack
-            spacing={4}
-            align="stretch"
-            
-            height="calc(100% - 80px)"
-          >
+          <VStack spacing={4} align="stretch" height="calc(100% - 80px)">
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
               <FormControl>
                 <FormLabel>Depth</FormLabel>
@@ -269,7 +258,7 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
                     placeholder="Rate of Penetration"
                   />
                   <InputRightAddon>
-                    {unittype === "Metrics" ? "m" : "ft"}
+                    {unittype === "Metrics" ? "m/hr" : "ft/hr"}
                   </InputRightAddon>
                 </InputGroup>
               </FormControl>
@@ -293,13 +282,7 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
       </GridItem>
 
       <GridItem colSpan={1} overflow="hidden">
-        <Box
-          borderWidth="1px"
-          borderRadius="lg"
-          p={6}
-          height="100%"
-          overflow="hidden"
-        >
+        <Box borderWidth="1px" borderRadius="lg" p={6} height="100%" overflow="hidden">
           <Box height="100%" overflowX="auto" overflowY="auto" maxWidth="100%">
             {tableData.length > 0 ? (
               <Table variant="simple" minWidth="800px">
