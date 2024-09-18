@@ -314,7 +314,10 @@ const PengajuanDrillingForm = () => {
                     ...prevJobPlan,
                     job_plan: {
                       ...prevJobPlan.job_plan,
-                      work_breakdown_structure:[...data],
+                      well:{
+                        ...prevJobPlan.job_plan.well,
+                        work_breakdown_structure: [...data],
+                      },
                     },
                   }));
                 }}

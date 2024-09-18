@@ -15,41 +15,41 @@ import {
   Flex,
   Icon,
   Text,
-  FormErrorMessage
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import { IconBriefcase } from "@tabler/icons-react";
+import { IconBriefcase, IconInfoCircle } from "@tabler/icons-react";
 
-const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
-  "DEALINATION",
-  "WILDCAT",
-  "INFILL",
-  "PRODUCER",
-  "INJECTION",
-  "STEPOUT",
-] }) => {
-   
-
-  const  profileType = [
+const JobDetail = ({
+  handleChange,
+  formData,
+  unittype,
+  errorForms,
+  wellType = [
+    "DEALINATION",
+    "WILDCAT",
+    "INFILL",
+    "PRODUCER",
+    "INJECTION",
+    "STEPOUT",
+  ],
+}) => {
+  const profileType = [
     {
       name: "VERTICAL",
       value: "VERTICAL",
     },
-    {
-      name: "HORIZONTAL",
-      value: "HORIZONTAL",
-    },
+
     {
       name: "DIRECTIONAL",
       value: "DIRECTIONAL",
     },
-  ]
-
+  ];
 
   return (
     <VStack spacing={6} align="stretch" fontFamily={"Montserrat"}>
       <Box borderWidth="1px" borderRadius="lg" p={6}>
         <Flex alignItems="center">
-          <Icon as={IconBriefcase} boxSize={12} color="gray.800" mr={3} />
+          <Icon as={IconInfoCircle} boxSize={12} color="gray.800" mr={3} />
           <Flex flexDirection={"column"}>
             <Text
               fontSize="xl"
@@ -57,7 +57,7 @@ const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
               color="gray.700"
               fontFamily="Montserrat"
             >
-              {"Well Profile"}
+              {"Well Detail"}
             </Text>
             <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
               {"subtitle"}
@@ -75,7 +75,9 @@ const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
                 onChange={handleChange}
                 placeholder="UWI"
               />
-              {errorForms["job_plan.well.uwi"] && <FormErrorMessage>UWI is required</FormErrorMessage>}
+              {errorForms["job_plan.well.uwi"] && (
+                <FormErrorMessage>UWI is required</FormErrorMessage>
+              )}
             </FormControl>
             <FormControl isInvalid={!!errorForms["job_plan.well.well_name"]}>
               <FormLabel>Well Name</FormLabel>
@@ -86,11 +88,15 @@ const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
                 onChange={handleChange}
                 placeholder="Nama Sumur"
               />
-              {errorForms["job_plan.well.well_name"] && <FormErrorMessage>Well Name is required</FormErrorMessage>}
+              {errorForms["job_plan.well.well_name"] && (
+                <FormErrorMessage>Well Name is required</FormErrorMessage>
+              )}
             </FormControl>
           </HStack>
           <HStack spacing={4}>
-            <FormControl isInvalid={!!errorForms["job_plan.well.alias_long_name"]}>
+            <FormControl
+              isInvalid={!!errorForms["job_plan.well.alias_long_name"]}
+            >
               <FormLabel>Alias Long Name</FormLabel>
               <Input
                 name="alias_long_name"
@@ -99,7 +105,9 @@ const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
                 onChange={handleChange}
                 placeholder="Nama Lengkap Sumur"
               />
-              {errorForms["job_plan.well.alias_long_name"] && <FormErrorMessage>Alias Long Name is required</FormErrorMessage>}
+              {errorForms["job_plan.well.alias_long_name"] && (
+                <FormErrorMessage>Alias Long Name is required</FormErrorMessage>
+              )}
             </FormControl>
             <FormControl isInvalid={!!errorForms["job_plan.well.well_type"]}>
               <FormLabel>Well Type</FormLabel>
@@ -116,11 +124,15 @@ const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
                   <option value={item}>{item}</option>
                 ))}
               </Select>
-              {errorForms["job_plan.well.well_type"] && <FormErrorMessage>Well Type is required</FormErrorMessage>}
+              {errorForms["job_plan.well.well_type"] && (
+                <FormErrorMessage>Well Type is required</FormErrorMessage>
+              )}
             </FormControl>
           </HStack>
           <HStack spacing={4}>
-            <FormControl isInvalid={!!errorForms["job_plan.well.well_profile_type"]} >
+            <FormControl
+              isInvalid={!!errorForms["job_plan.well.well_profile_type"]}
+            >
               <FormLabel>Well Profile Type</FormLabel>
               <Select
                 name="well_profile_type"
@@ -128,25 +140,39 @@ const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
                 onChange={handleChange}
               >
                 <option value="">Select Profile Type</option>
-                {profileType.map((item,index) => (
-                  <option key={index} value={item.value}>{item.name}</option>
+                {profileType.map((item, index) => (
+                  <option key={index} value={item.value}>
+                    {item.name}
+                  </option>
                 ))}
               </Select>
-              {errorForms["job_plan.well.well_profile_type"] && <FormErrorMessage>Well Profile Type is required</FormErrorMessage>}
+              {errorForms["job_plan.well.well_profile_type"] && (
+                <FormErrorMessage>
+                  Well Profile Type is required
+                </FormErrorMessage>
+              )}
             </FormControl>
-            <FormControl isInvalid={!!errorForms["job_plan.well.environment_type"]}>
+            <FormControl
+              isInvalid={!!errorForms["job_plan.well.environment_type"]}
+            >
               <FormLabel>Environment Type</FormLabel>
               <Select
                 name="environment_type"
                 value={formData.environment_type}
                 onChange={handleChange}
               >
-                <option value="" disabled>Select Environment Type</option>
+                <option value="" disabled>
+                  Select Environment Type
+                </option>
                 <option value="SWAMP">SWAMP</option>
                 <option value="MARINE">MARINE</option>
                 <option value="LAND">LAND</option>
               </Select>
-              {errorForms["job_plan.well.environment_type"] && <FormErrorMessage>Environment Type is required</FormErrorMessage>}
+              {errorForms["job_plan.well.environment_type"] && (
+                <FormErrorMessage>
+                  Environment Type is required
+                </FormErrorMessage>
+              )}
             </FormControl>
           </HStack>
         </VStack>
@@ -160,12 +186,24 @@ const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
           bg="white"
         >
           <VStack align="stretch" spacing={4}>
-            <Heading size="md" display="flex" alignItems="center">
-              <IconBriefcase style={{ marginRight: "0.5rem" }} />
-              Directional
-            </Heading>
+            <Flex alignItems="center">
+              <Icon as={IconInfoCircle} boxSize={12} color="gray.800" mr={3} />
+              <Flex flexDirection={"column"}>
+                <Text
+                  fontSize="xl"
+                  fontWeight="bold"
+                  color="gray.700"
+                  fontFamily="Montserrat"
+                >
+                  {"Directional Type"}
+                </Text>
+                <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+                  {"*Required"}
+                </Text>
+              </Flex>
+            </Flex>
 
-            <FormControl >
+            <FormControl fontSize={"lg"}>
               <FormLabel>Directional Type</FormLabel>
               <Select
                 name="directionalType"
@@ -189,7 +227,7 @@ const JobDetail = ({ handleChange, formData, unittype, errorForms,wellType=[
                   type="number"
                   value={formData.kick_off_point}
                 />
-                <InputRightAddon>M</InputRightAddon>
+                <InputRightAddon>m</InputRightAddon>
               </InputGroup>
             </FormControl>
 

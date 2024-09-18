@@ -5,8 +5,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Heading,
-  Icon,
   Input,
   InputGroup,
   InputRightAddon,
@@ -17,28 +15,24 @@ import {
   Thead,
   Tr,
   Td,
+  Select,
+  Icon,
 } from "@chakra-ui/react";
-import {
-  IconTable,
-  IconStopwatch,
-  IconTrash,
-  IconEdit,
-  IconCheck,
-  IconBriefcase,
-} from "@tabler/icons-react";
+import { IconTrash, IconEdit, IconCheck, IconBriefcase } from "@tabler/icons-react";
 
 const WorkBreakdownForm = ({ onAddItem, unitType = "Metrics" }) => {
   const [formData, setFormData] = useState({
     phase: "",
     depth_in: 0,
     depth_out: 0,
+    unit_type: unitType, // Set directly from the unitType prop
     operation_days: 0,
+    depth_datum: "RT", // Default value for depth_datum
   });
 
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
-    const processedValue =
-      type === "number" && value !== "" ? parseFloat(value) : value;
+    const processedValue = type === "number" && value !== "" ? parseFloat(value) : value;
     setFormData((prevData) => ({ ...prevData, [name]: processedValue }));
   };
 
@@ -48,30 +42,40 @@ const WorkBreakdownForm = ({ onAddItem, unitType = "Metrics" }) => {
       phase: "",
       depth_in: 0,
       depth_out: 0,
+      unit_type: unitType, // Keep the unit_type consistent with the prop value
       operation_days: 0,
-      depth_datum:"RT"
+      depth_datum: "RT",
     });
   };
 
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} mb={4} width="100%">
-      <Flex alignItems="center">
-        <Icon as={IconBriefcase} boxSize={12} color="gray.800" mr={3} />
-        <Flex flexDirection={"column"}>
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            color="gray.700"
-            fontFamily="Montserrat"
-          >
-            {"Job Operation Days"}
-          </Text>
-          <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
-            {"subtitle"}
-          </Text>
+      <Flex alignItems="center" justifyContent="space-between">
+        <Flex alignItems="center">
+          <Icon as={IconBriefcase} boxSize={12} color="gray.800" mr={3} />
+          <Flex flexDirection={"column"}>
+            <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
+              Job Operation Days
+            </Text>
+            <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
+              Subtitle
+            </Text>
+          </Flex>
         </Flex>
+        <FormControl maxW="150px">
+          <Select
+            name="depth_datum"
+            w={"auto"}
+            value={formData.depth_datum}
+            onChange={handleInputChange}
+          >
+            <option value="RT">RT</option>
+            <option value="KB">KB</option>
+            <option value="MSL">MSL</option>
+          </Select>
+        </FormControl>
       </Flex>
-      <FormControl>
+      <FormControl mt={4}>
         <FormLabel>Phase</FormLabel>
         <Input
           name="phase"
@@ -90,11 +94,7 @@ const WorkBreakdownForm = ({ onAddItem, unitType = "Metrics" }) => {
             value={formData.depth_in}
             onChange={handleInputChange}
           />
-          {unitType === "Metrics" ? (
-            <InputRightAddon>METERS</InputRightAddon>
-          ) : (
-            <InputRightAddon>FEET</InputRightAddon>
-          )}
+          <InputRightAddon>{unitType === "Metrics" ? "M" : "FEET"}</InputRightAddon>
         </InputGroup>
       </FormControl>
       <FormControl>
@@ -107,11 +107,7 @@ const WorkBreakdownForm = ({ onAddItem, unitType = "Metrics" }) => {
             value={formData.depth_out}
             onChange={handleInputChange}
           />
-          {unitType === "Metrics" ? (
-            <InputRightAddon>METERS</InputRightAddon>
-          ) : (
-            <InputRightAddon>FEET</InputRightAddon>
-          )}
+          <InputRightAddon>{unitType === "Metrics" ? "M" : "FEET"}</InputRightAddon>
         </InputGroup>
       </FormControl>
       <FormControl>
@@ -134,7 +130,7 @@ const WorkBreakdownForm = ({ onAddItem, unitType = "Metrics" }) => {
   );
 };
 
-const JobOperationDays = ({ ondata,unitType="Metrics" }) => {
+const JobOperationDays = ({ ondata, unitType = "Metrics" }) => {
   const [items, setItems] = useState([]);
   const [editIndex, setEditIndex] = useState(-1);
   const [editFormData, setEditFormData] = useState({});
@@ -174,14 +170,7 @@ const JobOperationDays = ({ ondata,unitType="Metrics" }) => {
       <Box flex={1} mr={4}>
         <WorkBreakdownForm onAddItem={handleAddItem} unitType={unitType} />
       </Box>
-      <Box
-        flex={1}
-        maxHeight="465px"
-        overflowY="auto"
-        borderWidth="1px"
-        borderRadius="lg"
-        p={4}
-      >
+      <Box flex={1} maxHeight="465px" overflowY="auto" borderWidth="1px" borderRadius="lg" p={4}>
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -229,10 +218,7 @@ const JobOperationDays = ({ ondata,unitType="Metrics" }) => {
                       />
                     </Td>
                     <Td>
-                      <Button
-                        onClick={() => handleSave(index)}
-                        colorScheme="green"
-                      >
+                      <Button onClick={() => handleSave(index)} colorScheme="green">
                         <Icon as={IconCheck} />
                       </Button>
                     </Td>
@@ -244,17 +230,10 @@ const JobOperationDays = ({ ondata,unitType="Metrics" }) => {
                     <Td>{item.depth_out}</Td>
                     <Td>{item.operation_days}</Td>
                     <Td>
-                      <Button
-                        onClick={() => handleEdit(index)}
-                        colorScheme="blue"
-                        mr={2}
-                      >
+                      <Button onClick={() => handleEdit(index)} colorScheme="blue" mr={2}>
                         <Icon as={IconEdit} />
                       </Button>
-                      <Button
-                        onClick={() => handleDeleteItem(index)}
-                        colorScheme="red"
-                      >
+                      <Button onClick={() => handleDeleteItem(index)} colorScheme="red">
                         <Icon as={IconTrash} />
                       </Button>
                     </Td>

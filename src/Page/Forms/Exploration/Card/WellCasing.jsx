@@ -218,7 +218,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Depth"
                 />
-                <InputRightAddon>METERS</InputRightAddon>
+                <InputRightAddon>m</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -231,7 +231,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Length"
                 />
-                <InputRightAddon>METERS</InputRightAddon>
+                <InputRightAddon>m</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -244,7 +244,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Hole Diameter"
                 />
-                <InputRightAddon>METERS</InputRightAddon>
+                <InputRightAddon>m</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -257,7 +257,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Outer Diameter"
                 />
-                <InputRightAddon>METERS</InputRightAddon>
+                <InputRightAddon>m</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -270,7 +270,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   type="number"
                   placeholder="Casing Inner Diameter"
                 />
-                <InputRightAddon>METERS</InputRightAddon>
+                <InputRightAddon>m</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>
@@ -292,7 +292,7 @@ const WellCasing = ({ dataWellCasing }) => {
                   onChange={handleInputChangeWellCasing}
                   placeholder="Casing Weight"
                 />
-                <InputRightAddon>METERS</InputRightAddon>
+                <InputRightAddon>m</InputRightAddon>
               </InputGroup>
             </FormControl>
             <FormControl>

@@ -8,6 +8,7 @@ import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../../PageKKKS/Components/Card/Footer";
 // import HeaderCard from "../Components/Card/HeaderCard";
 import { getTableKKKS } from "../../API/APIKKKS";
+import { Link } from "react-router-dom";
 const PlanningExpKKKS = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
@@ -66,6 +67,19 @@ const PlanningExpKKKS = () => {
     // Add more data as needed
   ];
 
+  const actionButtonRender = () => {
+    return(
+      <Button
+        colorScheme="blue"  
+        variant="solid"
+        size="md"
+        as={Link}
+        to={"/dashboard/planning/form"}>
+          Ajukan Pengajuan
+        </Button>
+    )
+    
+  }
   const StatusBadge = ({ status }) => {
     const colorScheme =
       status === "PROPOSED"
@@ -127,6 +141,7 @@ const PlanningExpKKKS = () => {
           headers={headerstable1}
           title={"Planning Exploration"}
           subtitle={"List Planning Exploration"}
+          actionButton={actionButtonRender()}
         >
           {countStatus ? (
             countStatus.job_details.map((row, index) => (

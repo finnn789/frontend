@@ -98,7 +98,7 @@ const WellPorePressureForm = () => {
                 onChange={handleInputChange}
                 placeholder="Enter depth"
               />
-              <InputRightAddon>METERS</InputRightAddon>
+              <InputRightAddon>m</InputRightAddon>
             </InputGroup>
           </FormControl>
 

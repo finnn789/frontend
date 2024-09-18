@@ -169,7 +169,7 @@ const ProposedJob = ({ onData }) => {
                 onChange={handleChange}
                 placeholder="WPB Year"
               />
-              <InputRightAddon>METERS</InputRightAddon>
+              <InputRightAddon>m</InputRightAddon>
             </InputGroup>
           </FormControl>
         </HStack>
@@ -238,7 +238,7 @@ const ProposedJob = ({ onData }) => {
                 onChange={handleRig}
                 placeholder="Rig Horse Power"
               />
-              <InputRightAddon>METERS</InputRightAddon>
+              <InputRightAddon>m</InputRightAddon>
             </InputGroup>
           </FormControl>
         </HStack>

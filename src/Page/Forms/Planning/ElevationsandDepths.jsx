@@ -55,7 +55,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype, errorForms}) => {
                   placeholder="rotary table elev"
                   onChange={handleChange}
                 />
-                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "m" || unittype === "Imperial" && "ft"}</InputRightAddon>
               </InputGroup>
               {errorForms["job_plan.well.rotary_table_elev"] && <FormErrorMessage>Rotary Table Elevation is required</FormErrorMessage>}
             </FormControl>
@@ -70,7 +70,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype, errorForms}) => {
                   onChange={handleChange}
                   type="number"
                 />
-                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "m" || unittype === "Imperial" && "ft"}</InputRightAddon>
               </InputGroup>
               {errorForms["job_plan.well.kb_elev"] && <FormErrorMessage>Kelly Bushing Elevation is required</FormErrorMessage>}
             </FormControl>
@@ -89,7 +89,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype, errorForms}) => {
                   type="number"
                   onChange={handleChange}
                 />
-                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "m" || unittype === "Imperial" && "ft"}</InputRightAddon>
               </InputGroup>
               {errorForms["job_plan.well.derrick_floor_elev"] && <FormErrorMessage>Derrick Floor Elevation is required</FormErrorMessage>}
             </FormControl>
@@ -104,7 +104,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype, errorForms}) => {
                   type="number"
                   onChange={handleChange}
                 />
-                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "m" || unittype === "Imperial" && "ft"}</InputRightAddon>
               </InputGroup>
               {errorForms["job_plan.well.ground_elev"] && <FormErrorMessage>Ground Elevation is required</FormErrorMessage>}
             </FormControl>
@@ -121,7 +121,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype, errorForms}) => {
               type="number"
               onChange={handleChange}
             />
-            <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
+            <InputRightAddon>{unittype === "Metrics" && "m" || unittype === "Imperial" && "ft"}</InputRightAddon>
           </InputGroup>
           {errorForms["job_plan.well.mean_sea_level"] && <FormErrorMessage>Mean Sea Level is required</FormErrorMessage>}
         </FormControl>
@@ -138,7 +138,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype, errorForms}) => {
                   placeholder="final md"
                   onChange={handleChange}
                 />
-                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "m" || unittype === "Imperial" && "ft"}</InputRightAddon>
               </InputGroup>
               {errorForms["job_plan.well.final_md"] && <FormErrorMessage>Final MD is required</FormErrorMessage>}
             </FormControl>
@@ -153,7 +153,7 @@ const ElevationsAndDepths = ({ handleChange ,unittype, errorForms}) => {
                   onChange={handleChange}
                   type="number"
                 />
-                <InputRightAddon>{unittype === "Metrics" && "METER" || unittype === "Imperial" && "FEET"}</InputRightAddon>
+                <InputRightAddon>{unittype === "Metrics" && "m" || unittype === "Imperial" && "ft"}</InputRightAddon>
               </InputGroup>
               {errorForms["job_plan.well.maximum_tvd"] && <FormErrorMessage>Maximum TVD is required</FormErrorMessage>}
             </FormControl>

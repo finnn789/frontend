@@ -18,7 +18,9 @@ import {
   Heading,
   Flex,
   Icon,
-  FormErrorMessage
+  FormErrorMessage,
+  HStack,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import Papa from "papaparse"; // You'll need to install this: npm install papaparse
 import axios from "axios";
@@ -194,44 +196,67 @@ const WellTrajectory = ({ ondata, errorForms }) => {
             </Text>
           </Flex>
         </Flex>
-        <VStack spacing={4} align="stretch" mt={5}>
-          <FormControl isRequired isInvalid={!!errorForms["job_plan.well.well_trajectory.data_format"]}
-          >
-            <FormLabel>File Type</FormLabel>
-            <Select
-              placeholder="Select file type"
-              value={fileType}
-              onChange={handleFileTypeChange}
+        <SimpleGrid columns={3} spacing={4} mt={5}>
+          <Box>
+            <FormControl
+              isRequired
+              isInvalid={!!errorForms["job_plan.well.well_trajectory.file_id"]}
             >
-              <option value="PDF">PDF</option>
-              <option value="IMAGE">IMAGE</option>
-              <option value="PLAIN TEXT">PLAIN TEXT</option>
-            </Select>
-            {errorForms["job_plan.well.well_trajectory.data_format"] && <FormErrorMessage>File Type is required</FormErrorMessage>}
-            
-          </FormControl>
+              <FormLabel>Upload File</FormLabel>
+              <Input
+                hidden
+                ref={fileInputRef}
+                type="file"
+                accept=".csv,.xlsx,.xls"
+                onChange={handleFileChange}
+              />
 
-          <FormControl isRequired isInvalid={!!errorForms["job_plan.well.well_trajectory.file_id"]}>
-            <FormLabel>Upload File</FormLabel>
-            <Input
-              hidden
-              ref={fileInputRef}
-              type="file"
-              accept=".csv,.xlsx,.xls"
-              onChange={handleFileChange}
-            />
-            <Button onClick={() => fileInputRef.current.click()}>
-              Upload File
-            </Button>
-            {errorForms["job_plan.well.well_trajectory.file_id"] && <FormErrorMessage>File is required</FormErrorMessage>}
-          </FormControl>
-
-          {file && <Text>Selected file: {file.name}</Text>}
-
-          <Button type="submit" colorScheme="blue">
-            Upload
+              {errorForms["job_plan.well.well_trajectory.file_id"] && (
+                <FormErrorMessage>File is required</FormErrorMessage>
+              )}
+            </FormControl>
+            {file && <Text>Selected file: {file.name}</Text>}
+          </Box>
+          <Flex width={"full"} justifyContent={"end"} alignItems={"end"}>
+          <Button
+            colorScheme="blue"
+            onClick={() => fileInputRef.current.click()}
+          >
+            Choose File
           </Button>
-        </VStack>
+          </Flex>
+
+          <Box
+            display={"flex"}
+            justifyContent={"flex-end"}
+            alignItems={"end"}
+            gap={4}
+          >
+            <FormControl
+              isRequired
+              isInvalid={
+                !!errorForms["job_plan.well.well_trajectory.data_format"]
+              }
+            >
+              <FormLabel>File Type</FormLabel>
+              <Select
+                placeholder="Select file type"
+                value={fileType}
+                onChange={handleFileTypeChange}
+              >
+                <option value="PDF">PDF</option>
+                <option value="IMAGE">IMAGE</option>
+                <option value="PLAIN TEXT">PLAIN TEXT</option>
+              </Select>
+              {errorForms["job_plan.well.well_trajectory.data_format"] && (
+                <FormErrorMessage>File Type is required</FormErrorMessage>
+              )}
+            </FormControl>
+            <Button w={"full"} type="submit" colorScheme="blue">
+              Upload
+            </Button>
+          </Box>
+        </SimpleGrid>
       </form>
 
       {csvData && csvData.plot.data.length > 0 && (

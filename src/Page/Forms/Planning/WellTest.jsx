@@ -141,7 +141,7 @@ const WellTest = ({ onData, unitype, errorForms }) => {
                       placeholder="Zone Top Depth"
                     />
                     <InputRightAddon>
-                      {(unitype === "Metrics" && "METERS") || (unitype === "Imperial" && "FEET")}
+                      {(unitype === "Metrics" && "m") || (unitype === "Imperial" && "ft")}
                     </InputRightAddon>
                   </InputGroup>
                 </FormControl>
@@ -156,7 +156,7 @@ const WellTest = ({ onData, unitype, errorForms }) => {
                       placeholder="Zone Bottom Depth"
                     />
                     <InputRightAddon>
-                      {(unitype === "Metrics" && "METERS") || (unitype === "Imperial" && "FEET")}
+                      {(unitype === "Metrics" && "m") || (unitype === "Imperial" && "ft")}
                     </InputRightAddon>
                   </InputGroup>
                 </FormControl>

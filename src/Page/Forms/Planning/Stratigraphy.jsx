@@ -24,9 +24,19 @@ import {
   HStack,
   IconButton,
 } from "@chakra-ui/react";
-import { IconLayersSubtract, IconEdit, IconCheck, IconX } from "@tabler/icons-react";
+import {
+  IconLayersSubtract,
+  IconEdit,
+  IconCheck,
+  IconX,
+} from "@tabler/icons-react";
 
-const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms, onData }) => {
+const Stratigraphy = ({
+  setWellStratigraphy,
+  unittype,
+  errorForms,
+  onData,
+}) => {
   const [WellStratigraphy, setLocalWellStratigraphy] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [formData, setFormData] = useState({
@@ -103,14 +113,29 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms, onData }) => 
   };
 
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={3} mt={7} fontFamily="Montserrat">
+    <Grid
+      templateColumns="repeat(2, 1fr)"
+      gap={3}
+      mt={7}
+      fontFamily="Montserrat"
+    >
       <GridItem colSpan={1} height="100%">
         <Box borderWidth="1px" borderRadius="lg" p={6}>
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Flex alignItems="center">
-              <Icon as={IconLayersSubtract} boxSize={12} color="gray.800" mr={3} />
+              <Icon
+                as={IconLayersSubtract}
+                boxSize={12}
+                color="gray.800"
+                mr={3}
+              />
               <Flex flexDirection="column">
-                <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
+                <Text
+                  fontSize="xl"
+                  fontWeight="bold"
+                  color="gray.700"
+                  fontFamily="Montserrat"
+                >
                   Stratigraphy
                 </Text>
                 <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
@@ -121,7 +146,9 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms, onData }) => 
             <Select
               width="auto"
               value={formData.depth_datum}
-              onChange={(e) => setFormData({ ...formData, depth_datum: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, depth_datum: e.target.value })
+              }
             >
               {selectType.map((item, index) => (
                 <option key={index} value={item.value}>
@@ -141,8 +168,12 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms, onData }) => 
                     onChange={handleInputChange}
                     placeholder="Stratigraphy"
                   >
-                    <option value="LITHOSTRATIGRAPHIC">LITHOSTRATIGRAPHIC</option>
-                    <option value="CHRONOSTRATIGRAPHIC">CHRONOSTRATIGRAPHIC</option>
+                    <option value="LITHOSTRATIGRAPHIC">
+                      LITHOSTRATIGRAPHIC
+                    </option>
+                    <option value="CHRONOSTRATIGRAPHIC">
+                      CHRONOSTRATIGRAPHIC
+                    </option>
                     <option value="OTHER">OTHER</option>
                     <option value="RADIOMETRIC">RADIOMETRIC</option>
                     <option value="BIOSTRATIGRAPHIC">BIOSTRATIGRAPHIC</option>
@@ -156,19 +187,22 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms, onData }) => 
                     <Input
                       name="depth"
                       type="number"
-                      step="0.01"
                       value={formData.depth}
                       onChange={handleInputChange}
                       placeholder="Depth"
                     />
-                    <InputRightAddon>{unittype === "Metrics" ? "METER" : "FEET"}</InputRightAddon>
+                    <InputRightAddon>
+                      {unittype === "Metrics" ? "METER" : "FEET"}
+                    </InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </GridItem>
             </Grid>
-            <Button colorScheme="blue" onClick={handleAddStratigraphy}>
-              Add
-            </Button>
+            <Flex justifyContent="flex-end">
+              <Button colorScheme="blue" onClick={handleAddStratigraphy}>
+                Add
+              </Button>
+            </Flex>
           </VStack>
         </Box>
       </GridItem>
@@ -204,11 +238,17 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms, onData }) => 
                             value={editFormData.stratigraphy_id}
                             onChange={handleEditChange}
                           >
-                            <option value="LITHOSTRATIGRAPHIC">LITHOSTRATIGRAPHIC</option>
-                            <option value="CHRONOSTRATIGRAPHIC">CHRONOSTRATIGRAPHIC</option>
+                            <option value="LITHOSTRATIGRAPHIC">
+                              LITHOSTRATIGRAPHIC
+                            </option>
+                            <option value="CHRONOSTRATIGRAPHIC">
+                              CHRONOSTRATIGRAPHIC
+                            </option>
                             <option value="OTHER">OTHER</option>
                             <option value="RADIOMETRIC">RADIOMETRIC</option>
-                            <option value="BIOSTRATIGRAPHIC">BIOSTRATIGRAPHIC</option>
+                            <option value="BIOSTRATIGRAPHIC">
+                              BIOSTRATIGRAPHIC
+                            </option>
                           </Select>
                         </Td>
                         <Td>
@@ -243,7 +283,11 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms, onData }) => 
                               onClick={() => handleEditRow(index)}
                               aria-label="Edit row"
                             />
-                            <Button colorScheme="red" size="sm" onClick={() => handleDelete(index)}>
+                            <Button
+                              colorScheme="red"
+                              size="sm"
+                              onClick={() => handleDelete(index)}
+                            >
                               Delete
                             </Button>
                           </HStack>
@@ -255,7 +299,12 @@ const Stratigraphy = ({ setWellStratigraphy, unittype, errorForms, onData }) => 
               </Tbody>
             </Table>
           ) : (
-            <Flex justifyContent="center" flexDirection="column" alignItems="center" height="100%">
+            <Flex
+              justifyContent="center"
+              flexDirection="column"
+              alignItems="center"
+              height="100%"
+            >
               <Heading fontFamily="Montserrat">Tidak Ada Data</Heading>
               {!!errorForms["job_plan.well.well_stratigraphy"] && (
                 <Text color="red.500" fontSize="sm" mt={2}>

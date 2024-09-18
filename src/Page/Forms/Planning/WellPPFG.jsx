@@ -14,12 +14,13 @@ import {
   Flex,
   Select,
   Icon,
+  HStack,
 } from "@chakra-ui/react";
 
 import { IconGraph } from "@tabler/icons-react";
 import axios from "axios";
 
-const WellPorePressureForm = ({handleDataSubmit}) => {
+const WellPorePressureForm = ({ handleDataSubmit }) => {
   const [formData, setFormData] = useState({
     file_id: "",
     data_format: "IMAGE",
@@ -59,7 +60,6 @@ const WellPorePressureForm = ({handleDataSubmit}) => {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-
           },
         }
       );
@@ -71,11 +71,11 @@ const WellPorePressureForm = ({handleDataSubmit}) => {
           duration: 5000,
           isClosable: true,
         });
-  
+
         setFormData((prevData) => ({
           ...prevData,
           file_id: response.data.data.file_info.id,
-        }))
+        }));
       } else {
         toast({
           title: "Gagal",
@@ -124,8 +124,8 @@ const WellPorePressureForm = ({handleDataSubmit}) => {
         </Flex>
       </Flex>
       <form onSubmit={handleSubmit}>
-        <VStack spacing={4}>
-          <FormControl>
+        <HStack spacing={4}>
+          <FormControl width={"50%"}>
             <Flex justifyContent={"space-between"}>
               <FormLabel>Upload File</FormLabel>
               <Input
@@ -135,28 +135,37 @@ const WellPorePressureForm = ({handleDataSubmit}) => {
                 accept=".txt,.csv,.xlsx"
                 hidden
               />
-              <Flex flexDir={"row"} gap={2}>
-                <Select placeholder="Select Format"  name="data_format" onChange={handleInputChange} isRequired>
-                  <option value="IMAGE">IMAGE</option>
-                  <option value="CSV">CSV</option>
-                  <option value="XLSX">XLSX</option>
-                </Select>
-                <Button
-                  onClick={() => fileInputRef.current.click()}
-                  colorScheme="blue"
-                  width={"100%"}
-                >
-                  Choose File
-                </Button>
-              </Flex>
             </Flex>
-            {fileName && <Text bg={"blue.100"} fontSize={"xl"}  mt={2}>Name File: {fileName}</Text>}
+            {fileName && (
+              <Text bg={"blue.100"} fontSize={"xl"} mt={2}>
+                Name File: {fileName}
+              </Text>
+            )}
           </FormControl>
+          <Box gap={4} display={"flex"} flexDirection={"row"} w={"50%"}>
+            <Select
+              placeholder="Select Format"
+              name="data_format"
+              onChange={handleInputChange}
+              isRequired
+            >
+              <option value="IMAGE">IMAGE</option>
+              <option value="CSV">CSV</option>
+              <option value="XLSX">XLSX</option>
+            </Select>
+            <Button
+              onClick={() => fileInputRef.current.click()}
+              colorScheme="blue"
+              width={"100%"}
+            >
+              Choose File
+            </Button>
 
-          <Button type="submit" colorScheme="blue" width="full">
-            Upload
-          </Button>
-        </VStack>
+            <Button type="submit" colorScheme="blue" width="100%">
+              Upload
+            </Button>
+          </Box>
+        </HStack>
       </form>
     </Box>
   );

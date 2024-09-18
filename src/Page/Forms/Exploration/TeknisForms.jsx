@@ -89,8 +89,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
     remarks: "",
   });
 
-  console.log(currentEntry);
-  
+  // console.log(currentEntry);
 
   const [TablewellStratigraphy, setTablewellStratigraphy] = useState([]);
   const [WellStratigraphy, setWellStratigraphy] = useState({
@@ -218,7 +217,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
       depth_datum: "RT",
       depth: 0,
       stratigraphy_id: "",
-    });  
+    });
   };
 
   const handleData = (newData) => {
@@ -230,8 +229,6 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
     }));
   };
 
-  
-
   // console.log('asd',handleInputChange);
   return (
     <>
@@ -240,17 +237,24 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         formData={formData}
         unittype={unitType}
         errorForms={errorForms}
-        wellType={["DELINEATION", "WILDCAT","INJECTION","PRODUCER"]}
+        wellType={["DELINEATION", "WILDCAT"]}
       />
       <WellLocation handleChange={handleChange} errorForms={errorForms} />
-      <ElevationsAndDepths handleChange={handleChange} unittype={unitType} errorForms={errorForms} />
+      <ElevationsAndDepths
+        handleChange={handleChange}
+        unittype={unitType}
+        errorForms={errorForms}
+      />
       {/* <Seismic handleChange={handleChange} formData={formData} />  */}
-      <KeyDates handleChange={handleChange} formData={formData} errorForms={errorForms} />
+      <KeyDates
+        handleChange={handleChange}
+        formData={formData}
+        errorForms={errorForms}
+      />
       <WellSummary
-        handleAddClick={handleAddClick}
-        handleInputChange={handleInputChange}
-        currentEntry={currentEntry}
-        tableData={tableData}
+        handleChange={(data) => {
+          setFormData((prev) => ({ ...prev, well_summary: data }));
+        }}
         setTableData={setTableData}
         errorForms={errorForms}
         unittype={unitType}
@@ -288,7 +292,11 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
           setFormData((prev) => ({ ...prev, well_ppfg: e }))
         }
       />
-      <WellTest onData={handleData} unitype={unitType} errorForms={errorForms} />
+      <WellTest
+        onData={handleData}
+        unitype={unitType}
+        errorForms={errorForms}
+      />
     </>
   );
 };

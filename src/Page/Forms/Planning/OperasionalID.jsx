@@ -15,10 +15,11 @@ import {
   Flex,
   Text,
   Textarea,
-  FormErrorMessage
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 import { setDate } from "date-fns";
+import { getAreaID,GetFieldID } from "../../API/APIKKKS";
 
 const ProposedJob = ({
   onData,
@@ -26,8 +27,44 @@ const ProposedJob = ({
   handleChangeRigType,
   handleChangeJobPlan,
   TypeOperasional,
-  errorForms
+  errorForms,
 }) => {
+  const [areaid, setAreaID] = useState([]);
+  const [fieldid, setFieldID] = useState([]);
+
+  React.useEffect(() => {
+    const GetAreaID = async () => {
+      try {
+        const response = await getAreaID();
+        // console.log(response);
+
+        setAreaID(response);
+      } catch (error) {
+        console.error("Error get Area ID", error);
+      }
+    };
+    const getFieldID = async () => {
+      try {
+        const response = await GetFieldID();
+        // console.log(response);
+
+        setFieldID(response);
+      } catch (error) {
+        console.error("Error get Area ID", error);
+      }
+    };
+
+    getFieldID();
+
+    
+    GetAreaID();
+  }, []);
+
+  
+
+  //  console.log(areaid);
+  //  console.log(fieldid);
+
   const areaId = [
     {
       name: "AREA 2",
@@ -51,8 +88,6 @@ const ProposedJob = ({
     },
   ];
   const rigType = [
-
-    
     {
       name: "FLOATER",
       value: "FLOATER",
@@ -263,12 +298,17 @@ const ProposedJob = ({
           <FormControl isInvalid={!!errorForms["area_id"]}>
             <FormLabel>Area</FormLabel>
             <Select name="area_id" onChange={handleChange}>
-              <option value="" disabled selected> Select Area</option>
-              {areaId.map((item) => (
-                <option value={item.value}>{item.name}</option>
+              <option value="" disabled selected>
+                {" "}
+                Select Area
+              </option>
+              {areaid.map((item) => (
+                <option value={item.id}>{item.name}</option>
               ))}
             </Select>
-            {errorForms["area_id"] && <FormErrorMessage>Area ID is required</FormErrorMessage>}
+            {errorForms["area_id"] && (
+              <FormErrorMessage>Area ID is required</FormErrorMessage>
+            )}
           </FormControl>
           <FormControl isInvalid={!!errorForms["field_id"]}>
             <FormLabel>Field</FormLabel>
@@ -276,11 +316,13 @@ const ProposedJob = ({
               <option value="" disabled selected>
                 Select Field
               </option>
-              {fieldId.map((item) => (
-                <option value={item.value}>{item.name}</option>
+              {fieldid.map((item) => (
+                <option value={item.id}>{item.name}</option>
               ))}
             </Select>
-            {errorForms["field_id"] && <FormErrorMessage>Field ID is required</FormErrorMessage>}
+            {errorForms["field_id"] && (
+              <FormErrorMessage>Field ID is required</FormErrorMessage>
+            )}
           </FormControl>
         </HStack>
         <HStack spacing={4}>
@@ -291,7 +333,9 @@ const ProposedJob = ({
               value={formData.contract_type}
               onChange={handleChange}
             >
-              <option value="" disabled selected>Select Contract Type</option>
+              <option value="" disabled selected>
+                Select Contract Type
+              </option>
               <option value="COST-RECOVERY">COST-RECOVERY</option>
               <option value="GROSS-SPLIT">GROSS-SPLIT</option>
             </Select>
@@ -319,11 +363,9 @@ const ProposedJob = ({
               <Input
                 name="wpb_year"
                 type="number"
-                
                 onChange={handleChange}
                 placeholder="WPNB Year"
               />
-              
             </InputGroup>
             {errorForms["wpb_year"] && (
               <FormErrorMessage>WPNB Year is required</FormErrorMessage>
@@ -457,15 +499,14 @@ const ProposedJob = ({
                     }));
                   }}
                 >
-                  
                   {rigType.map((item, index) => (
                     <option key={index} value={item.value}>
                       {item.name}
                     </option>
                   ))}
-                  </Select>
+                </Select>
                 {errorForms["job_plan.rig_type"] && (
-                  <FormErrorMessage>Rig Type is required</FormErrorMessage> 
+                  <FormErrorMessage>Rig Type is required</FormErrorMessage>
                 )}
               </FormControl>
               <FormControl isInvalid={!!errorForms["job_plan.rig_name"]}>
@@ -481,7 +522,7 @@ const ProposedJob = ({
                     }));
                   }}
                   placeholder="Rig Name"
-                  />
+                />
                 {errorForms["job_plan.rig_name"] && (
                   <FormErrorMessage>Rig Name is required</FormErrorMessage>
                 )}
@@ -504,9 +545,11 @@ const ProposedJob = ({
                     placeholder="Rig Horse Power"
                   />
                   <InputRightAddon>HP</InputRightAddon>
-                  </InputGroup>
+                </InputGroup>
                 {errorForms["job_plan.rig_horse_power"] && (
-                  <FormErrorMessage>Rig Horse Power is required</FormErrorMessage>
+                  <FormErrorMessage>
+                    Rig Horse Power is required
+                  </FormErrorMessage>
                 )}
               </FormControl>
             </HStack>

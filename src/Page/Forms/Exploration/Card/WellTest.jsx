@@ -114,7 +114,7 @@ const WellTest = ({ onData }) => {
                       onChange={handleChange}
                       placeholder="Zone Top Depth"
                     />
-                    \<InputRightAddon>METERS</InputRightAddon>
+                    \<InputRightAddon>m</InputRightAddon>
                   </InputGroup>
                 </FormControl>
               </HStack>
@@ -129,7 +129,7 @@ const WellTest = ({ onData }) => {
                       onChange={handleChange}
                       placeholder="Zone Bottom Depth"
                     />
-                    <InputRightAddon>METERS</InputRightAddon>
+                    <InputRightAddon>m</InputRightAddon>
                   </InputGroup>
                 </FormControl>
                 <FormControl>

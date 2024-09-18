@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   GridItem,
@@ -24,24 +24,43 @@ import {
   HStack,
   Heading,
 } from "@chakra-ui/react";
-import { IconTablePlus, IconTrash, IconEdit, IconCheck, IconX } from "@tabler/icons-react";
+import {
+  IconTablePlus,
+  IconTrash,
+  IconEdit,
+  IconCheck,
+  IconX,
+} from "@tabler/icons-react";
 
-const WellSummary = ({
-  handleAddClick,
-  handleInputChange,
-  currentEntry,
-  tableData,
-  errorForms,
-  setTableData,
-  unittype,
-}) => {
+const WellSummary = ({ handleChange, errorForms, unittype }) => {
+  const [currentEntry, setCurrentEntry] = useState({
+    depth: "",
+    hole_diameter: "",
+    casing_outer_diameter: "",
+    mud_program: "",
+    bit: "",
+    logging: "",
+    cementing_program: "",
+    bottom_hole_temperature: "",
+    rate_of_penetration: "",
+    remarks: "",
+  });
+  const [tableData, setTableData] = useState([]);
   const [depthValue, setDepthValue] = useState("MSL");
   const [editIndex, setEditIndex] = useState(null);
   const [editFormData, setEditFormData] = useState({});
 
+  const handleInputChange = (e) => {
+    const { name, value, type } = e.target;
+    const processedValue =
+      type === "number" && value !== "" ? parseFloat(value) : value;
+    setCurrentEntry((prev) => ({ ...prev, [name]: processedValue }));
+  };
+
   const handleEditChange = (e) => {
     const { name, value, type } = e.target;
-    const processedValue = type === "number" && value !== "" ? parseFloat(value) : value;
+    const processedValue =
+      type === "number" && value !== "" ? parseFloat(value) : value;
     setEditFormData((prev) => ({ ...prev, [name]: processedValue }));
   };
 
@@ -66,30 +85,78 @@ const WellSummary = ({
     setTableData(newData);
   };
 
+  const handleAddClickLocal = () => {
+    const newEntry = {
+      ...currentEntry,
+      depth_datum: depthValue, // Include depth_datum with the current selected value
+    };
+    setTableData((prev) => [...prev, newEntry]); // Update the local table data state
+    setCurrentEntry({
+      depth: "",
+      hole_diameter: "",
+      casing_outer_diameter: "",
+      mud_program: "",
+      bit: "",
+      logging: "",
+      cementing_program: "",
+      bottom_hole_temperature: "",
+      rate_of_penetration: "",
+      remarks: "",
+    });
+  };
+
+  useEffect(() => {
+    handleChange(tableData);
+  }, [tableData]);
+
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4} fontFamily={"Montserrat"}>
+    <Grid
+      templateColumns="repeat(2, 1fr)"
+      gap={4}
+      mt={4}
+      fontFamily={"Montserrat"}
+    >
       <GridItem colSpan={1} width={"100%"}>
-        <Box borderWidth="1px" borderRadius="lg" width={"100%"} p={6} height="100%">
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          width={"100%"}
+          p={6}
+          height="100%"
+        >
           <Flex justifyContent="space-between" alignItems="center" mb={6}>
             <Flex alignItems="center">
               <Icon as={IconTablePlus} boxSize={12} color="gray.800" mr={3} />
               <Flex flexDirection="column">
-                <Text fontSize="xl" fontWeight="bold" color="gray.700" fontFamily="Montserrat">
+                <Text
+                  fontSize="xl"
+                  fontWeight="bold"
+                  color="gray.700"
+                  fontFamily="Montserrat"
+                >
                   Well Summary
                 </Text>
                 <Text fontSize="md" color="gray.600" fontFamily="Montserrat">
-                  subtitle
+                  Subtitle
                 </Text>
               </Flex>
             </Flex>
-            <Select width="auto" onChange={(e) => setDepthValue(e.target.value)}>
+            <Select
+              width="auto"
+              value={depthValue}
+              onChange={(e) => setDepthValue(e.target.value)}
+            >
               <option value="MSL">MSL</option>
-              <option value="GL">GL</option>
               <option value="RT">RT</option>
               <option value="RKB">RKB</option>
             </Select>
           </Flex>
-          <VStack spacing={4} align="stretch" overflowY="auto" height="calc(100% - 80px)">
+          <VStack
+            spacing={4}
+            align="stretch"
+            
+            height="calc(100% - 80px)"
+          >
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
               <FormControl>
                 <FormLabel>Depth</FormLabel>
@@ -102,7 +169,7 @@ const WellSummary = ({
                     placeholder="Depth"
                   />
                   <InputRightAddon>
-                    {unittype === "Metrics" ? "METER" : "FEET"}
+                    {unittype === "Metrics" ? "m" : "ft"}
                   </InputRightAddon>
                 </InputGroup>
               </FormControl>
@@ -116,7 +183,9 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Hole Diameter"
                   />
-                  <InputRightAddon>{"INCH"}</InputRightAddon>
+                  <InputRightAddon>
+                    {unittype === "Metrics" ? "mm" : "in"}
+                  </InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -129,7 +198,9 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Casing Outer Diameter"
                   />
-                  <InputRightAddon>{"INCH"}</InputRightAddon>
+                  <InputRightAddon>
+                    {unittype === "Metrics" ? "mm" : "in"}
+                  </InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -151,7 +222,6 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Bit"
                   />
-                  <InputRightAddon>{"INCH"}</InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -183,7 +253,9 @@ const WellSummary = ({
                     onChange={handleInputChange}
                     placeholder="Bottom Hole Temperature"
                   />
-                  <InputRightAddon>{"°C"}</InputRightAddon>
+                  <InputRightAddon>
+                    {unittype === "Metrics" ? "°C" : "°F"}
+                  </InputRightAddon>
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -197,7 +269,7 @@ const WellSummary = ({
                     placeholder="Rate of Penetration"
                   />
                   <InputRightAddon>
-                    {unittype === "Metrics" ? "METER" : "FEET"}
+                    {unittype === "Metrics" ? "m" : "ft"}
                   </InputRightAddon>
                 </InputGroup>
               </FormControl>
@@ -211,15 +283,23 @@ const WellSummary = ({
                 />
               </FormControl>
             </Grid>
-            <Button colorScheme="blue" onClick={handleAddClick}>
-              Add
-            </Button>
+            <Flex justifyContent="flex-end">
+              <Button colorScheme="blue" onClick={handleAddClickLocal}>
+                Add
+              </Button>
+            </Flex>
           </VStack>
         </Box>
       </GridItem>
 
       <GridItem colSpan={1} overflow="hidden">
-        <Box borderWidth="1px" borderRadius="lg" p={6} height="100%" overflow="hidden">
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          p={6}
+          height="100%"
+          overflow="hidden"
+        >
           <Box height="100%" overflowX="auto" overflowY="auto" maxWidth="100%">
             {tableData.length > 0 ? (
               <Table variant="simple" minWidth="800px">
@@ -365,7 +445,12 @@ const WellSummary = ({
                 </Tbody>
               </Table>
             ) : (
-              <Flex justifyContent="center" flexDirection={"column"} alignItems="center" height="100%">
+              <Flex
+                justifyContent="center"
+                flexDirection={"column"}
+                alignItems="center"
+                height="100%"
+              >
                 <Heading fontFamily={"Montserrat"}>Tidak Ada Data</Heading>
                 {!!errorForms["job_plan.well.well_summary"] && (
                   <Text color="red.500" fontSize="sm" mt={2}>

@@ -95,7 +95,7 @@ const WorkBreakdownForm = ({ onAddItem }) => {
                   value={formData.depth_in}
                   onChange={handleInputChange}
                 />
-                <InputRightAddon>METERS</InputRightAddon>
+                <InputRightAddon>m</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -110,7 +110,7 @@ const WorkBreakdownForm = ({ onAddItem }) => {
                   value={formData.depth_out}
                   onChange={handleInputChange}
                 />
-                <InputRightAddon>METERS</InputRightAddon>
+                <InputRightAddon>m</InputRightAddon>
               </InputGroup>
             </FormControl>
           </GridItem>
@@ -125,7 +125,7 @@ const WorkBreakdownForm = ({ onAddItem }) => {
               type="number"
               placeholder="Operation Days"
             />
-            <InputRightAddon>METERS</InputRightAddon>
+            <InputRightAddon>m</InputRightAddon>
           </InputGroup>
         </FormControl>
         <Button onClick={handleAdd} colorScheme="blue">
