@@ -206,14 +206,14 @@ const JobDetail = ({
             <FormControl fontSize={"lg"}>
               <FormLabel>Directional Type</FormLabel>
               <Select
-                name="directionalType"
-                value={formData.directionalType}
+                name="directional_type"
+                value={formData.directional_type}
                 onChange={handleChange}
               >
                 <option value="">Select Directional Type</option>
                 <option value="J-TYPE">J-TYPE</option>
                 <option value="S-TYPE">S-TYPE</option>
-                <option value="horizontal">Horizontal</option>
+                <option value="HORIZONTAL">HORIZONTAL</option>
               </Select>
             </FormControl>
 

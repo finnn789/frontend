@@ -27,8 +27,7 @@ const PlanDevelopmentForm = () => {
       start_date: "2024-08-31",
       end_date: "2024-08-31",
       total_budget: 0,
-      job_operation_days: [
-      ],
+      job_operation_days: [],
       work_breakdown_structure: [
         {
           event: "string",
@@ -226,12 +225,12 @@ const PlanDevelopmentForm = () => {
 
   const validateForm = (formData, parentKey = "") => {
     let errors = {};
-  
+
     // Iterasi melalui setiap key dalam formData
     Object.entries(formData).forEach(([key, value]) => {
       // Tentukan nama lengkap key termasuk parent jika ada (dot notation)
       const fullKey = parentKey ? `${parentKey}.${key}` : key;
-  
+
       // Jika value adalah object dan bukan array, lakukan rekursi
       if (value && typeof value === "object" && !Array.isArray(value)) {
         errors = { ...errors, ...validateForm(value, fullKey) };
@@ -243,13 +242,13 @@ const PlanDevelopmentForm = () => {
         errors[fullKey] = `${fullKey.replace(/_/g, " ")} is required.`;
       }
     });
-  
+
     return errors;
   };
   const onClickSubmitForm = async () => {
     const errors = validateForm(jobPlan);
     if (Object.keys(errors).length > 0) {
-      console.log("errors", errors);
+      console.error("errors", errors);
       setFormErrors(errors);
       toast({
         title: "Terjadi kesalahan.",
@@ -275,9 +274,7 @@ const PlanDevelopmentForm = () => {
         duration: 5000,
         isClosable: true,
       });
-    }
-
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -309,13 +306,12 @@ const PlanDevelopmentForm = () => {
                 errorForms={formErrors}
                 onFormChange={handleWellDataChange}
                 unitType={dataMetricImperial}
-                wellType={["INJECTION", "PRODUCER","INFILL","STEPOUT"]}
+                wellType={["INJECTION", "PRODUCER", "INFILL", "STEPOUT"]}
               />
             </TabPanel>
             <TabPanel>
               <Operasional
                 errorForms={formErrors}
-                CuttingDumping={true}
                 onData={(operasional) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
@@ -355,7 +351,10 @@ const PlanDevelopmentForm = () => {
                     ...prevJobPlan,
                     job_plan: {
                       ...prevJobPlan.job_plan,
-                      ...data,
+                      well: {
+                        ...prevJobPlan.job_plan.well,
+                        work_breakdown_structure: [...data],
+                      },
                     },
                   }));
                 }}
@@ -369,20 +368,18 @@ const PlanDevelopmentForm = () => {
                         ...data,
                       ],
                     },
-                  }));  
+                  }));
                 }}
-
-                HazardTypeData={(data) => { 
+                HazardTypeData={(data) => {
                   setJobPlan((prevJobPlan) => ({
                     ...prevJobPlan,
                     job_plan: {
                       ...prevJobPlan.job_plan,
-                      job_hazards: [
-                        ...data
-                      ]
+                      job_hazards: [...data],
                     },
                   }));
                 }}
+                unitType={dataMetricImperial}
               />
             </TabPanel>
           </TabPanels>
