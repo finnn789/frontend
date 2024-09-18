@@ -119,7 +119,7 @@ const JobDocuments = ({ data }) => {
 
       setFormData({
         file_id: "",
-        document_type: "DRILLING_PLAN",
+        document_type: "Drilling Plan",
         remark: "",
         filename: "",
       });

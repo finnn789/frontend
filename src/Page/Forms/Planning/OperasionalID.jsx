@@ -266,13 +266,29 @@ const ProposedJob = ({
     });
   };
   const handleDateChange = (e) => {
-    const { name, value } = e.target;
-
+    const { name, value, type } = e.target;
+  
+    let processedValue;
+  
+    // Validasi berdasarkan tipe
+    if (type === "number") {
+      // Cek apakah nilai berisi titik desimal (float) atau tidak (integer)
+      processedValue = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
+    } else if (type === "text" || !type) {
+      // Jika tipe adalah text atau tidak ada tipe, jadikan string
+      processedValue = value;
+    } else {
+      // Default jika tidak dikenal
+      processedValue = value;
+    }
+  
+    // Set state
     setDateChange((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: processedValue,
     }));
   };
+  
 
   return (
     <Box borderWidth="1px" borderRadius="lg" p={6} fontFamily={"Montserrat"}>
@@ -352,6 +368,19 @@ const ProposedJob = ({
             />
             {errorForms["afe_number"] && (
               <FormErrorMessage>AFE Number is required</FormErrorMessage>
+            )}
+          </FormControl>
+          <FormControl isInvalid={!!errorForms["total_budget"]}>
+            <FormLabel>Total Budget</FormLabel>
+            <Input
+              name="total_budget"
+              
+              type="number"
+              onChange={handleDateChange}
+              placeholder="Total Budget"
+            />
+            {errorForms["total_budget"] && (
+              <FormErrorMessage>Total Budget is required</FormErrorMessage>
             )}
           </FormControl>
         </HStack>

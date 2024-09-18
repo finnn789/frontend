@@ -19,51 +19,30 @@ import { PostPlanningExploration } from "../API/APISKK";
 
 const PengajuanDrillingForm = () => {
   const [jobPlan, setJobPlan] = useState({
-    area_id: "string",
-    field_id: "string",
+    area_id: "",
+    field_id: "",
     contract_type: "COST-RECOVERY",
-    afe_number: "string",
+    afe_number: "",
     wpb_year: 0,
     job_plan: {
-      start_date: "2024-08-31",
-      end_date: "2024-08-31",
+      start_date: "2024-09-18",
+      end_date: "2024-09-18",
       total_budget: 0,
       job_operation_days: [],
-      work_breakdown_structure: [
-        {
-          event: "string",
-          start_date: "2024-08-31",
-          end_date: "2024-08-31",
-          remarks: "string",
-        },
-      ],
-      job_hazards: [
-        {
-          hazard_type: "GAS KICK",
-          hazard_description: "string",
-          severity: "LOW",
-          mitigation: "string",
-          remark: "string",
-        },
-      ],
-      job_documents: [
-        {
-          file_id: "string",
-          document_type: "Drilling Plan",
-          remark: "string",
-        },
-      ],
-      rig_name: "string",
+      work_breakdown_structure: [],
+      job_hazards: [],
+      job_documents: [],
+      rig_name: "",
       rig_type: "JACK-UP",
       rig_horse_power: 0,
       well: {
         unit_type: "Metrics",
-        uwi: "string",
-        field_id: "string",
-        area_id: "string",
-        kkks_id: "string",
-        well_name: "string",
-        alias_long_name: "string",
+        uwi: "",
+        field_id: "",
+        area_id: "",
+        kkks_id: "",
+        well_name: "",
+        alias_long_name: "",
         well_type: "WILDCAT",
         well_status: "Active",
         well_profile_type: "DIRECTIONAL",
@@ -75,10 +54,10 @@ const PengajuanDrillingForm = () => {
         bottom_hole_latitude: 0,
         maximum_inclination: 0,
         azimuth: 0,
-        line_name: "string",
-        spud_date: "2024-08-31T16:27:35.697Z",
-        final_drill_date: "2024-08-31T16:27:35.697Z",
-        completion_date: "2024-08-31T16:27:35.697Z",
+        line_name: "",
+        spud_date: "2024-09-18",
+        final_drill_date: "2024-09-18",
+        completion_date: "2024-09-18",
         rotary_table_elev: 0,
         kb_elev: 0,
         derrick_floor_elev: 0,
@@ -88,31 +67,80 @@ const PengajuanDrillingForm = () => {
         kick_off_point: 0,
         maximum_tvd: 0,
         final_md: 0,
-        remark: "string",
+        remark: "",
         well_documents: [
           {
-            file_id: "string",
+            file_id: "",
             document_type: "Well Report",
-            remark: "string",
+            remark: "",
           },
         ],
-        well_summary: [],
-        well_test: [],
+        well_summary: [
+          {
+            unit_type: "Metrics",
+            depth_datum: "RT",
+            depth: 0,
+            hole_diameter: 0,
+            bit: "",
+            casing_outer_diameter: 0,
+            logging: "",
+            mud_program: "",
+            cementing_program: "",
+            bottom_hole_temperature: 0,
+            rate_of_penetration: 0,
+            remarks: "",
+          },
+        ],
+        well_test: [
+          {
+            unit_type: "Metrics",
+            depth_datum: "RT",
+            zone_name: "",
+            zone_top_depth: 0,
+            zone_bottom_depth: 0,
+          },
+        ],
         well_trajectory: {
-          file_id: "string",
+          file_id: "",
           data_format: "IMAGE",
         },
         well_ppfg: {
-          file_id: "string",
+          file_id: "",
           data_format: "IMAGE",
         },
-        well_logs: [],
+        well_logs: [
+          {
+            file_id: "",
+            data_format: "IMAGE",
+          },
+        ],
         well_drilling_parameter: {
-          file_id: "string",
+          file_id: "",
           data_format: "IMAGE",
         },
-        well_casing: [],
-        well_stratigraphy: [],
+        well_casing: [
+          {
+            unit_type: "Metrics",
+            depth_datum: "RT",
+            depth: 0,
+            length: 0,
+            hole_diameter: 0,
+            casing_outer_diameter: 0,
+            casing_inner_diameter: 0,
+            casing_grade: "",
+            casing_weight: 0,
+            connection: "",
+            description: "",
+          },
+        ],
+        well_stratigraphy: [
+          {
+            unit_type: "Metrics",
+            depth_datum: "RT",
+            depth: 0,
+            stratigraphy_id: "",
+          },
+        ],
       },
       wrm_pembebasan_lahan: true,
       wrm_ippkh: true,
@@ -215,6 +243,7 @@ const PengajuanDrillingForm = () => {
     setLoading(true);
     try {
       const post = await PostPlanningExploration(jobPlan, toast);
+      console.log(post.data);
       if (post) {
         setLoading(false);
         return post.data;
