@@ -309,6 +309,7 @@ const PlanDevelopmentForm = () => {
                 errorForms={formErrors}
                 onFormChange={handleWellDataChange}
                 unitType={dataMetricImperial}
+                wellType={["INJECTION", "PRODUCER","INFILL","STEPOUT"]}
               />
             </TabPanel>
             <TabPanel>

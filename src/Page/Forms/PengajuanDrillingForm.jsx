@@ -270,6 +270,7 @@ const PengajuanDrillingForm = () => {
                 onFormChange={handleWellDataChange}
                 unitType={dataMetricImperial}
                 errorForms={formErrors}
+                wellType={["DELINEATION","WILDCAT"]}
               />
             </TabPanel>
             <TabPanel>

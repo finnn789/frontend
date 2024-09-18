@@ -13,7 +13,7 @@ import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
 
-const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
+const CardFormWell = ({ onFormChange, unitType, errorForms,wellType }) => {
   const [formData, setFormData] = useState({
     unit_type: unitType,
     uwi: "",
@@ -237,7 +237,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms }) => {
         formData={formData}
         unittype={unitType}
         errorForms={errorForms}
-        wellType={["DELINEATION", "WILDCAT"]}
+        wellType={wellType}
       />
       <WellLocation handleChange={handleChange} errorForms={errorForms} />
       <ElevationsAndDepths
