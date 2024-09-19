@@ -32,6 +32,8 @@ const ProposedJob = ({
   const [areaid, setAreaID] = useState([]);
   const [fieldid, setFieldID] = useState([]);
 
+
+
   React.useEffect(() => {
     const GetAreaID = async () => {
       try {

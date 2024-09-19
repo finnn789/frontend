@@ -16,6 +16,7 @@ import {
 import Operasional from "./Exploration/Operasioal";
 import axios from "axios";
 import { PostPlanningExploration } from "../API/APISKK";
+import { redirect } from "react-router-dom";
 
 const PengajuanDrillingForm = () => {
   const [jobPlan, setJobPlan] = useState({
@@ -227,8 +228,10 @@ const PengajuanDrillingForm = () => {
   };
 
   const onClickSubmitForm = async () => {
-    const errors = validateForm(jobPlan);
-    setFormErrors(errors);
+    // const errors = validateForm(jobPlan);
+    // setFormErrors(errors);
+  
+    // // Cek apakah ada error pada form
     // if (Object.keys(errors).length > 0) {
     //   console.log("errors", errors);
     //   toast({
@@ -238,17 +241,40 @@ const PengajuanDrillingForm = () => {
     //     duration: 5000,
     //     isClosable: true,
     //   });
-    //   return;
+    //   return; // Menghentikan eksekusi jika ada error
     // }
+  
     setLoading(true);
     try {
-      const post = await PostPlanningExploration(jobPlan, toast);
-      console.log(post.data);
-      if (post) {
-        setLoading(false);
-        return post.data;
+      const post = await PostPlanningExploration(jobPlan);
+      console.log("Ini response", post);
+  
+      // Cek apakah data respons benar dan status sukses
+      if (post.status===200) {
+        toast({
+          title: "Berhasil!",
+          description: "Data berhasil dikirim ke server.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+  
+        // Reset form atau lakukan tindakan lain jika berhasil
+        // resetForm(); // Contoh reset form jika diperlukan
+      } else {
+        toast({
+          title: "Terjadi kesalahan.",
+          description: post.message || "Data gagal dikirim ke server.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
+
+      return redirect
     } catch (error) {
+      // Menangani error dari server atau dari permintaan
+      console.error("Error dalam pengiriman:", error);
       toast({
         title: "Terjadi kesalahan.",
         description: "Data gagal dikirim ke server.",
@@ -257,7 +283,7 @@ const PengajuanDrillingForm = () => {
         isClosable: true,
       });
     } finally {
-      setLoading(false);
+      setLoading(false); // Menghentikan loading state
     }
   };
 

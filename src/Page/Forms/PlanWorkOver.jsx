@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import Operasional from "./Workover/Operasioal";
 import TeknisForm from "./WellService/TeknisForms"; // Sesuaikan path sesuai dengan struktur folder Anda
-import PostWorkover from "../API/PostKkks"; // Sesuaikan path sesuai dengan struktur folder Anda
+import { PostWorkover } from "../API/PostKkks"; // Sesuaikan path sesuai dengan struktur folder Anda
 
 const PlanWorkOverForm = () => {
   const [jobPlan, setJobPlan] = useState({
@@ -123,7 +123,7 @@ const PlanWorkOverForm = () => {
     }));
   };
 
-  console.log("jobPlan", jobPlan)
+  console.log("jobPlan", jobPlan);
 
   return (
     <>

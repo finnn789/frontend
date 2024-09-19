@@ -40,8 +40,9 @@ const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleC
           }));
         }}
         handleChangeRigType={handleChangeRigType}
-        // handleChangeWPBYear = {handleChangeWPBYear}
+      
         handleChangeJobPlan={handleChangeJobPlan}
+        
       />
       <WRMRequirement onDataChange={datawrm} showCuttingDumpingCheckbox={CuttingDumping} errorForms={errorForms} />
       <WorkBreakdownStructure

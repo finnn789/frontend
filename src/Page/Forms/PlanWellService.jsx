@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import Operasional from "./Workover/Operasioal";
 import TeknisForm from "./WellService/TeknisForms"; // Sesuaikan path sesuai dengan struktur folder Anda
-import PostWellService from "../API/PostKkks"; // Sesuaikan path sesuai dengan struktur folder Anda
+import {PostWellService} from "../API/PostKkks"; // Sesuaikan path sesuai dengan struktur folder Anda
 
 const PlanWellServiceForm = () => {
   const [jobPlan, setJobPlan] = useState({

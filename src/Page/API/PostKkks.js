@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 
-export default async function PostWorkover(data) {
+export async function PostWorkover(data) {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_APP_URL}/job/planning/create/workover`,

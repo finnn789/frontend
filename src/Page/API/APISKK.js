@@ -262,7 +262,8 @@ export async function getDataTypeSummarySKK() {
     return null;
   }
 }
-export async function PostPlanningExploration(data, toast) {
+
+export async function PostPlanningExploration(data) {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_APP_URL}/job/planning/create/exploration`,
@@ -270,32 +271,28 @@ export async function PostPlanningExploration(data, toast) {
       {
         headers: {
           "Content-Type": "application/json",
-
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
 
-    console.log("response.status", response);
-    if (response.status === 200) {
-      toast({
-        title: "Data berhasil dikirim.",
-        description: "Data telah berhasil disimpan ke database.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-    }
+    // console.log("response.status", response);
+
+    return response;
   } catch (error) {
     console.error("Error Dalam Kirim Data", error);
 
-    toast({
-      title: "Terjadi kesalahan.",
-      description: "Data gagal dikirim ke server.",
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-    });
+    // Jika error berasal dari response API (misalnya error 400 atau 500)
+    if (error.response) {
+      console.error("Response Error Data:", error.response.data);
+      return error.response.data; // Mengembalikan data error dari server
+    } else if (error.request) {
+      console.error("No Response:", error.request);
+      return { message: "No response from server." };
+    } else {
+      console.error("Request Error:", error.message);
+      return { message: error.message };
+    }
   }
 }
 
