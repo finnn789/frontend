@@ -34,7 +34,7 @@ export async function getAreaID() {
     return response.data;
   } catch (error) {
     console.error("Error get Data Well", error);
-    return response.data;
+    return null;
   }
 }
 
