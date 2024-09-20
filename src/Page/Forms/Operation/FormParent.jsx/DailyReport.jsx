@@ -30,7 +30,7 @@ import WeatherForm from "../FormHandling/WeatherForm";
 import FormControlCard from "../../Components/FormControl";
 import MudVolumes from "../FormHandling/MudVolumes";
 
-const DailyReport = () => {
+const DailyReport = ({ job_id }) => {
   const [handleData, setHandleData] = React.useState({
     report_date: "2024-09-15",
     avg_wob: 0,

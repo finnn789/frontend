@@ -142,7 +142,7 @@ const WellSummary = ({ handleChange, errorForms, unittype }) => {
             >
               <option value="MSL">MSL</option>
               <option value="RT">RT</option>
-              <option value="RKB">RKB</option>
+              <option value="KB">KB</option>
             </Select>
           </Flex>
           <VStack spacing={4} align="stretch" height="calc(100% - 80px)">

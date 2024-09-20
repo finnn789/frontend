@@ -74,4 +74,22 @@ export async function getWellInstance() {
   }
 }
 
+export async function GetWellStratigrapyh() {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/spatial/api/areas`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data Well", error);
+    return response.data;
+  }
+}
+
 

@@ -114,13 +114,13 @@ const PlanningExpKKKS = () => {
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={countStatus ? countStatus.summary.diajukan : 0}
+          number={countStatus ? countStatus?.summary?.diajukan : 0}
           icon={FaCopy}
           label={"Diajukan"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-          number={countStatus ? countStatus.summary.disetujui : 0}
+          number={countStatus ? countStatus?.summary?.disetujui : 0}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
@@ -128,13 +128,14 @@ const PlanningExpKKKS = () => {
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={countStatus ? countStatus.summary.dikembalikan : 0}
+          number={countStatus ? countStatus?.summary?.dikembalikan : 0}
           label={"DIKEMBALIKAN"}
           bgIcon="red.100"
           iconColor="red.500"
           icon={MdOutlineVerified}
           subLabel="Pekerjaan Dikembalikan"
         />
+        
       </Flex>
       <Box my={6}>
         <ProposedWorkTable
