@@ -13,56 +13,56 @@ import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
 
-const CardFormWell = ({ onFormChange, unitType, errorForms,wellType }) => {
+const CardFormWell = ({ onFormChange, unitType, errorForms, wellType }) => {
   const [formData, setFormData] = useState({
     unit_type: unitType,
-    uwi: "",
-    field_id: "",
-    area_id: "",
-    kkks_id: "",
-    well_name: "",
-    alias_long_name: "",
-    well_type: "",
-    well_status: "Active",
-    well_profile_type: "",
-    hydrocarbon_target: "OIL",
-    environment_type: "",
-    surface_longitude: 0,
-    surface_latitude: 0,
-    bottom_hole_longitude: 0,
-    bottom_hole_latitude: 0,
-    maximum_inclination: 0,
-    azimuth: 0,
-    line_name: "",
-    spud_date: "",
-    final_drill_date: "",
-    completion_date: "",
-    rotary_table_elev: 0,
-    kb_elev: 0,
-    derrick_floor_elev: 0,
-    ground_elev: 0,
-    mean_sea_level: 0,
+    uwi: null,
+    field_id: null,
+    area_id: null,
+    kkks_id: null,
+    well_name: null,
+    alias_long_name: null,
+    well_type: null,
+    // well_status: "Active",
+    well_profile_type: null,
+    hydrocarbon_target: null,
+    environment_type: null,
+    surface_longitude:null,
+    surface_latitude:null,
+    bottom_hole_longitude:null,
+    bottom_hole_latitude:null,
+    maximum_inclination:null,
+    azimuth:null,
+    line_name: null,
+    spud_date: null,
+    final_drill_date: null,
+    completion_date: null,
+    rotary_table_elev:null,
+    kb_elev:null,
+    derrick_floor_elev:null,
+    ground_elev:null,
+    mean_sea_level:null,
     depth_datum: "RT",
-    kick_off_point: 0,
-    maximum_tvd: 0,
-    final_md: 0,
-    remark: "",
+    kick_off_point:null,
+    maximum_tvd:null,
+    final_md:null,
+    remark: null,
     well_trajectory: {
-      file_id: "",
+      file_id: null,
       data_format: "IMAGE",
     },
     well_ppfg: {
-      file_id: "",
+      file_id: null,
       data_format: "IMAGE",
     },
     well_logs: [
       {
-        file_id: "",
+        file_id: null,
         data_format: "IMAGE",
       },
     ],
     well_drilling_parameter: {
-      file_id: "",
+      file_id: null,
       data_format: "IMAGE",
     },
     well_documents: [],
@@ -70,8 +70,9 @@ const CardFormWell = ({ onFormChange, unitType, errorForms,wellType }) => {
     well_casing: [],
     well_stratigraphy: [],
     work_breakdown_structure: [],
+    well_directional_type: null,
   });
-  console.log(formData);
+  // console.log(formData);
 
   const [tableData, setTableData] = useState([]);
   const [currentEntry, setCurrentEntry] = useState({
@@ -79,14 +80,14 @@ const CardFormWell = ({ onFormChange, unitType, errorForms,wellType }) => {
     depth_datum: "RT",
     depth: 0,
     hole_diameter: 0,
-    bit: "",
+    bit: null,
     casing_outer_diameter: 0,
-    logging: "",
-    mud_program: "",
-    cementing_program: "",
+    logging: null,
+    mud_program: null,
+    cementing_program: null,
     bottom_hole_temperature: 0,
     rate_of_penetration: 0,
-    remarks: "",
+    remarks: null,
   });
 
   // console.log(currentEntry);
@@ -96,7 +97,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms,wellType }) => {
     unit_type: "Metrics",
     depth_datum: "RT",
     depth: 0,
-    stratigraphy_id: "",
+    stratigraphy_id: null,
   });
 
   useEffect(() => {
@@ -108,10 +109,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms,wellType }) => {
 
     let parsedValue;
     if (type === "number") {
-      // Konversi nilai menjadi string untuk melakukan operasi string seperti includes
       const stringValue = String(value);
-
-      // Cek apakah ada titik untuk memutuskan apakah itu float atau integer
       parsedValue =
         stringValue === ""
           ? ""
@@ -119,15 +117,26 @@ const CardFormWell = ({ onFormChange, unitType, errorForms,wellType }) => {
           ? parseFloat(stringValue)
           : parseInt(stringValue, 10);
     } else if (type === "text") {
-      parsedValue = value; // Tetap sebagai string
+      parsedValue = value;
     } else {
       parsedValue = value;
     }
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: parsedValue,
-    }));
+    setFormData((prevData) => {
+      // If well_profile_type is "VERTICAL", reset well_directional_type to null
+      if (name === "well_profile_type" && value === "VERTICAL") {
+        return {
+          ...prevData,
+          [name]: parsedValue,
+          well_directional_type: null,
+        };
+      }
+
+      return {
+        ...prevData,
+        [name]: parsedValue,
+      };
+    });
   }, []);
 
   const handleInputChange = useCallback((e) => {

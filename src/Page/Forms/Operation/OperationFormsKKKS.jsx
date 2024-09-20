@@ -10,20 +10,13 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import React from "react";
-import CardFormK3 from "../Components/CardFormK3";
-import FormControlCard from "../Components/FormControl";
-import { IconBrightness } from "@tabler/icons-react";
-import GridLayout from "../Layout/GridLayout";
-import { SelectComponent } from "../Components/SelectOption";
-import WRMUpdates from "./FormHandling/WRMUpdates";
-import WRMUissues from "./FormHandling/WRMUissues";
+
 import WRMRequirement from "./FormParent.jsx/WRMRequirement";
-import AreaWell from "./FormHandling/AreaWell";
-import WellProfile from "./FormHandling/WellProfile";
+
 import OperationalParent from "./FormParent.jsx/Operational";
 import Technical from "./FormParent.jsx/Technical";
 import DailyReport from "./FormParent.jsx/DailyReport";
-import TimeBreakdown from "./FormHandling/TimeBreakdown";
+
 import FinishOperation from "./FormParent.jsx/FinishOperation";
 import { useParams } from "react-router-dom";
 
@@ -54,7 +47,7 @@ const OperationFormsKKKS = () => {
               <Technical />
             </TabPanel>
             <TabPanel>
-              <DailyReport />
+              <DailyReport job_id={job_id}/>
             </TabPanel>
             <TabPanel>
               <FinishOperation />

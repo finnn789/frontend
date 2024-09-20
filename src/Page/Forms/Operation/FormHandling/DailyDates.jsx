@@ -90,6 +90,8 @@ const DailyDates = ({ handleChangeOfData }) => {
           <FormControlCard
             labelForm="Avg WOB"
             placeholder="Avg WOB"
+            type={"number"}
+            value={dataSetData.avg_wob}
             handleChange={handleChange("avg_wob", "number")}
           />
           <FormControlCard

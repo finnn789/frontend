@@ -107,13 +107,13 @@ const OperationExpKKKS = () => {
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={countStatus ? countStatus.summary.beroperasi : 0}
+          number={countStatus ? countStatus?.summary?.beroperasi : 0}
           icon={FaGear}
           label={"Beropeasi"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-          number={countStatus ? countStatus.summary.disetujui : 0}
+          number={countStatus ? countStatus?.summary?.disetujui : 0}
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
@@ -121,7 +121,7 @@ const OperationExpKKKS = () => {
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={countStatus ? countStatus.summary.selesai_beroperasi : 0}
+          number={countStatus ? countStatus?.summary?.selesai_beroperasi : 0}
           label={"SELESAI"}
           bgIcon="red.100"
           iconColor="red.500"
