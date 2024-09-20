@@ -162,45 +162,45 @@ const DailyDates = ({ handleChangeOfData }) => {
             inputRightOn={"Horse Power "}
             handleChange={handleChange("rig_power", "number")}
           />
-          {/* <FormControlCard
+          <FormControlCard
             labelForm="KB Elev"
             type={"text"}
             placeholder="KB Elev"
             handleChange={handleChange("kb_elev", "number")}
-          /> */}
-          {/* <FormControlCard
+          />
+          <FormControlCard
             labelForm="Current MD"
             type={"number"}
             placeholder="Current MD"
             handleChange={handleChange("current_md", "number")}
-          /> */}
-          {/* <FormControlCard
+          />
+          <FormControlCard
             labelForm="Progress MD"
             type={"text"}
             handleChange={handleChange("progress_md", "number")}
-          /> */}
-          {/* <FormControlCard labelForm="PTMD" type={"text"} /> */}
-          {/* <FormControlCard labelForm="Spud Date" type={"date"} /> */}
-          {/* <FormControlCard labelForm="Realease Date" type={"date"} /> */}
-          {/* <FormControlCard labelForm="Planned Days" type={"text"} /> */}
-          {/* <FormControlCard labelForm="Days from Spud" type={"date"} /> */}
+          />
+          <FormControlCard labelForm="PTMD" type={"text"} />
+          <FormControlCard labelForm="Spud Date" type={"date"} />
+          <FormControlCard labelForm="Realease Date" type={"date"} />
+          <FormControlCard labelForm="Planned Days" type={"text"} />
+          <FormControlCard labelForm="Days from Spud" type={"date"} />
         </CardFormK3>
 
         <CardFormK3 title="" padding="6px 12px" subtitle="" icon="">
-          {/* <FormControlCard labelForm="AFE Number" type={"text"} /> */}
-          {/* <FormControlCard labelForm="AFE Cost" type={"text"} /> */}
+          <FormControlCard labelForm="AFE Number" type={"text"} />
+          <FormControlCard labelForm="AFE Cost" type={"text"} />
           <FormControlCard
             labelForm="Daily Cost"
             type={"number"}
             handleChange={handleChange("daily_cost", "number")}
           />
-          {/* <FormControlCard labelForm="Cumulative Cost" type={"number"} handleChange={handleChange("cumulative_cost", "number")} /> */}
+          <FormControlCard labelForm="Cumulative Cost" type={"number"} handleChange={handleChange("cumulative_cost", "number")} />
           <FormControlCard
             labelForm="Daily Mud Cost"
             type={"number"}
             handleChange={handleChange("daily_mud_cost", "number")}
           />
-          {/* <FormControlCard labelForm="Cumulative Mud Cost" type={"number"}  handleChange={handleChange("cumulative_mud_cost", "number")}/> */}
+          <FormControlCard labelForm="Cumulative Mud Cost" type={"number"}  handleChange={handleChange("cumulative_mud_cost", "number")}/>
           <FormControlCard
             labelForm="Day Suprevisor"
             type={"number"}

@@ -10,7 +10,7 @@ import OperasiPengerjaan from "./Page/WorkPlanning/OperasiPengerjaan";
 import PPP from "./Page/WorkPlanning/PPP";
 import PengajuanPekerjaanForm from "./Page/Forms/PengajuaanPekerjaanForm";
 import PengajuanOperasiForm from "./Page/Forms/OperasiPengajuaanForm";
-import PlanningWows from "./Page/Forms/PlanningWows";
+
 import OperasiPengajuaanForm from "./Page/Forms/OperasiPengajuaanForm";
 import ProtectedRoute from "./Auth/ProtectedUser";
 import DashboardSKK from "./Page/PageSKK/DashboardKKS";
@@ -418,10 +418,7 @@ function App() {
       path: "/pengajuanoperasiform",
       element: <PengajuanOperasiForm />,
     },
-    {
-      path: "/pengajuanwowsform",
-      element: <PlanningWows />,
-    },
+    
     {
       path: "viewplanning/:id",
       element: <ViewPlanning />,

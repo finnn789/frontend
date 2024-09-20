@@ -42,7 +42,7 @@ export async function PostWellService(data) {
 export async function PostOperationReport(data) {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/job/daily-operation-reports/`,
+      `${import.meta.env.VITE_APP_URL}/job/daily-operations-reports/`,
       data,
       {
         headers: {

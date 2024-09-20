@@ -16,10 +16,11 @@ import {
   Text,
   Textarea,
   FormErrorMessage,
+  InputLeftAddon,
 } from "@chakra-ui/react";
 import { IconBriefcase } from "@tabler/icons-react";
 import { setDate } from "date-fns";
-import { getAreaID,GetFieldID } from "../../API/APIKKKS";
+import { getAreaID, GetFieldID } from "../../API/APIKKKS";
 
 const ProposedJob = ({
   onData,
@@ -31,8 +32,6 @@ const ProposedJob = ({
 }) => {
   const [areaid, setAreaID] = useState([]);
   const [fieldid, setFieldID] = useState([]);
-
-
 
   React.useEffect(() => {
     const GetAreaID = async () => {
@@ -58,11 +57,8 @@ const ProposedJob = ({
 
     getFieldID();
 
-    
     GetAreaID();
   }, []);
-
-  
 
   //  console.log(areaid);
   //  console.log(fieldid);
@@ -269,13 +265,15 @@ const ProposedJob = ({
   };
   const handleDateChange = (e) => {
     const { name, value, type } = e.target;
-  
+
     let processedValue;
-  
+
     // Validasi berdasarkan tipe
     if (type === "number") {
       // Cek apakah nilai berisi titik desimal (float) atau tidak (integer)
-      processedValue = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
+      processedValue = value.includes(".")
+        ? parseFloat(value)
+        : parseInt(value, 10);
     } else if (type === "text" || !type) {
       // Jika tipe adalah text atau tidak ada tipe, jadikan string
       processedValue = value;
@@ -283,14 +281,13 @@ const ProposedJob = ({
       // Default jika tidak dikenal
       processedValue = value;
     }
-  
+
     // Set state
     setDateChange((prev) => ({
       ...prev,
       [name]: processedValue,
     }));
   };
-  
 
   return (
     <Box borderWidth="1px" borderRadius="lg" p={6} fontFamily={"Montserrat"}>
@@ -374,16 +371,18 @@ const ProposedJob = ({
           </FormControl>
           <FormControl isInvalid={!!errorForms["total_budget"]}>
             <FormLabel>Total Budget</FormLabel>
-            <Input
-              name="total_budget"
-              
-              type="number"
-              onChange={handleDateChange}
-              placeholder="Total Budget"
-            />
-            {errorForms["total_budget"] && (
-              <FormErrorMessage>Total Budget is required</FormErrorMessage>
-            )}
+            <InputGroup>
+              <InputLeftAddon>USD</InputLeftAddon>
+              <Input
+                name="total_budget"
+                type="number"
+                onChange={handleDateChange}
+                placeholder="Total Budget"
+              />
+              {errorForms["total_budget"] && (
+                <FormErrorMessage>Total Budget is required</FormErrorMessage>
+              )}
+            </InputGroup>
           </FormControl>
         </HStack>
         <HStack spacing={4}>
