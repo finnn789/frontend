@@ -114,7 +114,7 @@ const DailyDates = ({ handleChangeOfData }) => {
           />
           <FormControlCard
             labelForm="Stand Pipe Press"
-            type={"text"}
+            type={"number"}
             placeholder="Stand Pipe Press"
             handleChange={handleChange("stand_pipe_pressure", "number")}
           />
@@ -189,8 +189,8 @@ const DailyDates = ({ handleChangeOfData }) => {
         </CardFormK3>
 
         <CardFormK3 title="" padding="6px 12px" subtitle="" icon="">
-          <FormControlCard labelForm="AFE Number" type={"text"} />
-          <FormControlCard labelForm="AFE Cost" type={"text"} />
+          <FormControlCard labelForm="AFE Number" type={"text"} handleChange={handleChange("afe_number", "number")} />
+          <FormControlCard labelForm="AFE Cost" type={"text"} handleChange={handleChange("afe_cost", "number")} />
           <FormControlCard
             labelForm="Daily Cost"
             type={"number"}
