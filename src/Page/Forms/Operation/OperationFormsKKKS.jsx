@@ -25,13 +25,15 @@ import Technical from "./FormParent.jsx/Technical";
 import DailyReport from "./FormParent.jsx/DailyReport";
 import TimeBreakdown from "./FormHandling/TimeBreakdown";
 import FinishOperation from "./FormParent.jsx/FinishOperation";
+import { useParams } from "react-router-dom";
 
 const OperationFormsKKKS = () => {
+  const { job_id } = useParams();
+
   return (
     <div>
-       
-        <Heading>+ Job Report</Heading>
-      
+      <Heading>+ Job Report</Heading>
+
       <Box mt={4} fontFamily={"Montserrat"}>
         <Tabs>
           <TabList>

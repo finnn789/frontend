@@ -369,3 +369,20 @@ export async function GetImageWellCasing(path) {
     return null;
   }
 }
+
+
+export async function GetDataWell(data){
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_APP_URL}${data}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      responseType: "blob", // Tambahkan ini untuk mendapatkan response sebagai blob
+    });
+    return response.data; // Mengembalikan blob dari gambar
+  } catch (error) {
+    console.error("Error Get Data Well", error);
+    return error;
+  }
+}
