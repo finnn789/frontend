@@ -49,8 +49,8 @@ const DailyReport = ({ job_id }) => {
     night_supervisor: 0,
     engineer: 0,
     geologist: 0,
-    day_summary: "string",
-    day_forecast: "string",
+    day_summary: "",
+    day_forecast: "",
     last_size: 0,
     set_md: 0,
     next_size: 0,
@@ -84,26 +84,26 @@ const DailyReport = ({ job_id }) => {
     kicktrip: "Y",
     kickdrill: "Y",
     fire: "Y",
-    job_id: "string",
+    job_id: "",
     personnel: [
       {
-        daily_operations_report_id: "string",
-        company: "string",
+        daily_operations_report_id: "",
+        company: "",
         people: 0,
       },
     ],
     Incidents: [
       {
-        daily_operations_report_id: "string",
+        daily_operations_report_id: "",
         incidents_time: "2024-09-15T13:07:01.717Z",
-        incident: "string",
-        incident_type: "string",
-        comments: "string",
+        incident: "",
+        incident_type: "",
+        comments: "",
       },
     ],
     time_breakdowns: [
       {
-        daily_operations_report_id: "string",
+        daily_operations_report_id: "",
         start_time: "13:07:01.717Z",
         end_time: "13:07:01.717Z",
         start_measured_depth: 0,
@@ -112,31 +112,31 @@ const DailyReport = ({ job_id }) => {
         p: "Y",
         npt: "NP",
         code: "(1) Rig Up and Tear Down",
-        operation: "string",
+        operation: "",
       },
     ],
     bit_records: [
       {
-        daily_operations_report_id: "string",
-        id: "string",
+        daily_operations_report_id: "",
+        id: "",
         bit_size: 0,
         bit_number: 0,
         bit_run: 0,
-        manufacturer: "string",
-        iadc_code: "string",
-        jets: "string",
-        serial: "string",
+        manufacturer: "",
+        iadc_code: "",
+        jets: "",
+        serial: "",
         depth_out: 0,
         depth_in: 0,
         meterage: 0,
         bit_hours: 0,
         nozzels: 0,
-        dull_grade: "string",
+        dull_grade: "",
       },
     ],
     bottom_hole_assemblies: [
       {
-        daily_operations_report_id: "string",
+        daily_operations_report_id: "",
         bha_number: 0,
         bha_run: 0,
         components: [
@@ -150,7 +150,7 @@ const DailyReport = ({ job_id }) => {
     ],
     drilling_fluids: [
       {
-        daily_operations_report_id: "string",
+        daily_operations_report_id: "",
         mud_type: "LIQUID",
         time: "2024-09-15T13:07:01.717Z",
         mw_in: 0,
@@ -183,22 +183,22 @@ const DailyReport = ({ job_id }) => {
     ],
     mud_additives: [
       {
-        daily_operations_report_id: "string",
-        mud_additive_type: "string",
+        daily_operations_report_id: "",
+        mud_additive_type: "",
         amount: 0,
       },
     ],
     bulk_materials: [
       {
-        material_type: "string",
-        material_name: "string",
-        material_uom: "string",
+        material_type: "",
+        material_name: "",
+        material_uom: "",
         received: 0,
         consumed: 0,
         returned: 0,
         adjust: 0,
         ending: 0,
-        daily_operations_report_id: "string",
+        daily_operations_report_id: "",
       },
     ],
     directional_surveys: [
@@ -206,7 +206,7 @@ const DailyReport = ({ job_id }) => {
         measured_depth: 0,
         inclination: 0,
         azimuth: 0,
-        daily_operations_report_id: "string",
+        daily_operations_report_id: "",
       },
     ],
     pumps: [
@@ -217,7 +217,7 @@ const DailyReport = ({ job_id }) => {
         pressure: 0,
         liner_size: 0,
         efficiency: 0,
-        daily_operations_report_id: "string",
+        daily_operations_report_id: "",
       },
     ],
     weather: [
@@ -230,9 +230,9 @@ const DailyReport = ({ job_id }) => {
         barometric_pressure: 0,
         wave_height: 0,
         wave_current_speed: 0,
-        road_condition: "string",
-        visibility: "string",
-        daily_operations_report_id: "string",
+        road_condition: "",
+        visibility: "",
+        daily_operations_report_id: "",
       },
     ],
   });
@@ -246,7 +246,7 @@ const DailyReport = ({ job_id }) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const handleChangeNoName = React.useCallback(
     (data) => {
@@ -266,12 +266,14 @@ const DailyReport = ({ job_id }) => {
     <>
       <CardFormK3 title="" subtitle="" icon={null}>
         <Flex padding={"2px 14px"}>
-          <Text fontSize="2xl"  fontWeight="bold" color="gray.700">
+          <Text fontSize="2xl" fontWeight="bold" color="gray.700">
             Daily Report
           </Text>
           <Spacer />
 
-          <Button colorScheme="teal" onClick={postData}>+ Update</Button>
+          <Button colorScheme="teal" onClick={postData}>
+            + Update
+          </Button>
         </Flex>
         <SimpleGrid columns={1} spacing={2}>
           <DailyDates handleChangeOfData={handleChangeNoName} />
@@ -282,16 +284,26 @@ const DailyReport = ({ job_id }) => {
           <MudAdditive
             handleChangeOfData={handleDataWithName("mud_additives")}
           />
-          <BottomHoleAssembly handleFormData={handleDataWithName("bottom_hole_assemblies")} />
-          <BitRecord handleChangeOfData={handleDataWithName("bit_records")} />
-          <CasingOps handleChangeOfData={handleDataWithName("casing_operations")} />
+          <BottomHoleAssembly
+            handleFormData={handleDataWithName("bottom_hole_assemblies")}
+          />
+          <BitRecord
+            handleChangeOfData={React.useCallback((data) => {
+              console.log(data), [];
+            })}
+          />
+          <CasingOps
+            handleChangeOfData={handleDataWithName("casing_operations")}
+          />
           <MudVolumes handleChangeOfData={handleChangeNoName} />
           <GasForm handleChangeOfData={handleChangeNoName} />
           <HydraulicAnalysisForm handleChangeOfData={handleChangeNoName} />
           <MaterialForm
             handleChangeOfData={handleDataWithName("bulk_materials")}
           />
-          <HealthSafety handleChangeDataIncident={handleDataWithName("Incidents")} />
+          <HealthSafety
+            handleChangeDataIncident={handleDataWithName("Incidents")}
+          />
           <DirectionalSurvey
             handleChangeOfData={handleDataWithName("directional_surveys")}
           />

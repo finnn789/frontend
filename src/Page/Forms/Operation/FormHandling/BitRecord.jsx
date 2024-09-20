@@ -35,7 +35,7 @@ const BitRecord = ({handleChangeOfData}) => {
   return (
     
       <CardFormK3 title="Bit Record" subtitle="BR">
-        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+        <Grid templateColumns="repeat(4, 1fr)" gap={4}>
           <GridItem>
             <FormControlCard
               labelForm="Daily Operations Report ID"

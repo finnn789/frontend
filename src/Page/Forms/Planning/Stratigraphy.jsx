@@ -30,13 +30,18 @@ import {
   IconCheck,
   IconX,
 } from "@tabler/icons-react";
+import { GetDataStratigraphy } from "../../API/APISKK";
 
 const Stratigraphy = ({
   setWellStratigraphy,
   unittype,
   errorForms,
+  codeAreaId,
   onData,
 }) => {
+
+  
+  const [stratInfo, setStratInfo] = useState(null);
   const [WellStratigraphy, setLocalWellStratigraphy] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [formData, setFormData] = useState({
@@ -112,6 +117,12 @@ const Stratigraphy = ({
     setLocalWellStratigraphy(updatedStratigraphy);
   };
 
+  React.useEffect(()=> {
+    GetDataStratigraphy(codeAreaId).then((res) => {
+      setStratInfo(res)
+    })
+  }, [codeAreaId])
+  // console.log(stratInfo)
   return (
     <Grid
       templateColumns="repeat(2, 1fr)"
@@ -166,17 +177,18 @@ const Stratigraphy = ({
                     name="stratigraphy_id"
                     value={formData.stratigraphy_id}
                     onChange={handleInputChange}
-                    placeholder="Stratigraphy"
+                    placeholder="Select Area ID First"
+                    isDisabled={codeAreaId === "" ? true : false}
+                    
                   >
-                    <option value="LITHOSTRATIGRAPHIC">
-                      LITHOSTRATIGRAPHIC
-                    </option>
-                    <option value="CHRONOSTRATIGRAPHIC">
-                      CHRONOSTRATIGRAPHIC
-                    </option>
-                    <option value="OTHER">OTHER</option>
-                    <option value="RADIOMETRIC">RADIOMETRIC</option>
-                    <option value="BIOSTRATIGRAPHIC">BIOSTRATIGRAPHIC</option>
+                    {stratInfo?.map((item,index)=> {
+                      return(
+                        <option key={index} value={item.id}>
+                          {item.strat_unit_info}
+                        </option>
+                      )
+                    })}
+                    
                   </Select>
                 </FormControl>
               </GridItem>

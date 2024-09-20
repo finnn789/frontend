@@ -370,8 +370,7 @@ export async function GetImageWellCasing(path) {
   }
 }
 
-
-export async function GetDataWell(data){
+export async function GetDataWell(data) {
   try {
     const response = await axios.get(`${import.meta.env.VITE_APP_URL}${data}`, {
       headers: {
@@ -384,5 +383,23 @@ export async function GetDataWell(data){
   } catch (error) {
     console.error("Error Get Data Well", error);
     return error;
+  }
+}
+export async function GetDataStratigraphy(area_id) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/spatial/api/strat-units/${area_id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data View Planning", error);
+    return null;
   }
 }

@@ -13,7 +13,7 @@ import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
 
-const CardFormWell = ({ onFormChange, unitType, errorForms, wellType }) => {
+const CardFormWell = ({ onFormChange, unitType, errorForms, wellType,area_id }) => {
   const [formData, setFormData] = useState({
     unit_type: unitType,
     uwi: null,
@@ -277,6 +277,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms, wellType }) => {
         errorForms={errorForms}
       />
       <Stratigraphy
+        codeAreaId={area_id}
         setWellStratigraphy={setWellStratigraphy}
         WellStratigraphy={WellStratigraphy}
         handleInputChangeWellStraigraphy={handleInputChangeWellStraigraphy}
