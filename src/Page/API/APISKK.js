@@ -386,3 +386,41 @@ export async function GetDataWell(data){
     return error;
   }
 }
+
+
+export async function patchWRM(actual_exploration_id, formData) {
+  try {
+    const response = await axios.patch(
+      `${import.meta.env.VITE_APP_URL}/job/actual-exploration/${actual_exploration_id}?exploration_id=${actual_exploration_id}`,
+      formData, // Mengirim formData dalam body
+      {
+        headers: {
+          "Content-Type": "application/json", // Pastikan menggunakan JSON
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating WRM data", error);
+    return null;
+  }
+}
+
+
+export async function getWRMData(job_id) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/job/jobs/${job_id}/wrm`,
+      // {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+      //   },
+      // }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data getWRMData", error);
+    return null;
+  }
+}
