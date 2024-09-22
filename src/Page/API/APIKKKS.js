@@ -85,6 +85,7 @@ export async function GetWellStratigrapyh() {
         },
       }
     );
+    console.log("data berhasil ditambahkan coy", response.data);
     return response.data;
   } catch (error) {
     console.error("Error get Data Well", error);
@@ -109,3 +110,16 @@ export async function GetCodeTimeBreakDown() {
     throw error.response;
   }
 }
+
+// ANCHOR: GET WRM Issues
+export const getWRMIssues = async (jobId) => {
+  return await axios.get(
+    `${import.meta.env.VITE_APP_URL}/job/job-issues/${jobId}`,
+    {
+      headers: {
+        'Accept': 'application/json',
+      },
+    }
+  );
+};
+

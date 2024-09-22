@@ -38,7 +38,7 @@ const OperationFormsKKKS = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <WRMRequirement />
+              <WRMRequirement job_id={job_id} />
             </TabPanel>
             <TabPanel>
               <OperationalParent />
