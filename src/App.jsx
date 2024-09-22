@@ -171,10 +171,11 @@ function App() {
           ),
         },
         {
-          path: "operationform",
+          path: "operationform/:job_id",
           element: (
             <ProtectedRoute
-              element={<PlanDevelopmentForm />}
+
+              element={<OperationFormsKKKS />}
               allowedRoles={["KKKS"]}
             />
           ),

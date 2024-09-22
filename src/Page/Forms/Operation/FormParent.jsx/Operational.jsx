@@ -6,6 +6,7 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import HazardType from "../FormHandling/HazardType";
 import JobDocuments from "../../Planning/JobDocuments";
 const OperationalParent = () => {
+
   return (
     <>
       <Grid gap={2} >
