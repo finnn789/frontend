@@ -83,10 +83,10 @@ const DailyDates = ({ handleChangeOfData }) => {
           <Box key={index}>
             <SimpleButton
               isActive={date === dateNow}
-              onClick={() => setDateNow(date)}
-              colorScheme="gray"
+              onClick={() => setDateNow(date.date)}
+              colorScheme={date.color}
               key={index}
-              title={date}
+              title={date.date}
             />
           </Box>
         ))}

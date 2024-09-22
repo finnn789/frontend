@@ -134,4 +134,16 @@ export async function GetDateJobInstances(job_instance_id) {
     }
   )
 }
+export async function GetBHAEnum() {
+  return await axios.get(
+    `${import.meta.env.VITE_APP_URL}/job/bha/pyenum`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  )
+}
+
 

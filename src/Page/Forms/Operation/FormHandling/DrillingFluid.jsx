@@ -14,6 +14,8 @@ import {
 import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
+import FormControlDateTime from "../../Components/FormControlDateTime";
+import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 
 const DrillingFluid = ({ handleChangeOfData }) => {
   const [tableData, setTableData] = useState([]);
@@ -171,10 +173,17 @@ const DrillingFluid = ({ handleChangeOfData }) => {
               <FormControlCard
                 labelForm="Time"
                 placeholder="Time"
-                type="time"
+                type="datetime-local"
+                max="999"
+                min="0"
+                step="1"
                 value={formData.time}
                 handleChange={handleChangeData("time", "text")}
               />
+              <SelectComponent onChange={handleChangeData("mud_type")}>
+                <SelectOption label={"LIQUID"} value={"LIQUID"} />
+                <SelectOption label={"DRY"} value={"DRY"} />
+              </SelectComponent>
             </GridItem>
 
             <GridItem>

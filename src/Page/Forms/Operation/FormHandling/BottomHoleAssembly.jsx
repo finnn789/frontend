@@ -3,6 +3,7 @@ import { Box, Button, Flex, Grid, GridItem, IconButton, Input } from "@chakra-ui
 import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 import { IconTrash } from "@tabler/icons-react";
+import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 
 const BottomHoleAssembly = ({ handleFormData }) => {
   const [formData, setFormData] = React.useState({
@@ -85,6 +86,10 @@ const BottomHoleAssembly = ({ handleFormData }) => {
                     value={comp.component || ""}
                     onChange={handleInputChange("component", index)}
                   />
+
+                  <SelectComponent onChange={handleInputChange("component", index)}>
+                      <SelectOption label="Select Component" />
+                  </SelectComponent>
                   <Input
                     placeholder="Outer Diameter"
                     type="number"
