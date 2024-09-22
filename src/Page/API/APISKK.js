@@ -407,10 +407,10 @@ export async function patchWRM(actual_exploration_id, formData) {
 }
 
 
-export async function getWRMData(job_id) {
+export async function getWRMData(job_id, model_type) {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_APP_URL}/job/jobs/${job_id}/wrm`,
+      `${import.meta.env.VITE_APP_URL}/job/wrm-data/${job_id}?model_type=${model_type}`,
       // {
       //   headers: {
       //     "Content-Type": "application/json",

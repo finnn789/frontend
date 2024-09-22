@@ -45,7 +45,7 @@ const WRMUpdates = () => {
 
     setLoading(true); // Set status loading menjadi true
     try {
-      const response = await getWRMData(actualExplorationId); // Memanggil fungsi getWRMData dari file lain
+      const response = await getWRMData(actualExplorationId, 'exploration'); // Memanggil fungsi getWRMData dari file lain
       if (response) {
         setValues(response); // Set data respons ke state
       } else {
