@@ -9,6 +9,7 @@ import Footer from "../../PageKKKS/Components/Card/Footer";
 // import HeaderCard from "../Components/Card/HeaderCard";
 import { getTableKKKS } from "../../API/APIKKKS";
 import { Link } from "react-router-dom";
+import { IconClipboardList, IconClipboardCheck, IconClipboardOff , IconSquareRoundedPlus} from '@tabler/icons-react'
 const PlanningExpKKKS = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
@@ -23,7 +24,6 @@ const PlanningExpKKKS = () => {
 
   const headerstable1 = [
     "NO.",
-    "KKKS",
     "LAPANGAN",
     "WILAYAH KERJA",
     "NAMA SUMUR",
@@ -33,40 +33,6 @@ const PlanningExpKKKS = () => {
     "AKSI",
   ];
 
-  const data = [
-    {
-      id: 1,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "PROPOSED",
-    },
-    {
-      id: 2,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "APPROVED",
-    },
-    {
-      id: 3,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "RETURNED",
-    },
-    // Add more data as needed
-  ];
-
   const actionButtonRender = () => {
     return(
       <Button
@@ -74,7 +40,9 @@ const PlanningExpKKKS = () => {
         variant="solid"
         size="md"
         as={Link}
-        to={"/dashboard/planning/form"}>
+        to={"/dashboard/planning/form"}
+        leftIcon={<IconSquareRoundedPlus />}
+      >
           Ajukan Pengajuan
         </Button>
     )
@@ -115,13 +83,13 @@ const PlanningExpKKKS = () => {
       <Flex gap={6}>
         <PerhitunganCard
           number={countStatus ? countStatus?.summary?.diajukan : 0}
-          icon={FaCopy}
+          icon={IconClipboardList}
           label={"Diajukan"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
           number={countStatus ? countStatus?.summary?.disetujui : 0}
-          icon={FaCheck}
+          icon={IconClipboardCheck}
           bgIcon="green.100"
           iconColor="green.500"
           label={"DISETUJUI"}
@@ -132,7 +100,7 @@ const PlanningExpKKKS = () => {
           label={"DIKEMBALIKAN"}
           bgIcon="red.100"
           iconColor="red.500"
-          icon={MdOutlineVerified}
+          icon={IconClipboardOff}
           subLabel="Pekerjaan Dikembalikan"
         />
         
@@ -148,7 +116,6 @@ const PlanningExpKKKS = () => {
             countStatus.job_details.map((row, index) => (
               <Tr key={row.id}>
                 <Td>{index + 1}</Td>
-                <Td>{row.KKKS}</Td>
                 <Td>{row.LAPANGAN}</Td>
                 <Td>{row["WILAYAH KERJA"]}</Td>
                 <Td>{row['NAMA SUMUR']}</Td>

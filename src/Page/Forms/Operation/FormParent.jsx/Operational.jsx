@@ -1,10 +1,8 @@
-import React from "react";
 import AreaWell from "../FormHandling/AreaWell";
 import WellProfile from "../FormHandling/WellProfile";
-import GridLayout from "../../Layout/GridLayout";
 import WorkBreakdown from "../FormHandling/WorkBreakdown";
 import JobOperationDays from "../FormHandling/JobOperationDays";
-import { Grid, GridItem, HStack } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import HazardType from "../FormHandling/HazardType";
 import JobDocuments from "../../Planning/JobDocuments";
 const OperationalParent = () => {

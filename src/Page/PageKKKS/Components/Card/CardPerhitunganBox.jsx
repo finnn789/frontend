@@ -12,30 +12,30 @@ const PerhitunganCard = ({
   iconColor = "blue.500",
 }) => {
   return (
-    <Box bg="white" boxShadow="md" borderRadius="2xl" p={4} width={"100%"}>
+    <Box bg="white" boxShadow="md" borderRadius="2xl" p={4} width={"100%"} fontFamily={"Montserrat"}>
       <Flex alignItems="center" mb={2} gap={5}>
-        <Flex borderRadius="full" bg={bgIcon} p={4} mr={2}>
-          <Icon as={icon} boxSize={10} color={iconColor} />
+        <Flex borderRadius="full" bg={bgIcon} p={6} mr={2}>
+          <Icon as={icon} boxSize={16} color={iconColor} />
         </Flex>
         <Flex flexDirection={"column"}>
           <Text
-            fontSize="1.5rem"
+            fontSize="2.5rem"
             color={"gray.600"}
             fontWeight="bold"
             lineHeight="1"
           >
             {number}
           </Text>
-          <Text fontSize="28px" fontWeight="medium" textTransform={"uppercase"} color="gray.500">
+          <Text fontSize="1.5rem" fontWeight="600" textTransform={"uppercase"} color="gray.500">
             {label}
           </Text>
+          <Text fontSize="md" color="gray.500">
+        {subLabel}
+      </Text>
         </Flex>
       </Flex>
       <Flex gap={4}>
       {percentage}
-      <Text fontSize="xl" color="gray.500">
-        {subLabel}
-      </Text>
       </Flex>
     </Box>
   );

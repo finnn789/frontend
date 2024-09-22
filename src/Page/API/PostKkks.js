@@ -113,3 +113,24 @@ export const updateJobIssue = async (issueId, data) => {
     console.error("Error updating job issue", error);
   }
 };
+
+// ANCHOR PATCH STATUS OPERATION TO OPERATE
+
+export const patchStatusOperationToOperate = async (jod_id) => {
+  try {
+    const response = await axios.patch(
+      `${import.meta.env.VITE_APP_URL}/job/operations/operate/${jod_id}`,
+      [],
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating job issue", error);
+    console.log("token", localStorage.getItem("token"));
+  }
+}
