@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CardFormK3 from "../../Components/CardFormK3";
 import GridLayout from "../../Layout/GridLayout";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 import { IconBrightness } from "@tabler/icons-react";
-import { patchWRM, getWRMData } from "../../../../Page/API/APISKK"; // Memanggil kedua fungsi dari file lain
-import { Input, Button } from "@chakra-ui/react"; // Pastikan Chakra UI digunakan untuk Input dan Button
+import { patchWRM, getWRMData } from "../../../../Page/API/APISKK";
+import {
+  Button,
+  Spinner,
+  Center,
+  useToast,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 
-const WRMUpdates = () => {
-  const [actualExplorationId, setActualExplorationId] = useState(""); // State untuk actual_exploration_id
-  const [values, setValues] = useState(null); // Inisialisasi dengan null agar lebih mudah dalam pengecekan
+const WRMUpdates = ({ job_actual }) => {
+  const [values, setValues] = useState(null); // State untuk menyimpan data WRM yang diambil dari API
   const [loading, setLoading] = useState(false); // State untuk status loading
+  const toast = useToast(); // Inisialisasi toast Chakra UI
+
+  // State kontrol untuk AlertDialog
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
 
   const ValueOption = [
     { value: "100%", label: "100%" },
@@ -34,31 +50,34 @@ const WRMUpdates = () => {
     { value: "5%", label: "5%" },
     { value: "0%", label: "0%" },
   ];
+
+  console.log("dari wrmupdates", job_actual);
   
+  // Fetch WRM data saat komponen di-load berdasarkan job_actual
+  useEffect(() => {
+    if (job_actual) {
+      const fetchData = async () => {
+        setLoading(true); // Set status loading menjadi true
+        try {
+          const response = await getWRMData(job_actual, "exploration"); // Memanggil fungsi getWRMData dari file lain
+          if (response) {
+            setValues(response); // Set data respons ke state
+          } else {
+            setValues(null); // Jika respons tidak valid, set values ke null
+          }
+        } catch (error) {
+          console.error("Error fetching WRM data", error);
+          setValues(null); // Set nilai default jika error
+        } finally {
+          setLoading(false); // Selesai loading
+        }
+      };
 
-  // Fungsi untuk memulai pengambilan data WRM setelah actual_exploration_id dimasukkan
-  const handleFetchData = async () => {
-    if (!actualExplorationId) {
-      console.error("actual_exploration_id is required");
-      return;
+      fetchData();
     }
+  }, [job_actual]);
 
-    setLoading(true); // Set status loading menjadi true
-    try {
-      const response = await getWRMData(actualExplorationId, 'exploration'); // Memanggil fungsi getWRMData dari file lain
-      if (response) {
-        setValues(response); // Set data respons ke state
-      } else {
-        setValues(null); // Jika respons tidak valid, set values ke null
-      }
-    } catch (error) {
-      console.error("Error fetching WRM data", error);
-      setValues(null); // Set nilai default jika error
-    } finally {
-      setLoading(false); // Selesai loading, set menjadi false
-    }
-  };
-
+  // Handle perubahan pada select
   const handleSelectChange = (name) => (e) => {
     const newValue = e.target.value;
     setValues((prevValues) => ({
@@ -67,41 +86,48 @@ const WRMUpdates = () => {
     }));
   };
 
+  // Fungsi untuk submit data ke patch WRM
   const handleSubmit = async () => {
-    if (!actualExplorationId) {
-      console.error("actual_exploration_id and exploration_id are required");
+    if (!job_actual) {
+      console.error("job_actual is required");
       return;
     }
 
     try {
-      const response = await patchWRM(actualExplorationId, values); // Mengirim data state `values` ke patchWRM
+      const response = await patchWRM(job_actual, values); // Mengirim data state `values` ke patchWRM
       console.log("Data updated successfully", response);
+      toast({
+        title: "WRM Data Updated",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      onClose(); // Tutup AlertDialog setelah submit
     } catch (error) {
       console.error("Failed to update data", error);
     }
   };
+
+  // Fungsi untuk membuka dialog konfirmasi submit
+  const handleOpenSubmitDialog = () => {
+    onOpen(); // Membuka AlertDialog
+  };
+
+  // Jika sedang loading, tampilkan spinner
+  if (loading) {
+    return (
+      <Center mt={4}>
+        <Spinner size="xl" color="blue.500" />
+      </Center>
+    );
+  }
 
   return (
     <div>
       <CardFormK3 title={"WRM Updates"} icon={IconBrightness} subtitle="WRM">
         <GridLayout Columns={1} Gap={2}>
           <GridLayout.Item>
-            {/* Input untuk memasukkan actual_exploration_id */}
-            <Input
-              placeholder="Enter actual_exploration_id"
-              value={actualExplorationId}
-              onChange={(e) => setActualExplorationId(e.target.value)}
-              mb={4} // Margin bottom untuk memberi ruang sebelum elemen lain
-            />
-            {/* Input untuk memasukkan exploration_id */}
-            {/* Tombol untuk mengambil data */}
-            <Button onClick={handleFetchData} colorScheme="blue" mb={4}>
-              Fetch WRM Data
-            </Button>
-
-            {loading && <div>Loading...</div>}
-
-            {values && !loading && (
+            {values && (
               <>
                 <SelectComponent
                   label="Pembebasan Lahan"
@@ -244,11 +270,39 @@ const WRMUpdates = () => {
               </>
             )}
 
-            <Button onClick={handleSubmit} colorScheme="green" mt={4}>
+            <Button onClick={handleOpenSubmitDialog} colorScheme="green" mt={4}>
               Submit Updates
             </Button>
           </GridLayout.Item>
         </GridLayout>
+
+        {/* AlertDialog untuk konfirmasi submit */}
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Confirm Submit
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                Are you sure you want to submit these updates? This action cannot be undone.
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button colorScheme="green" onClick={handleSubmit} ml={3}>
+                  Submit
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
       </CardFormK3>
     </div>
   );

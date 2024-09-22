@@ -1,20 +1,30 @@
-import React, { useState, useEffect } from "react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useDisclosure, // Untuk mengontrol alert dialog
+} from "@chakra-ui/react";
+import { useRef, useState, useEffect } from "react";
 import CardFormK3 from "../../Components/CardFormK3";
 import GridLayout from "../../Layout/GridLayout";
 import FormControlCard from "../../Components/FormControl";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 import TableComponent from "../../Components/TableComponent";
-import { Button } from "@chakra-ui/react";
+import { Button, Badge } from "@chakra-ui/react"; // Import Badge dari Chakra UI
 import { createJobIssue, updateJobIssue } from "../../../../Page/API/PostKkks";
 import { getWRMIssues } from "../../../../Page/API/APIKKKS";
-import { useToast } from '@chakra-ui/react';
+import { useToast } from "@chakra-ui/react";
 
 const WRMUissues = ({ job_id }) => {
   const toast = useToast(); // Inisialisasi toast Chakra UI
+  const cancelRef = useRef(); // Referensi untuk cancel button
+  const { isOpen, onOpen, onClose } = useDisclosure(); // State kontrol alert dialog untuk Resolve
+  const { isOpen: isCreateOpen, onOpen: onCreateOpen, onClose: onCreateClose } = useDisclosure(); // State kontrol untuk Create Issue
 
-  // Ambil job_id dari objek parameter
-  const jobIdValue = job_id?.job_id || ""; // Ambil nilai job_id dari objek
-
+  const [selectedIssue, setSelectedIssue] = useState(null); // Issue yang dipilih untuk resolve
   const [issues, setIssues] = useState([]); // Menyimpan data issues yang diambil dari API
   const [loading, setLoading] = useState(false); // Menyimpan status loading
   const [formValues, setFormValues] = useState({
@@ -30,24 +40,70 @@ const WRMUissues = ({ job_id }) => {
   const HIGH_SEVERITY = "HIGH";
   const CRITICAL_SEVERITY = "CRITICAL";
 
+  const jobIdValue = job_id?.job_id || ""; // Ambil nilai job_id dari props
+
   // Kolom tabel
   const columns = [
     { Head: "No", accessor: "no" }, // Menambahkan nomor urut
     { Head: "Date", accessor: "date_time" },
     { Head: "Severity", accessor: "severity" },
     { Head: "Description", accessor: "description" },
-    { Head: "Status", accessor: "resolved", render: (row) => (row.resolved ? "Resolved" : "Unresolved") },
     {
-      Head: "Aksi",
-      render: (row, index) => (
-        !row.resolved && ( // Jika status "resolved" adalah false, maka tampilkan tombol "Resolve"
-          <Button colorScheme="blue" onClick={() => handleResolveIssue(row)}>
-            Resolve
-          </Button>
-        )
+      Head: "Status",
+      render: (row) => (
+        <Badge colorScheme={row.resolved ? "green" : "red"} px={5} py={2} rounded={"md"} fontSize='md'>
+          {row.resolved ? "RESOLVED" : "ISSUE"}
+        </Badge>
       ),
     },
+    {
+      Head: "Aksi",
+      render: (row, index) =>
+        !row.resolved && (
+          // Jika status "resolved" adalah false, maka tampilkan tombol "Resolve"
+          <Button colorScheme="blue" onClick={() => handleOpenResolveDialog(row)}>
+            Resolve
+          </Button>
+        ),
+    },
   ];
+
+  // Fungsi untuk membuka dialog konfirmasi resolve
+  const handleOpenResolveDialog = (issue) => {
+    setSelectedIssue(issue); // Simpan issue yang dipilih
+    onOpen(); // Buka AlertDialog
+  };
+
+  // Fungsi untuk menangani aksi resolve (PATCH)
+  const handleConfirmResolve = async () => {
+    try {
+      if (selectedIssue) {
+        const updatedIssue = {
+          resolved: true, // Set resolved menjadi true
+          resolved_date_time: new Date().toISOString(), // Set waktu resolved ke waktu saat ini
+        };
+        await updateJobIssue(selectedIssue.id, updatedIssue); // Memanggil endpoint PATCH dengan id issue
+        toast({
+          title: "Issue Resolved",
+          description: `Issue with ID ${selectedIssue.id} has been resolved.`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        fetchIssues(); // Ambil ulang data setelah issue diupdate
+      }
+      onClose(); // Tutup dialog
+    } catch (error) {
+      console.error("Error resolving issue", error);
+      toast({
+        title: "Error",
+        description: "Failed to resolve issue.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
 
   // Fungsi untuk mengambil data issues dari API
   const fetchIssues = async () => {
@@ -85,8 +141,13 @@ const WRMUissues = ({ job_id }) => {
     console.log(`${name} changed to:`, newValue); // Tampilkan perubahan input ke console
   };
 
+  // Fungsi untuk membuka dialog konfirmasi sebelum membuat issue baru
+  const handleOpenCreateDialog = () => {
+    onCreateOpen(); // Buka AlertDialog
+  };
+
   // Fungsi untuk mengirim data baru (POST)
-  const handleCreateIssue = async () => {
+  const handleConfirmCreateIssue = async () => {
     try {
       if (!jobIdValue) {
         console.error("Job ID is missing.");
@@ -95,9 +156,9 @@ const WRMUissues = ({ job_id }) => {
 
       const newIssue = {
         ...formValues,
-        job_id: jobIdValue, 
+        job_id: jobIdValue,
         date_time: new Date().toISOString(),
-        resolved: false, 
+        resolved: false,
         resolved_date_time: null,
       };
 
@@ -106,36 +167,9 @@ const WRMUissues = ({ job_id }) => {
       const response = await createJobIssue(newIssue, toast); // Memanggil fungsi createJobIssue dengan data baru dan toast
       console.log("Job issue created:", response); // Log hasil respons dari createJobIssue
       fetchIssues(); // Ambil ulang data setelah issue dibuat
+      onCreateClose(); // Tutup dialog
     } catch (error) {
       console.error("Error creating job issue", error);
-    }
-  };
-
-  // Fungsi untuk menangani aksi resolve (PATCH)
-  const handleResolveIssue = async (issue) => {
-    try {
-      const updatedIssue = {
-        resolved: true, // Set resolved menjadi true
-        resolved_date_time: new Date().toISOString(), // Set waktu resolved ke waktu saat ini
-      };
-      await updateJobIssue(issue.id, updatedIssue); // Memanggil endpoint PATCH dengan id issue
-      toast({
-        title: "Issue Resolved",
-        description: `Issue with ID ${issue.id} has been resolved.`,
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-      fetchIssues(); // Ambil ulang data setelah issue diupdate
-    } catch (error) {
-      console.error("Error resolving issue", error);
-      toast({
-        title: "Error",
-        description: "Failed to resolve issue.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
     }
   };
 
@@ -168,7 +202,7 @@ const WRMUissues = ({ job_id }) => {
             value={formValues.description}
             onChange={handleInputChange("description")}
           />
-          <Button colorScheme="green" onClick={handleCreateIssue}>
+          <Button colorScheme="green" onClick={handleOpenCreateDialog}>
             Create Issue
           </Button>
         </GridLayout.Item>
@@ -179,6 +213,62 @@ const WRMUissues = ({ job_id }) => {
       ) : (
         <TableComponent headers={columns} data={issuesWithNumbers} headerKey="Head" />
       )}
+
+      {/* AlertDialog untuk Resolve */}
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Resolve Issue
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to resolve this issue? This action cannot be undone.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="blue" onClick={handleConfirmResolve} ml={3}>
+                Resolve
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
+      {/* AlertDialog untuk Create Issue */}
+      <AlertDialog
+        isOpen={isCreateOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onCreateClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Create New Issue
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to create this issue? This action cannot be undone.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onCreateClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="green" onClick={handleConfirmCreateIssue} ml={3}>
+                Create
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </CardFormK3>
   );
 };
