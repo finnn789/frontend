@@ -3,7 +3,7 @@ import ProposedWorkTable from "./ProposedWork";
 import { Box, Badge, Flex, Text, Tr, Td, Button, Icon } from "@chakra-ui/react";
 import PerhitunganCard from "../../PageKKKS/Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck, FaPen } from "react-icons/fa";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../../PageKKKS/Components/Card/Footer";
@@ -21,7 +21,7 @@ const OperationExpKKKS = () => {
   React.useEffect(() => {
     const getData = async () => {
       const data = await getTableKKKS("exploration", "operation");
-      console.log(data.data)
+      console.log(data.data);
       setCountStatus(data.data);
     };
     getData();
@@ -143,7 +143,7 @@ const OperationExpKKKS = () => {
                 <Td>{row.KKKS}</Td>
                 <Td>{row.LAPANGAN}</Td>
                 <Td>{row["WILAYAH KERJA"]}</Td>
-                <Td>{row['NAMA SUMUR']}</Td>
+                <Td>{row["NAMA SUMUR"]}</Td>
                 <Td>{row["RENCANA MULAI"]}</Td>
                 <Td>{row["RENCANA SELESAI"]}</Td>
                 <Td>
@@ -157,10 +157,10 @@ const OperationExpKKKS = () => {
                     mr={2}
                     as={Link}
                     to={`/dashboard/operasiform/${row.id}`}
+                    state={{ job_plan_ld: row.JOB_PLAN_ID }}
                   >
                     Update
                   </Button>
-                  
                 </Td>
               </Tr>
             ))

@@ -123,3 +123,15 @@ export const getWRMIssues = async (jobId) => {
   );
 };
 
+export async function GetDateJobInstances(job_instance_id) {
+  return await axios.get(
+    `${import.meta.env.VITE_APP_URL}/job/job-instances/${job_instance_id}/dates`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  )
+}
+

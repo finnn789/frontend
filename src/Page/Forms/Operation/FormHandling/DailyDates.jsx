@@ -4,8 +4,22 @@ import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import SimpleButton from "../../Components/SimpleButton";
 import FormControlCard from "../../Components/FormControl";
 import CardFormK3 from "../../Components/CardFormK3";
+import { GetDateJobInstances } from "../../../API/APIKKKS";
+import { useLocation } from "react-router-dom";
+import { dates } from "./Dates";
+
 const DailyDates = ({ handleChangeOfData }) => {
+  let location = useLocation();
+  const { job_plan_ld } = location.state;
+  const date = dates();
+
+  console.log(date);
+  
   const [dateNow, setDateNow] = useState("");
+
+  const [dateDataJobPlan, setDateDataJobPlan] = useState([]);
+  
+  
 
   const [dataSetData, setDataSetData] = useState({
     report_date: null,
@@ -28,7 +42,15 @@ const DailyDates = ({ handleChangeOfData }) => {
   });
   // console.log(dataSetData);
 
+  React.useEffect(()=> {
+    GetDateJobInstances(job_plan_ld).then((res) => {
+      setDateDataJobPlan(res.data);
+    });
+
+  },[job_plan_ld])
+
   React.useEffect(() => {
+    
     setDataSetData((prevData) => ({
       ...prevData,
       report_date: dateNow,
@@ -53,24 +75,18 @@ const DailyDates = ({ handleChangeOfData }) => {
     [setDataSetData]
   );
 
-  const dates = Array.from({ length: 12 }, (_, index) => {
-    const date = new Date(2024, 8, index + 1); // 8 untuk bulan September (index dimulai dari 0)
-    return {
-      date: date.toISOString().split("T")[0], // Format YYYY-MM-DD
-      day: date.toLocaleString("en-US", { weekday: "long" }), // Nama hari
-    };
-  });
+  //   x
   return (
     <>
       <SimpleGrid width={"100%"} columns={10} spacing={2}>
-        {dates.map((date, index) => (
+        {dateDataJobPlan.map((date, index) => (
           <Box key={index}>
             <SimpleButton
-              isActive={date.date === dateNow}
-              onClick={() => setDateNow(date.date)}
+              isActive={date === dateNow}
+              onClick={() => setDateNow(date)}
               colorScheme="gray"
               key={index}
-              title={date.date}
+              title={date}
             />
           </Box>
         ))}
@@ -189,20 +205,36 @@ const DailyDates = ({ handleChangeOfData }) => {
         </CardFormK3>
 
         <CardFormK3 title="" padding="6px 12px" subtitle="" icon="">
-          <FormControlCard labelForm="AFE Number" type={"text"} handleChange={handleChange("afe_number", "number")} />
-          <FormControlCard labelForm="AFE Cost" type={"text"} handleChange={handleChange("afe_cost", "number")} />
+          <FormControlCard
+            labelForm="AFE Number"
+            type={"text"}
+            handleChange={handleChange("afe_number", "number")}
+          />
+          <FormControlCard
+            labelForm="AFE Cost"
+            type={"text"}
+            handleChange={handleChange("afe_cost", "number")}
+          />
           <FormControlCard
             labelForm="Daily Cost"
             type={"number"}
             handleChange={handleChange("daily_cost", "number")}
           />
-          <FormControlCard labelForm="Cumulative Cost" type={"number"} handleChange={handleChange("cumulative_cost", "number")} />
+          <FormControlCard
+            labelForm="Cumulative Cost"
+            type={"number"}
+            handleChange={handleChange("cumulative_cost", "number")}
+          />
           <FormControlCard
             labelForm="Daily Mud Cost"
             type={"number"}
             handleChange={handleChange("daily_mud_cost", "number")}
           />
-          <FormControlCard labelForm="Cumulative Mud Cost" type={"number"}  handleChange={handleChange("cumulative_mud_cost", "number")}/>
+          <FormControlCard
+            labelForm="Cumulative Mud Cost"
+            type={"number"}
+            handleChange={handleChange("cumulative_mud_cost", "number")}
+          />
           <FormControlCard
             labelForm="Day Suprevisor"
             type={"number"}
@@ -225,17 +257,20 @@ const DailyDates = ({ handleChangeOfData }) => {
           />
           {/* <FormControlCard labelForm="Days from Spud" type={"number"} /> */}
         </CardFormK3>
-        
       </SimpleGrid>
       <CardFormK3 title="" subtitle="" icon={""} padding=" 0px 12px 20px 12px">
-          <FormControlCard labelForm="Day Summary " 
+        <FormControlCard
+          labelForm="Day Summary "
           type={"text"}
           handleChange={handleChange("day_summary", "text")}
-          isTextArea/>
-          <FormControlCard labelForm="Day Forecast " 
+          isTextArea
+        />
+        <FormControlCard
+          labelForm="Day Forecast "
           type={"text"}
           handleChange={handleChange("day_forecast", "text")}
-          isTextArea/>
+          isTextArea
+        />
       </CardFormK3>
     </>
   );
