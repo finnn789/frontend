@@ -21,7 +21,7 @@ const OperationExpKKKS = () => {
   React.useEffect(() => {
     const getData = async () => {
       const data = await getTableKKKS("exploration", "operation");
-      console.log(data.data);
+      // console.log(data.data);
       setCountStatus(data.data);
     };
     getData();
@@ -39,41 +39,7 @@ const OperationExpKKKS = () => {
     "AKSI",
   ];
 
-  const data = [
-    {
-      id: 1,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "PROPOSED",
-    },
-    {
-      id: 2,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "APPROVED",
-    },
-    {
-      id: 3,
-      namaSumur: "SUMUR0001",
-      wilayahKerja: "AREA01",
-      lapangan: "FIELD01",
-      tanggalMulai: "24 Mei 2024",
-      tanggalSelesai: "24 Juli 2024",
-      tanggalDiajukan: "12 Agustus 2023",
-      status: "RETURNED",
-    },
-    // Add more data as needed
-  ];
-
-  const StatusBadge = ({ status }) => {
+    const StatusBadge = ({ status }) => {
     const colorScheme =
       status === "PROPOSED"
         ? "blue"
@@ -157,11 +123,10 @@ const OperationExpKKKS = () => {
                     mr={2}
                     as={Link}
                     to={`/dashboard/operasiform/${row.id}`}
-                    state={{ job_plan_ld: row.JOB_PLAN_ID,job_actual: row.ACTUAL_JOB_ID }}
+                    state={{ job_actual: row.ACTUAL_JOB_ID }}
                   >
                     Update
                   </Button>
-                  {console.log("row.ACTUAL_JOB_ID",row.ACTUAL_JOB_ID)}
                 </Td>
               </Tr>
             ))

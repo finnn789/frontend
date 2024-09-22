@@ -3,8 +3,11 @@ import GridLayout from "../../Layout/GridLayout";
 import WRMUpdates from "../FormHandling/WRMUpdates";
 import WRMUissues from "../FormHandling/WRMUissues";
 import { Grid, GridItem } from "@chakra-ui/react";
+  import { useLocation } from "react-router-dom";
 
-const WRMRequirement = (job_id, job_actual) => {
+const WRMRequirement = (job_id) => {
+  const location = useLocation();
+  const {job_actual} = location.state || {};
   return (
     <Grid templateColumns="repeat(4, 1fr)" gap={2}>
       <GridItem colSpan={1}>

@@ -4,10 +4,10 @@ import GridLayout from "../../Layout/GridLayout";
 import FormControlCard from "../../Components/FormControl";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 import TableComponent from "../../Components/TableComponent";
-import { Button } from "@chakra-ui/react";
+import { Button, Badge } from "@chakra-ui/react"; // Import Badge dari Chakra UI
 import { createJobIssue, updateJobIssue } from "../../../../Page/API/PostKkks";
 import { getWRMIssues } from "../../../../Page/API/APIKKKS";
-import { useToast } from '@chakra-ui/react';
+import { useToast } from "@chakra-ui/react";
 
 const WRMUissues = ({ job_id }) => {
   const toast = useToast(); // Inisialisasi toast Chakra UI
@@ -36,16 +36,23 @@ const WRMUissues = ({ job_id }) => {
     { Head: "Date", accessor: "date_time" },
     { Head: "Severity", accessor: "severity" },
     { Head: "Description", accessor: "description" },
-    { Head: "Status", accessor: "resolved", render: (row) => (row.resolved ? "Resolved" : "Unresolved") },
+    {
+      Head: "Status",
+      render: (row) => (
+        <Badge colorScheme={row.resolved ? "green" : "red"}>
+          {row.resolved ? "RESOLVED" : "ISSUE"}
+        </Badge>
+      ),
+    },
     {
       Head: "Aksi",
-      render: (row, index) => (
-        !row.resolved && ( // Jika status "resolved" adalah false, maka tampilkan tombol "Resolve"
+      render: (row, index) =>
+        !row.resolved && (
+          // Jika status "resolved" adalah false, maka tampilkan tombol "Resolve"
           <Button colorScheme="blue" onClick={() => handleResolveIssue(row)}>
             Resolve
           </Button>
-        )
-      ),
+        ),
     },
   ];
 
@@ -95,9 +102,9 @@ const WRMUissues = ({ job_id }) => {
 
       const newIssue = {
         ...formValues,
-        job_id: jobIdValue, 
+        job_id: jobIdValue,
         date_time: new Date().toISOString(),
-        resolved: false, 
+        resolved: false,
         resolved_date_time: null,
       };
 

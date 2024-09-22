@@ -34,13 +34,14 @@ const WRMUpdates = ({ job_actual }) => {
     { value: "0%", label: "0%" },
   ];
 
+  console.log("dari wrmupdates", job_actual);
   // Fetch WRM data saat komponen di-load berdasarkan job_actual
   useEffect(() => {
     if (job_actual) {
       const fetchData = async () => {
         setLoading(true); // Set status loading menjadi true
         try {
-          const response = await getWRMData(job_actual); // Memanggil fungsi getWRMData dari file lain
+          const response = await getWRMData(job_actual, "exploration"); // Memanggil fungsi getWRMData dari file lain
           if (response) {
             setValues(response); // Set data respons ke state
           } else {
