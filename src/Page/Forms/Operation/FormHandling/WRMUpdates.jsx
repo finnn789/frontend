@@ -1,14 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CardFormK3 from "../../Components/CardFormK3";
 import GridLayout from "../../Layout/GridLayout";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 import { IconBrightness } from "@tabler/icons-react";
 import { patchWRM, getWRMData } from "../../../../Page/API/APISKK";
-import { Button, Spinner, Center } from "@chakra-ui/react"; // Menggunakan Spinner dari Chakra UI untuk loading
+import {
+  Button,
+  Spinner,
+  Center,
+  useToast,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 const WRMUpdates = ({ job_actual }) => {
   const [values, setValues] = useState(null); // State untuk menyimpan data WRM yang diambil dari API
   const [loading, setLoading] = useState(false); // State untuk status loading
+  const toast = useToast(); // Inisialisasi toast Chakra UI
+
+  // State kontrol untuk AlertDialog
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
 
   const ValueOption = [
     { value: "100%", label: "100%" },
@@ -35,6 +52,7 @@ const WRMUpdates = ({ job_actual }) => {
   ];
 
   console.log("dari wrmupdates", job_actual);
+  
   // Fetch WRM data saat komponen di-load berdasarkan job_actual
   useEffect(() => {
     if (job_actual) {
@@ -78,9 +96,21 @@ const WRMUpdates = ({ job_actual }) => {
     try {
       const response = await patchWRM(job_actual, values); // Mengirim data state `values` ke patchWRM
       console.log("Data updated successfully", response);
+      toast({
+        title: "WRM Data Updated",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      onClose(); // Tutup AlertDialog setelah submit
     } catch (error) {
       console.error("Failed to update data", error);
     }
+  };
+
+  // Fungsi untuk membuka dialog konfirmasi submit
+  const handleOpenSubmitDialog = () => {
+    onOpen(); // Membuka AlertDialog
   };
 
   // Jika sedang loading, tampilkan spinner
@@ -240,11 +270,39 @@ const WRMUpdates = ({ job_actual }) => {
               </>
             )}
 
-            <Button onClick={handleSubmit} colorScheme="green" mt={4}>
+            <Button onClick={handleOpenSubmitDialog} colorScheme="green" mt={4}>
               Submit Updates
             </Button>
           </GridLayout.Item>
         </GridLayout>
+
+        {/* AlertDialog untuk konfirmasi submit */}
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Confirm Submit
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                Are you sure you want to submit these updates? This action cannot be undone.
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button colorScheme="green" onClick={handleSubmit} ml={3}>
+                  Submit
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
       </CardFormK3>
     </div>
   );
