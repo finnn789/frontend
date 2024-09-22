@@ -6,7 +6,13 @@ import {
   HStack,
   SimpleGrid,
   Spacer,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 import { PostOperationReport } from "../../../API/PostKkks";
@@ -29,224 +35,168 @@ import Pumps from "../FormHandling/Pumps";
 import WeatherForm from "../FormHandling/WeatherForm";
 import FormControlCard from "../../Components/FormControl";
 import MudVolumes from "../FormHandling/MudVolumes";
+import { IconInfoCircle } from "@tabler/icons-react";
 
 const DailyReport = ({ job_id }) => {
   const [handleData, setHandleData] = React.useState({
-    report_date: "2024-09-15",
-    avg_wob: 0,
-    avg_rop: 0,
-    avg_rpm: 0,
-    torque: 0,
-    stand_pipe_pressure: 0,
-    flow_rate: 0,
-    string_weight: 0,
-    rotating_weight: 0,
-    total_drilling_time: 0,
-    circulating_pressure: 0,
-    daily_cost: 0,
-    daily_mud_cost: 0,
-    day_supervisor: 0,
-    night_supervisor: 0,
-    engineer: 0,
-    geologist: 0,
-    day_summary: "",
-    day_forecast: "",
-    last_size: 0,
-    set_md: 0,
-    next_size: 0,
-    next_set_md: 0,
-    last_lot_emw: 0,
-    tol: 0,
-    start_mud_volume: 0,
-    lost_surface_mud_volume: 0,
-    lost_dh_mud_volume: 0,
-    dumped_mud_volume: 0,
-    built_mud_volume: 0,
-    ending_mud_volume: 0,
-    max_gas: 0,
-    conn_gas: 0,
-    trip_gas: 0,
-    back_gas: 0,
-    annular_velocity: 0,
-    pb: 0,
-    sys_hhp: 0,
-    hhpb: 0,
-    hsi: 0,
-    percent_psib: 0,
-    jet_velocity: 0,
-    impact_force: 0,
-    if_area: 0,
-    stop_cards: 0,
-    lta: "Y",
-    spill: "Y",
-    h2s_test: "Y",
-    hse_mtg: "Y",
-    kicktrip: "Y",
-    kickdrill: "Y",
-    fire: "Y",
-    job_id: "",
+    report_date: "2024-09-20",
+    avg_wob: null,
+    avg_rop: null,
+    avg_rpm: null,
+    torque: null,
+    stand_pipe_pressure: null,
+    flow_rate: null,
+    string_weight: null,
+    rotating_weight: null,
+    total_drilling_time: null,
+    circulating_pressure: null,
+    daily_cost: null,
+    daily_mud_cost: null,
+    day_supervisor: null,
+    night_supervisor: null,
+    engineer: null,
+    geologist: null,
+    day_summary: null,
+    day_forecast: null,
+    last_size: null,
+    set_md: null,
+    next_size: null,
+    next_set_md: null,
+    last_lot_emw: null,
+    tol: null,
+    start_mud_volume: null,
+    lost_surface_mud_volume: null,
+    lost_dh_mud_volume: null,
+    dumped_mud_volume: null,
+    built_mud_volume: null,
+    ending_mud_volume: null,
+    max_gas: null,
+    conn_gas: null,
+    trip_gas: null,
+    back_gas: null,
+    annular_velocity: null,
+    pb: null,
+    sys_hhp: null,
+    hhpb: null,
+    hsi: null,
+    percent_psib: null,
+    jet_velocity: null,
+    impact_force: null,
+    if_area: null,
+    stop_cards: null,
+    lta: null,
+    spill: null,
+    h2s_test: null,
+    hse_mtg: null,
+    kicktrip: null,
+    kickdrill: null,
+    fire: null,
+    job_id: job_id,
     personnel: [
       {
-        daily_operations_report_id: "",
-        company: "",
-        people: 0,
+        company: null,
+        people: null,
       },
     ],
     Incidents: [
       {
-        daily_operations_report_id: "",
-        incidents_time: "2024-09-15T13:07:01.717Z",
-        incident: "",
-        incident_type: "",
-        comments: "",
+        incidents_time: "2null24-null9-2nullT16:52:54.442Z",
+        incident: null,
+        incident_type: null,
+        comments: null,
       },
     ],
     time_breakdowns: [
       {
-        daily_operations_report_id: "",
-        start_time: "13:07:01.717Z",
-        end_time: "13:07:01.717Z",
-        start_measured_depth: 0,
-        end_measured_depth: 0,
+        start_time: "16:52:54.442Z",
+        end_time: "16:52:54.442Z",
+        start_measured_depth: null,
+        end_measured_depth: null,
         category: "DRILLING",
-        p: "Y",
+        p: null,
         npt: "NP",
         code: "(1) Rig Up and Tear Down",
-        operation: "",
+        operation: null,
       },
     ],
-    bit_records: [
-      {
-        daily_operations_report_id: "",
-        id: "",
-        bit_size: 0,
-        bit_number: 0,
-        bit_run: 0,
-        manufacturer: "",
-        iadc_code: "",
-        jets: "",
-        serial: "",
-        depth_out: 0,
-        depth_in: 0,
-        meterage: 0,
-        bit_hours: 0,
-        nozzels: 0,
-        dull_grade: "",
-      },
-    ],
+    bit_records: {
+      bit_size: null,
+      bit_number: null,
+      bit_run: null,
+      manufacturer: null,
+      iadc_code: null,
+      jets: null,
+      serial: null,
+      depth_out: null,
+      depth_in: null,
+      meterage: null,
+      bit_hours: null,
+      nozzels: null,
+      dull_grade: null,
+    },
     bottom_hole_assemblies: [
       {
-        daily_operations_report_id: "",
-        bha_number: 0,
-        bha_run: 0,
-        components: [
-          {
-            component: "Bumper Sub",
-            outer_diameter: 0,
-            length: 0,
-          },
-        ],
+        bha_number: null,
+        bha_run: null,
+        components: [],
       },
     ],
-    drilling_fluids: [
-      {
-        daily_operations_report_id: "",
-        mud_type: "LIQUID",
-        time: "2024-09-15T13:07:01.717Z",
-        mw_in: 0,
-        mw_out: 0,
-        temp_in: 0,
-        temp_out: 0,
-        pres_grad: 0,
-        visc: 0,
-        pv: 0,
-        yp: 0,
-        gels_10_sec: 0,
-        gels_10_min: 0,
-        fluid_loss: 0,
-        ph: 0,
-        solids: 0,
-        sand: 0,
-        water: 0,
-        oil: 0,
-        hgs: 0,
-        lgs: 0,
-        ltlp: 0,
-        hthp: 0,
-        cake: 0,
-        e_stb: 0,
-        pf: 0,
-        mf: 0,
-        pm: 0,
-        ecd: 0,
-      },
-    ],
-    mud_additives: [
-      {
-        daily_operations_report_id: "",
-        mud_additive_type: "",
-        amount: 0,
-      },
-    ],
-    bulk_materials: [
-      {
-        material_type: "",
-        material_name: "",
-        material_uom: "",
-        received: 0,
-        consumed: 0,
-        returned: 0,
-        adjust: 0,
-        ending: 0,
-        daily_operations_report_id: "",
-      },
-    ],
-    directional_surveys: [
-      {
-        measured_depth: 0,
-        inclination: 0,
-        azimuth: 0,
-        daily_operations_report_id: "",
-      },
-    ],
-    pumps: [
-      {
-        slow_speed: "Y",
-        circulate: 0,
-        strokes: 0,
-        pressure: 0,
-        liner_size: 0,
-        efficiency: 0,
-        daily_operations_report_id: "",
-      },
-    ],
-    weather: [
-      {
-        temperature_high: 0,
-        temperature_low: 0,
-        chill_factor: 0,
-        wind_speed: 0,
-        wind_direction: 0,
-        barometric_pressure: 0,
-        wave_height: 0,
-        wave_current_speed: 0,
-        road_condition: "",
-        visibility: "",
-        daily_operations_report_id: "",
-      },
-    ],
+    drilling_fluids: [],
+    mud_additives: [],
+    bulk_materials: [],
+    directional_surveys: [],
+    pumps: [],
+    weather: {
+      temperature_high: null,
+      temperature_low: null,
+      chill_factor: null,
+      wind_speed: null,
+      wind_direction: null,
+      barometric_pressure: null,
+      wave_height: null,
+      wave_current_speed: null,
+      road_condition: null,
+      visibility: null,
+    },
   });
 
   console.log(handleData);
-
+  const toast = useToast();
   const postData = async () => {
     try {
       const response = await PostOperationReport(handleData);
       console.log(response.data);
     } catch (error) {
+      if (error.status === 422) {
+        toast({
+          title: "Error",
+          description: "Harap Periksa Kembali Fieldnya",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+      if (error.status === 500) {
+        toast({
+          title: "500 Server Error",
+          description: " Terjadi Kesalahan Pada Server",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
       console.error(error);
     }
   };
+
+  const handleChangeBitRecord = (data) =>
+    setHandleData((prev) => ({
+      ...prev,
+      bit_records: [
+        data, // BitRecord di posisi pertama
+        ...(prev.bit_records[1] ? [prev.bit_records[1]] : []), // Simpan BitRecord2 jika sudah ada
+      ],
+    }));
 
   const handleChangeNoName = React.useCallback(
     (data) => {
@@ -284,17 +234,99 @@ const DailyReport = ({ job_id }) => {
           <MudAdditive
             handleChangeOfData={handleDataWithName("mud_additives")}
           />
-          <BottomHoleAssembly
-            handleFormData={handleDataWithName("bottom_hole_assemblies")}
-          />
-          <BitRecord
-            handleChangeOfData={React.useCallback((data) => {
-              console.log(data), [];
-            })}
-          />
-          <CasingOps
-            handleChangeOfData={handleDataWithName("casing_operations")}
-          />
+
+          <CardFormK3 title="Bottom Hole Assemblies" subtitle="BR" icon={IconInfoCircle}>
+            <Tabs variant="enclosed-colored">
+              <TabList>
+                <Tab>BHA 1</Tab>
+                <Tab>BHA 2</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel>
+                  <BottomHoleAssembly
+                    handleFormData={(data) =>
+                      setHandleData((prev) => ({
+                        ...prev,
+                        bottom_hole_assemblies: [
+                          ...(prev.bottom_hole_assemblies[1]
+                            ? [prev.bottom_hole_assemblies[1]]
+                            : []), // Simpan BitRecord jika sudah ada
+                          data, // BitRecord2 di posisi kedua
+                        ],
+                      }))
+                    }
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <BottomHoleAssembly
+                    handleFormData={(data) =>
+                      setHandleData((prev) => ({
+                        ...prev,
+                        bottom_hole_assemblies: [
+                          ...(prev.bottom_hole_assemblies[0]
+                            ? [prev.bottom_hole_assemblies[0]]
+                            : []), // Simpan BitRecord jika sudah ada
+                          data, // BitRecord2 di posisi kedua
+                        ],
+                      }))
+                    }
+                  />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </CardFormK3>
+
+          {/* <BitRecord handleChangeOfData={handleDataWithName("bit_records")} /> */}
+          <CardFormK3 title="Bit Record" subtitle="BR" icon={IconInfoCircle}>
+            <Tabs variant="enclosed-colored">
+              <TabList>
+                <Tab>BR 1</Tab>
+                <Tab>BR 2</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel>
+                  <BitRecord
+                    handleChangeOfData={(data) =>
+                      setHandleData((prev) => ({
+                        ...prev,
+                        bit_records: [
+                          ...(prev.bit_records[1] ? [prev.bit_records[1]] : []), // Simpan BitRecord jika sudah ada
+                          data, // BitRecord2 di posisi kedua
+                        ],
+                      }))
+                    }
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <BitRecord
+                    handleChangeOfData={(data) =>
+                      setHandleData((prev) => ({
+                        ...prev,
+                        bit_records: [
+                          ...(prev.bit_records[0] ? [prev.bit_records[0]] : []), // Simpan BitRecord jika sudah ada
+                          data, // BitRecord2 di posisi kedua
+                        ],
+                      }))
+                    }
+                  />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </CardFormK3>
+
+          {/* <BitRecord2
+            handleChangeOfData={(data) =>
+              setHandleData((prev) => ({
+                ...prev,
+                bit_records: [
+                  ...(prev.bit_records[0] ? [prev.bit_records[0]] : []), // Simpan BitRecord jika sudah ada
+                  data, // BitRecord2 di posisi kedua
+                ],
+              }))
+            }
+          /> */}
+
+          <CasingOps handleChangeOfData={handleChangeNoName} />
           <MudVolumes handleChangeOfData={handleChangeNoName} />
           <GasForm handleChangeOfData={handleChangeNoName} />
           <HydraulicAnalysisForm handleChangeOfData={handleChangeNoName} />
@@ -302,12 +334,13 @@ const DailyReport = ({ job_id }) => {
             handleChangeOfData={handleDataWithName("bulk_materials")}
           />
           <HealthSafety
+            handleChangeOfData={handleChangeNoName}
             handleChangeDataIncident={handleDataWithName("Incidents")}
           />
           <DirectionalSurvey
             handleChangeOfData={handleDataWithName("directional_surveys")}
           />
-          <Personel handleChangeOfData={handleDataWithName("personels")} />
+          <Personel handleChangeOfData={handleDataWithName("personnel")} />
           <Pumps handleChangeOfData={handleDataWithName("pumps")} />
           <WeatherForm data={handleDataWithName("weather")} />
         </SimpleGrid>

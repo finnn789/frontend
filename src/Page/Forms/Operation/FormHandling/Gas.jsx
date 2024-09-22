@@ -5,12 +5,15 @@ import FormControlCard from "../../Components/FormControl";
 
 const GasForm = ({handleChangeOfData}) => {
   const [formData, setFormData] = React.useState({
-    max_gas: "",
-    conn_gas: "",
-    trip_gas: "",
-    back_gas: "",
+    max_gas: null,
+    conn_gas: null,
+    trip_gas: null,
+    back_gas: null,
   });
 
+  React.useEffect(() => {
+    handleChangeOfData(formData);
+  }, [formData]);
   const handleChangeData = (fieldName) => (e) => {
     let { value, type } = e.target;
 

@@ -5,13 +5,17 @@ import FormControlCard from "../../Components/FormControl";
 
 const MudVolumes = ({handleChangeOfData}) => {
   const [formData, setFormData] = React.useState({
-    start_mud_volume: 0,
-    lost_surface_mud_volume: 0,
-    lost_dh_mud_volume: 0,
-    dumped_mud_volume: 0,
-    built_mud_volume: 0,
-    ending_mud_volume: 0,
+    start_mud_volume: null,
+    lost_surface_mud_volume: null,
+    lost_dh_mud_volume: null,
+    dumped_mud_volume: null,
+    built_mud_volume: null,
+    ending_mud_volume: null,
   });
+
+  React.useEffect(() => {
+    handleChangeOfData(formData);
+  }, [formData]);
 
   const handleChangeData = (fieldName) => (e) => {
     let { value, type } = e.target;

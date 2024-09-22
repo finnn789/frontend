@@ -5,15 +5,15 @@ import FormControlCard from "../../Components/FormControl";
 
 const HydraulicAnalysisForm = ({handleChangeOfData}) => {
   const [formData, setFormData] = React.useState({
-    annular_velocity: "",
-    pb: "",
-    sys_hhp: "",
-    hhp_b: "",
-    hsi: "",
-    psib: "",
-    jet_velocity: "",
-    impact_force: "",
-    if_area: "",
+    annular_velocity: null,
+    pb: null,
+    sys_hhp: null,
+    hhpb: null,
+    hsi: null,
+    percent_psib: null,
+    jet_velocity: null,
+    impact_force: null,
+    if_area: null,
   });
 
   React.useEffect(() => {
@@ -74,9 +74,9 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             labelForm="HHPb"
             placeholder="HHPb"
             type="number"
-            name="hhp_b"
-            value={formData.hhp_b}
-            handleChange={handleChangeData("hhp_b")}
+            name="hhpb"
+            value={formData.hhpb}
+            handleChange={handleChangeData("hhpb")}
           />
         </GridItem>
         <GridItem>
@@ -94,9 +94,9 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             labelForm="%psib"
             placeholder="%psib"
             type="number"
-            name="psib"
-            value={formData.psib}
-            handleChange={handleChangeData("psib")}
+            name="percent_psib"
+            value={formData.percent_psib}
+            handleChange={handleChangeData("percent_psib")}
           />
         </GridItem>
         <GridItem>

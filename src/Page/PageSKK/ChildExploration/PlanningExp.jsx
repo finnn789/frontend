@@ -7,15 +7,18 @@ import {
   Text,
   Button,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import PerhitunganCard from "../Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck, FaEye } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../Components/Card/Footer";
 import { getJobPhase } from "../../API/APISKK";
+import { ApproveJobKKS } from "../../API/PostSKK";
 import DetailModal from "./Components/viewPlanning";
 
 const PlanningExploration = () => {
+  const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedId, setSelectedId] = React.useState(null);
   const [phaseData, setPhaseData] = React.useState(null);
@@ -27,6 +30,8 @@ const PlanningExploration = () => {
     };
     getData();
   }, []);
+
+  
 
   console.log("phaseData", phaseData);
   const proposedCount = phaseData ? phaseData.summary.diajukan : null;
@@ -55,7 +60,41 @@ const PlanningExploration = () => {
     setSelectedId(id);
     onOpen();
   };
+  const ApproveJobId = async (id) => {
+    try {
+      await ApproveJobKKS(id).then((res) => {
+        if (res.status === 200) {
+         toast({
+           title: 'Success',
+           description: 'Data Berhasil Di Approve',
+           status: 'success',
+           duration: 3000,
+           isClosable: true,
+         })
+        }
+      }).then(() => {
+        window.location.reload();
+      })
 
+      
+    } catch (error) {
+      
+      if (error.status===401) {
+        toast({
+          title: 'Error',
+          description: "Unauthorized",
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+      }
+
+      console.error(error)
+
+      return error
+
+    }
+  };
   const headerstable1 = [
     { headerName: "Nama Sumur", field: "NAMA SUMUR", flex: 1 },
     { headerName: "Wilayah Kerja", field: "WILAYAH KERJA", flex: 1 },
@@ -64,7 +103,12 @@ const PlanningExploration = () => {
     { headerName: "Rencana Mulai", field: "RENCANA MULAI", flex: 1 },
     { headerName: "Rencana Selesai", field: "RENCANA SELESAI", flex: 1 },
     { headerName: "Tanggal Diajukan", field: "TANGGAL DIAJUKAN", flex: 1 },
-    { headerName: "Status", field: "STATUS", flex: 1, cellRenderer: StatusBadge },
+    {
+      headerName: "Status",
+      field: "STATUS",
+      flex: 1,
+      cellRenderer: StatusBadge,
+    },
     {
       headerName: "Aksi",
       field: "STATUS",
@@ -85,6 +129,7 @@ const PlanningExploration = () => {
             colorScheme="green"
             size="sm"
             isDisabled={params.value !== "PROPOSED"}
+            onClick={() => ApproveJobId(params.data.id)}
           >
             Approve
           </Button>
@@ -95,18 +140,35 @@ const PlanningExploration = () => {
 
   return (
     <Flex gap={6} direction={"column"}>
-      <Text fontSize={"2em"} fontWeight={"bold"} color={"gray.600"} fontFamily="Montserrat">
+      <Text
+        fontSize={"2em"}
+        fontWeight={"bold"}
+        color={"gray.600"}
+        fontFamily="Montserrat"
+      >
         Planning Exploration
       </Text>
       <Flex gap={6}>
         <PerhitunganCard
-          number={proposedCount !== undefined && proposedCount !== null ? proposedCount : <p>Loading...</p>}
+          number={
+            proposedCount !== undefined && proposedCount !== null ? (
+              proposedCount
+            ) : (
+              <p>Loading...</p>
+            )
+          }
           icon={FaCopy}
           label={"PROPOSED"}
           subLabel="Pekerjaan Diajukan"
         />
         <PerhitunganCard
-          number={AprovedCount !== undefined && AprovedCount !== null ? AprovedCount : <p>Loading...</p>}
+          number={
+            AprovedCount !== undefined && AprovedCount !== null ? (
+              AprovedCount
+            ) : (
+              <p>Loading...</p>
+            )
+          }
           icon={FaCheck}
           bgIcon="green.100"
           iconColor="green.500"
@@ -114,7 +176,13 @@ const PlanningExploration = () => {
           subLabel="Pekerjaan Disetujui"
         />
         <PerhitunganCard
-          number={ReturnedCount !== undefined && ReturnedCount !== null ? ReturnedCount : <p>Loading...</p>}
+          number={
+            ReturnedCount !== undefined && ReturnedCount !== null ? (
+              ReturnedCount
+            ) : (
+              <p>Loading...</p>
+            )
+          }
           label={"RETURNED"}
           bgIcon="red.100"
           iconColor="red.500"

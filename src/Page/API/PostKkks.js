@@ -54,7 +54,8 @@ export async function PostOperationReport(data) {
 
     return response.data;
   } catch (error) {
-    console.error("Error get Data Table", error);
-    return error
+    // console.error("Error get Data Table", error);
+    throw error.response;
   }
 }
+

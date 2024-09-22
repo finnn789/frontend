@@ -20,12 +20,13 @@ const SelectComponent = ({
   placeholder = "Select an option",
   align = "Vertical", // Determines if the layout is horizontal or vertical
   children,
+  type,
   ...props
 }) => {
   // Memoize the onChange handler to avoid unnecessary re-renders
   const memoizedHandleChange = useCallback(
-    (event) => {
-      onChange(event);
+    (data) => {
+      onChange(data);
     },
     [onChange]
   );
