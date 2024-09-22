@@ -251,6 +251,7 @@ const PengajuanDrillingForm = () => {
                 unitType={dataMetricImperial}
                 errorForms={formErrors}
                 wellType={["DELINEATION", "WILDCAT"]}
+                area_id={jobPlan.area_id}
               />
             </TabPanel>
             <TabPanel>

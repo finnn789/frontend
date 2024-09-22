@@ -34,7 +34,7 @@ export async function getAreaID() {
     return response.data;
   } catch (error) {
     console.error("Error get Data Well", error);
-    return response.data;
+    return null;
   }
 }
 
@@ -89,7 +89,25 @@ export async function GetWellStratigrapyh() {
     return response.data;
   } catch (error) {
     console.error("Error get Data Well", error);
+    throw error.response;
+  }
+}
+
+export async function GetCodeTimeBreakDown() {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/job/drilling-operations/pyenum`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     return response.data;
+  } catch (error) {
+    console.error("Error get Data Well", error);
+    throw error.response;
   }
 }
 

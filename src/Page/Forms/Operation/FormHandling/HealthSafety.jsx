@@ -6,16 +6,16 @@ import FormControlCard from "../../Components/FormControl";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 import IncidentTable from "./IncindentTable"; // Import the IncidentTable component
 
-const HealthSafety = ({handleChangeDataIncident}) => {
+const HealthSafety = ({handleChangeDataIncident,handleChangeOfData}) => {
   const [formData, setFormData] = React.useState({
-    stop_cards: "",
-    lta: "",
-    spill: "",
-    h2s_test: "",
-    hse_mtg: "",
-    kicktrip: "",
-    kickdrill: "",
-    fire: "",
+    stop_cards: null,
+    lta: null,
+    spill: null,
+    h2s_test: null,
+    hse_mtg: null,
+    kicktrip: null,
+    kickdrill: null,
+    fire: null,
   });
 
   const handleChangeData = (name) => (e) => {
@@ -26,6 +26,9 @@ const HealthSafety = ({handleChangeDataIncident}) => {
     }));
   };
 
+  React.useEffect(()=>{
+    handleChangeOfData(formData)
+  },[formData])
   const handleAddData = () => {
     // Handle form data submission here if needed
     console.log("Form Data Submitted:", formData);

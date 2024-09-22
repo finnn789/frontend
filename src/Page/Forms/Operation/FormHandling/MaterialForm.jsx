@@ -1,21 +1,29 @@
 import React from "react";
 import CardFormK3 from "../../Components/CardFormK3";
-import { Box, Button, Grid, GridItem, Tab, TabList, TabPanel, Tabs } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Grid,
+  GridItem,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+} from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
 const MaterialForm = () => {
   const [tableData, setTableData] = React.useState([]);
   const [formData, setFormData] = React.useState({
-    material_type: "",
-    material_name: "",
-    material_uom: "",
-    received: 0,
-    consumed: 0,
-    returned: 0,
-    adjust: 0,
-    ending: 0,
-    daily_operations_report_id: "",
+    material_type: null,
+    material_name: null,
+    material_uom: null,
+    received: null,
+    consumed: null,
+    returned: null,
+    adjust: null,
+    ending: null,
   });
 
   const headers = [
@@ -27,11 +35,18 @@ const MaterialForm = () => {
     { Header: "Returned", accessor: "returned" },
     { Header: "Adjust", accessor: "adjust" },
     { Header: "Ending", accessor: "ending" },
-    { Header: "Daily Operations Report ID", accessor: "daily_operations_report_id" },
+    {
+      Header: "Daily Operations Report ID",
+      accessor: "daily_operations_report_id",
+    },
     {
       Header: "Action",
       render: (row) => (
-        <Button colorScheme="red" variant="solid" onClick={() => handleDelete(row)}>
+        <Button
+          colorScheme="red"
+          variant="solid"
+          onClick={() => handleDelete(row)}
+        >
           Delete
         </Button>
       ),
@@ -57,18 +72,23 @@ const MaterialForm = () => {
       returned: 0,
       adjust: 0,
       ending: 0,
-      daily_operations_report_id: "",
     });
   };
 
   const handleDelete = (row) => {
-    setTableData((prevTableData) => prevTableData.filter((data) => data !== row));
+    setTableData((prevTableData) =>
+      prevTableData.filter((data) => data !== row)
+    );
   };
 
   return (
     <Grid templateColumns="repeat(1, 1fr)" gap={4} fontFamily={"Montserrat"}>
       <GridItem>
-        <CardFormK3 title="Bulk Material" padding="18px 8px" subtitle="Material">
+        <CardFormK3
+          title="Bulk Material"
+          padding="18px 8px"
+          subtitle="Material"
+        >
           <FormControlCard
             labelForm="Material Type"
             placeholder="Enter Material Type"
@@ -125,20 +145,31 @@ const MaterialForm = () => {
             value={formData.ending}
             handleChange={handleChangeData("ending")}
           />
-          <FormControlCard
+          {/* <FormControlCard
             labelForm="Daily Operations Report ID"
             placeholder="Enter Daily Operations Report ID"
             type="text"
             value={formData.daily_operations_report_id}
             handleChange={handleChangeData("daily_operations_report_id")}
-          />
-          <Button colorScheme="blue" variant="solid" onClick={handleAddData} mt={4}>
+          /> */}
+          <Button
+            colorScheme="blue"
+            variant="solid"
+            onClick={handleAddData}
+            mt={4}
+          >
             Add
           </Button>
         </CardFormK3>
       </GridItem>
       <GridItem>
-        <Box rounded="lg" overflowX="auto" overflowY="auto" borderWidth="1px" p={0}>
+        <Box
+          rounded="lg"
+          overflowX="auto"
+          overflowY="auto"
+          borderWidth="1px"
+          p={0}
+        >
           <Tabs>
             <TabList>
               <Tab>Table</Tab>

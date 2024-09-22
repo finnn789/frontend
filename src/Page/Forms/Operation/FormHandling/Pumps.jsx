@@ -12,8 +12,9 @@ import {
 } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
+import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 
-const Pumps = () => {
+const Pumps = ({ handleChangeOfData }) => {
   const [tableData, setTableData] = React.useState([]);
   const [formData, setFormData] = React.useState({
     slow_speed: "Y",
@@ -22,7 +23,6 @@ const Pumps = () => {
     pressure: 0,
     liner_size: 0,
     efficiency: 0,
-    daily_operations_report_id: "string",
   });
 
   const headers = [
@@ -60,7 +60,6 @@ const Pumps = () => {
       pressure: 0,
       liner_size: 0,
       efficiency: 0,
-      daily_operations_report_id: "string",
     });
   };
 
@@ -70,6 +69,9 @@ const Pumps = () => {
     );
   };
 
+  React.useEffect(() => {
+    handleChangeOfData(tableData);
+  }, [tableData]);
   return (
     <Grid
       templateColumns="repeat(2, 1fr)"
@@ -85,13 +87,11 @@ const Pumps = () => {
           padding="18px 8px"
           subtitle="Measurements"
         >
-          <FormControlCard
-            labelForm="Slow Speed"
-            placeholder="Enter Slow Speed"
-            type="text"
-            value={formData.slow_speed}
-            handleChange={handleChangeData("slow_speed")}
-          />
+          <SelectComponent label="Slow Speed" onChange={handleChangeData("slow_speed")}>
+            <SelectOption value={"Y"} label="Y" />
+            <SelectOption value={"N"} label="N" />
+          </SelectComponent>
+
           <FormControlCard
             labelForm="Circulate"
             placeholder="Enter Circulate"

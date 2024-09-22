@@ -370,8 +370,7 @@ export async function GetImageWellCasing(path) {
   }
 }
 
-
-export async function GetDataWell(data){
+export async function GetDataWell(data) {
   try {
     const response = await axios.get(`${import.meta.env.VITE_APP_URL}${data}`, {
       headers: {

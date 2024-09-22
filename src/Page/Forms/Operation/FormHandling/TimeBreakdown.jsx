@@ -17,25 +17,33 @@ import {
 } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
+import { SelectComponent, SelectOption } from "../../Components/SelectOption";
+import { GetCodeTimeBreakDown } from "../../../API/APIKKKS";
 
 const TimeBreakdown = ({ handleChange }) => {
+  const [codeTime, setCodeTime] = React.useState([]);
   const [tableData, setTableData] = React.useState([]);
+
+  React.useEffect(() => {
+    GetCodeTimeBreakDown().then((res) => {
+      setCodeTime(res);
+    });
+  }, []);
 
   React.useEffect(() => {
     handleChange(tableData);
   }, [tableData]);
   const [radio, setRadio] = React.useState("");
   const [formData, setFormData] = React.useState({
-    daily_operations_report_id: "",
-    start_time: "",
-    end_time: "",
-    start_measured_depth: 0,
-    end_measured_depth: 0,
-    category: "",
-    p: "",
-    npt: "",
-    code: "",
-    operation: "",
+    start_time: null,
+    end_time: null,
+    start_measured_depth: null,
+    end_measured_depth: null,
+    category: null,
+    p: null,
+    npt: null,
+    code: null,
+    operation: null,
   });
 
   const headers = [
@@ -78,16 +86,15 @@ const TimeBreakdown = ({ handleChange }) => {
   const handleAddData = () => {
     setTableData((prevTableData) => [...prevTableData, formData]);
     setFormData({
-      daily_operations_report_id: "",
       start_time: "",
       end_time: "",
       start_measured_depth: 0,
       end_measured_depth: 0,
       category: "",
-      p: "",
-      npt: "",
+      p: null,
+      npt: null,
       code: "",
-      operation: "",
+      operation: null,
     }); // Reset form
   };
 
@@ -140,19 +147,17 @@ const TimeBreakdown = ({ handleChange }) => {
               <VStack>
                 <Flex flexDirection={"column"} gap={2}>
                   <Radio value="Productive">Productive</Radio>
-                  <Radio value="Non_Productive">Non_Productive</Radio>
+                  <Radio value="Non_Productive">Non Productive</Radio>
                 </Flex>
               </VStack>
             </RadioGroup>
           </Flex>
           <Flex>
-            <FormControlCard
-              labelForm="Code"
-              placeholder="code"
-              isTextArea
-              value={formData.code}
-              handleChange={handleChangeData("code")}
-            />
+            <SelectComponent onChange={handleChangeData("code")} label="Code" placeholder="Select Code">
+              {codeTime.map((data, index) => (
+                <SelectOption label={data.operation} value={data.operation} key={index} />
+              ))}
+            </SelectComponent>
           </Flex>
           <Flex>
             <Button colorScheme="blue" variant="solid" onClick={handleAddData}>

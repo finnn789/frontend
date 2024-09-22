@@ -13,18 +13,22 @@ import {
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const Personel = () => {
+const Personel = ({ handleChangeOfData }) => {
+  // formData untuk company dan people
   const [tableData, setTableData] = React.useState([]);
   const [formData, setFormData] = React.useState({
-    md: 0,
-    incl: 0,
-    azm: 0,
+    company: "", // Nama perusahaan
+    people: 0, // Jumlah orang
   });
 
+  React.useEffect(() => {
+    handleChangeOfData(tableData);
+  }, [tableData]);
+
+  // Header untuk table
   const headers = [
-    { Header: "MD", accessor: "md" },
-    { Header: "Inclination", accessor: "incl" },
-    { Header: "Azimuth", accessor: "azm" },
+    { Header: "Company", accessor: "company" },
+    { Header: "People", accessor: "people" },
     {
       Header: "Action",
       render: (row) => (
@@ -39,6 +43,7 @@ const Personel = () => {
     },
   ];
 
+  // Fungsi untuk mengubah formData saat ada input perubahan
   const handleChangeData = (name) => (e) => {
     const { value, type } = e.target;
     setFormData((prevData) => ({
@@ -47,15 +52,16 @@ const Personel = () => {
     }));
   };
 
+  // Menambahkan data ke dalam table
   const handleAddData = () => {
     setTableData((prevTableData) => [...prevTableData, formData]);
     setFormData({
-      md: 0,
-      incl: 0,
-      azm: 0,
-    });
+      company: "",
+      people: 0,
+    }); // Reset form setelah menambahkan data
   };
 
+  // Menghapus baris data dari tabel
   const handleDelete = (row) => {
     setTableData((prevTableData) =>
       prevTableData.filter((data) => data !== row)
@@ -72,31 +78,20 @@ const Personel = () => {
       fontFamily={"Montserrat"}
     >
       <GridItem>
-        <CardFormK3
-          title="Directional Data"
-          padding="18px 8px"
-          subtitle="Measurements"
-        >
+        <CardFormK3 title="Personnel" padding="18px 8px" subtitle="Person">
           <FormControlCard
-            labelForm="MD (Measured Depth)"
-            placeholder="Enter Measured Depth"
-            type="number"
-            value={formData.md}
-            handleChange={handleChangeData("md")}
+            labelForm="Company"
+            placeholder="Enter Company"
+            type="text"
+            value={formData.company}
+            handleChange={handleChangeData("company")}
           />
           <FormControlCard
-            labelForm="Inclination"
-            placeholder="Enter Inclination"
+            labelForm="People"
+            placeholder="Enter Number of People"
             type="number"
-            value={formData.incl}
-            handleChange={handleChangeData("incl")}
-          />
-          <FormControlCard
-            labelForm="Azimuth"
-            placeholder="Enter Azimuth"
-            type="number"
-            value={formData.azm}
-            handleChange={handleChangeData("azm")}
+            value={formData.people}
+            handleChange={handleChangeData("people")}
           />
           <Button
             colorScheme="blue"

@@ -8,23 +8,23 @@ const DailyDates = ({ handleChangeOfData }) => {
   const [dateNow, setDateNow] = useState("");
 
   const [dataSetData, setDataSetData] = useState({
-    report_date: "2024-09-15",
-    avg_wob: 0,
-    avg_rop: 0,
-    avg_rpm: 0,
-    torque: 0,
-    stand_pipe_pressure: 0,
-    flow_rate: 0,
-    string_weight: 0,
-    rotating_weight: 0,
-    total_drilling_time: 0,
-    circulating_pressure: 0,
-    daily_cost: 0,
-    daily_mud_cost: 0,
-    day_supervisor: 0,
-    night_supervisor: 0,
-    engineer: 0,
-    geologist: 0,
+    report_date: null,
+    avg_wob: null,
+    avg_rop: null,
+    avg_rpm: null,
+    torque: null,
+    stand_pipe_pressure: null,
+    flow_rate: null,
+    string_weight: null,
+    rotating_weight: null,
+    total_drilling_time: null,
+    circulating_pressure: null,
+    daily_cost: null,
+    daily_mud_cost: null,
+    day_supervisor: null,
+    night_supervisor: null,
+    engineer: null,
+    geologist: null,
   });
   // console.log(dataSetData);
 
@@ -225,7 +225,18 @@ const DailyDates = ({ handleChangeOfData }) => {
           />
           {/* <FormControlCard labelForm="Days from Spud" type={"number"} /> */}
         </CardFormK3>
+        
       </SimpleGrid>
+      <CardFormK3 title="" subtitle="" icon={""} padding=" 0px 12px 20px 12px">
+          <FormControlCard labelForm="Day Summary " 
+          type={"text"}
+          handleChange={handleChange("day_summary", "text")}
+          isTextArea/>
+          <FormControlCard labelForm="Day Forecast " 
+          type={"text"}
+          handleChange={handleChange("day_forecast", "text")}
+          isTextArea/>
+      </CardFormK3>
     </>
   );
 };

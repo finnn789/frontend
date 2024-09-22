@@ -5,12 +5,12 @@ import FormControlCard from "../../Components/FormControl";
 
 const CasingOps = ({ handleChangeOfData }) => {
   const [formData, setFormData] = React.useState({
-    start: "",
-    set_md: "",
-    next_size: "",
-    set_md_2: "",
-    last_lot_emw: "",
-    tol: "",
+    start: null,
+    set_md: null,
+    next_size: null,
+    set_md_2: null,
+    last_lot_emw: null,
+    tol: null,
   });
 
   //   console.log(formData);
