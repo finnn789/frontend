@@ -146,4 +146,21 @@ export async function GetBHAEnum() {
   )
 }
 
+export async function getViewRawPlanning(job_id) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/job/planning/view-raw/${job_id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data; // Mengembalikan data jika berhasil
+  } catch (error) {
+    console.error("Error get Data view raw", error);
+    return null; // Mengembalikan null jika terjadi error
+  }
+}
 

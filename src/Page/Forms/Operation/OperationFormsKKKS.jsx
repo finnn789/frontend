@@ -46,7 +46,7 @@
                 <WRMRequirement job_id={job_id} job_actual={job_actual} />
               </TabPanel>
               <TabPanel>
-                <OperationalParent />
+                <OperationalParent job_id={job_id} />
               </TabPanel>
               <TabPanel>
                 <Technical />
