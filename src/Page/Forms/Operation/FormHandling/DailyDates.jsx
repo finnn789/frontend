@@ -45,7 +45,7 @@ const DailyDates = ({ handleChangeOfData }) => {
   React.useEffect(()=> {
     GetDateJobInstances(job_plan_ld).then((res) => {
       setDateDataJobPlan(res.data);
-    });
+    },[setDateDataJobPlan] );
 
   },[job_plan_ld])
 
@@ -74,7 +74,7 @@ const DailyDates = ({ handleChangeOfData }) => {
     },
     [setDataSetData]
   );
-
+  console.log("dateDataJobPlan:", dateDataJobPlan)
   //   x
   return (
     <>
@@ -84,7 +84,7 @@ const DailyDates = ({ handleChangeOfData }) => {
             <SimpleButton
               isActive={date === dateNow}
               onClick={() => setDateNow(date.date)}
-              colorScheme={date.color}
+              colorScheme={date?.color}
               key={index}
               title={date.date}
             />

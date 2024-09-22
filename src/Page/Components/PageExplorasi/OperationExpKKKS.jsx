@@ -135,8 +135,8 @@ const OperationExpKKKS = () => {
                     mr={2}
                     as={Link}
                     to={`/dashboard/operasiform/${row.id}`}
-                    state={{ job_actual: row.ACTUAL_JOB_ID }}
-                  >
+                    state={{ job_actual: row.ACTUAL_JOB_ID, job_plan_ld: row.JOB_PLAN_ID }}
+                    >
                     Update
                   </Button>
                  )}
