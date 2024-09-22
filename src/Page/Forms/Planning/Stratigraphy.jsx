@@ -39,8 +39,6 @@ const Stratigraphy = ({
   codeAreaId,
   onData,
 }) => {
-
-  
   const [stratInfo, setStratInfo] = useState(null);
   const [WellStratigraphy, setLocalWellStratigraphy] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
@@ -49,12 +47,14 @@ const Stratigraphy = ({
     depth_datum: "RT",
     depth: 0,
     stratigraphy_id: "",
+    stratigraphy_name: "", // To store the human-readable stratigraphy name
   });
   const [editFormData, setEditFormData] = useState({
     unit_type: unittype,
     depth_datum: "RT",
     depth: 0,
     stratigraphy_id: "",
+    stratigraphy_name: "",
   });
 
   useEffect(() => {
@@ -89,10 +89,21 @@ const Stratigraphy = ({
       return;
     }
 
+    const selectedStratInfo = stratInfo.find(
+      (item) => item.id === formData.stratigraphy_id
+    );
+
+    // Add stratigraphy with the corresponding name (strat_unit_info)
     setLocalWellStratigraphy((prev) => [
       ...prev,
-      { ...formData, depth: parseFloat(formData.depth) },
+      {
+        ...formData,
+        stratigraphy_name: selectedStratInfo?.strat_unit_info || "",
+        depth: parseFloat(formData.depth),
+      },
     ]);
+
+    // Reset form data after adding
     setFormData({ ...formData, stratigraphy_id: "", depth: 0 });
   };
 
@@ -102,8 +113,17 @@ const Stratigraphy = ({
   };
 
   const handleSaveEdit = () => {
+    const selectedStratInfo = stratInfo.find(
+      (item) => item.id === editFormData.stratigraphy_id
+    );
+
+    // Update stratigraphy with the new stratigraphy_name
     const updatedTable = [...WellStratigraphy];
-    updatedTable[editIndex] = { ...editFormData };
+    updatedTable[editIndex] = {
+      ...editFormData,
+      stratigraphy_name: selectedStratInfo?.strat_unit_info || "",
+    };
+
     setLocalWellStratigraphy(updatedTable);
     setEditIndex(null);
   };
@@ -117,12 +137,12 @@ const Stratigraphy = ({
     setLocalWellStratigraphy(updatedStratigraphy);
   };
 
-  React.useEffect(()=> {
+  useEffect(() => {
     GetDataStratigraphy(codeAreaId).then((res) => {
-      setStratInfo(res)
-    })
-  }, [codeAreaId])
-  // console.log(stratInfo)
+      setStratInfo(res);
+    });
+  }, [codeAreaId]);
+
   return (
     <Grid
       templateColumns="repeat(2, 1fr)"
@@ -179,16 +199,12 @@ const Stratigraphy = ({
                     onChange={handleInputChange}
                     placeholder="Select Area ID First"
                     isDisabled={codeAreaId === "" ? true : false}
-                    
                   >
-                    {stratInfo?.map((item,index)=> {
-                      return(
-                        <option key={index} value={item.id}>
-                          {item.strat_unit_info}
-                        </option>
-                      )
-                    })}
-                    
+                    {stratInfo?.map((item, index) => (
+                      <option key={index} value={item.id}>
+                        {item.strat_unit_info}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
               </GridItem>
@@ -226,7 +242,7 @@ const Stratigraphy = ({
               <Thead>
                 <Tr>
                   <Th>Depth</Th>
-                  <Th>Stratigraphy</Th>
+                  <Th>Stratigraphy Name</Th>
                   <Th>Action</Th>
                 </Tr>
               </Thead>
@@ -248,19 +264,24 @@ const Stratigraphy = ({
                           <Select
                             name="stratigraphy_id"
                             value={editFormData.stratigraphy_id}
-                            onChange={handleEditChange}
+                            onChange={(e) => {
+                              const { name, value } = e.target;
+                              const selectedStratInfo = stratInfo.find(
+                                (item) => item.id === value
+                              );
+                              setEditFormData({
+                                ...editFormData,
+                                [name]: value,
+                                stratigraphy_name:
+                                  selectedStratInfo?.strat_unit_info || "",
+                              });
+                            }}
                           >
-                            <option value="LITHOSTRATIGRAPHIC">
-                              LITHOSTRATIGRAPHIC
-                            </option>
-                            <option value="CHRONOSTRATIGRAPHIC">
-                              CHRONOSTRATIGRAPHIC
-                            </option>
-                            <option value="OTHER">OTHER</option>
-                            <option value="RADIOMETRIC">RADIOMETRIC</option>
-                            <option value="BIOSTRATIGRAPHIC">
-                              BIOSTRATIGRAPHIC
-                            </option>
+                            {stratInfo?.map((item, index) => (
+                              <option key={index} value={item.id}>
+                                {item.strat_unit_info}
+                              </option>
+                            ))}
                           </Select>
                         </Td>
                         <Td>
@@ -285,7 +306,7 @@ const Stratigraphy = ({
                     ) : (
                       <>
                         <Td>{row.depth}</Td>
-                        <Td>{row.stratigraphy_id}</Td>
+                        <Td>{row.stratigraphy_name}</Td>
                         <Td>
                           <HStack spacing={2}>
                             <IconButton
