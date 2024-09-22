@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -14,47 +14,112 @@ import {
 import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
-import FormControlDateTime from "../../Components/FormControlDateTime";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 
 const DrillingFluid = ({ handleChangeOfData }) => {
+  // State untuk menyimpan data tabel dan data form
   const [tableData, setTableData] = useState([]);
   const [formData, setFormData] = useState({
-    // mud_type: "",
-    // time: "",
-    // mw_in: 0,
-    // mw_out: 0,
-    // temp_in: 0,
-    // temp_out: 0,
-    // pres_grad: 0,
-    // visc: 0,
-    // pv: 0,
-    // yp: 0,
-    // gels_10_sec: 0,
-    // gels_10_min: 0,
-    // fluid_loss: 0,
-    // ph: 0,
-    // solids: 0,
-    // sand: 0,
-    // water: 0,
-    // oil: 0,
-    // hgs: 0,
-    // lgs: 0,
-    // ltlp: 0,
-    // hthp: 0,
-    // cake: 0,
-    // e_stb: 0,
-    // pf: 0,
-    // mf: 0,
-    // pm: 0,
-    // ecd: 0,
+    mud_type: "",  // Mud Type
+    time: "",
+    mw_in: 0,
+    mw_out: 0,
+    temp_in: 0,
+    temp_out: 0,
+    pres_grad: 0,
+    visc: 0,
+    pv: 0,
+    yp: 0,
+    gels_10_sec: 0,
+    gels_10_min: 0,
+    fluid_loss: 0,
+    ph: 0,
+    solids: 0,
+    sand: 0,
+    water: 0,
+    oil: 0,
+    hgs: 0,
+    lgs: 0,
+    ltlp: 0,
+    hthp: 0,
+    cake: 0,
+    e_stb: 0,
+    pf: 0,
+    mf: 0,
+    pm: 0,
+    ecd: 0,
   });
 
-  React.useEffect(() => {
+  // Handle perubahan data form
+  const handleChangeData = useCallback(
+    (name, type) => (e) => {
+      let value = e.target.value;
+
+      if (type === "number") {
+        value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
+        if (isNaN(value)) {
+          value = "";
+        }
+      }
+
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    },
+    []
+  );
+
+  // Handle penambahan data ke tabel
+  const handleAddData = () => {
+    setTableData((prevTableData) => [...prevTableData, formData]);
+    setFormData({
+      mud_type: "",
+      time: "",
+      mw_in: 0,
+      mw_out: 0,
+      temp_in: 0,
+      temp_out: 0,
+      pres_grad: 0,
+      visc: 0,
+      pv: 0,
+      yp: 0,
+      gels_10_sec: 0,
+      gels_10_min: 0,
+      fluid_loss: 0,
+      ph: 0,
+      solids: 0,
+      sand: 0,
+      water: 0,
+      oil: 0,
+      hgs: 0,
+      lgs: 0,
+      ltlp: 0,
+      hthp: 0,
+      cake: 0,
+      e_stb: 0,
+      pf: 0,
+      mf: 0,
+      pm: 0,
+      ecd: 0,
+    });
+  };
+
+  // Handle penghapusan data dari tabel
+  const handleDelete = (row) => {
+    setTableData((prevTableData) =>
+      prevTableData.filter((data) => data !== row)
+    );
+  };
+
+  // Mengirim data tabel ke parent ketika tableData berubah
+  useEffect(() => {
     handleChangeOfData(tableData);
   }, [tableData]);
 
+  // Header untuk tabel
   const headers = [
+    { Header: "Mud Type", accessor: "mud_type" },
     { Header: "Time", accessor: "time" },
     { Header: "MW In", accessor: "mw_in" },
     { Header: "MW Out", accessor: "mw_out" },
@@ -96,69 +161,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
     },
   ];
 
-  const handleChangeData = React.useCallback(
-    (name, type) => (e) => {
-      let value = e.target.value;
-
-      // Jika tipe input adalah number, kita periksa apakah itu float atau integer
-      if (type === "number") {
-        // Konversi nilai ke number, dan pastikan menerima angka integer dan float
-        value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
-
-        // Jika nilai yang dikonversi tidak valid (misalnya NaN), set nilai menjadi string kosong
-        if (isNaN(value)) {
-          value = "";
-        }
-      }
-
-      // Set formData dengan nilai yang baru
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    },
-    []
-  );
-
-  const handleAddData = () => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData({
-      mud_type: null,
-      time: "",
-      mw_in: 0,
-      mw_out: 0,
-      temp_in: 0,
-      temp_out: 0,
-      pres_grad: 0,
-      visc: 0,
-      pv: 0,
-      yp: 0,
-      gels_10_sec: 0,
-      gels_10_min: 0,
-      fluid_loss: 0,
-      ph: 0,
-      solids: 0,
-      sand: 0,
-      water: 0,
-      oil: 0,
-      hgs: 0,
-      lgs: 0,
-      ltlp: 0,
-      hthp: 0,
-      cake: 0,
-      e_stb: 0,
-      pf: 0,
-      mf: 0,
-      pm: 0,
-      ecd: 0,
-    });
-  };
-
-  const handleDelete = (row) => {
-    setTableData((prevTableData) =>
-      prevTableData.filter((data) => data !== row)
-    );
-  };
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={4} fontFamily={"Montserrat"}>
       <GridItem colSpan={2}>
@@ -174,15 +176,16 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                 labelForm="Time"
                 placeholder="Time"
                 type="datetime-local"
-                max="999"
-                min="0"
-                step="1"
                 value={formData.time}
                 handleChange={handleChangeData("time", "text")}
               />
-              <SelectComponent onChange={handleChangeData("mud_type")}>
-                <SelectOption label={"LIQUID"} value={"LIQUID"} />
-                <SelectOption label={"DRY"} value={"DRY"} />
+              <SelectComponent
+                label="Mud Type"
+                value={formData.mud_type}
+                onChange={handleChangeData("mud_type", "text")}
+              >
+                <SelectOption label="Liquid" value="LIQUID" />
+                <SelectOption label="Dry" value="DRY" />
               </SelectComponent>
             </GridItem>
 
@@ -235,7 +238,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.pres_grad}
                   handleChange={handleChangeData("pres_grad", "number")}
                 />
-
                 <FormControlCard
                   labelForm="Visc"
                   placeholder="Visc"
@@ -255,7 +257,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.pv}
                   handleChange={handleChangeData("pv", "number")}
                 />
-
                 <FormControlCard
                   labelForm="YP"
                   placeholder="YP"
@@ -267,7 +268,7 @@ const DrillingFluid = ({ handleChangeOfData }) => {
             </GridItem>
 
             <GridItem>
-              <Flex>
+              <Flex gap={2}>
                 <FormControlCard
                   labelForm="Gels 10 sec"
                   placeholder="Gels 10 sec"
@@ -275,7 +276,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.gels_10_sec}
                   handleChange={handleChangeData("gels_10_sec", "number")}
                 />
-
                 <FormControlCard
                   labelForm="Gels 10 min"
                   placeholder="Gels 10 min"
@@ -295,7 +295,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.fluid_loss}
                   handleChange={handleChangeData("fluid_loss", "number")}
                 />
-
                 <FormControlCard
                   labelForm="pH"
                   placeholder="pH"
@@ -307,7 +306,7 @@ const DrillingFluid = ({ handleChangeOfData }) => {
             </GridItem>
 
             <GridItem>
-              <Flex>
+              <Flex gap={2}>
                 <FormControlCard
                   labelForm="Solids"
                   placeholder="Solids"
@@ -315,7 +314,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.solids}
                   handleChange={handleChangeData("solids", "number")}
                 />
-
                 <FormControlCard
                   labelForm="Sand"
                   placeholder="Sand"
@@ -327,7 +325,7 @@ const DrillingFluid = ({ handleChangeOfData }) => {
             </GridItem>
 
             <GridItem>
-              <Flex>
+              <Flex gap={2}>
                 <FormControlCard
                   labelForm="Water"
                   placeholder="Water"
@@ -335,7 +333,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.water}
                   handleChange={handleChangeData("water", "number")}
                 />
-
                 <FormControlCard
                   labelForm="Oil"
                   placeholder="Oil"
@@ -347,7 +344,7 @@ const DrillingFluid = ({ handleChangeOfData }) => {
             </GridItem>
 
             <GridItem>
-              <Flex>
+              <Flex gap={2}>
                 <FormControlCard
                   labelForm="HGS"
                   placeholder="HGS"
@@ -355,7 +352,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.hgs}
                   handleChange={handleChangeData("hgs", "number")}
                 />
-
                 <FormControlCard
                   labelForm="LGS"
                   placeholder="LGS"
@@ -367,7 +363,7 @@ const DrillingFluid = ({ handleChangeOfData }) => {
             </GridItem>
 
             <GridItem>
-              <Flex>
+              <Flex gap={2}>
                 <FormControlCard
                   labelForm="LTLP"
                   placeholder="LTLP"
@@ -375,7 +371,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.ltlp}
                   handleChange={handleChangeData("ltlp", "number")}
                 />
-
                 <FormControlCard
                   labelForm="HTHP"
                   placeholder="HTHP"
@@ -395,7 +390,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.cake}
                   handleChange={handleChangeData("cake", "number")}
                 />
-
                 <FormControlCard
                   labelForm="E Stb"
                   placeholder="E Stb"
@@ -407,7 +401,7 @@ const DrillingFluid = ({ handleChangeOfData }) => {
             </GridItem>
 
             <GridItem>
-              <Flex>
+              <Flex gap={2}>
                 <FormControlCard
                   labelForm="PF"
                   placeholder="PF"
@@ -415,7 +409,6 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   value={formData.pf}
                   handleChange={handleChangeData("pf", "number")}
                 />
-
                 <FormControlCard
                   labelForm="MF"
                   placeholder="MF"

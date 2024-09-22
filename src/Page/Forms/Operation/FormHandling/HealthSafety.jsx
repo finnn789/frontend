@@ -64,6 +64,7 @@ const HealthSafety = ({handleChangeDataIncident,handleChangeOfData}) => {
               <SelectComponent
                 key={index}
                 label={field.label}
+                value={formData[field.name] || ""}
                 onChange={handleChangeData(field.name)}
               >
                 <SelectOption value="Y" label="Y" />

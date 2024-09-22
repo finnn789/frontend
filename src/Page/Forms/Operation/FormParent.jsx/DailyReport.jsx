@@ -100,7 +100,7 @@ const DailyReport = ({ job_id }) => {
     ],
     Incidents: [
       {
-        incidents_time: "2null24-null9-2nullT16:52:54.442Z",
+        incidents_time: "",
         incident: null,
         incident_type: null,
         comments: null,
@@ -164,10 +164,27 @@ const DailyReport = ({ job_id }) => {
   const toast = useToast();
   const postData = async () => {
     try {
-      const response = await PostOperationReport(handleData);
-      console.log(response.data);
+      const response = await PostOperationReport(handleData)
+      console.log(response);
+      if(response.status === 200){
+        toast({
+          title: "Data Berhasil",
+          description: "Data Berhasil",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 4000);
+      }
+        
+      
+      // console.log(response);
     } catch (error) {
-      if (error.status === 422) {
+      console.error(error);
+      if (error.response.status === 422) {
         toast({
           title: "Error",
           description: "Harap Periksa Kembali Fieldnya",

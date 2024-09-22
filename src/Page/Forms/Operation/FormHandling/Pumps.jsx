@@ -87,7 +87,7 @@ const Pumps = ({ handleChangeOfData }) => {
           padding="18px 8px"
           subtitle="Measurements"
         >
-          <SelectComponent label="Slow Speed" onChange={handleChangeData("slow_speed")}>
+          <SelectComponent label="Slow Speed" value={formData.slow_speed} onChange={handleChangeData("slow_speed")}>
             <SelectOption value={"Y"} label="Y" />
             <SelectOption value={"N"} label="N" />
           </SelectComponent>

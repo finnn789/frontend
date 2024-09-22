@@ -21,6 +21,7 @@ const SelectComponent = ({
   align = "Vertical", // Determines if the layout is horizontal or vertical
   children,
   type,
+  selected,
   ...props
 }) => {
   // Memoize the onChange handler to avoid unnecessary re-renders
@@ -40,7 +41,7 @@ const SelectComponent = ({
           </FormLabel>
           <ChakraSelect
             name={name}
-            value={value}
+            value={value ? value : ""}
             onChange={memoizedHandleChange}
             flex="1"
             {...props}
@@ -56,11 +57,11 @@ const SelectComponent = ({
           <FormLabel>{label}</FormLabel>
           <ChakraSelect
             name={name}
-            value={value}
+            value={value ? value : ""}
             onChange={memoizedHandleChange}
             {...props}
           >
-            <option disabled selected>
+            <option disabled value="" selected>
               {placeholder}
             </option>
             {children}

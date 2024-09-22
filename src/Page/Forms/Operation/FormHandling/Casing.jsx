@@ -52,7 +52,7 @@ const CasingOps = ({ handleChangeOfData }) => {
           <FormControlCard
             labelForm="Set MD"
             placeholder="Set MD"
-            type="text"
+            type="number"
             name="set_md"
             value={formData.set_md}
             handleChange={handleChangeData("set_md")}
@@ -72,10 +72,10 @@ const CasingOps = ({ handleChangeOfData }) => {
           <FormControlCard
             labelForm="Set MD 2"
             placeholder="Set MD 2"
-            type="text"
-            name="set_md_2"
+            type="number"
+            name="next_set_md"
             value={formData.set_md_2}
-            handleChange={handleChangeData("set_md_2")}
+            handleChange={handleChangeData("next_set_md")}
           />
         </GridItem>
         <GridItem>
@@ -97,6 +97,18 @@ const CasingOps = ({ handleChangeOfData }) => {
             value={formData.tol}
             handleChange={handleChangeData("tol")}
           />
+          
+        </GridItem>
+        <GridItem>
+          <FormControlCard
+            labelForm="Last Size"
+            placeholder="Last Size"
+            type="number"
+            name="last_size"
+            value={formData.last_size}
+            handleChange={handleChangeData("last_size")}
+          />
+          
         </GridItem>
       </Grid>
     </CardFormK3>

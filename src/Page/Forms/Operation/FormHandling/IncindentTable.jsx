@@ -57,7 +57,7 @@ const IncidentTable = ({ handleOnChangeData }) => {
           <FormControlCard
             labelForm="Incident Time"
             placeholder="Incident Time"
-            type="time"
+            type="datetime-local"
             value={incidentForm.incidents_time}
             handleChange={handleInputChange("incidents_time")}
           />
