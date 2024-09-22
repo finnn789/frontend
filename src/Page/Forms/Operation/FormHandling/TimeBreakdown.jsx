@@ -6,7 +6,6 @@ import {
   Flex,
   Grid,
   GridItem,
-  HStack,
   Radio,
   RadioGroup,
   Tab,
@@ -23,6 +22,19 @@ import { GetCodeTimeBreakDown } from "../../../API/APIKKKS";
 const TimeBreakdown = ({ handleChange }) => {
   const [codeTime, setCodeTime] = React.useState([]);
   const [tableData, setTableData] = React.useState([]);
+  const [errors, setErrors] = React.useState({});
+  const [radio, setRadio] = React.useState("");
+  const [formData, setFormData] = React.useState({
+    start_time: "",
+    end_time: "",
+    start_measured_depth: "",
+    end_measured_depth: "",
+    category: "",
+    p: "",
+    npt: "",
+    code: "",
+    operation: "",
+  });
 
   React.useEffect(() => {
     GetCodeTimeBreakDown().then((res) => {
@@ -33,32 +45,11 @@ const TimeBreakdown = ({ handleChange }) => {
   React.useEffect(() => {
     handleChange(tableData);
   }, [tableData]);
-  const [radio, setRadio] = React.useState("");
-  const [formData, setFormData] = React.useState({
-    start_time: null,
-    end_time: null,
-    start_measured_depth: null,
-    end_measured_depth: null,
-    category: null,
-    p: null,
-    npt: null,
-    code: null,
-    operation: null,
-  });
 
   const enumCategory = [
-    {
-      label: "Drilling",
-      value: "DRILLING",
-    },
-    {
-      label: "Completion",
-      value: "COMPLETION",
-    },
-    {
-      label: "Work Over",
-      value: "WORKOVER",
-    },
+    { label: "Drilling", value: "DRILLING" },
+    { label: "Completion", value: "COMPLETION" },
+    { label: "Work Over", value: "WORKOVER" },
   ];
 
   const headers = [
@@ -96,33 +87,50 @@ const TimeBreakdown = ({ handleChange }) => {
     if (radio === "Productive") {
       setFormData((prevData) => ({
         ...prevData,
-        // Menyimpan pilihan radio
         p: "Y",
         npt: "P",
       }));
     } else if (radio === "Non_Productive") {
       setFormData((prevData) => ({
         ...prevData,
-        // Menyimpan pilihan radio
         p: "N",
         npt: "NP",
       }));
     }
-  }, [radio, setFormData]);
+  }, [radio]);
+
+  const validateFormData = () => {
+    let tempErrors = {};
+    if (!formData.start_time) tempErrors.start_time = "Start Time is required";
+    if (!formData.end_time) tempErrors.end_time = "End Time is required";
+    if (!formData.start_measured_depth)
+      tempErrors.start_measured_depth = "Start Measured Depth is required";
+    if (!formData.end_measured_depth)
+      tempErrors.end_measured_depth = "End Measured Depth is required";
+    if (!formData.category) tempErrors.category = "Category is required";
+    if (!formData.code) tempErrors.code = "Code is required";
+    if (!formData.operation) tempErrors.operation = "Operation is required";
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0; // Returns true if no errors
+  };
+
   const handleAddData = () => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setRadio("");
-    setFormData({
-      start_time: "",
-      end_time: "",
-      start_measured_depth: 0,
-      end_measured_depth: 0,
-      category: "",
-      p: "",
-      npt: "",
-      code: "",
-      operation: "",
-    }); // Reset form
+    if (validateFormData()) {
+      setTableData((prevTableData) => [...prevTableData, formData]);
+      setRadio("");
+      setFormData({
+        start_time: "",
+        end_time: "",
+        start_measured_depth: "",
+        end_measured_depth: "",
+        category: "",
+        p: "",
+        npt: "",
+        code: "",
+        operation: "",
+      }); // Reset form
+    }
   };
 
   const handleDelete = (row) => {
@@ -139,13 +147,15 @@ const TimeBreakdown = ({ handleChange }) => {
           <Flex gap={2}>
             <FormControlCard
               labelForm="Start Time"
-              placeholder="start_time"
+              placeholder="Start Time"
               type="time"
               max="999"
               min="0"
               step="1"
               value={formData.start_time}
               handleChange={handleChangeData("start_time")}
+              isInvalid={!!errors.start_time}
+              errorMessage={errors.start_time}
             />
             <FormControlCard
               labelForm="End Time"
@@ -154,9 +164,11 @@ const TimeBreakdown = ({ handleChange }) => {
               max="999"
               min="0"
               step="1"
-              isDisabled={!formData.start_time}
               value={formData.end_time}
+              isDisabled={!formData.start_time}
               handleChange={handleChangeData("end_time")}
+              isInvalid={!!errors.end_time}
+              errorMessage={errors.end_time}
             />
           </Flex>
           <Flex gap={2}>
@@ -166,14 +178,17 @@ const TimeBreakdown = ({ handleChange }) => {
               type="number"
               value={formData.start_measured_depth}
               handleChange={handleChangeData("start_measured_depth")}
+              isInvalid={!!errors.start_measured_depth}
+              errorMessage={errors.start_measured_depth}
             />
             <FormControlCard
               labelForm="End Depth"
               placeholder="Depth"
               type="number"
               value={formData.end_measured_depth}
-              //   isDisabled={!formData.startDate} // Disable if startDate is empty
               handleChange={handleChangeData("end_measured_depth")}
+              isInvalid={!!errors.end_measured_depth}
+              errorMessage={errors.end_measured_depth}
             />
           </Flex>
           <Flex>
@@ -192,6 +207,8 @@ const TimeBreakdown = ({ handleChange }) => {
               label="Code"
               value={formData.code}
               placeholder="Select Code"
+              isInvalid={!!errors.code}
+              errorMessage={errors.code}
             >
               {codeTime.map((data, index) => (
                 <SelectOption
@@ -206,6 +223,8 @@ const TimeBreakdown = ({ handleChange }) => {
               label="Category"
               placeholder="Select Category"
               value={formData.category}
+              isInvalid={!!errors.category}
+              errorMessage={errors.category}
             >
               {enumCategory.map((data, index) => (
                 <SelectOption
@@ -217,7 +236,14 @@ const TimeBreakdown = ({ handleChange }) => {
             </SelectComponent>
           </Flex>
           <Flex gap={2}>
-            <FormControlCard labelForm="Operation" placeholder="Operation" handleChange={handleChangeData("operation")}/>
+            <FormControlCard
+              labelForm="Operation"
+              placeholder="Operation"
+              value={formData.operation}
+              handleChange={handleChangeData("operation")}
+              isInvalid={!!errors.operation}
+              errorMessage={errors.operation}
+            />
           </Flex>
           <Flex>
             <Button colorScheme="blue" variant="solid" onClick={handleAddData}>

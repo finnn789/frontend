@@ -3,7 +3,8 @@ import { Box, Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl"; // Pastikan path ini sesuai dengan lokasi komponen Anda
 import CardFormK3 from "../../Components/CardFormK3";
 
-const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
+const BitRecord = ({ handleChangeOfData, titleBitRecord, messageError }) => {
+  const messageErrors = messageError;
   const [formData, setFormData] = useState({
     id: null,
     bit_size: null,
@@ -27,7 +28,7 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
   const handleChangeData = (name) => (e) => {
     let value = e.target.value;
     const type = e.target.type;
-    
+
     if (type === "number") {
       // Jika ada titik desimal, proses sebagai float, jika tidak proses sebagai integer
       value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
@@ -47,7 +48,6 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
 
   return (
     <Grid templateColumns="repeat(4, 1fr)" gap={4}>
-      
       <GridItem>
         <FormControlCard
           labelForm="ID"
@@ -55,6 +55,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="text"
           value={formData.id}
           handleChange={handleChangeData("id")}
+          isInvalid={!!messageErrors?.id}
+          errorMessage={messageErrors?.id}
         />
       </GridItem>
 
@@ -65,6 +67,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="number"
           value={formData.bit_size}
           handleChange={handleChangeData("bit_size")}
+          isInvalid={!!messageErrors?.bit_size}
+          errorMessage={messageErrors?.bit_size}
         />
       </GridItem>
 
@@ -75,6 +79,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="number"
           value={formData.bit_number}
           handleChange={handleChangeData("bit_number")}
+          isInvalid={!!messageErrors?.bit_number}
+          errorMessage={messageErrors?.bit_number}
         />
       </GridItem>
 
@@ -85,6 +91,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="number"
           value={formData.bit_run}
           handleChange={handleChangeData("bit_run")}
+          isInvalid={!!messageErrors?.bit_run}
+          errorMessage={messageErrors?.bit_run}
         />
       </GridItem>
 
@@ -95,6 +103,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="text"
           value={formData.manufacturer}
           handleChange={handleChangeData("manufacturer")}
+          isInvalid={!!messageErrors?.manufacturer}
+          errorMessage={messageErrors?.manufacturer}
         />
       </GridItem>
 
@@ -105,6 +115,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="text"
           value={formData.iadc_code}
           handleChange={handleChangeData("iadc_code")}
+          isInvalid={!!messageErrors?.iadc_code}
+          errorMessage={messageErrors?.iadc_code}
         />
       </GridItem>
 
@@ -115,6 +127,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="text"
           value={formData.jets}
           handleChange={handleChangeData("jets")}
+          isInvalid={!!messageErrors?.jets}
+          errorMessage={messageErrors?.jets}
         />
       </GridItem>
 
@@ -125,6 +139,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="text"
           value={formData.serial}
           handleChange={handleChangeData("serial")}
+          isInvalid={!!messageErrors?.serial}
+          errorMessage={messageErrors?.serial}
         />
       </GridItem>
 
@@ -135,6 +151,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="number"
           value={formData.depth_out}
           handleChange={handleChangeData("depth_out")}
+          isInvalid={!!messageErrors?.depth_out}
+          errorMessage={messageErrors?.depth_out}
         />
       </GridItem>
 
@@ -145,6 +163,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="number"
           value={formData.depth_in}
           handleChange={handleChangeData("depth_in")}
+          isInvalid={!!messageErrors?.depth_in}
+          errorMessage={messageErrors?.depth_in}
         />
       </GridItem>
 
@@ -155,6 +175,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="number"
           value={formData.meterage}
           handleChange={handleChangeData("meterage")}
+          isInvalid={!!messageErrors?.meterage}
+          errorMessage={messageErrors?.meterage}
         />
       </GridItem>
 
@@ -165,16 +187,20 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="number"
           value={formData.bit_hours}
           handleChange={handleChangeData("bit_hours")}
+          isInvalid={!!messageErrors?.bit_hours}
+          errorMessage={messageErrors?.bit_hours}
         />
       </GridItem>
 
       <GridItem>
         <FormControlCard
-          labelForm="Nozzels"
-          placeholder="Nozzels"
+          labelForm="Nozzles"
+          placeholder="Nozzles"
           type="number"
-          value={formData.nozzels}
-          handleChange={handleChangeData("nozzels")}
+          value={formData.nozzles}
+          handleChange={handleChangeData("nozzles")}
+          isInvalid={!!messageErrors?.nozzles}
+          errorMessage={messageErrors?.nozzles}
         />
       </GridItem>
 
@@ -185,6 +211,8 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
           type="text"
           value={formData.dull_grade}
           handleChange={handleChangeData("dull_grade")}
+          isInvalid={!!messageErrors?.dull_grade}
+          errorMessage={messageErrors?.dull_grade}
         />
       </GridItem>
     </Grid>

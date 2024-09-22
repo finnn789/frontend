@@ -20,8 +20,10 @@ const FormControlCard = ({
   alignInput = "Vertical",
   inputRightOn = null,
   isTextArea = false,
-  isDisabled = false, 
-  ...props// New prop to disable the input or textarea
+  isDisabled = false,
+  isInvalid = false,  // New prop for error state
+  errorMessage = "",  // New prop for error message
+  ...props
 }) => {
   // Memoize the handleChange function to avoid unnecessary renders
   const memoizedHandleChange = useCallback(
@@ -40,9 +42,9 @@ const FormControlCard = ({
           value={value}
           onChange={memoizedHandleChange}
           placeholder={placeholder}
-          isDisabled={isDisabled} 
+          isDisabled={isDisabled}
+          isInvalid={isInvalid}  // Apply error state to Textarea
           {...props}
-          // Apply isDisabled prop
         />
       );
     } else {
@@ -53,16 +55,16 @@ const FormControlCard = ({
           value={value}
           onChange={memoizedHandleChange}
           placeholder={placeholder}
-          isDisabled={isDisabled} 
+          isDisabled={isDisabled}
+          isInvalid={isInvalid}  // Apply error state to Input
           {...props}
-          // Apply isDisabled prop
         />
       );
     }
   };
 
   return (
-    <ChakraFormControl>
+    <ChakraFormControl isInvalid={isInvalid}>
       {alignInput === "Horizontal" ? (
         <Flex alignItems="center" gap={0}>
           <FormLabel minWidth="120px" m={0}>
@@ -82,6 +84,7 @@ const FormControlCard = ({
           </InputGroup>
         </>
       )}
+      {isInvalid && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
     </ChakraFormControl>
   );
 };

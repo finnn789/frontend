@@ -38,6 +38,9 @@ import MudVolumes from "../FormHandling/MudVolumes";
 import { IconInfoCircle } from "@tabler/icons-react";
 
 const DailyReport = ({ job_id }) => {
+
+  const [errors, setErrors] = React.useState({});
+  // console.log(errors);
   const [handleData, setHandleData] = React.useState({
     report_date: "2024-09-20",
     avg_wob: null,
@@ -164,9 +167,9 @@ const DailyReport = ({ job_id }) => {
   const toast = useToast();
   const postData = async () => {
     try {
-      const response = await PostOperationReport(handleData)
+      const response = await PostOperationReport(handleData);
       console.log(response);
-      if(response.status === 200){
+      if (response.status === 200) {
         toast({
           title: "Data Berhasil",
           description: "Data Berhasil",
@@ -179,8 +182,7 @@ const DailyReport = ({ job_id }) => {
         //   window.location.reload();
         // }, 4000);
       }
-        
-      
+
       // console.log(response);
     } catch (error) {
       console.error(error);
@@ -192,6 +194,14 @@ const DailyReport = ({ job_id }) => {
           duration: 3000,
           isClosable: true,
         });
+        console.error(error.response.data.detail);
+        const fieldErrors = {};
+        error.response.data.detail.forEach((error) => {
+          const field = error.loc[1]; 
+          // console.error(field); // Gets the field name from "loc"
+          fieldErrors[field] = error.msg; // Sets the error message for each field
+        });
+        setErrors(fieldErrors);
       }
       if (error.status === 500) {
         toast({
@@ -243,7 +253,7 @@ const DailyReport = ({ job_id }) => {
           </Button>
         </Flex>
         <SimpleGrid columns={1} spacing={2}>
-          <DailyDates handleChangeOfData={handleChangeNoName} />
+          <DailyDates handleChangeOfData={handleChangeNoName} messageError={errors} />
           <TimeBreakdown handleChange={handleDataWithName("time_breakdowns")} />
           <DrillingFluid
             handleChangeOfData={handleDataWithName("drilling_fluids")}
@@ -252,7 +262,11 @@ const DailyReport = ({ job_id }) => {
             handleChangeOfData={handleDataWithName("mud_additives")}
           />
 
-          <CardFormK3 title="Bottom Hole Assemblies" subtitle="BR" icon={IconInfoCircle}>
+          <CardFormK3
+            title="Bottom Hole Assemblies"
+            subtitle="BR"
+            icon={IconInfoCircle}
+          >
             <Tabs variant="enclosed-colored">
               <TabList>
                 <Tab>BHA 1</Tab>
@@ -343,23 +357,24 @@ const DailyReport = ({ job_id }) => {
             }
           /> */}
 
-          <CasingOps handleChangeOfData={handleChangeNoName} />
-          <MudVolumes handleChangeOfData={handleChangeNoName} />
-          <GasForm handleChangeOfData={handleChangeNoName} />
-          <HydraulicAnalysisForm handleChangeOfData={handleChangeNoName} />
+          <CasingOps handleChangeOfData={handleChangeNoName} messageError={errors} />
+          <MudVolumes handleChangeOfData={handleChangeNoName} messageError={errors} />
+          <GasForm handleChangeOfData={handleChangeNoName} messageError={errors} />
+          <HydraulicAnalysisForm handleChangeOfData={handleChangeNoName} messageError={errors} />
           <MaterialForm
             handleChangeOfData={handleDataWithName("bulk_materials")}
           />
           <HealthSafety
             handleChangeOfData={handleChangeNoName}
             handleChangeDataIncident={handleDataWithName("Incidents")}
+            messageError={errors}
           />
           <DirectionalSurvey
             handleChangeOfData={handleDataWithName("directional_surveys")}
           />
           <Personel handleChangeOfData={handleDataWithName("personnel")} />
           <Pumps handleChangeOfData={handleDataWithName("pumps")} />
-          <WeatherForm data={handleDataWithName("weather")} />
+          <WeatherForm data={handleDataWithName("weather")} messageError={errors}/>
         </SimpleGrid>
       </CardFormK3>
     </>

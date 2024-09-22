@@ -21,6 +21,8 @@ const DirectionalSurvey = () => {
     azm: "",
   });
 
+  const [errors, setErrors] = React.useState({});
+
   const headers = [
     { Header: "MD", accessor: "md" },
     { Header: "Inclination", accessor: "incl" },
@@ -47,13 +49,26 @@ const DirectionalSurvey = () => {
     }));
   };
 
+  const validateFormData = () => {
+    let tempErrors = {};
+    if (!formData.md) tempErrors.md = "Measured Depth (MD) is required";
+    if (!formData.incl) tempErrors.incl = "Inclination is required";
+    if (!formData.azm) tempErrors.azm = "Azimuth is required";
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0; // Returns true if no errors
+  };
+
   const handleAddData = () => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData({
-      md: "",
-      incl: "",
-      azm: "",
-    });
+    if (validateFormData()) {
+      setTableData((prevTableData) => [...prevTableData, formData]);
+      setFormData({
+        md: "",
+        incl: "",
+        azm: "",
+      });
+      setErrors({}); // Clear errors after successful addition
+    }
   };
 
   const handleDelete = (row) => {
@@ -83,6 +98,8 @@ const DirectionalSurvey = () => {
             type="number"
             value={formData.md}
             handleChange={handleChangeData("md")}
+            isInvalid={!!errors.md}
+            errorMessage={errors.md}
           />
           <FormControlCard
             labelForm="Inclination"
@@ -90,6 +107,8 @@ const DirectionalSurvey = () => {
             type="number"
             value={formData.incl}
             handleChange={handleChangeData("incl")}
+            isInvalid={!!errors.incl}
+            errorMessage={errors.incl}
           />
           <FormControlCard
             labelForm="Azimuth"
@@ -97,6 +116,8 @@ const DirectionalSurvey = () => {
             type="number"
             value={formData.azm}
             handleChange={handleChangeData("azm")}
+            isInvalid={!!errors.azm}
+            errorMessage={errors.azm}
           />
           <Button
             colorScheme="blue"

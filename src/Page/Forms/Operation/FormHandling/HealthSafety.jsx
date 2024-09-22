@@ -6,7 +6,13 @@ import FormControlCard from "../../Components/FormControl";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 import IncidentTable from "./IncindentTable"; // Import the IncidentTable component
 
-const HealthSafety = ({handleChangeDataIncident,handleChangeOfData}) => {
+const HealthSafety = ({
+  handleChangeDataIncident,
+  handleChangeOfData,
+  messageError,
+}) => {
+  const messageErrors = messageError;
+  console.log(messageErrors)
   const [formData, setFormData] = React.useState({
     stop_cards: null,
     lta: null,
@@ -26,9 +32,9 @@ const HealthSafety = ({handleChangeDataIncident,handleChangeOfData}) => {
     }));
   };
 
-  React.useEffect(()=>{
-    handleChangeOfData(formData)
-  },[formData])
+  React.useEffect(() => {
+    handleChangeOfData(formData);
+  }, [formData]);
   const handleAddData = () => {
     // Handle form data submission here if needed
     console.log("Form Data Submitted:", formData);
@@ -59,20 +65,26 @@ const HealthSafety = ({handleChangeDataIncident,handleChangeOfData}) => {
               type="text"
               value={formData.stop_cards}
               handleChange={handleChangeData("stop_cards")}
+              isInvalid={!!messageErrors?.stop_cards}
+              errorMessage={messageErrors?.stop_cards}
             />
+
+            {/* Dynamically generated Select fields with Error Handling */}
             {selectOptionValue.map((field, index) => (
               <SelectComponent
                 key={index}
                 label={field.label}
                 value={formData[field.name] || ""}
                 onChange={handleChangeData(field.name)}
+                isInvalid={!!messageErrors?.[field.name]}
+                errorMessage={messageErrors?.[field.name]}
               >
                 <SelectOption value="Y" label="Y" />
                 <SelectOption value="N" label="N" />
               </SelectComponent>
             ))}
           </SimpleGrid>
-          <IncidentTable handleOnChangeData={handleChangeDataIncident}/>
+          <IncidentTable handleOnChangeData={handleChangeDataIncident} />
         </CardFormK3>
       </GridItem>
       <GridItem>{/* Include IncidentTable as a separate component */}</GridItem>

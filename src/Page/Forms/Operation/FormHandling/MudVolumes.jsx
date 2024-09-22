@@ -3,7 +3,8 @@ import CardFormK3 from "../../Components/CardFormK3";
 import { Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 
-const MudVolumes = ({handleChangeOfData}) => {
+const MudVolumes = ({ handleChangeOfData, messageError }) => {
+  const messageErrors = messageError;
   const [formData, setFormData] = React.useState({
     start_mud_volume: null,
     lost_surface_mud_volume: null,
@@ -44,6 +45,8 @@ const MudVolumes = ({handleChangeOfData}) => {
             name="start_mud_volume"
             value={formData.start_mud_volume}
             handleChange={handleChangeData("start_mud_volume")}
+            isInvalid={!!messageErrors?.start_mud_volume}
+            errorMessage={messageErrors?.start_mud_volume}
           />
         </GridItem>
         <GridItem>
@@ -54,6 +57,8 @@ const MudVolumes = ({handleChangeOfData}) => {
             name="lost_surface_mud_volume"
             value={formData.lost_surface_mud_volume}
             handleChange={handleChangeData("lost_surface_mud_volume")}
+            isInvalid={!!messageErrors?.lost_surface_mud_volume}
+            errorMessage={messageErrors?.lost_surface_mud_volume}
           />
         </GridItem>
         <GridItem>
@@ -64,6 +69,8 @@ const MudVolumes = ({handleChangeOfData}) => {
             name="lost_dh_mud_volume"
             value={formData.lost_dh_mud_volume}
             handleChange={handleChangeData("lost_dh_mud_volume")}
+            isInvalid={!!messageErrors?.lost_dh_mud_volume}
+            errorMessage={messageErrors?.lost_dh_mud_volume}
           />
         </GridItem>
         <GridItem>
@@ -74,6 +81,8 @@ const MudVolumes = ({handleChangeOfData}) => {
             name="dumped_mud_volume"
             value={formData.dumped_mud_volume}
             handleChange={handleChangeData("dumped_mud_volume")}
+            isInvalid={!!messageErrors?.dumped_mud_volume}
+            errorMessage={messageErrors?.dumped_mud_volume}
           />
         </GridItem>
         <GridItem>
@@ -84,6 +93,8 @@ const MudVolumes = ({handleChangeOfData}) => {
             name="built_mud_volume"
             value={formData.built_mud_volume}
             handleChange={handleChangeData("built_mud_volume")}
+            isInvalid={!!messageErrors?.built_mud_volume}
+            errorMessage={messageErrors?.built_mud_volume}
           />
         </GridItem>
         <GridItem>
@@ -94,9 +105,10 @@ const MudVolumes = ({handleChangeOfData}) => {
             name="ending_mud_volume"
             value={formData.ending_mud_volume}
             handleChange={handleChangeData("ending_mud_volume")}
+            isInvalid={!!messageErrors?.ending_mud_volume}
+            errorMessage={messageErrors?.ending_mud_volume}
           />
         </GridItem>
-        
       </Grid>
     </CardFormK3>
   );
