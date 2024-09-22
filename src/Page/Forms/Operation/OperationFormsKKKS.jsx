@@ -18,16 +18,23 @@ import Technical from "./FormParent.jsx/Technical";
 import DailyReport from "./FormParent.jsx/DailyReport";
 
 import FinishOperation from "./FormParent.jsx/FinishOperation";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 const OperationFormsKKKS = () => {
   const { job_id } = useParams();
+  const location = useLocation();
+
+  const {job_plan_id, job_actual} = location.state || {};
+  console.log("🚀 ~ OperationFormsKKKS ~ job_actual:", job_actual)
+  console.log("🚀 ~ OperationFormsKKKS ~ job_plan_id:", job_plan_id)
+
 
   return (
     <div>
       <Heading>+ Job Report</Heading>
 
       <Box mt={4} fontFamily={"Montserrat"}>
+        {}
         <Tabs>
           <TabList>
             <Tab>WRM</Tab>
@@ -38,7 +45,7 @@ const OperationFormsKKKS = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <WRMRequirement job_id={job_id} />
+              <WRMRequirement job_id={job_id} job_actual={job_actual} />
             </TabPanel>
             <TabPanel>
               <OperationalParent />

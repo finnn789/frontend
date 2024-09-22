@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardFormK3 from "../../Components/CardFormK3";
 import GridLayout from "../../Layout/GridLayout";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 import { IconBrightness } from "@tabler/icons-react";
-import { patchWRM, getWRMData } from "../../../../Page/API/APISKK"; // Memanggil kedua fungsi dari file lain
-import { Input, Button } from "@chakra-ui/react"; // Pastikan Chakra UI digunakan untuk Input dan Button
+import { patchWRM, getWRMData } from "../../../../Page/API/APISKK";
+import { Button, Spinner, Center } from "@chakra-ui/react"; // Menggunakan Spinner dari Chakra UI untuk loading
 
-const WRMUpdates = () => {
-  const [actualExplorationId, setActualExplorationId] = useState(""); // State untuk actual_exploration_id
-  const [values, setValues] = useState(null); // Inisialisasi dengan null agar lebih mudah dalam pengecekan
+const WRMUpdates = ({ job_actual }) => {
+  const [values, setValues] = useState(null); // State untuk menyimpan data WRM yang diambil dari API
   const [loading, setLoading] = useState(false); // State untuk status loading
 
   const ValueOption = [
@@ -34,31 +33,32 @@ const WRMUpdates = () => {
     { value: "5%", label: "5%" },
     { value: "0%", label: "0%" },
   ];
-  
 
-  // Fungsi untuk memulai pengambilan data WRM setelah actual_exploration_id dimasukkan
-  const handleFetchData = async () => {
-    if (!actualExplorationId) {
-      console.error("actual_exploration_id is required");
-      return;
+  // Fetch WRM data saat komponen di-load berdasarkan job_actual
+  useEffect(() => {
+    if (job_actual) {
+      const fetchData = async () => {
+        setLoading(true); // Set status loading menjadi true
+        try {
+          const response = await getWRMData(job_actual); // Memanggil fungsi getWRMData dari file lain
+          if (response) {
+            setValues(response); // Set data respons ke state
+          } else {
+            setValues(null); // Jika respons tidak valid, set values ke null
+          }
+        } catch (error) {
+          console.error("Error fetching WRM data", error);
+          setValues(null); // Set nilai default jika error
+        } finally {
+          setLoading(false); // Selesai loading
+        }
+      };
+
+      fetchData();
     }
+  }, [job_actual]);
 
-    setLoading(true); // Set status loading menjadi true
-    try {
-      const response = await getWRMData(actualExplorationId, 'exploration'); // Memanggil fungsi getWRMData dari file lain
-      if (response) {
-        setValues(response); // Set data respons ke state
-      } else {
-        setValues(null); // Jika respons tidak valid, set values ke null
-      }
-    } catch (error) {
-      console.error("Error fetching WRM data", error);
-      setValues(null); // Set nilai default jika error
-    } finally {
-      setLoading(false); // Selesai loading, set menjadi false
-    }
-  };
-
+  // Handle perubahan pada select
   const handleSelectChange = (name) => (e) => {
     const newValue = e.target.value;
     setValues((prevValues) => ({
@@ -67,41 +67,36 @@ const WRMUpdates = () => {
     }));
   };
 
+  // Fungsi untuk submit data ke patch WRM
   const handleSubmit = async () => {
-    if (!actualExplorationId) {
-      console.error("actual_exploration_id and exploration_id are required");
+    if (!job_actual) {
+      console.error("job_actual is required");
       return;
     }
 
     try {
-      const response = await patchWRM(actualExplorationId, values); // Mengirim data state `values` ke patchWRM
+      const response = await patchWRM(job_actual, values); // Mengirim data state `values` ke patchWRM
       console.log("Data updated successfully", response);
     } catch (error) {
       console.error("Failed to update data", error);
     }
   };
 
+  // Jika sedang loading, tampilkan spinner
+  if (loading) {
+    return (
+      <Center mt={4}>
+        <Spinner size="xl" color="blue.500" />
+      </Center>
+    );
+  }
+
   return (
     <div>
       <CardFormK3 title={"WRM Updates"} icon={IconBrightness} subtitle="WRM">
         <GridLayout Columns={1} Gap={2}>
           <GridLayout.Item>
-            {/* Input untuk memasukkan actual_exploration_id */}
-            <Input
-              placeholder="Enter actual_exploration_id"
-              value={actualExplorationId}
-              onChange={(e) => setActualExplorationId(e.target.value)}
-              mb={4} // Margin bottom untuk memberi ruang sebelum elemen lain
-            />
-            {/* Input untuk memasukkan exploration_id */}
-            {/* Tombol untuk mengambil data */}
-            <Button onClick={handleFetchData} colorScheme="blue" mb={4}>
-              Fetch WRM Data
-            </Button>
-
-            {loading && <div>Loading...</div>}
-
-            {values && !loading && (
+            {values && (
               <>
                 <SelectComponent
                   label="Pembebasan Lahan"
