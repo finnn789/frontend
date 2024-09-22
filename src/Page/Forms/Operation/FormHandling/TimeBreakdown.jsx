@@ -114,6 +114,9 @@ const TimeBreakdown = ({ handleChange }) => {
               labelForm="Start Time"
               placeholder="start_time"
               type="time"
+              max="999"
+              min="0"
+              step="1"
               value={formData.start_time}
               handleChange={handleChangeData("start_time")}
             />
@@ -121,6 +124,9 @@ const TimeBreakdown = ({ handleChange }) => {
               labelForm="End Time"
               placeholder="End Time"
               type="time"
+              max="999"
+              min="0"
+              step="1"
               value={formData.end_time}
               handleChange={handleChangeData("end_time")}
             />
@@ -153,9 +159,17 @@ const TimeBreakdown = ({ handleChange }) => {
             </RadioGroup>
           </Flex>
           <Flex>
-            <SelectComponent onChange={handleChangeData("code")} label="Code" placeholder="Select Code">
+            <SelectComponent
+              onChange={handleChangeData("code")}
+              label="Code"
+              placeholder="Select Code"
+            >
               {codeTime.map((data, index) => (
-                <SelectOption label={data.operation} value={data.operation} key={index} />
+                <SelectOption
+                  label={data.operation}
+                  value={data.operation}
+                  key={index}
+                />
               ))}
             </SelectComponent>
           </Flex>
