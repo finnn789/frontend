@@ -52,10 +52,10 @@ export async function PostOperationReport(data) {
       }
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error get Data Table", error);
-    return error
+    throw error;
   }
 }
 

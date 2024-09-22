@@ -27,7 +27,7 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord }) => {
   const handleChangeData = (name) => (e) => {
     let value = e.target.value;
     const type = e.target.type;
-
+    
     if (type === "number") {
       // Jika ada titik desimal, proses sebagai float, jika tidak proses sebagai integer
       value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);

@@ -1,9 +1,18 @@
 import React from "react";
-import { Box, Button, Flex, Grid, GridItem, IconButton, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  IconButton,
+  Input,
+} from "@chakra-ui/react";
 import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 import { IconTrash } from "@tabler/icons-react";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
+import { GetBHAEnum } from "../../../API/APIKKKS";
 
 const BottomHoleAssembly = ({ handleFormData }) => {
   const [formData, setFormData] = React.useState({
@@ -17,6 +26,13 @@ const BottomHoleAssembly = ({ handleFormData }) => {
       },
     ],
   });
+  const [BHAEnum, setBHAEnum] = React.useState([]);
+  // console.log(BHAEnum);
+  React.useEffect(() => {
+    GetBHAEnum().then((res) => {
+      setBHAEnum(res.data);
+    });
+  }, []);
 
   React.useEffect(() => {
     handleFormData(formData);
@@ -29,8 +45,8 @@ const BottomHoleAssembly = ({ handleFormData }) => {
     setFormData((prevData) => ({
       ...prevData,
       [field]: value, // Update bha_number or bha_run
-      components: prevData.components.map((comp, idx) =>
-        idx === index ? { ...comp, [field]: value } : comp // Update component fields
+      components: prevData.components.map(
+        (comp, idx) => (idx === index ? { ...comp, [field]: value } : comp) // Update component fields
       ),
     }));
   };
@@ -81,31 +97,43 @@ const BottomHoleAssembly = ({ handleFormData }) => {
             <Flex gap={2} flexDirection={"column"}>
               {formData.components.map((comp, index) => (
                 <Flex key={index} gap={2} align={"center"}>
-                  <Input
-                    placeholder="Component Name"
-                    value={comp.component || ""}
+                  {/* SelectComponent */}
+                  <SelectComponent
+                  label=""
+                    value={comp.component}
                     onChange={handleInputChange("component", index)}
-                  />
-
-                  <SelectComponent onChange={handleInputChange("component", index)}>
-                      <SelectOption label="Select Component" />
+                  >
+                    {BHAEnum.map((item) => (
+                      <SelectOption
+                        key={item.id}
+                        value={item.bhacomponent}
+                        label={item.bhacomponent}
+                      />
+                    ))}
                   </SelectComponent>
+
+                  {/* Input for Outer Diameter */}
                   <Input
                     placeholder="Outer Diameter"
                     type="number"
                     value={comp.outer_diameter || ""}
                     onChange={handleInputChange("outer_diameter", index)}
                   />
+
+                  {/* Input for Length */}
                   <Input
                     placeholder="Length"
                     type="number"
                     value={comp.length || ""}
                     onChange={handleInputChange("length", index)}
                   />
+
+                  {/* Icon Button to Remove Component */}
                   <IconButton
                     onClick={() => handleRemoveComponent(index)}
                     icon={<IconTrash />}
                     colorScheme="red"
+                    aria-label="Remove Component"
                   />
                 </Flex>
               ))}

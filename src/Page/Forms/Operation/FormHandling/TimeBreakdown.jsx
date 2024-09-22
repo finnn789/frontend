@@ -46,6 +46,21 @@ const TimeBreakdown = ({ handleChange }) => {
     operation: null,
   });
 
+  const enumCategory = [
+    {
+      label: "Drilling",
+      value: "DRILLING",
+    },
+    {
+      label: "Completion",
+      value: "COMPLETION",
+    },
+    {
+      label: "Work Over",
+      value: "WORKOVER",
+    },
+  ];
+
   const headers = [
     { Header: "Start Time", accessor: "start_time" },
     { Header: "End Time", accessor: "end_time" },
@@ -78,23 +93,35 @@ const TimeBreakdown = ({ handleChange }) => {
   };
 
   useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      category: radio,
-    }));
-  }, [radio, setRadio]);
+    if (radio === "Productive") {
+      setFormData((prevData) => ({
+        ...prevData,
+        // Menyimpan pilihan radio
+        p: "Y",
+        npt: "P",
+      }));
+    } else if (radio === "Non_Productive") {
+      setFormData((prevData) => ({
+        ...prevData,
+        // Menyimpan pilihan radio
+        p: "N",
+        npt: "NP",
+      }));
+    }
+  }, [radio, setFormData]);
   const handleAddData = () => {
     setTableData((prevTableData) => [...prevTableData, formData]);
+    setRadio("");
     setFormData({
       start_time: "",
       end_time: "",
       start_measured_depth: 0,
       end_measured_depth: 0,
       category: "",
-      p: null,
-      npt: null,
+      p: "",
+      npt: "",
       code: "",
-      operation: null,
+      operation: "",
     }); // Reset form
   };
 
@@ -127,6 +154,7 @@ const TimeBreakdown = ({ handleChange }) => {
               max="999"
               min="0"
               step="1"
+              isDisabled={!formData.start_time}
               value={formData.end_time}
               handleChange={handleChangeData("end_time")}
             />
@@ -134,14 +162,14 @@ const TimeBreakdown = ({ handleChange }) => {
           <Flex gap={2}>
             <FormControlCard
               labelForm="Start Depth"
-              placeholder="Date"
+              placeholder="Depth"
               type="number"
               value={formData.start_measured_depth}
               handleChange={handleChangeData("start_measured_depth")}
             />
             <FormControlCard
               labelForm="End Depth"
-              placeholder="Date"
+              placeholder="Depth"
               type="number"
               value={formData.end_measured_depth}
               //   isDisabled={!formData.startDate} // Disable if startDate is empty
@@ -158,10 +186,11 @@ const TimeBreakdown = ({ handleChange }) => {
               </VStack>
             </RadioGroup>
           </Flex>
-          <Flex>
+          <Flex gap={2}>
             <SelectComponent
               onChange={handleChangeData("code")}
               label="Code"
+              value={formData.code}
               placeholder="Select Code"
             >
               {codeTime.map((data, index) => (
@@ -172,6 +201,23 @@ const TimeBreakdown = ({ handleChange }) => {
                 />
               ))}
             </SelectComponent>
+            <SelectComponent
+              onChange={handleChangeData("category")}
+              label="Category"
+              placeholder="Select Category"
+              value={formData.category}
+            >
+              {enumCategory.map((data, index) => (
+                <SelectOption
+                  label={data.label}
+                  value={data.value}
+                  key={index}
+                />
+              ))}
+            </SelectComponent>
+          </Flex>
+          <Flex gap={2}>
+            <FormControlCard labelForm="Operation" placeholder="Operation" handleChange={handleChangeData("operation")}/>
           </Flex>
           <Flex>
             <Button colorScheme="blue" variant="solid" onClick={handleAddData}>

@@ -197,11 +197,11 @@ const DailyDates = ({ handleChangeOfData }) => {
             type={"text"}
             handleChange={handleChange("progress_md", "number")}
           />
-          <FormControlCard labelForm="PTMD" type={"text"} />
-          <FormControlCard labelForm="Spud Date" type={"date"} />
-          <FormControlCard labelForm="Realease Date" type={"date"} />
-          <FormControlCard labelForm="Planned Days" type={"text"} />
-          <FormControlCard labelForm="Days from Spud" type={"date"} />
+          {/* <FormControlCard labelForm="PTMD" type={"text"} /> */}
+          {/* <FormControlCard labelForm="Spud Date" type={"date"} /> */}
+          {/* <FormControlCard labelForm="Realease Date" type={"date"} /> */}
+          {/* <FormControlCard labelForm="Planned Days" type={"text"} /> */}
+          {/* <FormControlCard labelForm="Days from Spud" type={"date"} /> */}
         </CardFormK3>
 
         <CardFormK3 title="" padding="6px 12px" subtitle="" icon="">
