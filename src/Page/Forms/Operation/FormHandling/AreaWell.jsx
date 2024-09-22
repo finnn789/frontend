@@ -5,7 +5,7 @@ import FormControlCard from "../../Components/FormControl";
 // Komponen AreaWell untuk memetakan data area dan field ID ke dalam form
 const AreaWell = ({ data }) => {
   const datas = data?.data;
-  console.log("🚀 ~ AreaWell ~ data:", datas)
+  // console.log("🚀 ~ AreaWell ~ data:", datas)
   // State untuk menyimpan nilai form
   const [areaWell, setAreaWell] = useState("");
   const [fieldId, setFieldId] = useState("");

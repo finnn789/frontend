@@ -134,3 +134,23 @@ export const patchStatusOperationToOperate = async (jod_id) => {
     console.log("token", localStorage.getItem("token"));
   }
 }
+
+export const putPlanningUpdate = async (job_id, data) => {
+  console.log("easdawdasd job_id : ", job_id);
+  try {
+    const response = await axios.put(
+      `${import.meta.env.VITE_APP_URL}/job/planning/update/${job_id}`,
+      data,
+      {
+        headers: {
+          'Accept' : 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating job issue", error);
+  }
+}
