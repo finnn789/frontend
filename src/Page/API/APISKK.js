@@ -423,3 +423,22 @@ export async function getWRMData(job_id, model_type) {
     return null;
   }
 }
+
+export async function GetDataStratigraphy(area_id) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/spatial/api/strat-units/${area_id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data View Planning", error);
+    return null;
+  }
+}
