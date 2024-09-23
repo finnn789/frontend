@@ -142,12 +142,23 @@ const OperationWSKKKS = () => {
                  )}
 
                   {/* Tombol Operate hanya jika status bukan "OPERATING" */}
-                  {row.STATUS !== "OPERATING" && (
+                  {row.STATUS === "APPROVED" && (
                     <Button
                       leftIcon={<Icon as={IconRotate} />}
                       colorScheme="blue"
                       size="sm"
                       onClick={() => openOperateDialog(row.id)} // Buka dialog sebelum menjalankan operasi
+                    >
+                      Operate
+                    </Button>
+                  )}
+                  {row.STATUS === "OPERATING" && (
+                    <Button
+                      leftIcon={<Icon as={IconRotate} />}
+                      colorScheme="blue"
+                      isDisabled={true}
+                      size="sm"
+                      // onClick={() => openOperateDialog(row.id)} // Buka dialog sebelum menjalankan operasi
                     >
                       Operate
                     </Button>
