@@ -248,6 +248,7 @@ const JobDocuments = ({ data, onChange }) => {
               isLoading={loading}
               onClick={handleAddClick}
               loadingText="Uploading..."
+              isDisabled
             >
               Add
             </Button>

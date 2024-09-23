@@ -76,12 +76,14 @@ const WellProfile = ({ data, onChange }) => {
     >
       <Flex gap={2}>
         <FormControlCard
+          isDisabled
           labelForm="AFE Number"
           placeholder="AFE Number"
           value={afeNumber}
           onChange={handleInputChange('afe_number')} // Field di luar job_plan
         />
         <FormControlCard
+          isDisabled
           type="number"
           labelForm="Total Budget"
           placeholder="Total Budget"
@@ -91,6 +93,7 @@ const WellProfile = ({ data, onChange }) => {
       </Flex>
       <VStack>
         <FormControlCard
+          isDisabled
           type="number"
           labelForm="WP&B Year"
           placeholder="WP&B Year"
@@ -98,6 +101,7 @@ const WellProfile = ({ data, onChange }) => {
           onChange={handleInputChange('wpb_year')} // Field di luar job_plan
         />
         <FormControlCard
+          isDisabled
           type="date"
           labelForm="Start Date"
           placeholder="Start Date"
@@ -107,12 +111,14 @@ const WellProfile = ({ data, onChange }) => {
       </VStack>
       <HStack>
         <FormControlCard
+          isDisabled
           labelForm="Rig Type"
           placeholder="Rig Type"
           value={rigType}
           onChange={handleInputChange('rig_type', true)} // Field di dalam job_plan
         />
         <FormControlCard
+          isDisabled
           type="text"
           labelForm="Rig Name"
           placeholder="Rig Name"
@@ -122,6 +128,7 @@ const WellProfile = ({ data, onChange }) => {
       </HStack>
       <VStack>
         <FormControlCard
+          isDisabled
           type="number"
           labelForm="Rig Horse Power"
           placeholder="Rig Horse Power"

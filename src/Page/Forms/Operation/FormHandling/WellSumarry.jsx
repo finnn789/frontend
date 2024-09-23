@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Tabs,
   TabList,
@@ -8,19 +8,18 @@ import {
   Box,
   Grid,
   GridItem,
-  Radio,
-  RadioGroup,
-  VStack,
   Flex,
 } from "@chakra-ui/react";
 import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const WellSummaryForm = () => {
-  const [tableData, setTableData] = React.useState([]);
-  const [radio, setRadio] = React.useState("");
-  const [formData, setFormData] = React.useState({
+const WellSummaryForm = ({ data, onChange }) => {
+  const datas = data?.data;
+  
+  // State untuk menampung data dari form dan tabel
+  const [tableData, setTableData] = useState([]);
+  const [formData, setFormData] = useState({
     unit_type: "Metrics",
     depth_datum: "RT",
     depth: 0,
@@ -35,7 +34,65 @@ const WellSummaryForm = () => {
     remarks: "",
   });
 
-  console.log(tableData);
+  // Mengisi tabel ketika menerima data dari parent
+  useEffect(() => {
+    if (datas?.job_plan?.well?.well_summary) {
+      setTableData(datas.job_plan.well.well_summary); // Isi tabel jika ada data well_summary
+    }
+  }, [datas]);
+
+  // Handle perubahan pada form
+  const handleChangeData = (name, type) => (e) => {
+    let value = e.target.value;
+
+    if (type === "number") {
+      value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
+      if (isNaN(value)) value = ""; // Jika parsing gagal, set nilai menjadi string kosong
+    } else if (type === "text") {
+      value = String(value);
+    }
+
+    // Set data form lokal
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Handle menambah data ke tabel
+  const handleAddData = () => {
+    const updatedTableData = [...tableData, formData]; // Tambah data baru ke tabel
+    setTableData(updatedTableData);
+
+    // Reset form setelah menambahkan data
+    setFormData({
+      unit_type: "Metrics",
+      depth_datum: "RT",
+      depth: 0,
+      hole_diameter: 0,
+      bit: "",
+      casing_outer_diameter: 0,
+      logging: "",
+      mud_program: "",
+      cementing_program: "",
+      bottom_hole_temperature: 0,
+      rate_of_penetration: 0,
+      remarks: "",
+    });
+
+    // Kirim perubahan ke parent untuk `well_summary` di `datas.job_plan.well`
+    onChange("job_plan.well.well_summary", updatedTableData);
+  };
+
+  const options = ["MSL", "GL", "RT", "RKB"];
+
+  const handleDelete = (row) => {
+    const updatedTableData = tableData.filter((item) => item !== row);
+    setTableData(updatedTableData);
+
+    // Kirim perubahan ke parent setelah menghapus data
+    onChange("job_plan.well.well_summary", updatedTableData);
+  };
 
   const headers = [
     { Header: "Depth Datum", accessor: "depth_datum" },
@@ -63,55 +120,6 @@ const WellSummaryForm = () => {
     },
   ];
 
-  const handleChangeData = (name, type) => (e) => {
-    let value = e.target.value;
-
-    if (type === "number") {
-      value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
-      if (isNaN(value)) value = ""; // Jika parsing gagal, set nilai menjadi string kosong
-    } else if (type === "text") {
-      value = String(value);
-    }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  React.useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      category: radio,
-    }));
-  }, [radio, setRadio]);
-
-  const handleAddData = () => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData({
-      unit_type: "Metrics",
-      depth_datum: "RT",
-      depth: 0,
-      hole_diameter: 0,
-      bit: "",
-      casing_outer_diameter: 0,
-      logging: "",
-      mud_program: "",
-      cementing_program: "",
-      bottom_hole_temperature: 0,
-      rate_of_penetration: 0,
-      remarks: "",
-    }); // Reset form
-  };
-
-  const options = ["MSL", "GL", "RT", "RKB"];
-
-  const handleDelete = (row) => {
-    setTableData((prevTableData) =>
-      prevTableData.filter((data) => data !== row)
-    );
-  };
-
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={4} fontFamily={"Montserrat"}>
       {/* Grid Item pertama */}
@@ -127,82 +135,95 @@ const WellSummaryForm = () => {
         >
           <Flex gap={2}>
             <FormControlCard
+            isDisabled
               labelForm="Depth"
               placeholder="Depth"
               type="number"
               value={formData.depth}
-              handleChange={handleChangeData("depth","number")}
+              handleChange={handleChangeData("depth", "number")}
             />
             <FormControlCard
+            isDisabled
               labelForm="Hole Diameter"
               placeholder="Hole Diameter"
               type="number"
               value={formData.hole_diameter}
-              handleChange={handleChangeData("hole_diameter","number")}
+              handleChange={handleChangeData("hole_diameter", "number")}
             />
           </Flex>
           <Flex gap={2}>
             <FormControlCard
+            isDisabled
               labelForm="Bit"
               placeholder="Bit"
               type="text"
               value={formData.bit}
-              handleChange={handleChangeData("bit","text")}
+              handleChange={handleChangeData("bit", "text")}
             />
             <FormControlCard
+            isDisabled
               labelForm="Casing Outer Diameter"
               placeholder="Casing Outer Diameter"
               type="number"
               value={formData.casing_outer_diameter}
-              handleChange={handleChangeData("casing_outer_diameter","number")}
+              handleChange={handleChangeData("casing_outer_diameter", "number")}
             />
           </Flex>
           <Flex gap={2}>
             <FormControlCard
+            isDisabled
               labelForm="Logging"
               placeholder="Logging"
               type="text"
               value={formData.logging}
-              handleChange={handleChangeData("logging")}
+              handleChange={handleChangeData("logging", "text")}
             />
             <FormControlCard
+            isDisabled
               labelForm="Mud Program"
               placeholder="Mud Program"
               type="text"
               value={formData.mud_program}
-              handleChange={handleChangeData("mud_program")}
+              handleChange={handleChangeData("mud_program", "text")}
             />
           </Flex>
           <Flex gap={2}>
             <FormControlCard
+            isDisabled
               labelForm="Cementing Program"
               placeholder="Cementing Program"
               type="text"
               value={formData.cementing_program}
-              handleChange={handleChangeData("cementing_program")}
+              handleChange={handleChangeData("cementing_program", "text")}
             />
             <FormControlCard
+            isDisabled
               labelForm="Bottom Hole Temperature"
               placeholder="Bottom Hole Temperature"
               type="number"
               value={formData.bottom_hole_temperature}
-              handleChange={handleChangeData("bottom_hole_temperature","number")}
+              handleChange={handleChangeData(
+                "bottom_hole_temperature",
+                "number"
+              )}
             />
           </Flex>
           <Flex gap={2}>
             <FormControlCard
+            isDisabled
               labelForm="Rate of Penetration"
               placeholder="Rate of Penetration"
               type="number"
               value={formData.rate_of_penetration}
-              handleChange={handleChangeData("rate_of_penetration","number")}
+              handleChange={handleChangeData("rate_of_penetration", "number")}
             />
             <FormControlCard
+            isDisabled
               labelForm="Remarks"
               placeholder="Remarks"
               type="text"
               value={formData.remarks}
-              handleChange={handleChangeData("remarks","text")}
+              handleChange={handleChangeData("remarks", "text")}
             />
           </Flex>
           <Flex mt={4}>

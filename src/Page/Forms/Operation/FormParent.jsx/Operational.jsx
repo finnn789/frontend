@@ -184,9 +184,9 @@ const OperationalParent = ({ job_id }) => {
           />
         </GridItem>
       </Grid>
-      <Button colorScheme="blue" mt={4} onClick={handleSave}>
+      {/* <Button colorScheme="blue" mt={4} onClick={handleSave}>
         Simpan Perubahan
-      </Button>
+      </Button> */}
     </>
   );
 };

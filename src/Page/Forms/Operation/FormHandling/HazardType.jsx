@@ -144,7 +144,7 @@ const HazardType = ({ data, onChange }) => {
             />
           </Flex>
           <Flex>
-            <Button colorScheme="blue" variant="solid" onClick={handleAddData}>
+            <Button isDisabled colorScheme="blue" variant="solid" onClick={handleAddData}>
               Add
             </Button>
           </Flex>

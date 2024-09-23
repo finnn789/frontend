@@ -49,7 +49,7 @@
                 <OperationalParent job_id={job_id} />
               </TabPanel>
               <TabPanel>
-                <Technical />
+                <Technical job_id={job_id} />
               </TabPanel>
               <TabPanel>
                 <DailyReport job_id={job_id}/>
