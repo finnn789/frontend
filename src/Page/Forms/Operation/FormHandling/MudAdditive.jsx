@@ -21,7 +21,6 @@ const MudAdditive = ({ handleChangeOfData }) => {
   const [tableData, setTableData] = React.useState([]);
   const [radio, setRadio] = React.useState("");
   const [formData, setFormData] = React.useState({
-    daily_operations_report_id: "",
     mud_additive_type: "",
     amount: 0,
   });
@@ -31,10 +30,10 @@ const MudAdditive = ({ handleChangeOfData }) => {
   }, [tableData]);
 
   const headers = [
-    {
-      Header: "Daily Operations Report ID",
-      accessor: "daily_operations_report_id",
-    },
+    // {
+    //   Header: "Daily Operations Report ID",
+    //   accessor: "daily_operations_report_id",
+    // },
     { Header: "Mud Additive Type", accessor: "mud_additive_type" },
     { Header: "Amount", accessor: "amount" },
     {
@@ -51,17 +50,33 @@ const MudAdditive = ({ handleChangeOfData }) => {
     },
   ];
 
-  const handleChangeData = (name) => (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: e.target.value,
-    }));
-  };
+  const handleChangeData = React.useCallback(
+    (name, type) => (e) => {
+      let value = e.target.value;
+
+      // Jika tipe input adalah number, kita periksa apakah itu float atau integer
+      if (type === "number") {
+        // Konversi nilai ke number, dan pastikan menerima angka integer dan float
+        value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
+
+        // Jika nilai yang dikonversi tidak valid (misalnya NaN), set nilai menjadi string kosong
+        if (isNaN(value)) {
+          value = "";
+        }
+      }
+
+      // Set formData dengan nilai yang baru
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    },
+    []
+  );
 
   const handleAddData = () => {
     setTableData((prevTableData) => [...prevTableData, formData]);
     setFormData({
-      daily_operations_report_id: "",
       mud_additive_type: "",
       amount: 0,
     }); // Reset form
@@ -77,13 +92,13 @@ const MudAdditive = ({ handleChangeOfData }) => {
     <Grid templateColumns="repeat(2, 1fr)" gap={4} fontFamily={"Montserrat"}>
       <GridItem>
         <CardFormK3 title="Mud Additive" padding="18px 8px" subtitle="Mud">
-          <FormControlCard
+          {/* <FormControlCard
             labelForm="Daily Operations Report ID"
             placeholder="Enter Daily Operations Report ID"
             type="text"
             value={formData.daily_operations_report_id}
             handleChange={handleChangeData("daily_operations_report_id")}
-          />
+          /> */}
           <FormControlCard
             labelForm="Mud Additive Type"
             placeholder="Enter Mud Additive Type"

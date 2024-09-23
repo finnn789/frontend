@@ -3,14 +3,18 @@ import CardFormK3 from "../../Components/CardFormK3";
 import { Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 
-const GasForm = ({handleChangeOfData}) => {
+const GasForm = ({ handleChangeOfData, messageError }) => {
+  const messageErrors = messageError;
   const [formData, setFormData] = React.useState({
-    max_gas: "",
-    conn_gas: "",
-    trip_gas: "",
-    back_gas: "",
+    max_gas: null,
+    conn_gas: null,
+    trip_gas: null,
+    back_gas: null,
   });
 
+  React.useEffect(() => {
+    handleChangeOfData(formData);
+  }, [formData]);
   const handleChangeData = (fieldName) => (e) => {
     let { value, type } = e.target;
 
@@ -38,6 +42,8 @@ const GasForm = ({handleChangeOfData}) => {
             name="max_gas"
             value={formData.max_gas}
             handleChange={handleChangeData("max_gas")}
+            isInvalid={!!messageErrors?.max_gas}
+            errorMessage={messageErrors?.max_gas}
           />
         </GridItem>
         <GridItem>
@@ -48,6 +54,8 @@ const GasForm = ({handleChangeOfData}) => {
             name="conn_gas"
             value={formData.conn_gas}
             handleChange={handleChangeData("conn_gas")}
+            isInvalid={!!messageErrors?.conn_gas}
+            errorMessage={messageErrors?.conn_gas}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -58,6 +66,8 @@ const GasForm = ({handleChangeOfData}) => {
             name="trip_gas"
             value={formData.trip_gas}
             handleChange={handleChangeData("trip_gas")}
+            isInvalid={!!messageErrors?.trip_gas}
+            errorMessage={messageErrors?.trip_gas}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -68,6 +78,8 @@ const GasForm = ({handleChangeOfData}) => {
             name="back_gas"
             value={formData.back_gas}
             handleChange={handleChangeData("back_gas")}
+            isInvalid={!!messageErrors?.back_gas}
+            errorMessage={messageErrors?.back_gas}
           />
         </GridItem>
       </Grid>

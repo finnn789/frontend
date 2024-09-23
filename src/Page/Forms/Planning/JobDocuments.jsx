@@ -25,12 +25,14 @@ import {
 } from "@chakra-ui/react";
 import { IconTable, IconFiles, IconTrash } from "@tabler/icons-react";
 
-const JobDocuments = ({ data }) => {
+const JobDocuments = ({ data, onChange }) => {
   const [onChangeData, setOnChangeData] = useState([]);
 
   useEffect(() => {
-    data(onChangeData);
-  }, [onChangeData]);
+    if (data?.job_plan?.job_documents) {
+      setOnChangeData(data.job_plan.job_documents);
+    }
+  }, [data]);
 
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -105,17 +107,19 @@ const JobDocuments = ({ data }) => {
         }
       );
 
-      // Extracting file info from the response
       const fileInfo = response.data.data.file_info;
 
-      // Add filename to formData
       const newData = {
         ...formData,
         file_id: fileInfo.id,
-        filename: fileInfo.filename, // Adding filename to formData
+        filename: fileInfo.filename,
       };
 
-      setOnChangeData([...onChangeData, newData]);
+      const updatedData = [...onChangeData, newData];
+      setOnChangeData(updatedData);
+
+      // Kirim perubahan ke parent
+      onChange("job_plan.job_documents", updatedData);
 
       setFormData({
         file_id: "",
@@ -150,7 +154,12 @@ const JobDocuments = ({ data }) => {
   };
 
   const handleDelete = (index) => {
-    setOnChangeData(onChangeData.filter((_, i) => i !== index));
+    const updatedData = onChangeData.filter((_, i) => i !== index);
+    setOnChangeData(updatedData);
+
+    // Kirim perubahan ke parent
+    onChange("job_plan.job_documents", updatedData);
+
     toast({
       title: "File deleted successfully",
       status: "info",
@@ -239,6 +248,7 @@ const JobDocuments = ({ data }) => {
               isLoading={loading}
               onClick={handleAddClick}
               loadingText="Uploading..."
+              isDisabled
             >
               Add
             </Button>

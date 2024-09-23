@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Tabs,
   TabList,
@@ -14,9 +14,12 @@ import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const WellTestForm = () => {
-  const [tableData, setTableData] = React.useState([]);
-  const [formData, setFormData] = React.useState({
+const WellTestForm = ({ data, onChange }) => {
+  const datas = data?.data;
+
+  // State untuk menampung data dari form dan tabel
+  const [tableData, setTableData] = useState([]);
+  const [formData, setFormData] = useState({
     unit_type: "Metrics",
     depth_datum: "",
     zone_name: "",
@@ -24,6 +27,60 @@ const WellTestForm = () => {
     zone_bottom_depth: 0,
     depth_uom: "",
   });
+
+  // Mengisi tabel ketika menerima data dari parent
+  useEffect(() => {
+    if (datas?.job_plan?.well?.well_test) {
+      setTableData(datas.job_plan.well.well_test); // Isi tabel jika ada data well_test
+    }
+  }, [datas]);
+
+  // Handle perubahan pada form
+  const handleChangeData = (name, type) => (e) => {
+    let value = e.target.value;
+
+    if (type === "number") {
+      value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
+      if (isNaN(value)) value = ""; // Jika parsing gagal, set nilai menjadi string kosong
+    } else if (type === "text") {
+      value = String(value);
+    }
+
+    // Set data form lokal
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Handle menambah data ke tabel
+  const handleAddData = () => {
+    const updatedTableData = [...tableData, formData]; // Tambah data baru ke tabel
+    setTableData(updatedTableData);
+
+    // Reset form setelah menambahkan data
+    setFormData({
+      unit_type: "Metrics",
+      depth_datum: "",
+      zone_name: "",
+      zone_top_depth: 0,
+      zone_bottom_depth: 0,
+      depth_uom: "",
+    });
+
+    // Kirim perubahan ke parent untuk `well_test` di `datas.job_plan.well`
+    onChange("job_plan.well.well_test", updatedTableData);
+  };
+
+  const handleDelete = (row) => {
+    const updatedTableData = tableData.filter((data) => data !== row);
+    setTableData(updatedTableData);
+
+    // Kirim perubahan ke parent setelah menghapus data
+    onChange("job_plan.well.well_test", updatedTableData);
+  };
+
+  const options = ["MSL", "KB", "GL"];
 
   const headers = [
     { Header: "Unit Type", accessor: "unit_type" },
@@ -45,42 +102,6 @@ const WellTestForm = () => {
       ),
     },
   ];
-
-  const handleChangeData = (name, type) => (e) => {
-    let value = e.target.value;
-
-    if (type === "number") {
-      value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
-      if (isNaN(value)) value = "";
-    } else if (type === "text") {
-      value = String(value);
-    }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleAddData = () => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData({
-      unit_type: "Metrics",
-      depth_datum: "",
-      zone_name: "",
-      zone_top_depth: 0,
-      zone_bottom_depth: 0,
-      depth_uom: "",
-    }); // Reset form
-  };
-
-  const options = ["MSL", "KB", "GL"];
-
-  const handleDelete = (row) => {
-    setTableData((prevTableData) =>
-      prevTableData.filter((data) => data !== row)
-    );
-  };
 
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={4} fontFamily={"Montserrat"}>

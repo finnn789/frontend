@@ -18,7 +18,7 @@ import Footer from "../../PageKKKS/Components/Card/Footer";
 import { getTableKKKS } from "../../API/APIKKKS";
 import { patchStatusOperationToOperate } from "../../API/PostKkks";
 
-const OperationExpKKKS = () => {
+const OperationWoKKKS = () => {
   const [countStatus, setCountStatus] = useState(null);
   const [selectedId, setSelectedId] = useState(null); // State untuk menyimpan ID yang akan dioperasikan
   const { isOpen, onOpen, onClose } = useDisclosure(); // State untuk mengontrol alert dialog
@@ -26,7 +26,7 @@ const OperationExpKKKS = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getTableKKKS("exploration", "operation");
+      const data = await getTableKKKS("workover", "operation");
       setCountStatus(data.data);
     };
     getData();
@@ -36,7 +36,7 @@ const OperationExpKKKS = () => {
   const handleOperate = async () => {
     try {
       await patchStatusOperationToOperate(selectedId); // Panggil API untuk memperbarui status
-      const updatedData = await getTableKKKS("exploration", "operation");
+      const updatedData = await getTableKKKS("workover", "operation");
       setCountStatus(updatedData.data); // Memperbarui tampilan setelah operasi sukses
       onClose(); // Tutup dialog setelah operasi
     } catch (error) {
@@ -82,7 +82,7 @@ const OperationExpKKKS = () => {
   return (
     <Flex gap={6} direction={"column"}>
       <Text fontSize={"2em"} fontWeight={"bold"} color={"gray.600"} fontFamily="Montserrat">
-        Operasi Explorasi
+        Operasi Work Over
       </Text>
 
       <Flex gap={6}>
@@ -111,7 +111,7 @@ const OperationExpKKKS = () => {
       </Flex>
 
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1} title={"Operation Exploration"} subtitle={"List Operation Exploration"}>
+        <ProposedWorkTable headers={headerstable1} title={"Operation Work Over"} subtitle={"List Operation Work Over"}>
           {countStatus ? (
             countStatus.job_details.map((row, index) => (
               <Tr key={row.id}>
@@ -194,4 +194,4 @@ const OperationExpKKKS = () => {
   );
 };
 
-export default OperationExpKKKS;
+export default OperationWoKKKS;

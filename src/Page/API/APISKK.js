@@ -370,8 +370,7 @@ export async function GetImageWellCasing(path) {
   }
 }
 
-
-export async function GetDataWell(data){
+export async function GetDataWell(data) {
   try {
     const response = await axios.get(`${import.meta.env.VITE_APP_URL}${data}`, {
       headers: {
@@ -384,5 +383,62 @@ export async function GetDataWell(data){
   } catch (error) {
     console.error("Error Get Data Well", error);
     return error;
+  }
+}
+
+
+export async function patchWRM(actual_exploration_id, formData) {
+  try {
+    const response = await axios.patch(
+      `${import.meta.env.VITE_APP_URL}/job/actual-exploration/${actual_exploration_id}?exploration_id=${actual_exploration_id}`,
+      formData, // Mengirim formData dalam body
+      {
+        headers: {
+          "Content-Type": "application/json", // Pastikan menggunakan JSON
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating WRM data", error);
+    return null;
+  }
+}
+
+
+export async function getWRMData(job_id, model_type) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/job/wrm-data/${job_id}?model_type=${model_type}`,
+      // {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+      //   },
+      // }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data getWRMData", error);
+    return null;
+  }
+}
+
+export async function GetDataStratigraphy(area_id) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/spatial/api/strat-units/${area_id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data View Planning", error);
+    return null;
   }
 }

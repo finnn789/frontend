@@ -16,21 +16,26 @@ import {
 } from "@chakra-ui/react";
 import { IconDropCircle } from "@tabler/icons-react";
 
-const WellLocation = ({ handleChange ,errorForms }) => {
+const WellLocation = ({ handleChange, errorForms }) => {
   // State lokal untuk menangani input sebelum diformat dan dikirim ke parent
   const [localValues, setLocalValues] = useState({
-    surface_longitude: '',
-    surface_latitude: '',
-    bottom_hole_longitude: '',
-    bottom_hole_latitude: '',
+    surface_longitude: 0,
+    surface_latitude: 0,
+    bottom_hole_longitude: 0,
+    bottom_hole_latitude: 0,
   });
 
   // Fungsi untuk menangani perubahan input
   const handleLocalChange = (e) => {
     const { name, value } = e.target;
 
-    // Konversi value menjadi string untuk memastikan operasi string dapat dilakukan
-    let formattedValue = String(value).replace(/[^0-9.]/g, ''); // Hanya izinkan angka dan titik desimal
+    // Izinkan angka, titik desimal, dan tanda minus di awal
+    let formattedValue = String(value).replace(/[^0-9.-]/g, ''); // Izinkan angka, minus, dan titik
+
+    // Pastikan minus hanya ada di awal
+    if (formattedValue.includes('-') && formattedValue[0] !== '-') {
+      formattedValue = formattedValue.replace(/-/g, '');
+    }
 
     // Mencegah lebih dari satu titik desimal
     const parts = formattedValue.split('.');
@@ -88,7 +93,9 @@ const WellLocation = ({ handleChange ,errorForms }) => {
                 />
                 <InputRightAddon>°</InputRightAddon>
               </InputGroup>
-              {errorForms["job_plan.well.surface_longitude"] && <FormErrorMessage>Surface longitude is required</FormErrorMessage>}
+              {errorForms["job_plan.well.surface_longitude"] && (
+                <FormErrorMessage>Surface longitude is required</FormErrorMessage>
+              )}
             </FormControl>
           </GridItem>
           <GridItem>
@@ -104,7 +111,9 @@ const WellLocation = ({ handleChange ,errorForms }) => {
                 />
                 <InputRightAddon>°</InputRightAddon>
               </InputGroup>
-              {errorForms["job_plan.well.surface_latitude"] && <FormErrorMessage>Surface latitude is required</FormErrorMessage>}
+              {errorForms["job_plan.well.surface_latitude"] && (
+                <FormErrorMessage>Surface latitude is required</FormErrorMessage>
+              )}
             </FormControl>
           </GridItem>
         </Grid>
@@ -123,7 +132,9 @@ const WellLocation = ({ handleChange ,errorForms }) => {
                 />
                 <InputRightAddon>°</InputRightAddon>
               </InputGroup>
-              {errorForms["job_plan.well.bottom_hole_longitude"] && <FormErrorMessage>Bottom hole longitude is required</FormErrorMessage>}
+              {errorForms["job_plan.well.bottom_hole_longitude"] && (
+                <FormErrorMessage>Bottom hole longitude is required</FormErrorMessage>
+              )}
             </FormControl>
           </GridItem>
           <GridItem>
@@ -139,7 +150,9 @@ const WellLocation = ({ handleChange ,errorForms }) => {
                 />
                 <InputRightAddon>°</InputRightAddon>
               </InputGroup>
-              {errorForms["job_plan.well.bottom_hole_latitude"] && <FormErrorMessage>Bottom hole latitude is required</FormErrorMessage>}
+              {errorForms["job_plan.well.bottom_hole_latitude"] && (
+                <FormErrorMessage>Bottom hole latitude is required</FormErrorMessage>
+              )}
             </FormControl>
           </GridItem>
         </Grid>

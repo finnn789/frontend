@@ -1,13 +1,23 @@
 import React from "react";
-import { Box, Button, Flex, Grid, GridItem, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  IconButton,
+  Input,
+} from "@chakra-ui/react";
 import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
+import { IconTrash } from "@tabler/icons-react";
+import { SelectComponent, SelectOption } from "../../Components/SelectOption";
+import { GetBHAEnum } from "../../../API/APIKKKS";
 
-const BottomHoleAssembly = ({handleFormData}) => {
+const BottomHoleAssembly = ({ handleFormData }) => {
   const [formData, setFormData] = React.useState({
-    daily_operations_report_id: "",
-    bha_number: 0,
-    bha_run: 0,
+    bha_number: null,
+    bha_run: null,
     components: [
       {
         component: "",
@@ -16,18 +26,27 @@ const BottomHoleAssembly = ({handleFormData}) => {
       },
     ],
   });
+  const [BHAEnum, setBHAEnum] = React.useState([]);
+  // console.log(BHAEnum);
+  React.useEffect(() => {
+    GetBHAEnum().then((res) => {
+      setBHAEnum(res.data);
+    });
+  }, []);
 
-  React.useEffect(()=>{
-    handleFormData(formData)
-  },[formData])
+  React.useEffect(() => {
+    handleFormData(formData);
+  }, [formData]);
 
   const handleInputChange = (field, index) => (e) => {
     const value =
       e.target.type === "number" ? parseFloat(e.target.value) : e.target.value;
+
     setFormData((prevData) => ({
       ...prevData,
-      components: prevData.components.map((comp, idx) =>
-        idx === index ? { ...comp, [field]: value } : comp
+      [field]: value, // Update bha_number or bha_run
+      components: prevData.components.map(
+        (comp, idx) => (idx === index ? { ...comp, [field]: value } : comp) // Update component fields
       ),
     }));
   };
@@ -44,6 +63,13 @@ const BottomHoleAssembly = ({handleFormData}) => {
     }));
   };
 
+  const handleRemoveComponent = (index) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      components: prevData.components.filter((_, idx) => idx !== index),
+    }));
+  };
+
   return (
     <Grid templateColumns="repeat(1, 1fr)" gap={4} fontFamily="Montserrat">
       <GridItem>
@@ -53,47 +79,61 @@ const BottomHoleAssembly = ({handleFormData}) => {
           subtitle="BHA"
         >
           <FormControlCard
-            labelForm="Daily Operations Report ID"
-            placeholder="Enter Daily Operations Report ID"
-            type="text"
-            value={formData.daily_operations_report_id}
-            handleChange={handleInputChange("daily_operations_report_id")}
-          />
-          <FormControlCard
             labelForm="BHA Number"
             placeholder="Enter BHA Number"
             type="number"
-            value={formData.bha_number}
+            value={formData.bha_number || ""}
             handleChange={handleInputChange("bha_number")}
           />
           <FormControlCard
             labelForm="BHA Run"
             placeholder="Enter BHA Run"
             type="number"
-            value={formData.bha_run}
+            value={formData.bha_run || ""}
             handleChange={handleInputChange("bha_run")}
           />
           <Box>
             <strong>Components:</strong>
-            <Flex gap={2}  flexDirection={"column"}>
+            <Flex gap={2} flexDirection={"column"}>
               {formData.components.map((comp, index) => (
                 <Flex key={index} gap={2} align={"center"}>
-                  <Input
-                    placeholder="Component Name"
+                  {/* SelectComponent */}
+                  <SelectComponent
+                  label=""
                     value={comp.component}
                     onChange={handleInputChange("component", index)}
-                  />
+                  >
+                    {BHAEnum.map((item) => (
+                      <SelectOption
+                        key={item.id}
+                        value={item.bhacomponent}
+                        label={item.bhacomponent}
+                      />
+                    ))}
+                  </SelectComponent>
+
+                  {/* Input for Outer Diameter */}
                   <Input
                     placeholder="Outer Diameter"
                     type="number"
-                    value={comp.outer_diameter}
+                    value={comp.outer_diameter || ""}
                     onChange={handleInputChange("outer_diameter", index)}
                   />
+
+                  {/* Input for Length */}
                   <Input
                     placeholder="Length"
                     type="number"
-                    value={comp.length}
+                    value={comp.length || ""}
                     onChange={handleInputChange("length", index)}
+                  />
+
+                  {/* Icon Button to Remove Component */}
+                  <IconButton
+                    onClick={() => handleRemoveComponent(index)}
+                    icon={<IconTrash />}
+                    colorScheme="red"
+                    aria-label="Remove Component"
                   />
                 </Flex>
               ))}

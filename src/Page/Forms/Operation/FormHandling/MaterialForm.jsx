@@ -1,6 +1,15 @@
 import React from "react";
 import CardFormK3 from "../../Components/CardFormK3";
-import { Box, Button, Grid, GridItem, Tab, TabList, TabPanel, Tabs } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Grid,
+  GridItem,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+} from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
@@ -15,8 +24,9 @@ const MaterialForm = () => {
     returned: 0,
     adjust: 0,
     ending: 0,
-    daily_operations_report_id: "",
   });
+
+  const [errors, setErrors] = React.useState({});
 
   const headers = [
     { Header: "Material Type", accessor: "material_type" },
@@ -27,11 +37,14 @@ const MaterialForm = () => {
     { Header: "Returned", accessor: "returned" },
     { Header: "Adjust", accessor: "adjust" },
     { Header: "Ending", accessor: "ending" },
-    { Header: "Daily Operations Report ID", accessor: "daily_operations_report_id" },
     {
       Header: "Action",
       render: (row) => (
-        <Button colorScheme="red" variant="solid" onClick={() => handleDelete(row)}>
+        <Button
+          colorScheme="red"
+          variant="solid"
+          onClick={() => handleDelete(row)}
+        >
           Delete
         </Button>
       ),
@@ -46,35 +59,60 @@ const MaterialForm = () => {
     }));
   };
 
+  const validateFormData = () => {
+    let tempErrors = {};
+    if (!formData.material_type) tempErrors.material_type = "Material Type is required";
+    if (!formData.material_name) tempErrors.material_name = "Material Name is required";
+    if (!formData.material_uom) tempErrors.material_uom = "Material UOM is required";
+    if (formData.received === null) tempErrors.received = "Received amount is required";
+    if (formData.consumed === null) tempErrors.consumed = "Consumed amount is required";
+    if (formData.returned === null) tempErrors.returned = "Returned amount is required";
+    if (formData.adjust === null) tempErrors.adjust = "Adjust amount is required";
+    if (formData.ending === null) tempErrors.ending = "Ending amount is required";
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0; // Returns true if no errors
+  };
+
   const handleAddData = () => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData({
-      material_type: "",
-      material_name: "",
-      material_uom: "",
-      received: 0,
-      consumed: 0,
-      returned: 0,
-      adjust: 0,
-      ending: 0,
-      daily_operations_report_id: "",
-    });
+    if (validateFormData()) {
+      setTableData((prevTableData) => [...prevTableData, formData]);
+      setFormData({
+        material_type: "",
+        material_name: "",
+        material_uom: "",
+        received: 0,
+        consumed: 0,
+        returned: 0,
+        adjust: 0,
+        ending: 0,
+      });
+      setErrors({}); // Clear errors after successful addition
+    }
   };
 
   const handleDelete = (row) => {
-    setTableData((prevTableData) => prevTableData.filter((data) => data !== row));
+    setTableData((prevTableData) =>
+      prevTableData.filter((data) => data !== row)
+    );
   };
 
   return (
     <Grid templateColumns="repeat(1, 1fr)" gap={4} fontFamily={"Montserrat"}>
       <GridItem>
-        <CardFormK3 title="Bulk Material" padding="18px 8px" subtitle="Material">
+        <CardFormK3
+          title="Bulk Material"
+          padding="18px 8px"
+          subtitle="Material"
+        >
           <FormControlCard
             labelForm="Material Type"
             placeholder="Enter Material Type"
             type="text"
             value={formData.material_type}
             handleChange={handleChangeData("material_type")}
+            isInvalid={!!errors.material_type}
+            errorMessage={errors.material_type}
           />
           <FormControlCard
             labelForm="Material Name"
@@ -82,6 +120,8 @@ const MaterialForm = () => {
             type="text"
             value={formData.material_name}
             handleChange={handleChangeData("material_name")}
+            isInvalid={!!errors.material_name}
+            errorMessage={errors.material_name}
           />
           <FormControlCard
             labelForm="Material UOM"
@@ -89,6 +129,8 @@ const MaterialForm = () => {
             type="text"
             value={formData.material_uom}
             handleChange={handleChangeData("material_uom")}
+            isInvalid={!!errors.material_uom}
+            errorMessage={errors.material_uom}
           />
           <FormControlCard
             labelForm="Received"
@@ -96,6 +138,8 @@ const MaterialForm = () => {
             type="number"
             value={formData.received}
             handleChange={handleChangeData("received")}
+            isInvalid={!!errors.received}
+            errorMessage={errors.received}
           />
           <FormControlCard
             labelForm="Consumed"
@@ -103,6 +147,8 @@ const MaterialForm = () => {
             type="number"
             value={formData.consumed}
             handleChange={handleChangeData("consumed")}
+            isInvalid={!!errors.consumed}
+            errorMessage={errors.consumed}
           />
           <FormControlCard
             labelForm="Returned"
@@ -110,6 +156,8 @@ const MaterialForm = () => {
             type="number"
             value={formData.returned}
             handleChange={handleChangeData("returned")}
+            isInvalid={!!errors.returned}
+            errorMessage={errors.returned}
           />
           <FormControlCard
             labelForm="Adjust"
@@ -117,6 +165,8 @@ const MaterialForm = () => {
             type="number"
             value={formData.adjust}
             handleChange={handleChangeData("adjust")}
+            isInvalid={!!errors.adjust}
+            errorMessage={errors.adjust}
           />
           <FormControlCard
             labelForm="Ending"
@@ -124,21 +174,27 @@ const MaterialForm = () => {
             type="number"
             value={formData.ending}
             handleChange={handleChangeData("ending")}
+            isInvalid={!!errors.ending}
+            errorMessage={errors.ending}
           />
-          <FormControlCard
-            labelForm="Daily Operations Report ID"
-            placeholder="Enter Daily Operations Report ID"
-            type="text"
-            value={formData.daily_operations_report_id}
-            handleChange={handleChangeData("daily_operations_report_id")}
-          />
-          <Button colorScheme="blue" variant="solid" onClick={handleAddData} mt={4}>
+          <Button
+            colorScheme="blue"
+            variant="solid"
+            onClick={handleAddData}
+            mt={4}
+          >
             Add
           </Button>
         </CardFormK3>
       </GridItem>
       <GridItem>
-        <Box rounded="lg" overflowX="auto" overflowY="auto" borderWidth="1px" p={0}>
+        <Box
+          rounded="lg"
+          overflowX="auto"
+          overflowY="auto"
+          borderWidth="1px"
+          p={0}
+        >
           <Tabs>
             <TabList>
               <Tab>Table</Tab>

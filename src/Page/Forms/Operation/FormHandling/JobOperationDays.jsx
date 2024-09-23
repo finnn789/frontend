@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import CardFormK3 from "../../Components/CardFormK3";
 import {
   Box,
@@ -14,21 +14,40 @@ import {
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const JobOperationDays = () => {
+const JobOperationDays = ({ data, onChange }) => {
   const [tableData, setTableData] = React.useState([]);
-
   const [formData, setFormData] = React.useState({
     phase: "",
     depth_in: null,
     depth_out: null,
     operation_days: "",
+    unit_type: "Metrics", // Default value if no previous data
+    depth_datum: "RT", // Default value if no previous data
   });
 
+  useEffect(() => {
+    if (data?.job_plan?.job_operation_days) {
+      setTableData(data.job_plan.job_operation_days);
+    }
+  }, [data]);
+
+  // Set unit_type and depth_datum dynamically from the last entry if available
+  useEffect(() => {
+    if (tableData.length > 0) {
+      const lastEntry = tableData[tableData.length - 1];
+      setFormData((prevData) => ({
+        ...prevData,
+        unit_type: lastEntry.unit_type || "Metrics",
+        depth_datum: lastEntry.depth_datum || "RT",
+      }));
+    }
+  }, [tableData]);
+
   const headers = [
-    { Header: "phase", accessor: "phase" },
+    { Header: "Phase", accessor: "phase" },
     { Header: "Depth In", accessor: "depth_in" },
     { Header: "Depth Out", accessor: "depth_out" },
-    { Header: "operation_days", accessor: "operation_days" },
+    { Header: "Operation Days", accessor: "operation_days" },
     {
       Header: "Action",
       render: (row) => (
@@ -62,22 +81,36 @@ const JobOperationDays = () => {
     []
   );
 
-  // Memoized handleAddData function to prevent unnecessary re-renders
   const handleAddData = useCallback(() => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData({ phase: "", depth_in: "", depth_out: "", operation_days: "" }); // Reset form
-  }, [formData]);
+    const updatedTableData = [...tableData, formData];
+    setTableData(updatedTableData);
+
+    // Kirim perubahan ke parent
+    onChange("job_plan.job_operation_days", updatedTableData);
+
+    // Reset form but keep unit_type and depth_datum dynamically from the last entry
+    setFormData({
+      phase: "",
+      depth_in: "",
+      depth_out: "",
+      operation_days: "",
+      unit_type: formData.unit_type, // Keep the same unit_type as the last entry
+      depth_datum: formData.depth_datum, // Keep the same depth_datum as the last entry
+    });
+  }, [formData, tableData, onChange]);
 
   const handleDelete = useCallback((row) => {
-    setTableData((prevTableData) =>
-      prevTableData.filter((data) => data !== row)
-    );
-  }, []);
+    const updatedTableData = tableData.filter((data) => data !== row);
+    setTableData(updatedTableData);
+
+    // Kirim perubahan ke parent
+    onChange("job_plan.job_operation_days", updatedTableData);
+  }, [tableData, onChange]);
 
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={4}>
       {/* Grid Item pertama */}
-      <GridItem >
+      <GridItem>
         <CardFormK3 title="Job Operation Days" subtitle="">
           <Flex>
             <FormControlCard
@@ -101,7 +134,6 @@ const JobOperationDays = () => {
               placeholder="Depth Out"
               type="number"
               value={formData.depth_out}
-              // Disable if depth_in is empty
               handleChange={handleChangeData("depth_out")}
             />
           </Flex>
@@ -109,12 +141,28 @@ const JobOperationDays = () => {
             <FormControlCard
               labelForm="Operation Days"
               placeholder="Operation Days"
+              type="number"
               value={formData.operation_days}
               handleChange={handleChangeData("operation_days")}
             />
           </Flex>
+          {/* Display unit_type and depth_datum dynamically from the last entry */}
           <Flex>
-            <Button colorScheme="blue" variant="solid" onClick={handleAddData}>
+            <FormControlCard
+              labelForm="Unit Type"
+              placeholder="Unit Type"
+              value={formData.unit_type}
+              isDisabled={true} // Disable as it's auto-filled from last entry
+            />
+            <FormControlCard
+              labelForm="Depth Datum"
+              placeholder="Depth Datum"
+              value={formData.depth_datum}
+              isDisabled={true} // Disable as it's auto-filled from last entry
+            />
+          </Flex>
+          <Flex>
+            <Button isDisabled colorScheme="blue" variant="solid" onClick={handleAddData}>
               Add
             </Button>
           </Flex>
@@ -139,4 +187,3 @@ const JobOperationDays = () => {
 };
 
 export default JobOperationDays;
-

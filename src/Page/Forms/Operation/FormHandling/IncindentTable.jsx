@@ -1,13 +1,26 @@
 // IncidentTable.js
 import React, { useState, useEffect } from "react";
-import { Box, Button, Table, Thead, Tbody, Tr, Th, Td, Input, Flex, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Input,
+  Flex,
+  SimpleGrid,
+} from "@chakra-ui/react";
+import FormControlCard from "../../Components/FormControl";
 
 const IncidentTable = ({ handleOnChangeData }) => {
   const [incidentData, setIncidentData] = useState([]);
   const [incidentForm, setIncidentForm] = useState({
-    incident_time: "",
+    incidents_time: "",
     incident: "",
-    type: "",
+    incident_type: "",
     comments: "",
   });
 
@@ -21,9 +34,9 @@ const IncidentTable = ({ handleOnChangeData }) => {
   const handleAddIncident = () => {
     setIncidentData((prevData) => [...prevData, incidentForm]);
     setIncidentForm({
-      incident_time: "",
+      incidents_time: "",
       incident: "",
-      type: "",
+      incident_type: "",
       comments: "",
     });
   };
@@ -41,26 +54,35 @@ const IncidentTable = ({ handleOnChangeData }) => {
       {/* Form Input Section */}
       <Box>
         <SimpleGrid columns={1} gap={4} mb={4}>
-          <Input
+          <FormControlCard
+            labelForm="Incident Time"
             placeholder="Incident Time"
-            value={incidentForm.incident_time}
-            onChange={handleInputChange("incident_time")}
+            type="datetime-local"
+            value={incidentForm.incidents_time}
+            handleChange={handleInputChange("incidents_time")}
           />
-          <Input
+          <FormControlCard
+            labelForm="Incident"
             placeholder="Incident"
+            type="text"
             value={incidentForm.incident}
-            onChange={handleInputChange("incident")}
+            handleChange={handleInputChange("incident")}
           />
-          <Input
+          <FormControlCard
+            labelForm="Type"
             placeholder="Type"
-            value={incidentForm.type}
-            onChange={handleInputChange("type")}
+            type="text"
+            value={incidentForm.incident_type}
+            handleChange={handleInputChange("incident_type")}
           />
-          <Input
+          <FormControlCard
+            labelForm="Comments"
             placeholder="Comments"
+            type="text"
             value={incidentForm.comments}
-            onChange={handleInputChange("comments")}
+            handleChange={handleInputChange("comments")}
           />
+
           <Button colorScheme="blue" onClick={handleAddIncident}>
             Add Incident
           </Button>
@@ -82,12 +104,15 @@ const IncidentTable = ({ handleOnChangeData }) => {
           <Tbody>
             {incidentData.map((incident, index) => (
               <Tr key={index}>
-                <Td>{incident.incident_time}</Td>
+                <Td>{incident.incidents_time}</Td>
                 <Td>{incident.incident}</Td>
-                <Td>{incident.type}</Td>
+                <Td>{incident.incident_type}</Td>
                 <Td>{incident.comments}</Td>
                 <Td>
-                  <Button colorScheme="red" onClick={() => handleDeleteIncident(index)}>
+                  <Button
+                    colorScheme="red"
+                    onClick={() => handleDeleteIncident(index)}
+                  >
                     Delete
                   </Button>
                 </Td>

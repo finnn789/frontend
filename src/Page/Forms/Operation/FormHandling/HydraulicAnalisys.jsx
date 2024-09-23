@@ -3,17 +3,19 @@ import CardFormK3 from "../../Components/CardFormK3";
 import { Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 
-const HydraulicAnalysisForm = ({handleChangeOfData}) => {
+const HydraulicAnalysisForm = ({ handleChangeOfData, messageError }) => {
+  const messageErrors = messageError;
+
   const [formData, setFormData] = React.useState({
-    annular_velocity: "",
-    pb: "",
-    sys_hhp: "",
-    hhp_b: "",
-    hsi: "",
-    psib: "",
-    jet_velocity: "",
-    impact_force: "",
-    if_area: "",
+    annular_velocity: null,
+    pb: null,
+    sys_hhp: null,
+    hhpb: null,
+    hsi: null,
+    percent_psib: null,
+    jet_velocity: null,
+    impact_force: null,
+    if_area: null,
   });
 
   React.useEffect(() => {
@@ -47,6 +49,8 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             name="annular_velocity"
             value={formData.annular_velocity}
             handleChange={handleChangeData("annular_velocity")}
+            isInvalid={!!messageErrors?.annular_velocity}
+            errorMessage={messageErrors?.annular_velocity}
           />
         </GridItem>
         <GridItem>
@@ -57,6 +61,8 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             name="pb"
             value={formData.pb}
             handleChange={handleChangeData("pb")}
+            isInvalid={!!messageErrors?.pb}
+            errorMessage={messageErrors?.pb}
           />
         </GridItem>
         <GridItem>
@@ -67,6 +73,8 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             name="sys_hhp"
             value={formData.sys_hhp}
             handleChange={handleChangeData("sys_hhp")}
+            isInvalid={!!messageErrors?.sys_hhp}
+            errorMessage={messageErrors?.sys_hhp}
           />
         </GridItem>
         <GridItem>
@@ -74,9 +82,11 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             labelForm="HHPb"
             placeholder="HHPb"
             type="number"
-            name="hhp_b"
-            value={formData.hhp_b}
-            handleChange={handleChangeData("hhp_b")}
+            name="hhpb"
+            value={formData.hhpb}
+            handleChange={handleChangeData("hhpb")}
+            isInvalid={!!messageErrors?.hhpb}
+            errorMessage={messageErrors?.hhpb}
           />
         </GridItem>
         <GridItem>
@@ -87,6 +97,8 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             name="hsi"
             value={formData.hsi}
             handleChange={handleChangeData("hsi")}
+            isInvalid={!!messageErrors?.hsi}
+            errorMessage={messageErrors?.hsi}
           />
         </GridItem>
         <GridItem>
@@ -94,9 +106,11 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             labelForm="%psib"
             placeholder="%psib"
             type="number"
-            name="psib"
-            value={formData.psib}
-            handleChange={handleChangeData("psib")}
+            name="percent_psib"
+            value={formData.percent_psib}
+            handleChange={handleChangeData("percent_psib")}
+            isInvalid={!!messageErrors?.percent_psib}
+            errorMessage={messageErrors?.percent_psib}
           />
         </GridItem>
         <GridItem>
@@ -107,6 +121,8 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             name="jet_velocity"
             value={formData.jet_velocity}
             handleChange={handleChangeData("jet_velocity")}
+            isInvalid={!!messageErrors?.jet_velocity}
+            errorMessage={messageErrors?.jet_velocity}
           />
         </GridItem>
         <GridItem>
@@ -117,6 +133,8 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             name="impact_force"
             value={formData.impact_force}
             handleChange={handleChangeData("impact_force")}
+            isInvalid={!!messageErrors?.impact_force}
+            errorMessage={messageErrors?.impact_force}
           />
         </GridItem>
         <GridItem colSpan={4}>
@@ -127,6 +145,8 @@ const HydraulicAnalysisForm = ({handleChangeOfData}) => {
             name="if_area"
             value={formData.if_area}
             handleChange={handleChangeData("if_area")}
+            isInvalid={!!messageErrors?.if_area}
+            errorMessage={messageErrors?.if_area}
           />
         </GridItem>
       </Grid>

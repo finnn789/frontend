@@ -3,7 +3,8 @@ import CardFormK3 from "../../Components/CardFormK3";
 import { Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 
-const WeatherForm = ({data}) => {
+const WeatherForm = ({ data, messageError }) => {
+  const messageErrors = messageError;
   const [formData, setFormData] = React.useState({
     temperature_high: 0,
     temperature_low: 0,
@@ -52,6 +53,8 @@ const WeatherForm = ({data}) => {
             name="temperature_high"
             value={formData.temperature_high}
             handleChange={handleChangeData("temperature_high")}
+            isInvalid={!!messageErrors?.temperature_high}
+            errorMessage={messageErrors?.temperature_high}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -62,6 +65,8 @@ const WeatherForm = ({data}) => {
             name="temperature_low"
             value={formData.temperature_low}
             handleChange={handleChangeData("temperature_low")}
+            isInvalid={!!messageErrors?.temperature_low}
+            errorMessage={messageErrors?.temperature_low}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -72,6 +77,8 @@ const WeatherForm = ({data}) => {
             name="chill_factor"
             value={formData.chill_factor}
             handleChange={handleChangeData("chill_factor")}
+            isInvalid={!!messageErrors?.chill_factor}
+            errorMessage={messageErrors?.chill_factor}
           />
         </GridItem>
         <GridItem colSpan={3}>
@@ -82,6 +89,8 @@ const WeatherForm = ({data}) => {
             name="wind_speed"
             value={formData.wind_speed}
             handleChange={handleChangeData("wind_speed")}
+            isInvalid={!!messageErrors?.wind_speed}
+            errorMessage={messageErrors?.wind_speed}
           />
         </GridItem>
         <GridItem colSpan={3}>
@@ -92,6 +101,8 @@ const WeatherForm = ({data}) => {
             name="wind_direction"
             value={formData.wind_direction}
             handleChange={handleChangeData("wind_direction")}
+            isInvalid={!!messageErrors?.wind_direction}
+            errorMessage={messageErrors?.wind_direction}
           />
         </GridItem>
         <GridItem colSpan={6}>
@@ -102,6 +113,8 @@ const WeatherForm = ({data}) => {
             name="barometric_pressure"
             value={formData.barometric_pressure}
             handleChange={handleChangeData("barometric_pressure")}
+            isInvalid={!!messageErrors?.barometric_pressure}
+            errorMessage={messageErrors?.barometric_pressure}
           />
         </GridItem>
         <GridItem colSpan={3}>
@@ -112,6 +125,8 @@ const WeatherForm = ({data}) => {
             name="wave_height"
             value={formData.wave_height}
             handleChange={handleChangeData("wave_height")}
+            isInvalid={!!messageErrors?.wave_height}
+            errorMessage={messageErrors?.wave_height}
           />
         </GridItem>
         <GridItem colSpan={3}>
@@ -122,6 +137,8 @@ const WeatherForm = ({data}) => {
             name="wave_current_speed"
             value={formData.wave_current_speed}
             handleChange={handleChangeData("wave_current_speed")}
+            isInvalid={!!messageErrors?.wave_current_speed}
+            errorMessage={messageErrors?.wave_current_speed}
           />
         </GridItem>
         <GridItem colSpan={6}>
@@ -132,6 +149,8 @@ const WeatherForm = ({data}) => {
             name="road_condition"
             value={formData.road_condition}
             handleChange={handleChangeData("road_condition")}
+            isInvalid={!!messageErrors?.road_condition}
+            errorMessage={messageErrors?.road_condition}
           />
         </GridItem>
         <GridItem colSpan={6}>
@@ -142,9 +161,10 @@ const WeatherForm = ({data}) => {
             name="visibility"
             value={formData.visibility}
             handleChange={handleChangeData("visibility")}
+            isInvalid={!!messageErrors?.visibility}
+            errorMessage={messageErrors?.visibility}
           />
         </GridItem>
-        
       </Grid>
     </CardFormK3>
   );

@@ -14,7 +14,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { FaBriefcase, FaEye, FaCheck } from "react-icons/fa";
-import {IconBriefcase} from '@tabler/icons-react';
+import { IconBriefcase } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 
 const data = [
@@ -74,43 +74,47 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-const ProposedWorkTable = ({ headers = [], children,title,subtitle }) => {
+const ProposedWorkTable = ({
+  headers = [],
+  children,
+  title,
+  subtitle,
+  link = "/dashboard/planning/form",
+  actionButton,
+}) => {
   return (
     <Box bg="white" borderRadius="lg" boxShadow="md" p={4}>
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
         <Flex alignItems="center">
           <Icon as={IconBriefcase} boxSize={12} color="gray.600" mr={3} />
           <Box>
-            <Text fontSize="xl" fontWeight="bold" fontFamily={'Montserrat'} color="gray.600">
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              fontFamily={"Montserrat"}
+              color="gray.600"
+            >
               {title}
             </Text>
-            <Text fontSize="sm" color="gray.600" fontFamily={'Montserrat'}>
+            <Text fontSize="sm" color="gray.600" fontFamily={"Montserrat"}>
               {subtitle}
             </Text>
           </Box>
         </Flex>
-        <Button
-          as={Link}
-          to={"/workover/planningform"}
-          leftIcon={<Icon as={FaCheck} />}
-          colorScheme="blue"
-          size="md"
-        >
-          Ajukan Perencanaan
-        </Button>
+        {actionButton}
       </Flex>
 
       <Table variant="simple">
         <Thead>
-          <Tr bg="gray.50" fontFamily={'Montserrat'}>
+          <Tr bg="gray.50" fontFamily={"Montserrat"}>
             {headers.map((head, index) => (
-              <Th key={index} fontSize="sm" fontFamily={'Montserrat'}>
+              <Th key={index} fontSize="sm" fontFamily={"Montserrat"}>
                 {head}
               </Th>
             ))}
           </Tr>
         </Thead>
-        <Tbody fontFamily={'Montserrat'}>{children}</Tbody>
+        <Tbody fontFamily={"Montserrat"}>{children}</Tbody>
       </Table>
     </Box>
   );

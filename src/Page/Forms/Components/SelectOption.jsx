@@ -4,6 +4,7 @@ import {
   FormLabel,
   Select as ChakraSelect,
   Flex,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 
 // Rename Option to SelectOption to avoid conflict with DOM API
@@ -20,18 +21,20 @@ const SelectComponent = ({
   placeholder = "Select an option",
   align = "Vertical", // Determines if the layout is horizontal or vertical
   children,
+  isInvalid = false,  // New prop to handle validation
+  errorMessage = "",  // New prop for error message
   ...props
 }) => {
   // Memoize the onChange handler to avoid unnecessary re-renders
   const memoizedHandleChange = useCallback(
-    (event) => {
-      onChange(event);
+    (data) => {
+      onChange(data);
     },
     [onChange]
   );
 
   return (
-    <ChakraFormControl>
+    <ChakraFormControl isInvalid={isInvalid}>
       {align === "Horizontal" ? (
         <Flex alignItems="center" gap={4}>
           <FormLabel width={"50%"} m={0}>
@@ -39,12 +42,12 @@ const SelectComponent = ({
           </FormLabel>
           <ChakraSelect
             name={name}
-            value={value}
+            value={value ? value : ""}
             onChange={memoizedHandleChange}
             flex="1"
             {...props}
           >
-            <option disabled selected>
+            <option disabled value="">
               {placeholder}
             </option>
             {children}
@@ -55,17 +58,18 @@ const SelectComponent = ({
           <FormLabel>{label}</FormLabel>
           <ChakraSelect
             name={name}
-            value={value}
+            value={value ? value : ""}
             onChange={memoizedHandleChange}
             {...props}
           >
-            <option disabled selected>
+            <option disabled value="">
               {placeholder}
             </option>
             {children}
           </ChakraSelect>
         </>
       )}
+      {isInvalid && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
     </ChakraFormControl>
   );
 };

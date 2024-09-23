@@ -18,7 +18,7 @@ import Footer from "../../PageKKKS/Components/Card/Footer";
 import { getTableKKKS } from "../../API/APIKKKS";
 import { patchStatusOperationToOperate } from "../../API/PostKkks";
 
-const OperationExpKKKS = () => {
+const OperationWSKKKS = () => {
   const [countStatus, setCountStatus] = useState(null);
   const [selectedId, setSelectedId] = useState(null); // State untuk menyimpan ID yang akan dioperasikan
   const { isOpen, onOpen, onClose } = useDisclosure(); // State untuk mengontrol alert dialog
@@ -26,7 +26,7 @@ const OperationExpKKKS = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getTableKKKS("exploration", "operation");
+      const data = await getTableKKKS("workover", "operation");
       setCountStatus(data.data);
     };
     getData();
@@ -82,7 +82,7 @@ const OperationExpKKKS = () => {
   return (
     <Flex gap={6} direction={"column"}>
       <Text fontSize={"2em"} fontWeight={"bold"} color={"gray.600"} fontFamily="Montserrat">
-        Operasi Explorasi
+        Operasi Well Service
       </Text>
 
       <Flex gap={6}>
@@ -111,7 +111,7 @@ const OperationExpKKKS = () => {
       </Flex>
 
       <Box my={6}>
-        <ProposedWorkTable headers={headerstable1} title={"Operation Exploration"} subtitle={"List Operation Exploration"}>
+        <ProposedWorkTable headers={headerstable1} title={"Operation Well Service"} subtitle={"List Operation Well Service"}>
           {countStatus ? (
             countStatus.job_details.map((row, index) => (
               <Tr key={row.id}>
@@ -194,4 +194,4 @@ const OperationExpKKKS = () => {
   );
 };
 
-export default OperationExpKKKS;
+export default OperationWSKKKS;

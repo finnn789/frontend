@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Tabs,
   TabList,
@@ -14,17 +14,74 @@ import CardFormK3 from "../../Components/CardFormK3";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const WellStratigraphyForm = () => {
-  const [tableData, setTableData] = React.useState([]);
-  const [formData, setFormData] = React.useState({
+const WellStratigraphyForm = ({ data, onChange }) => {
+  const datas = data?.data;
+
+  // State untuk menampung data dari form dan tabel
+  const [tableData, setTableData] = useState([]);
+  const [formData, setFormData] = useState({
     stratigraphy_id: "",
-    depth: "",
+    top_depth: "",
+    bottom_depth: "",
     depth_datum: "",
   });
 
+  // Mengisi tabel ketika menerima data dari parent
+  useEffect(() => {
+    if (datas?.job_plan?.well?.well_stratigraphy) {
+      setTableData(datas.job_plan.well.well_stratigraphy); // Isi tabel jika ada data well_stratigraphy
+    }
+  }, [datas]);
+
+  // Handle perubahan pada form
+  const handleChangeData = (name, type) => (e) => {
+    let value = e.target.value;
+
+    if (type === "number") {
+      value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
+      if (isNaN(value)) value = ""; // Jika parsing gagal, set nilai menjadi string kosong
+    } else if (type === "text") {
+      value = String(value);
+    }
+
+    // Set data form lokal
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Handle menambah data ke tabel
+  const handleAddData = () => {
+    const updatedTableData = [...tableData, formData]; // Tambah data baru ke tabel
+    setTableData(updatedTableData);
+
+    // Reset form setelah menambahkan data
+    setFormData({
+      stratigraphy_id: "",
+      top_depth: "",
+      bottom_depth: "",
+      depth_datum: "",
+    });
+
+    // Kirim perubahan ke parent untuk `well_stratigraphy` di `datas.job_plan.well`
+    onChange("job_plan.well.well_stratigraphy", updatedTableData);
+  };
+
+  const handleDelete = (row) => {
+    const updatedTableData = tableData.filter((data) => data !== row);
+    setTableData(updatedTableData);
+
+    // Kirim perubahan ke parent setelah menghapus data
+    onChange("job_plan.well.well_stratigraphy", updatedTableData);
+  };
+
+  const options = ["MSL", "KB", "GL"];
+
   const headers = [
     { Header: "Stratigraphy ID", accessor: "stratigraphy_id" },
-    { Header: "Depth", accessor: "depth" },
+    { Header: "Top Depth", accessor: "top_depth" },
+    { Header: "Bottom Depth", accessor: "bottom_depth" },
     { Header: "Depth Datum", accessor: "depth_datum" },
     {
       Header: "Action",
@@ -39,39 +96,6 @@ const WellStratigraphyForm = () => {
       ),
     },
   ];
-
-  const handleChangeData = (name, type) => (e) => {
-    let value = e.target.value;
-
-    if (type === "number") {
-      value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
-      if (isNaN(value)) value = "";
-    } else if (type === "text") {
-      value = String(value);
-    }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleAddData = () => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData({
-      stratigraphy_id: "",
-      depth: "",
-      depth_datum: "",
-    });
-  };
-
-  const options = ["MSL", "KB", "GL"];
-
-  const handleDelete = (row) => {
-    setTableData((prevTableData) =>
-      prevTableData.filter((data) => data !== row)
-    );
-  };
 
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={4} fontFamily={"Montserrat"}>
@@ -94,13 +118,12 @@ const WellStratigraphyForm = () => {
               value={formData.stratigraphy_id}
               handleChange={handleChangeData("stratigraphy_id", "text")}
             />
-            
           </Flex>
           <Flex gap={2}>
             <FormControlCard
               labelForm="Top Depth"
               placeholder="Top Depth"
-              type="text"
+              type="number"
               value={formData.top_depth}
               handleChange={handleChangeData("top_depth", "number")}
             />

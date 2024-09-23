@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CardFormK3 from "../../Components/CardFormK3";
 import {
   Box,
@@ -14,22 +14,27 @@ import {
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const WorkBreakdown = () => {
+const WorkBreakdown = ({ data, onChange }) => {
+  // Mengisi tableData dan formData dengan nilai dari data yang diterima dari parent
   const [tableData, setTableData] = React.useState([]);
   const [formData, setFormData] = React.useState({
     event: "",
-    startDate: "",
-    endDate: "",
-    remark: "",
+    start_date: "",
+    end_date: "",
+    remarks: "",
   });
 
-  
+  useEffect(() => {
+    if (data?.job_plan?.work_breakdown_structure) {
+      setTableData(data.job_plan.work_breakdown_structure);
+    }
+  }, [data]);
 
   const headers = [
     { Header: "Event", accessor: "event" },
-    { Header: "Start Date", accessor: "startDate" },
-    { Header: "End Date", accessor: "endDate" },
-    { Header: "Remark", accessor: "remark" },
+    { Header: "Start Date", accessor: "start_date" },
+    { Header: "End Date", accessor: "end_date" },
+    { Header: "Remarks", accessor: "remarks" },
     {
       Header: "Action",
       render: (row) => (
@@ -45,30 +50,34 @@ const WorkBreakdown = () => {
   ];
 
   const handleChangeData = (name) => (e) => {
+    const value = e.target.value;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: e.target.value,
+      [name]: value,
     }));
   };
 
   const handleAddData = () => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
-    setFormData({ event: "", startDate: "", endDate: "", remark: "" }); // Reset form
+    const updatedTableData = [...tableData, formData];
+    setTableData(updatedTableData);
+
+    // Kirim perubahan ke parent
+    onChange("job_plan.work_breakdown_structure", updatedTableData);
+
+    // Reset form
+    setFormData({ event: "", start_date: "", end_date: "", remarks: "" });
   };
 
   const handleDelete = (row) => {
-    setTableData((prevTableData) =>
-      prevTableData.filter((data) => data !== row)
-    );
+    const updatedTableData = tableData.filter((data) => data !== row);
+    setTableData(updatedTableData);
+
+    // Kirim perubahan ke parent
+    onChange("job_plan.work_breakdown_structure", updatedTableData);
   };
 
   return (
-    <Grid
-      templateColumns="repeat(2, 1fr)"
-     
-      gap={4}
-    
-    >
+    <Grid templateColumns="repeat(2, 1fr)" gap={4}>
       {/* Grid Item pertama */}
       <GridItem>
         <CardFormK3 title="Work Breakdown Structure" subtitle="">
@@ -86,30 +95,30 @@ const WorkBreakdown = () => {
               labelForm="Start Date"
               placeholder="Date"
               type="date"
-              value={formData.startDate}
-              handleChange={handleChangeData("startDate")}
+              value={formData.start_date}
+              handleChange={handleChangeData("start_date")}
             />
             <FormControlCard
               labelForm="End Date"
               placeholder="Date"
               type="date"
-              min={formData.startDate}
-              value={formData.endDate}
-              isDisabled={!formData.startDate} // Disable if startDate is empty
-              handleChange={handleChangeData("endDate")}
+              min={formData.start_date}
+              value={formData.end_date}
+              isDisabled={!formData.start_date} // Disable if start_date is empty
+              handleChange={handleChangeData("end_date")}
             />
           </Flex>
           <Flex>
             <FormControlCard
-              labelForm="Remark"
-              placeholder="Remark"
+              labelForm="Remarks"
+              placeholder="Remarks"
               isTextArea
-              value={formData.remark}
-              handleChange={handleChangeData("remark")}
+              value={formData.remarks}
+              handleChange={handleChangeData("remarks")}
             />
           </Flex>
           <Flex>
-            <Button colorScheme="blue" variant="solid" onClick={handleAddData}>
+            <Button isDisabled colorScheme="blue" variant="solid" onClick={handleAddData}>
               Add
             </Button>
           </Flex>

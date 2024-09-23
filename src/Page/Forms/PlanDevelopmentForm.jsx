@@ -18,135 +18,69 @@ import { PostPlanningDevelopment } from "../API/APISKK";
 
 const PlanDevelopmentForm = () => {
   const [jobPlan, setJobPlan] = useState({
-    area_id: "string",
-    field_id: "string",
-    contract_type: "COST-RECOVERY",
-    afe_number: "string",
-    wpb_year: 0,
+    area_id: null,
+    field_id: null,
+    contract_type: null,
+    afe_number: null,
+    wpb_year: null,
     job_plan: {
-      start_date: "2024-09-18",
-      end_date: "2024-09-18",
-      total_budget: 0,
+      start_date: null,
+      end_date: null,
+      total_budget: null,
       job_operation_days: [],
       work_breakdown_structure: [],
       job_hazards: [],
       job_documents: [],
-      rig_name: "string",
-      rig_type: "JACK-UP",
-      rig_horse_power: 0,
+      rig_name: null,
+      rig_type: null,
+      rig_horse_power: null,
       well: {
-        well_directional_type: "DIRECTIONAL",
-        unit_type: "Metrics",
-        uwi: "string",
-        field_id: "string",
-        area_id: "string",
-        kkks_id: "string",
-        well_name: "string",
-        alias_long_name: "string",
-        well_type: "WILDCAT",
-        well_status: "Active",
-        well_profile_type: "DIRECTIONAL",
-        hydrocarbon_target: "OIL",
-        environment_type: "MARINE",
-        surface_longitude: 0,
-        surface_latitude: 0,
-        bottom_hole_longitude: 0,
-        bottom_hole_latitude: 0,
-        maximum_inclination: 0,
-        azimuth: 0,
-        line_name: "string",
-        spud_date: "2024-09-18",
-        final_drill_date: "2024-09-18",
-        completion_date: "2024-09-18",
-        rotary_table_elev: 0,
-        kb_elev: 0,
-        derrick_floor_elev: 0,
-        ground_elev: 0,
-        mean_sea_level: 0,
-        depth_datum: "RT",
-        kick_off_point: 0,
-        maximum_tvd: 0,
-        final_md: 0,
-        remark: "string",
-        well_documents: [
-          {
-            file_id: "string",
-            document_type: "Well Report",
-            remark: "string",
-          },
-        ],
-        well_summary: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            depth: 0,
-            hole_diameter: 0,
-            bit: "string",
-            casing_outer_diameter: 0,
-            logging: "string",
-            mud_program: "string",
-            cementing_program: "string",
-            bottom_hole_temperature: 0,
-            rate_of_penetration: 0,
-            remarks: "string",
-          },
-        ],
-        well_test: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            zone_name: "string",
-            zone_top_depth: 0,
-            zone_bottom_depth: 0,
-          },
-        ],
-        well_trajectory: {
-          file_id: "string",
-          data_format: "IMAGE",
-        },
-        well_ppfg: {
-          file_id: "string",
-          data_format: "IMAGE",
-        },
-        well_logs: [
-          {
-            file_id: "string",
-            data_format: "IMAGE",
-          },
-        ],
-        well_drilling_parameter: {
-          file_id: "string",
-          data_format: "IMAGE",
-        },
-        well_casing: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            depth: 0,
-            length: 0,
-            hole_diameter: 0,
-            casing_outer_diameter: 0,
-            casing_inner_diameter: 0,
-            casing_grade: "string",
-            casing_weight: 0,
-            connection: "string",
-            description: "string",
-          },
-        ],
-        well_stratigraphy: [
-          {
-            unit_type: "Metrics",
-            depth_datum: "RT",
-            depth: 0,
-            stratigraphy_id: "string",
-          },
-        ],
+        unit_type: null,
+        uwi: null,
+        field_id: null,
+        area_id: null,
+        kkks_id: null,
+        well_name: null,
+        alias_long_name: null,
+        well_type: null,
+        // well_status: null,
+        well_profile_type: null,
+        hydrocarbon_target: null,
+        environment_type: null,
+        surface_longitude: null,
+        surface_latitude: null,
+        bottom_hole_longitude: null,
+        bottom_hole_latitude: null,
+        maximum_inclination: null,
+        azimuth: null,
+        line_name: null,
+        spud_date: null,
+        final_drill_date: null,
+        completion_date: null,
+        rotary_table_elev: null,
+        kb_elev: null,
+        derrick_floor_elev: null,
+        ground_elev: null,
+        mean_sea_level: null,
+        depth_datum: null,
+        kick_off_point: null,
+        maximum_tvd: null,
+        final_md: null,
+        remark: null,
+        well_documents: [],
+        well_summary: [],
+        well_test: [],
+        well_trajectory: {},
+        well_ppfg: {},
+        // well_logs: [],
+        // well_drilling_parameter: {},
+        well_casing: [],
+        well_stratigraphy: [],
       },
       wrm_pembebasan_lahan: true,
       wrm_ippkh: true,
       wrm_ukl_upl: true,
       wrm_amdal: true,
-      wrm_cutting_dumping: true,
       wrm_pengadaan_rig: true,
       wrm_pengadaan_drilling_services: true,
       wrm_pengadaan_lli: true,
@@ -226,13 +160,16 @@ const PlanDevelopmentForm = () => {
     return errors;
   };
   const onClickSubmitForm = async () => {
-    
     setLoading(true);
     try {
       const post = await PostPlanningDevelopment(jobPlan, toast);
       if (post) {
         setLoading(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 4000);
         return post.data;
+
       }
     } catch (error) {
       toast({
@@ -275,6 +212,7 @@ const PlanDevelopmentForm = () => {
                 onFormChange={handleWellDataChange}
                 unitType={dataMetricImperial}
                 wellType={["INJECTION", "PRODUCER", "INFILL", "STEPOUT"]}
+                area_id={jobPlan.area_id}
               />
             </TabPanel>
             <TabPanel>

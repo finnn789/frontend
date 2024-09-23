@@ -55,6 +55,9 @@ import OperationFormsKKKS from "./Page/Forms/Operation/OperationFormsKKKS";
 import JobDocuments from "./Page/Forms/Planning/JobDocuments";
 import ExistingWell from "./Page/Forms/Planning/ExistingWell";
 import "../src/assets/css/ag-grid-theme-builder.css";
+import OperationWoKKKS from "./Page/Components/PageWorkOVer/OperationExpKKKS";
+import OperationWSKKKS from "./Page/Components/PageWellService/OperationWSKKKS";
+import OperationDevKKKS from "./Page/Components/PageExploitasi/OperationDevKKKS";
 function App() {
   const { isAuthenticated } = useAuth();
   const [showSplashScreen, setShowSplashScreen] = useState(false);
@@ -63,23 +66,21 @@ function App() {
   useEffect(() => {
     // Cek apakah splash screen sudah pernah ditampilkan dari localStorage
     const hasShownSplash = localStorage.getItem("splashScreenShown") === "true";
-  
+
     // Set nilai splashScreenShown berdasarkan localStorage
     setSplashScreenShown(hasShownSplash);
-  
+
     if (isAuthenticated && !hasShownSplash) {
       setShowSplashScreen(true);
       localStorage.setItem("splashScreenShown", true);
     }
   }, [isAuthenticated]);
-  
-  
+
   const handleSplashScreenComplete = () => {
     setShowSplashScreen(false); // Sembunyikan splash screen setelah selesai
-    
   };
 
-    const router = createBrowserRouter([
+  const router = createBrowserRouter([
     {
       path: "/login",
       element: <Login />,
@@ -96,7 +97,6 @@ function App() {
       path: "/dashboard",
       element: showSplashScreen ? (
         <SplashScreen onAnimationComplete={handleSplashScreenComplete} />
-
       ) : (
         <ProtectedRoute element={<Dashboard />} allowedRoles={["KKKS"]} />
       ),
@@ -165,16 +165,16 @@ function App() {
           path: "operasi",
           element: (
             <ProtectedRoute
-              element={<OperationExpKKKS />}
+              element={<OperationDevKKKS />}
               allowedRoles={["KKKS"]}
             />
           ),
         },
         {
-          path: "operationform",
+          path: "operationform/:job_id",
           element: (
             <ProtectedRoute
-              element={<PlanDevelopmentForm />}
+              element={<OperationFormsKKKS />}
               allowedRoles={["KKKS"]}
             />
           ),
@@ -198,6 +198,24 @@ function App() {
             />
           ),
         },
+        {
+          path: "operasi",
+          element: (
+            <ProtectedRoute
+              element={<OperationWoKKKS />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
+        },
+        {
+          path: "operasiform/:job_id",
+          element: (
+            <ProtectedRoute
+              element={<OperationFormsKKKS />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
+        },
       ],
     },
     {
@@ -213,6 +231,24 @@ function App() {
           element: (
             <ProtectedRoute
               element={<PlanWellServiceForm />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
+        },
+        {
+          path: "operasi",
+          element: (
+            <ProtectedRoute
+              element={<OperationWSKKKS/>}
+              allowedRoles={["KKKS"]}
+            />
+          ),
+        },
+        {
+          path: "operasiform/:job_id",
+          element: (
+            <ProtectedRoute
+              element={<OperationFormsKKKS />}
               allowedRoles={["KKKS"]}
             />
           ),
@@ -418,7 +454,7 @@ function App() {
       path: "/pengajuanoperasiform",
       element: <PengajuanOperasiForm />,
     },
-    
+
     {
       path: "viewplanning/:id",
       element: <ViewPlanning />,

@@ -1,191 +1,214 @@
-import React, { useState } from "react";
-import CardFormWell from "../../Exploration/TeknisForms";
+import { useState, useEffect } from "react";
 import WellProfile from "../FormHandling/WellProfile";
-import { Grid, SimpleGrid } from "@chakra-ui/react";
+import { Grid, GridItem, Spinner, Alert, AlertIcon, Button, useToast } from "@chakra-ui/react";
 import DirectionalType from "../FormHandling/DirectionalType";
-import WellCasing from "../../Planning/WellCasing";
-import WellSummary from "../../Planning/WellSummary";
+import WellCasing from "../FormHandling/WellCasing";
 import WellSummaryForm from "../FormHandling/WellSumarry";
 import WellStratigraphyForm from "../FormHandling/WellStratigraphy";
-import WellTest from "../../Planning/WellTest";
 import WellTestForm from "../FormHandling/WellTest";
-import WellTrajectory from "../../Planning/WellTrajectory";
-import WellPorePressureForm from "../../Planning/WellPPFG";
-import MudLogs from "../FormHandling/MudLogs";
+import WellTrajectory from "../FormHandling/WellTrajetory";
+import WellPorePressureForm from "../FormHandling/WellPorePressure";
 import MudLogsCard from "../FormHandling/MudLogs";
 import WellLogsCard from "../FormHandling/WellLogs";
+import { putPlanningUpdate } from "../../../API/PostKkks";
+import { getViewRawPlanning } from "../../../API/APIKKKS";
 
-const Technical = () => {
-  const [jobPlan, setJobPlan] = React.useState({
-    area_id: "string",
-    field_id: "string",
-    contract_type: "COST-RECOVERY",
-    afe_number: "string",
-    wpb_year: 0,
+
+const Technical = ({ job_id }) => {
+  const [dataViewRaw, setDataViewRaw] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [dataPatch, setDataPatch] = useState({
+    area_id: "",
+    field_id: "",
+    contract_type: "",
+    afe_number: "",
+    wpb_year: "",
     job_plan: {
-      start_date: "2024-08-31",
-      end_date: "2024-08-31",
-      total_budget: 0,
+      start_date: "",
+      end_date: "",
+      total_budget: "",
+      rig_name: "",
+      rig_type: "",
+      rig_horse_power: "",
       job_operation_days: [],
-      work_breakdown_structure: [
-        {
-          event: "string",
-          start_date: "2024-08-31",
-          end_date: "2024-08-31",
-          remarks: "string",
-        },
-      ],
-      job_hazards: [
-        {
-          hazard_type: "GAS KICK",
-          hazard_description: "string",
-          severity: "LOW",
-          mitigation: "string",
-          remark: "string",
-        },
-      ],
-      job_documents: [
-        {
-          file_id: "string",
-          document_type: "Drilling Plan",
-          remark: "string",
-        },
-      ],
-      rig_name: "string",
-      rig_type: "JACK-UP",
-      rig_horse_power: 0,
-      well: {
-        unit_type: "Metrics",
-        uwi: "string",
-        field_id: "string",
-        area_id: "string",
-        kkks_id: "string",
-        well_name: "string",
-        alias_long_name: "string",
-        well_type: "WILDCAT",
-        well_status: "Active",
-        well_profile_type: "DIRECTIONAL",
-        hydrocarbon_target: "OIL",
-        environment_type: "MARINE",
-        surface_longitude: 0,
-        surface_latitude: 0,
-        bottom_hole_longitude: 0,
-        bottom_hole_latitude: 0,
-        maximum_inclination: 0,
-        azimuth: 0,
-        line_name: "string",
-        spud_date: "2024-08-31T16:27:35.697Z",
-        final_drill_date: "2024-08-31T16:27:35.697Z",
-        completion_date: "2024-08-31T16:27:35.697Z",
-        rotary_table_elev: 0,
-        kb_elev: 0,
-        derrick_floor_elev: 0,
-        ground_elev: 0,
-        mean_sea_level: 0,
-        depth_datum: "RT",
-        kick_off_point: 0,
-        maximum_tvd: 0,
-        final_md: 0,
-        remark: "string",
-        well_documents: [
-          {
-            file_id: "string",
-            document_type: "Well Report",
-            remark: "string",
-          },
-        ],
-        well_summary: [],
-        well_test: [],
-        well_trajectory: {
-          file_id: "string",
-          data_format: "IMAGE",
-        },
-        well_ppfg: {
-          file_id: "string",
-          data_format: "IMAGE",
-        },
-        well_logs: [],
-        well_drilling_parameter: {
-          file_id: "string",
-          data_format: "IMAGE",
-        },
-        well_casing: [],
-        well_stratigraphy: [],
-      },
-      wrm_pembebasan_lahan: true,
-      wrm_ippkh: true,
-      wrm_ukl_upl: true,
-      wrm_amdal: true,
-      wrm_pengadaan_rig: true,
-      wrm_pengadaan_drilling_services: true,
-      wrm_pengadaan_lli: true,
-      wrm_persiapan_lokasi: true,
-      wrm_internal_kkks: true,
-      wrm_evaluasi_subsurface: true,
+      work_breakdown_structure: [],
+      job_hazards: [],
+      job_documents: [],
+      well: {},
     },
   });
 
-  console.log(jobPlan);
-  const handleWellDataChange = (wellData) => {
-    setJobPlan((prevJobPlan) => ({
-      ...prevJobPlan,
-      job_plan: {
-        ...prevJobPlan.job_plan,
-        well: {
-          ...wellData,
-        },
-      },
-    }));
+  const toast = useToast();
+
+  // Function to fetch data when the tab is active
+  const fetchData = async () => {
+    if (job_id) {
+      try {
+        const data = await getViewRawPlanning(job_id);
+        setDataViewRaw(data);
+        setDataPatch(data.data);  // Set the default values from API
+      } catch (error) {
+        setError("Error fetching data");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+    }
   };
 
-  const [dataMetricImperial, setDataMetricImperial] = useState("Metrics");
-  const metricImperialChange = (e) => {
-    setJobPlan((prevJobPlan) => ({
-      ...prevJobPlan,
-      job_plan: {
-        ...prevJobPlan.job_plan,
-        job_operation_days: {
-          ...prevJobPlan.job_plan.job_operation_days,
-          unit_type: e.target.value,
-        },
-        well_plan: {
-          ...prevJobPlan.job_plan.well_plan,
-          unit_type: e.target.value,
-        },
-      },
-    }));
+  // Fetch data when component loads
+  useEffect(() => {
+    fetchData();
+  }, [job_id]);
 
-    setDataMetricImperial(e.target.value);
+  // Reload data when the tab is visible
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        fetchData(); // Reload data when the tab becomes active
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  // Function to handle saving changes
+  const handleSave = async () => {
+    try {
+      const response = await putPlanningUpdate(job_id, dataPatch);
+      toast({
+        title: "Success",
+        description: "Data has been successfully updated.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update data.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
-  const [formErrors, setFormErrors] = useState({});
 
+  // Handle form changes, whether inside job_plan or other fields
+  const handleInputChange = (field, value) => {
+    setDataPatch((prevData) => {
+      // If the field is part of "job_plan"
+      if (field.startsWith("job_plan.")) {
+        const jobPlanField = field.split(".")[1];
+        return {
+          ...prevData,
+          job_plan: {
+            ...prevData.job_plan,
+            [jobPlanField]: value,
+          },
+        };
+      } else {
+        // For fields outside of job_plan
+        return {
+          ...prevData,
+          [field]: value,
+        };
+      }
+    });
+  };
+
+  if (loading) {
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        {error}
+      </Alert>
+    );
+  }
+
+  if (!dataViewRaw) {
+    return <div>No Data Available</div>;
+  }
+  
+  console.log("🚀 ~ Technical ~ dataViewRaw:", dataViewRaw.data)
   return (
-    <SimpleGrid columns={1} gap={6}>
-      <WellProfile />
-      <DirectionalType />
-      <WellSummaryForm />
-      <WellCasing />
-      <WellStratigraphyForm />
-      <WellTestForm />
-      <WellTrajectory
-        ondata={(data) =>
-          setJobPlan((prevJobPlan) => ({
-            ...prevJobPlan,
-            job_plan: {
-              ...prevJobPlan.job_plan,
-              well: {
-                ...prevJobPlan.job_plan.well,
-                well_trajectory: data,
-              },
-            },
-          }))
-        }
-        errorForms={formErrors}
-      />
-      <WellPorePressureForm handleDataSubmit={(e) => console.log(e)} />
-      <MudLogsCard/>
-      <WellLogsCard/>
-    </SimpleGrid>
+    <>
+      <Grid gap={10}>
+        <GridItem>
+          <WellProfile
+            data={dataViewRaw}
+            onChange={handleInputChange}
+          />
+        </GridItem>
+        <GridItem>
+          <DirectionalType
+            data={dataViewRaw}
+            onChange={handleInputChange}
+          />
+        </GridItem>
+        <GridItem>
+          <WellSummaryForm
+            data={dataViewRaw}
+            onChange={handleInputChange}
+          />
+        </GridItem>
+        <GridItem>
+          <WellCasing
+            data={dataViewRaw}
+            onChange={handleInputChange}
+          />
+        </GridItem>
+        <GridItem>
+          <WellStratigraphyForm
+            data={dataViewRaw}
+            onChange={handleInputChange}
+          />
+        </GridItem>
+        <GridItem>
+          <WellTestForm
+            data={dataViewRaw}
+            onChange={handleInputChange}
+          />
+        </GridItem>
+        <GridItem>
+            
+            <WellTrajectory data={dataViewRaw} onChange={handleInputChange} />
+        </GridItem>
+        <GridItem>
+          <WellPorePressureForm data={dataViewRaw}
+            onChange={handleInputChange}/>
+        </GridItem>
+        <GridItem>
+          <MudLogsCard
+            data={dataViewRaw}
+            onChange={handleInputChange}
+          />
+        </GridItem>
+        <GridItem>
+          <WellLogsCard
+            data={dataViewRaw}
+            onChange={handleInputChange}
+          />
+        </GridItem>
+      </Grid>
+      <Button colorScheme="blue" mt={4} onClick={handleSave}>
+        Simpan Perubahan
+      </Button>
+    </>
   );
 };
 

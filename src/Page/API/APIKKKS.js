@@ -34,7 +34,7 @@ export async function getAreaID() {
     return response.data;
   } catch (error) {
     console.error("Error get Data Well", error);
-    return response.data;
+    return null;
   }
 }
 
@@ -85,11 +85,82 @@ export async function GetWellStratigrapyh() {
         },
       }
     );
+    console.log("data berhasil ditambahkan coy", response.data);
     return response.data;
   } catch (error) {
     console.error("Error get Data Well", error);
-    return response.data;
+    throw error.response;
   }
 }
 
+export async function GetCodeTimeBreakDown() {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/job/drilling-operations/pyenum`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data Well", error);
+    throw error.response;
+  }
+}
+
+// ANCHOR: GET WRM Issues
+export const getWRMIssues = async (jobId) => {
+  return await axios.get(
+    `${import.meta.env.VITE_APP_URL}/job/job-issues/${jobId}`,
+    {
+      headers: {
+        'Accept': 'application/json',
+      },
+    }
+  );
+};
+
+export async function GetDateJobInstances(job_instance_id) {
+  return await axios.get(
+    `${import.meta.env.VITE_APP_URL}/job/job-instances/${job_instance_id}/dates`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  )
+}
+export async function GetBHAEnum() {
+  return await axios.get(
+    `${import.meta.env.VITE_APP_URL}/job/bha/pyenum`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  )
+}
+
+export async function getViewRawPlanning(job_id) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/job/planning/view-raw/${job_id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data; // Mengembalikan data jika berhasil
+  } catch (error) {
+    console.error("Error get Data view raw", error);
+    return null; // Mengembalikan null jika terjadi error
+  }
+}
 

@@ -3,17 +3,17 @@ import CardFormK3 from "../../Components/CardFormK3";
 import { Grid, GridItem } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 
-const CasingOps = ({ handleChangeOfData }) => {
+const CasingOps = ({ handleChangeOfData, messageError }) => {
+  const messageErrors = messageError;
   const [formData, setFormData] = React.useState({
-    start: "",
-    set_md: "",
-    next_size: "",
-    set_md_2: "",
-    last_lot_emw: "",
-    tol: "",
+    start: null,
+    set_md: null,
+    next_size: null,
+    next_set_md: null,
+    last_lot_emw: null,
+    tol: null,
+    last_size: null,
   });
-
-  //   console.log(formData);
 
   React.useEffect(() => {
     handleChangeOfData(formData);
@@ -46,16 +46,20 @@ const CasingOps = ({ handleChangeOfData }) => {
             name="start"
             value={formData.start}
             handleChange={handleChangeData("start")}
+            isInvalid={!!messageErrors?.start}
+            errorMessage={messageErrors?.start}
           />
         </GridItem>
         <GridItem>
           <FormControlCard
             labelForm="Set MD"
             placeholder="Set MD"
-            type="text"
+            type="number"
             name="set_md"
             value={formData.set_md}
             handleChange={handleChangeData("set_md")}
+            isInvalid={!!messageErrors?.set_md}
+            errorMessage={messageErrors?.set_md}
           />
         </GridItem>
         <GridItem>
@@ -66,16 +70,20 @@ const CasingOps = ({ handleChangeOfData }) => {
             name="next_size"
             value={formData.next_size}
             handleChange={handleChangeData("next_size")}
+            isInvalid={!!messageErrors?.next_size}
+            errorMessage={messageErrors?.next_size}
           />
         </GridItem>
         <GridItem>
           <FormControlCard
             labelForm="Set MD 2"
             placeholder="Set MD 2"
-            type="text"
-            name="set_md_2"
-            value={formData.set_md_2}
-            handleChange={handleChangeData("set_md_2")}
+            type="number"
+            name="next_set_md"
+            value={formData.next_set_md}
+            handleChange={handleChangeData("next_set_md")}
+            isInvalid={!!messageErrors?.next_set_md}
+            errorMessage={messageErrors?.next_set_md}
           />
         </GridItem>
         <GridItem>
@@ -86,6 +94,8 @@ const CasingOps = ({ handleChangeOfData }) => {
             name="last_lot_emw"
             value={formData.last_lot_emw}
             handleChange={handleChangeData("last_lot_emw")}
+            isInvalid={!!messageErrors?.last_lot_emw}
+            errorMessage={messageErrors?.last_lot_emw}
           />
         </GridItem>
         <GridItem>
@@ -96,6 +106,20 @@ const CasingOps = ({ handleChangeOfData }) => {
             name="tol"
             value={formData.tol}
             handleChange={handleChangeData("tol")}
+            isInvalid={!!messageErrors?.tol}
+            errorMessage={messageErrors?.tol}
+          />
+        </GridItem>
+        <GridItem>
+          <FormControlCard
+            labelForm="Last Size"
+            placeholder="Last Size"
+            type="number"
+            name="last_size"
+            value={formData.last_size}
+            handleChange={handleChangeData("last_size")}
+            isInvalid={!!messageErrors?.last_size}
+            errorMessage={messageErrors?.last_size}
           />
         </GridItem>
       </Grid>

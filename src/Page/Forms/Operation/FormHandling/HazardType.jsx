@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import CardFormK3 from "../../Components/CardFormK3";
 import {
   Box,
@@ -14,23 +14,29 @@ import {
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
 
-const HazardType = () => {
+const HazardType = ({ data, onChange }) => {
+  // Mengisi tableData dan formData dengan nilai dari data yang diterima dari parent
   const [tableData, setTableData] = React.useState([]);
-
   const [formData, setFormData] = React.useState({
     hazard_type: "",
-    hazard_severity: "",
-    hazard_description: null,
+    severity: "",
+    hazard_description: "",
     mitigation: "",
-    remarks: "",
+    remark: "",
   });
+
+  useEffect(() => {
+    if (data?.job_plan?.job_hazards) {
+      setTableData(data.job_plan.job_hazards);
+    }
+  }, [data]);
 
   const headers = [
     { Header: "Hazard Type", accessor: "hazard_type" },
-    { Header: "Hazard Severity", accessor: "hazard_severity" },
+    { Header: "Hazard Severity", accessor: "severity" },
     { Header: "Hazard Desc", accessor: "hazard_description" },
-    { Header: "mitigation", accessor: "mitigation" },
-    { Header: "remarks", accessor: "remarks" },
+    { Header: "Mitigation", accessor: "mitigation" },
+    { Header: "Remarks", accessor: "remark" },
     {
       Header: "Action",
       render: (row) => (
@@ -64,22 +70,30 @@ const HazardType = () => {
     []
   );
 
-  // Memoized handleAddData function to prevent unnecessary re-renders
   const handleAddData = useCallback(() => {
-    setTableData((prevTableData) => [...prevTableData, formData]);
+    const updatedTableData = [...tableData, formData];
+    setTableData(updatedTableData);
+
+    // Kirim perubahan ke parent
+    onChange("job_plan.job_hazards", updatedTableData);
+
+    // Reset form
     setFormData({
       hazard_type: "",
+      severity: "",
       hazard_description: "",
-      depth_out: "",
       mitigation: "",
-    }); // Reset form
-  }, [formData]);
+      remark: "",
+    });
+  }, [formData, tableData, onChange]);
 
   const handleDelete = useCallback((row) => {
-    setTableData((prevTableData) =>
-      prevTableData.filter((data) => data !== row)
-    );
-  }, []);
+    const updatedTableData = tableData.filter((data) => data !== row);
+    setTableData(updatedTableData);
+
+    // Kirim perubahan ke parent
+    onChange("job_plan.job_hazards", updatedTableData);
+  }, [tableData, onChange]);
 
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -89,7 +103,7 @@ const HazardType = () => {
           <Flex gap={2}>
             <FormControlCard
               labelForm="Hazard Type"
-              placeholder="hazard_type"
+              placeholder="Hazard Type"
               type="text"
               value={formData.hazard_type}
               handleChange={handleChangeData("hazard_type")}
@@ -98,8 +112,8 @@ const HazardType = () => {
               labelForm="Hazard Severity"
               placeholder="Hazard Severity"
               type="text"
-              value={formData.hazard_severity}
-              handleChange={handleChangeData("hazard_severity")}
+              value={formData.severity}
+              handleChange={handleChangeData("severity")}
             />
           </Flex>
           <Flex gap={2}>
@@ -125,12 +139,12 @@ const HazardType = () => {
             <FormControlCard
               labelForm="Remarks"
               placeholder="Remarks"
-              value={formData.remarks}
-              handleChange={handleChangeData("remarks")}
+              value={formData.remark}
+              handleChange={handleChangeData("remark")}
             />
           </Flex>
           <Flex>
-            <Button colorScheme="blue" variant="solid" onClick={handleAddData}>
+            <Button isDisabled colorScheme="blue" variant="solid" onClick={handleAddData}>
               Add
             </Button>
           </Flex>
