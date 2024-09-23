@@ -8,6 +8,24 @@ import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../../PageKKKS/Components/Card/Footer";
 // import HeaderCard from "../Components/Card/HeaderCard";
 import { getTableKKKS } from "../../API/APIKKKS";
+import { Link } from "react-router-dom";
+import { IconSquareRoundedPlus } from "@tabler/icons-react";
+
+
+const actionButtonRender = () => {
+  return (
+    <Button
+      colorScheme="blue"
+      variant="solid"
+      size="md"
+      as={Link}
+      to={"/wellservice/planningform"}
+      leftIcon={<IconSquareRoundedPlus />}
+    >
+      Ajukan Pengajuan
+    </Button>
+  );
+};
 const PlanWellServiceKKKS = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
@@ -127,6 +145,7 @@ const PlanWellServiceKKKS = () => {
           headers={headerstable1}
           title={"Planning Well Service"}
           subtitle={"List Planning Well Service"}
+          actionButton={actionButtonRender()}
         >
           {countStatus ? (
             countStatus.job_details.map((row, index) => (

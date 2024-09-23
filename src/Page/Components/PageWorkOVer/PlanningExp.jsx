@@ -8,13 +8,30 @@ import { MdOutlineVerified } from "react-icons/md";
 import Footer from "../../PageKKKS/Components/Card/Footer";
 // import HeaderCard from "../Components/Card/HeaderCard";
 import { getTableKKKS } from "../../API/APIKKKS";
+import { Link } from "react-router-dom";
+import { IconSquareRoundedPlus } from "@tabler/icons-react";
+
+const actionButtonRender = () => {
+  return (
+    <Button
+      colorScheme="blue"
+      variant="solid"
+      size="md"
+      as={Link}
+      to={"/workover/planningform"}
+      leftIcon={<IconSquareRoundedPlus />}
+    >
+      Ajukan Pengajuan
+    </Button>
+  );
+};
 const PlanningWorkOverKKKS = () => {
   const [countStatus, setCountStatus] = React.useState(null);
 
   React.useEffect(() => {
     const getData = async () => {
       const data = await getTableKKKS("workover", "plan");
-      console.log(data.data)
+      console.log(data.data);
       setCountStatus(data.data);
     };
     getData();
@@ -127,6 +144,7 @@ const PlanningWorkOverKKKS = () => {
           headers={headerstable1}
           title={"Planning Workover"}
           subtitle={"List Planning Workover"}
+          actionButton={actionButtonRender()}
         >
           {countStatus ? (
             countStatus.job_details.map((row, index) => (
@@ -135,7 +153,7 @@ const PlanningWorkOverKKKS = () => {
                 <Td>{row.KKKS}</Td>
                 <Td>{row.LAPANGAN}</Td>
                 <Td>{row["WILAYAH KERJA"]}</Td>
-                <Td>{row['NAMA SUMUR']}</Td>
+                <Td>{row["NAMA SUMUR"]}</Td>
                 <Td>{row["RENCANA MULAI"]}</Td>
                 <Td>{row["RENCANA SELESAI"]}</Td>
                 <Td>
