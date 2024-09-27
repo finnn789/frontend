@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import WellProfile from "../FormHandling/WellProfile";
 import { Grid, GridItem, Spinner, Alert, AlertIcon, Button, useToast } from "@chakra-ui/react";
 import DirectionalType from "../FormHandling/DirectionalType";
@@ -42,7 +42,7 @@ const Technical = ({ job_id }) => {
   const toast = useToast();
 
   // Function to fetch data when the tab is active
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (job_id) {
       try {
         const data = await getViewRawPlanning(job_id);
@@ -56,12 +56,12 @@ const Technical = ({ job_id }) => {
     } else {
       setLoading(false);
     }
-  };
+  }, [job_id]); // Memoize fetchData to prevent unnecessary re-renders
 
   // Fetch data when component loads
   useEffect(() => {
     fetchData();
-  }, [job_id]);
+  }, [fetchData]); // Only run when fetchData changes
 
   // Reload data when the tab is visible
   useEffect(() => {
@@ -76,7 +76,7 @@ const Technical = ({ job_id }) => {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, []);
+  }, [fetchData]); // Make sure fetchData is stable
 
   // Function to handle saving changes
   const handleSave = async () => {
@@ -101,7 +101,7 @@ const Technical = ({ job_id }) => {
   };
 
   // Handle form changes, whether inside job_plan or other fields
-  const handleInputChange = (field, value) => {
+  const handleInputChange = useCallback((field, value) => {
     setDataPatch((prevData) => {
       // If the field is part of "job_plan"
       if (field.startsWith("job_plan.")) {
@@ -121,7 +121,7 @@ const Technical = ({ job_id }) => {
         };
       }
     });
-  };
+  }, []); // Memoize handleInputChange to prevent re-renders
 
   if (loading) {
     return (
@@ -144,7 +144,6 @@ const Technical = ({ job_id }) => {
     return <div>No Data Available</div>;
   }
   
-  console.log("🚀 ~ Technical ~ dataViewRaw:", dataViewRaw.data)
   return (
     <>
       <Grid gap={10}>
@@ -185,12 +184,10 @@ const Technical = ({ job_id }) => {
           />
         </GridItem>
         <GridItem>
-            
-            <WellTrajectory data={dataViewRaw} onChange={handleInputChange} />
+          <WellTrajectory data={dataViewRaw} onChange={handleInputChange} />
         </GridItem>
         <GridItem>
-          <WellPorePressureForm data={dataViewRaw}
-            onChange={handleInputChange}/>
+          <WellPorePressureForm data={dataViewRaw} onChange={handleInputChange}/>
         </GridItem>
         <GridItem>
           <MudLogsCard
