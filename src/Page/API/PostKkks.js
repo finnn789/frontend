@@ -67,13 +67,13 @@ export async function createJobIssue(data, toast) {
       data,
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
-    
+
     console.log("response.status", response);
-    
+
     if (response.status === 200) {
       toast({
         title: "Data berhasil dikirim.",
@@ -83,7 +83,7 @@ export async function createJobIssue(data, toast) {
         isClosable: true,
       });
     }
-    
+
     return response.data;
   } catch (error) {
     console.error("Error creating job issue", error);
@@ -95,7 +95,7 @@ export async function createJobIssue(data, toast) {
       isClosable: true,
     });
   }
-};
+}
 // ANCHOR PATCH WRM ISSUES
 export const updateJobIssue = async (issueId, data) => {
   try {
@@ -104,7 +104,7 @@ export const updateJobIssue = async (issueId, data) => {
       data,
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
@@ -123,8 +123,8 @@ export const patchStatusOperationToOperate = async (jod_id) => {
       [],
       {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -133,7 +133,7 @@ export const patchStatusOperationToOperate = async (jod_id) => {
     console.error("Error updating job issue", error);
     console.log("token", localStorage.getItem("token"));
   }
-}
+};
 
 export const putPlanningUpdate = async (job_id, data) => {
   console.log("easdawdasd job_id : ", job_id);
@@ -143,9 +143,9 @@ export const putPlanningUpdate = async (job_id, data) => {
       data,
       {
         headers: {
-          'Accept' : 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -153,4 +153,43 @@ export const putPlanningUpdate = async (job_id, data) => {
   } catch (error) {
     console.error("Error updating job issue", error);
   }
-}
+};
+
+export const UploadFileBatch = async (file, job_type) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/job/planning/upload-batch/${job_type}`,
+      file,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    ) 
+    return response.data;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+};
+
+export const DeleteJobPlanning = async (job_id) => {
+  try {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_APP_URL}/job/planning/delete/${job_id}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    throw error
+  }
+};
+
