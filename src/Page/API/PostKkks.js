@@ -168,7 +168,7 @@ export const UploadFileBatch = async (file, job_type) => {
         },
       }
     ) 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error)
     throw error
