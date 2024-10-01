@@ -12,6 +12,7 @@ import MudLogsCard from "../FormHandling/MudLogs";
 import WellLogsCard from "../FormHandling/WellLogs";
 import { putPlanningUpdate } from "../../../API/PostKkks";
 import { getViewRawPlanning } from "../../../API/APIKKKS";
+import WellSchematic from "../FormHandling/WellSchematic";
 
 
 const Technical = ({ job_id }) => {
@@ -200,6 +201,9 @@ const Technical = ({ job_id }) => {
             data={dataViewRaw}
             onChange={handleInputChange}
           />
+        </GridItem>
+        <GridItem>
+          <WellSchematic/>
         </GridItem>
       </Grid>
       <Button colorScheme="blue" mt={4} onClick={handleSave}>

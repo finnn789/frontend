@@ -85,7 +85,7 @@ const WRMUissues = ({ job_id }) => {
         await updateJobIssue(selectedIssue.id, updatedIssue); // Memanggil endpoint PATCH dengan id issue
         toast({
           title: "Issue Resolved",
-          description: `Issue with ID ${selectedIssue.id} has been resolved.`,
+          description: `Issue with Description ${selectedIssue.description} has been resolved.`,
           status: "success",
           duration: 5000,
           isClosable: true,

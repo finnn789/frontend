@@ -129,6 +129,7 @@ const PlanningExpKKKS = () => {
           });
           setIsLoading(false);
         }
+        setIsLoading(false);
       }
     };
     return (
@@ -162,7 +163,7 @@ const PlanningExpKKKS = () => {
     return (
       <Flex gap={4}>
         <Button
-          onClick={onOpen}
+        
           size={"md"}
           colorScheme="blue"
           leftIcon={<FaCopy />}

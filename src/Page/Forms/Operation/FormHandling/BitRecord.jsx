@@ -194,13 +194,13 @@ const BitRecord = ({ handleChangeOfData, titleBitRecord, messageError }) => {
 
       <GridItem>
         <FormControlCard
-          labelForm="Nozzles"
-          placeholder="Nozzles"
+          labelForm="Nozzels"
+          placeholder="Nozzels"
           type="number"
-          value={formData.nozzles}
-          handleChange={handleChangeData("nozzles")}
-          isInvalid={!!messageErrors?.nozzles}
-          errorMessage={messageErrors?.nozzles}
+          value={formData.nozzels}
+          handleChange={handleChangeData("nozzels")}
+          isInvalid={!!messageErrors?.nozzels}
+          errorMessage={messageErrors?.nozzels}
         />
       </GridItem>
 

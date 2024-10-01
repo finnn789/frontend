@@ -105,6 +105,13 @@ const WRMUpdates = ({ job_actual }) => {
       onClose(); // Tutup AlertDialog setelah submit
     } catch (error) {
       console.error("Failed to update data", error);
+      toast({
+        title: "Failed Update WRM", 
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      onClose();
     }
   };
 
