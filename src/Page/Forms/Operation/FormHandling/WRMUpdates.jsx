@@ -51,7 +51,7 @@ const WRMUpdates = ({ job_actual }) => {
     { value: "0%", label: "0%" },
   ];
 
-  console.log("dari wrmupdates", job_actual);
+  // console.log("dari wrmupdates", job_actual);
   
   // Fetch WRM data saat komponen di-load berdasarkan job_actual
   useEffect(() => {
@@ -95,7 +95,7 @@ const WRMUpdates = ({ job_actual }) => {
 
     try {
       const response = await patchWRM(job_actual, values); // Mengirim data state `values` ke patchWRM
-      console.log("Data updated successfully", response);
+      // console.log("Data updated successfully", response);
       toast({
         title: "WRM Data Updated",
         status: "success",

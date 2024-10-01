@@ -138,8 +138,8 @@ export const patchStatusOperationToOperate = async (jod_id) => {
 export const putPlanningUpdate = async (job_id, data) => {
   console.log("easdawdasd job_id : ", job_id);
   try {
-    const response = await axios.put(
-      `${import.meta.env.VITE_APP_URL}/job/planning/update/${job_id}`,
+    const response = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/job/operation/update/actual_exploration/${job_id}`,
       data,
       {
         headers: {
@@ -152,6 +152,7 @@ export const putPlanningUpdate = async (job_id, data) => {
     return response.data;
   } catch (error) {
     console.error("Error updating job issue", error);
+    throw error
   }
 };
 
@@ -198,7 +199,7 @@ export const DeleteJobPlanning = async (job_id) => {
 export const PostUploadFile = async (file) => {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/job/planning/upload-file`,
+      `${import.meta.env.VITE_APP_URL}/utils/upload/file`,
       file,
       {
         headers: {
@@ -214,5 +215,7 @@ export const PostUploadFile = async (file) => {
     throw error
   }
 };
+
+
 
 
