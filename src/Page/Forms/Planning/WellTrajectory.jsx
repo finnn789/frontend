@@ -161,6 +161,7 @@ const WellTrajectory = ({ ondata, errorForms }) => {
       });
     } catch (error) {
       console.error("Error uploading file:", error);
+      
       toast({
         title: "File Error to Upload",
         status: "error",

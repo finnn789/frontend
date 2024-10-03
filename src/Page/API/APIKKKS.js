@@ -96,7 +96,7 @@ export async function GetWellStratigrapyh() {
 export async function GetCodeTimeBreakDown() {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_APP_URL}/job/drilling-operations/pyenum`,
+      `${import.meta.env.VITE_APP_URL}/utils/drilling-operations/pyenum`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@ export async function GetCodeTimeBreakDown() {
 // ANCHOR: GET WRM Issues
 export const getWRMIssues = async (jobId) => {
   return await axios.get(
-    `${import.meta.env.VITE_APP_URL}/job/job-issues/${jobId}`,
+    `${import.meta.env.VITE_APP_URL}/job/operatrion/get/job-issues/${jobId}`, 
     {
       headers: {
         'Accept': 'application/json',
@@ -125,7 +125,7 @@ export const getWRMIssues = async (jobId) => {
 
 export async function GetDateJobInstances(job_instance_id) {
   return await axios.get(
-    `${import.meta.env.VITE_APP_URL}/job/job-instances/${job_instance_id}/dates`,
+    `${import.meta.env.VITE_APP_URL}/job/operationn/get/dor-dates/${job_instance_id}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -136,7 +136,7 @@ export async function GetDateJobInstances(job_instance_id) {
 }
 export async function GetBHAEnum() {
   return await axios.get(
-    `${import.meta.env.VITE_APP_URL}/job/bha/pyenum`,
+    `${import.meta.env.VITE_APP_URL}/utils/bha/pyenum`,
     {
       headers: {
         "Content-Type": "application/json",

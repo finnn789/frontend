@@ -117,12 +117,12 @@ const DailyDates = ({ handleChangeOfData, messageError }) => {
             handleChange={handleChange("avg_wob", "number")}
           />
           <FormControlCard
-            labelForm="Avg ROB"
-            isInvalid={!!messageErrors?.avg_rob}
-            errorMessage={messageErrors?.avg_rob}
+            labelForm="Avg ROP"
+            isInvalid={!!messageErrors?.avg_rop}
+            errorMessage={messageErrors?.avg_rop}
             type={"number"}
-            placeholder="Avg ROB"
-            handleChange={handleChange("avg_rob", "number")}
+            placeholder="Avg ROP"
+            handleChange={handleChange("avg_rop", "number")}
           />
           <FormControlCard
             labelForm="Avg RPM"

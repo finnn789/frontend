@@ -58,6 +58,7 @@ import "../src/assets/css/ag-grid-theme-builder.css";
 import OperationWoKKKS from "./Page/Components/PageWorkOVer/OperationExpKKKS";
 import OperationWSKKKS from "./Page/Components/PageWellService/OperationWSKKKS";
 import OperationDevKKKS from "./Page/Components/PageExploitasi/OperationDevKKKS";
+import SubmitP3 from "./Page/Forms/PPP/SubmitP3";
 function App() {
   const { isAuthenticated } = useAuth();
   const [showSplashScreen, setShowSplashScreen] = useState(false);
@@ -135,12 +136,10 @@ function App() {
         {
           path: "ppp",
           element: <PPP />,
-          children: [
-            {
-              path: "form",
-              element: <PengajuanPekerjaanForm />,
-            },
-          ],
+        },
+        {
+          path: "ppp/form",
+          element: <SubmitP3  />,
         },
       ],
     },
@@ -160,6 +159,14 @@ function App() {
               allowedRoles={["KKKS"]}
             />
           ),
+        },
+        {
+          path: "ppp",
+          element: <PPP />,
+        },
+        {
+          path: "ppp/form",
+          element: <SubmitP3  />,
         },
         {
           path: "operasi",
@@ -216,6 +223,14 @@ function App() {
             />
           ),
         },
+        {
+          path: "ppp",
+          element: <PPP />,
+        },
+        {
+          path: "ppp/form",
+          element: <SubmitP3  />,
+        },
       ],
     },
     {
@@ -239,7 +254,7 @@ function App() {
           path: "operasi",
           element: (
             <ProtectedRoute
-              element={<OperationWSKKKS/>}
+              element={<OperationWSKKKS />}
               allowedRoles={["KKKS"]}
             />
           ),
@@ -252,6 +267,14 @@ function App() {
               allowedRoles={["KKKS"]}
             />
           ),
+        },
+        {
+          path: "ppp",
+          element: <PPP />,
+        },
+        {
+          path: "ppp/form",
+          element: <SubmitP3  />,
         },
       ],
     },

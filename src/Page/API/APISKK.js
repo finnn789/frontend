@@ -390,7 +390,7 @@ export async function GetDataWell(data) {
 export async function patchWRM(actual_exploration_id, formData) {
   try {
     const response = await axios.patch(
-      `${import.meta.env.VITE_APP_URL}/job/actual-exploration/${actual_exploration_id}?exploration_id=${actual_exploration_id}`,
+      `${import.meta.env.VITE_APP_URL}/job/operation/update/wrm/${actual_exploration_id}?exploration_id=${actual_exploration_id}`,
       formData, // Mengirim formData dalam body
       {
         headers: {
@@ -401,7 +401,7 @@ export async function patchWRM(actual_exploration_id, formData) {
     return response.data;
   } catch (error) {
     console.error("Error updating WRM data", error);
-    return null;
+    throw error;
   }
 }
 
@@ -409,7 +409,7 @@ export async function patchWRM(actual_exploration_id, formData) {
 export async function getWRMData(job_id, model_type) {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_APP_URL}/job/wrm-data/${job_id}?model_type=${model_type}`,
+      `${import.meta.env.VITE_APP_URL}/job/operation/update/wrm/${job_id}?model_type=${model_type}`,
       // {
       //   headers: {
       //     "Content-Type": "application/json",

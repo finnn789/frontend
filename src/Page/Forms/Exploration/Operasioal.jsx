@@ -6,6 +6,7 @@ import JobOpertionsDays from "../Planning/JobOperationDays";
 import WorkBreakdownStructure from "../Planning/BorkBreakDowns";
 import HazardType from "../Planning/HazardType";
 import JobDocuments from "../Planning/JobDocuments";
+import WBSRev from "../Planning/WBSRev";
 
 
 const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleChangeJobPlan,WBSData,JobOperationData,HazardTypeData, CuttingDumping, errorForms,unitType }) => {
@@ -45,10 +46,13 @@ const Operasional = ({ onData, dataWRM, jobDocuments,handleChangeRigType,handleC
         
       />
       <WRMRequirement onDataChange={datawrm} showCuttingDumpingCheckbox={CuttingDumping} errorForms={errorForms} />
-      <WorkBreakdownStructure
+      {/* <WorkBreakdownStructure
         errorForms={errorForms}
         ondata={WBSData}
-      />
+      /> */}
+      <WBSRev/> 
+
+
       <JobOpertionsDays
         errorForms={errorForms}
         ondata={JobOperationData}

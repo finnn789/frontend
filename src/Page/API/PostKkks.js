@@ -42,7 +42,7 @@ export async function PostWellService(data) {
 export async function PostOperationReport(data) {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/job/daily-operations-reports/`,
+      `${import.meta.env.VITE_APP_URL}/job/operation/create/daily-operations-reports/`,
       data,
       {
         headers: {
@@ -63,17 +63,17 @@ export async function PostOperationReport(data) {
 export async function createJobIssue(data, toast) {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/job/create-job-issues/`,
+      `${import.meta.env.VITE_APP_URL}/job/operation/create/issues/`,
       data,
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
-    
+
     console.log("response.status", response);
-    
+
     if (response.status === 200) {
       toast({
         title: "Data berhasil dikirim.",
@@ -83,7 +83,7 @@ export async function createJobIssue(data, toast) {
         isClosable: true,
       });
     }
-    
+
     return response.data;
   } catch (error) {
     console.error("Error creating job issue", error);
@@ -95,16 +95,16 @@ export async function createJobIssue(data, toast) {
       isClosable: true,
     });
   }
-};
+}
 // ANCHOR PATCH WRM ISSUES
 export const updateJobIssue = async (issueId, data) => {
   try {
     const response = await axios.patch(
-      `${import.meta.env.VITE_APP_URL}/job/job-issues/${issueId}`,
+      `${import.meta.env.VITE_APP_URL}/job/operation/update/job-issues/${issueId}`,
       data,
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
@@ -123,8 +123,8 @@ export const patchStatusOperationToOperate = async (jod_id) => {
       [],
       {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -133,24 +133,89 @@ export const patchStatusOperationToOperate = async (jod_id) => {
     console.error("Error updating job issue", error);
     console.log("token", localStorage.getItem("token"));
   }
-}
+};
 
 export const putPlanningUpdate = async (job_id, data) => {
   console.log("easdawdasd job_id : ", job_id);
   try {
-    const response = await axios.put(
-      `${import.meta.env.VITE_APP_URL}/job/planning/update/${job_id}`,
+    const response = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/job/operation/update/actual_exploration/${job_id}`,
       data,
       {
         headers: {
-          'Accept' : 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
     return response.data;
   } catch (error) {
     console.error("Error updating job issue", error);
+    throw error
   }
-}
+};
+
+export const UploadFileBatch = async (file, job_type) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/job/planning/upload-batch/${job_type}`,
+      file,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    ) 
+    return response;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+};
+
+export const DeleteJobPlanning = async (job_id) => {
+  try {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_APP_URL}/job/planning/delete/${job_id}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    throw error
+  }
+};
+
+
+
+export const PostUploadFile = async (file) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/utils/upload/file`,
+      file,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    ) 
+    return response;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+};
+
+
+
+
