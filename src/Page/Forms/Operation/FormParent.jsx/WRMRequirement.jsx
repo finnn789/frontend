@@ -8,7 +8,7 @@ import { Grid, GridItem } from "@chakra-ui/react";
 const WRMRequirement = (job_id) => {
   const location = useLocation();
   const { job_actual } = location.state || {};
-  console.log("🚀 ~ WRMRequirement ~ job_actual:", job_actual)
+  // console.log("🚀 ~ WRMRequirement ~ job_actual:", job_actual)
   
   return (
     <Grid templateColumns="repeat(4, 1fr)" gap={2}>

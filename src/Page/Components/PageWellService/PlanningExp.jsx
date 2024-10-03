@@ -1,6 +1,17 @@
 import React, { useEffect } from "react";
 import ProposedWorkTable from "./ProposedWork";
-import { Box, Badge, Flex, Text, Tr, Td, Button, Icon } from "@chakra-ui/react";
+import {
+  Box,
+  Badge,
+  Flex,
+  Text,
+  Tr,
+  Td,
+  Button,
+  Icon,
+  useDisclosure,
+  UnorderedList,
+} from "@chakra-ui/react";
 import PerhitunganCard from "../../PageKKKS/Components/Card/CardPerhitunganBox";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
@@ -10,24 +21,39 @@ import Footer from "../../PageKKKS/Components/Card/Footer";
 import { getTableKKKS } from "../../API/APIKKKS";
 import { Link } from "react-router-dom";
 import { IconSquareRoundedPlus } from "@tabler/icons-react";
+import ModalAndContent from "../../Forms/Components/ModalAndContent";
+import ActionButtonUploadFile from "../../Forms/Components/ActionButtonUploadFile";
+import FileHandlingUpload from "../../Forms/Components/FileHandlingUpload";
 
-
-const actionButtonRender = () => {
-  return (
-    <Button
-      colorScheme="blue"
-      variant="solid"
-      size="md"
-      as={Link}
-      to={"/wellservice/planningform"}
-      leftIcon={<IconSquareRoundedPlus />}
-    >
-      Ajukan Pengajuan
-    </Button>
-  );
-};
 const PlanWellServiceKKKS = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [countStatus, setCountStatus] = React.useState(null);
+  const [parentFile, setParentFile] = React.useState();
+  const [errorFile, setErrorFile] = React.useState([]);
+  const actionButtonRender = () => {
+    return (
+      <Flex gap={2}>
+        <Button
+          onClick={onOpen}
+          size={"md"}
+          colorScheme="blue"
+          leftIcon={<FaCopy />}
+        >
+          Upload Batch
+        </Button>
+        <Button
+          colorScheme="blue"
+          variant="solid"
+          size="md"
+          as={Link}
+          to={"/wellservice/planningform"}
+          leftIcon={<IconSquareRoundedPlus />}
+        >
+          Ajukan Pengajuan
+        </Button>
+      </Flex>
+    );
+  };
 
   React.useEffect(() => {
     const getData = async () => {
@@ -154,7 +180,7 @@ const PlanWellServiceKKKS = () => {
                 <Td>{row.KKKS}</Td>
                 <Td>{row.LAPANGAN}</Td>
                 <Td>{row["WILAYAH KERJA"]}</Td>
-                <Td>{row['NAMA SUMUR']}</Td>
+                <Td>{row["NAMA SUMUR"]}</Td>
                 <Td>{row["RENCANA MULAI"]}</Td>
                 <Td>{row["RENCANA SELESAI"]}</Td>
                 <Td>
@@ -185,6 +211,32 @@ const PlanWellServiceKKKS = () => {
           )}
         </ProposedWorkTable>
       </Box>
+      <ModalAndContent
+        onClose={onClose}
+        isOpen={isOpen}
+        title="Upload Well Service Planning"
+        actionButton={
+          <ActionButtonUploadFile file={parentFile} typeJob={"wellservice"} errorMessage={(error)=>setErrorFile(error)} />
+        }
+        scrollBehavior="inside"
+      >
+        <FileHandlingUpload handleChange={(e) => setParentFile(e)} />
+        {parentFile && (
+          <Box mt={4} p={4} border="1px solid" borderColor="gray.200">
+            <Text fontSize="lg">Uploaded File:</Text>
+            <Text>Name: {parentFile.name}</Text>
+            <Text>Size: {(parentFile.size / 1024).toFixed(2)} KB</Text>
+          </Box>
+        )}
+        <UnorderedList>
+          {errorFile &&
+            errorFile.map((err, index) => (
+              <ListItem key={index} color="red.500">
+                {err}
+              </ListItem>
+            ))}
+        </UnorderedList>
+      </ModalAndContent>
       <Footer />
     </Flex>
   );

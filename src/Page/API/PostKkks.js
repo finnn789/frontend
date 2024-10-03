@@ -42,7 +42,7 @@ export async function PostWellService(data) {
 export async function PostOperationReport(data) {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/job/daily-operations-reports/`,
+      `${import.meta.env.VITE_APP_URL}/job/operation/create/daily-operations-reports/`,
       data,
       {
         headers: {
@@ -63,7 +63,7 @@ export async function PostOperationReport(data) {
 export async function createJobIssue(data, toast) {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_APP_URL}/job/create-job-issues/`,
+      `${import.meta.env.VITE_APP_URL}/job/operation/create/issues/`,
       data,
       {
         headers: {
@@ -100,7 +100,7 @@ export async function createJobIssue(data, toast) {
 export const updateJobIssue = async (issueId, data) => {
   try {
     const response = await axios.patch(
-      `${import.meta.env.VITE_APP_URL}/job/job-issues/${issueId}`,
+      `${import.meta.env.VITE_APP_URL}/job/operation/update/job-issues/${issueId}`,
       data,
       {
         headers: {
@@ -138,8 +138,8 @@ export const patchStatusOperationToOperate = async (jod_id) => {
 export const putPlanningUpdate = async (job_id, data) => {
   console.log("easdawdasd job_id : ", job_id);
   try {
-    const response = await axios.put(
-      `${import.meta.env.VITE_APP_URL}/job/planning/update/${job_id}`,
+    const response = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/job/operation/update/actual_exploration/${job_id}`,
       data,
       {
         headers: {
@@ -152,6 +152,7 @@ export const putPlanningUpdate = async (job_id, data) => {
     return response.data;
   } catch (error) {
     console.error("Error updating job issue", error);
+    throw error
   }
 };
 
@@ -168,7 +169,7 @@ export const UploadFileBatch = async (file, job_type) => {
         },
       }
     ) 
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error)
     throw error
@@ -192,4 +193,29 @@ export const DeleteJobPlanning = async (job_id) => {
     throw error
   }
 };
+
+
+
+export const PostUploadFile = async (file) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/utils/upload/file`,
+      file,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    ) 
+    return response;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+};
+
+
+
 

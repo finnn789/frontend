@@ -163,12 +163,12 @@ const DailyReport = ({ job_id }) => {
     },
   });
 
-  console.log(handleData);
+  // console.log(handleData);
   const toast = useToast();
   const postData = async () => {
     try {
       const response = await PostOperationReport(handleData);
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         toast({
           title: "Data Berhasil",
@@ -241,7 +241,7 @@ const DailyReport = ({ job_id }) => {
   );
   return (
     <>
-      <CardFormK3 title="" subtitle="" icon={null}>
+      <CardFormK3 title="" subtitle="" borderWidth="0px" icon={null}>
         <Flex padding={"2px 14px"}>
           <Text fontSize="2xl" fontWeight="bold" color="gray.700">
             Daily Report

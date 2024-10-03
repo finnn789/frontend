@@ -118,7 +118,7 @@ const WorkBreakdown = ({ data, onChange }) => {
             />
           </Flex>
           <Flex>
-            <Button isDisabled colorScheme="blue" variant="solid" onClick={handleAddData}>
+            <Button colorScheme="blue" variant="solid" onClick={handleAddData}>
               Add
             </Button>
           </Flex>

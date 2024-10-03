@@ -8,7 +8,7 @@ import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 const DirectionalType = ({ data, onChange }) => {
   const datas = data?.data;
 
-  console.log("🚀 ~ DirectionalType ~ datas:", datas)
+  // console.log("🚀 ~ DirectionalType ~ datas:", datas)
   const directionalTypeOptions = [
     { value: "J-TYPE", label: "J-TYPE" },
     { value: "S-TYPE", label: "S-TYPE" },
