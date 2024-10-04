@@ -65,7 +65,7 @@ const Navbar = ({ appName = "Aplikasi Pengeboran Dan Sumuran", nameUser }) => {
           color="#10042C"
         />
         <Box color="#10042C" width={"300px"} fontWeight="bold">
-          <marquee >{appName}</marquee>
+          {appName}
         </Box>
         <Flex alignItems="center" gap={4}>
           <Menu borderRadius={"lg"}>
