@@ -22,6 +22,7 @@ import {
   IconChevronLeft,
   IconBrain,
   IconClipboardData,
+  IconCylinder
 } from "@tabler/icons-react";
 import Logo from "../../assets/logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
@@ -284,7 +285,13 @@ const Sidebar = ({ handleMenuValue }) => {
               isDisabled
             />
           </SidebarMenu>
-          
+          <SidebarItem
+            label="Well Master"
+            icon={IconCylinder}
+            isOpen={isOpen}
+            link="/wellmaster"
+            tooltip="Well Master"
+          />
           <SidebarItem
             label="DA & ML"
             icon={IconBrain}

@@ -59,6 +59,8 @@ import OperationWoKKKS from "./Page/Components/PageWorkOVer/OperationExpKKKS";
 import OperationWSKKKS from "./Page/Components/PageWellService/OperationWSKKKS";
 import OperationDevKKKS from "./Page/Components/PageExploitasi/OperationDevKKKS";
 import SubmitP3 from "./Page/Forms/PPP/SubmitP3";
+import WellMaster from "./Page/Components/PageWellMaster/WellMaster";
+import WellMasterForm from "./Page/Forms/MastelWell/WellMasterForm";
 function App() {
   const { isAuthenticated } = useAuth();
   const [showSplashScreen, setShowSplashScreen] = useState(false);
@@ -275,6 +277,25 @@ function App() {
         {
           path: "ppp/form",
           element: <SubmitP3  />,
+        },
+      ],
+    },
+    {
+      path: "wellmaster",
+      element: <Dashboard />,
+      children: [
+        {
+          path: "", // Untuk "/wellmaster"
+          element: <WellMaster />,
+        },
+        {
+          path: "form", // Untuk "/wellmaster/form"
+          element: (
+            <ProtectedRoute
+              element={<WellMasterForm />}
+              allowedRoles={["KKKS"]}
+            />
+          ),
         },
       ],
     },

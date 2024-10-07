@@ -164,3 +164,20 @@ export async function getViewRawPlanning(job_id) {
   }
 }
 
+export async function getWellMaster(kkks_id) {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_URL}/well/wells/?kkks_id=${kkks_id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error get Data Well", error);
+    return response.data;
+  }
+}
