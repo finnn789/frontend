@@ -20,7 +20,10 @@ import { useNavigate } from "react-router-dom";
 
 const PengajuanDrillingForm = () => {
   const navigate = useNavigate();
-
+  const [msgError,setMsgError] = useState({}) 
+// console.log ('msgError',msgError)
+  
+  
   const [jobPlan, setJobPlan] = useState({
     area_id: null,
     field_id: null,
@@ -164,7 +167,7 @@ const PengajuanDrillingForm = () => {
 
     return errors;
   };
-
+  // console.log('msgError',msgError)
   const onClickSubmitForm = async () => {
     // const errors = validateForm(jobPlan);
     // setFormErrors(errors);
@@ -210,7 +213,7 @@ const PengajuanDrillingForm = () => {
       }
     } catch (error) {
       // Menangani error dari server atau dari permintaan
-      console.error("Error dalam pengiriman:", error);
+      console.error("Error dalam pengiriman:", error.data.message);
       toast({
         title: "Terjadi kesalahan.",
         description: "Data gagal dikirim ke server.",
@@ -218,10 +221,19 @@ const PengajuanDrillingForm = () => {
         duration: 5000,
         isClosable: true,
       });
+      const errorFields ={}
+      error.data.message.forEach((message)=> {
+        const errorValue = message.loc.at(-1);
+        errorFields[errorValue] = message.msg
+        // console.error(errorValue, message.msg)
+      })
+      setMsgError(errorFields)
     } finally {
       setLoading(false); // Menghentikan loading state
     }
   };
+
+  // console.log(msgError)
 
   return (
     <>

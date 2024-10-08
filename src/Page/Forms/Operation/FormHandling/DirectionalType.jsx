@@ -79,7 +79,7 @@ const DirectionalType = ({ data, onChange }) => {
       </Flex>
       <VStack>
         <FormControlCard
-        isDisabled
+        
           type="number"
           labelForm="Kick Off Point"
           placeholder="Kick Off Point"
@@ -89,7 +89,7 @@ const DirectionalType = ({ data, onChange }) => {
       </VStack>
       <HStack>
         <FormControlCard
-        isDisabled
+        
           type="number"
           labelForm="Maximum Inclination"
           placeholder="Maximum Inclination"
@@ -97,7 +97,7 @@ const DirectionalType = ({ data, onChange }) => {
           handleChange={(e) => handleInputChange("maximum_inclination", e.target.value)}
         />
         <FormControlCard
-        isDisabled
+        
           type="number"
           labelForm="Azimuth"
           placeholder="Azimuth"

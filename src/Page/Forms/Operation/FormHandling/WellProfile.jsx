@@ -29,6 +29,8 @@ const WellProfile = ({ data, onChange }) => {
     }
   }, [data]);
 
+
+
   const handleInputChange = (field, isJobPlanField = false) => (e) => {
     const value = e.target.value;
 
@@ -81,7 +83,8 @@ const WellProfile = ({ data, onChange }) => {
           labelForm="AFE Number"
           placeholder="AFE Number"
           value={afeNumber}
-          onChange={handleInputChange('afe_number')} // Field di luar job_plan
+          onChange={handleInputChange('afe_number')}
+          isDisabled // Field di luar job_plan
         />
         <FormControlCard
           

@@ -27,6 +27,7 @@
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.31",
     "leaflet": "^1.9.4",
+    "lodash": "^4.17.21",
     "papaparse": "^5.4.1",
     "plotly.js": "^2.34.0",
     "react": "^18.3.1",

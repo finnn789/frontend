@@ -77,9 +77,12 @@ const WellTrajectory = ({ ondata, errorForms }) => {
               },
             }
           );
+
+          // console.log(response.data.data.fileinfo);
+          
           setCsvData((prevData) => ({
             ...prevData,
-            fileinfo: response.data.data.fileinfo,
+            fileinfo: response.data.data?.fileinfo,
             plot: {
               data: response.data.data.plot.data,
               layout: response.data.data.plot.layout,

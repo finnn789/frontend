@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef,useImperativeHandle,forwardRef } from "react";
 import CardFormK3 from "../../Components/CardFormK3";
 import GridLayout from "../../Layout/GridLayout";
 import { SelectComponent, SelectOption } from "../../Components/SelectOption";
@@ -18,11 +18,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-const WRMUpdates = ({ job_actual }) => {
+const WRMUpdates = forwardRef(({ job_actual },reference) => {
   const [values, setValues] = useState(null); // State untuk menyimpan data WRM yang diambil dari API
   const [loading, setLoading] = useState(false); // State untuk status loading
   const toast = useToast(); // Inisialisasi toast Chakra UI
 
+  useImperativeHandle(reference, () => ({
+    handleSubmit: alert("Submit button clicked"),
+  }))
   // State kontrol untuk AlertDialog
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
@@ -313,6 +316,6 @@ const WRMUpdates = ({ job_actual }) => {
       </CardFormK3>
     </div>
   );
-};
+});
 
 export default WRMUpdates;

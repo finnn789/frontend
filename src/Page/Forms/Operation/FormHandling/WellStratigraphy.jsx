@@ -1,138 +1,171 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanel,
-  Button,
   Box,
+  Button,
+  Flex,
   Grid,
   GridItem,
-  Flex,
-} from "@chakra-ui/react";
-import CardFormK3 from "../../Components/CardFormK3";
-import FormControlCard from "../../Components/FormControl";
-import TableComponent from "../../Components/TableComponent";
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+  Table,
+  TableContainer,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td
+} from '@chakra-ui/react';
+import CardFormK3 from '../../Components/CardFormK3';
+import FormControlCard from '../../Components/FormControl';
+import { set } from 'lodash';
+
+const TableComponent = ({ data, headers }) => {
+  return (
+    <TableContainer>
+      <Table variant="simple" colorScheme="gray">
+        <Thead>
+          <Tr>
+            {headers.map((column, index) => (
+              <Th key={index}>{column.Header}</Th>
+            ))}
+          </Tr>
+        </Thead>
+        <Tbody>
+          {data.map((row, rowIndex) => (
+            <Tr key={rowIndex}>
+              {headers.map((column, colIndex) => (
+                <Td key={colIndex}>
+                  {column.render ? column.render(row, rowIndex) : row[column.accessor]}
+                </Td>
+              ))}
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </TableContainer>
+  );
+};
 
 const WellStratigraphyForm = ({ data, onChange }) => {
   const datas = data?.data;
 
-  // State untuk menampung data dari form dan tabel
   const [tableData, setTableData] = useState([]);
   const [formData, setFormData] = useState({
-    stratigraphy_id: "",
-    top_depth: "",
-    bottom_depth: "",
-    depth_datum: "",
+    unit_type: "Metrics",
+    depth_datum: "RT",
+    top_depth: 0,
+    bottom_depth: 0,
+    formation_name: "",
+    lithology: "",
   });
 
-  // Mengisi tabel ketika menerima data dari parent
   useEffect(() => {
     if (datas?.job_plan?.well?.well_stratigraphy) {
-      setTableData(datas.job_plan.well.well_stratigraphy); // Isi tabel jika ada data well_stratigraphy
+      setTableData(datas.job_plan.well.well_stratigraphy);
     }
   }, [datas]);
 
-  // Handle perubahan pada form
   const handleChangeData = (name, type) => (e) => {
     let value = e.target.value;
-
     if (type === "number") {
       value = value.includes(".") ? parseFloat(value) : parseInt(value, 10);
-      if (isNaN(value)) value = ""; // Jika parsing gagal, set nilai menjadi string kosong
+      if (isNaN(value)) value = "";
     } else if (type === "text") {
       value = String(value);
     }
 
-    // Set data form lokal
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  // Handle menambah data ke tabel
-  const handleAddData = () => {
-    const updatedTableData = [...tableData, formData]; // Tambah data baru ke tabel
-    setTableData(updatedTableData);
-
-    // Reset form setelah menambahkan data
-    setFormData({
-      stratigraphy_id: "",
-      top_depth: "",
-      bottom_depth: "",
-      depth_datum: "",
+    setFormData((prevData) => {
+      const newData = { ...prevData };
+      set(newData, name, value);
+      return newData;
     });
-
-    // Kirim perubahan ke parent untuk `well_stratigraphy` di `datas.job_plan.well`
-    onChange("job_plan.well.well_stratigraphy", updatedTableData);
   };
 
-  const handleDelete = (row) => {
-    const updatedTableData = tableData.filter((data) => data !== row);
+  const handleAddData = () => {
+    const updatedTableData = [...tableData, { ...formData }];
     setTableData(updatedTableData);
-
-    // Kirim perubahan ke parent setelah menghapus data
+    setFormData({
+      unit_type: "Metrics",
+      depth_datum: "RT",
+      top_depth: 0,
+      bottom_depth: 0,
+      formation_name: "",
+      lithology: "",
+    });
     onChange("job_plan.well.well_stratigraphy", updatedTableData);
   };
 
-  const options = ["MSL", "KB", "GL"];
+  const handleDelete = (index) => {
+    const updatedTableData = tableData.filter((_, idx) => idx !== index);
+    setTableData(updatedTableData);
+    onChange("job_plan.well.well_stratigraphy", updatedTableData);
+  };
 
   const headers = [
-    { Header: "Stratigraphy ID", accessor: "stratigraphy_id" },
     { Header: "Top Depth", accessor: "top_depth" },
     { Header: "Bottom Depth", accessor: "bottom_depth" },
     { Header: "Depth Datum", accessor: "depth_datum" },
+    { Header: "Formation Name", accessor: "formation_name" },
+    { Header: "Lithology", accessor: "lithology" },
     {
       Header: "Action",
-      render: (row) => (
+      accessor: "actions",
+      render: (row, rowIndex) => (
         <Button
           colorScheme="red"
           variant="solid"
-          onClick={() => handleDelete(row)}
+          onClick={() => handleDelete(rowIndex)}
         >
-          Hapus
+          Delete
         </Button>
       ),
     },
   ];
 
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={4} fontFamily={"Montserrat"}>
-      {/* Grid Item pertama */}
+    <Grid templateColumns="repeat(2, 1fr)" gap={4} fontFamily="Montserrat">
       <GridItem>
         <CardFormK3
           title="Well Stratigraphy"
           padding="36px 28px"
-          subtitle="Well Stratigraphy"
-          OptionDepth={options}
+          subtitle="Stratigraphy Details"
+          OptionDepth={["MSL", "KB", "GL"]}
           OptionValue={(e) =>
-            setFormData((prev) => ({ ...prev, depth_datum: e }))
+            setFormData((prev) => ({ ...prev, depth_datum: e.target.value }))
           }
         >
           <Flex gap={2}>
             <FormControlCard
-              labelForm="Stratigraphy ID"
-              placeholder="Stratigraphy ID"
-              type="text"
-              value={formData.stratigraphy_id}
-              handleChange={handleChangeData("stratigraphy_id", "text")}
-            />
-          </Flex>
-          <Flex gap={2}>
-            <FormControlCard
               labelForm="Top Depth"
-              placeholder="Top Depth"
+              placeholder="Enter Top Depth"
               type="number"
               value={formData.top_depth}
               handleChange={handleChangeData("top_depth", "number")}
             />
             <FormControlCard
               labelForm="Bottom Depth"
-              placeholder="Bottom Depth"
+              placeholder="Enter Bottom Depth"
               type="number"
               value={formData.bottom_depth}
               handleChange={handleChangeData("bottom_depth", "number")}
+            />
+          </Flex>
+          <Flex gap={2}>
+            <FormControlCard
+              labelForm="Formation Name"
+              placeholder="Enter Formation Name"
+              type="text"
+              value={formData.formation_name}
+              handleChange={handleChangeData("formation_name", "text")}
+            />
+            <FormControlCard
+              labelForm="Lithology"
+              placeholder="Enter Lithology"
+              type="text"
+              value={formData.lithology}
+              handleChange={handleChangeData("lithology", "text")}
             />
           </Flex>
           <Flex mt={4}>
@@ -143,27 +176,20 @@ const WellStratigraphyForm = ({ data, onChange }) => {
         </CardFormK3>
       </GridItem>
 
-      {/* Grid Item kedua */}
-      <Box
-        rounded={"lg"}
-        overflowX="auto"
-        overflowY={"auto"}
-        borderWidth={"1px"}
-        p={0}
-      >
-        <GridItem>
+      <GridItem>
+        <Box rounded="lg" overflowX="auto" borderWidth="1px" p={0}>
           <Tabs>
             <TabList>
               <Tab>Table</Tab>
             </TabList>
             <TabPanel>
-              <Box maxH={"510px"}>
+              <Box maxH="510px">
                 <TableComponent data={tableData} headers={headers} />
               </Box>
             </TabPanel>
           </Tabs>
-        </GridItem>
-      </Box>
+        </Box>
+      </GridItem>
     </Grid>
   );
 };

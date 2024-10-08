@@ -25,11 +25,36 @@ import { getViewRawPlanning } from "../../API/APIKKKS";
 const OperationFormsKKKS = () => {
   const { job_id } = useParams();
   const location = useLocation();
+  const { job_actual } = location.state || {};
   const [tabsIndex, setTabsIndex] = React.useState(0);
 
+  const wrmRef = React.useRef();
+  const technicalRef = React.useRef();
+  const operationalRef = React.useRef();
+  const dailyRef = React.useRef();
 
+  console.log("OperationAl", dailyRef);
 
-  const { job_actual } = location.state || {};
+  // console.log(tabsIndex)
+
+  const handleUpdate = () => {
+    switch (tabsIndex) {
+      case 0:
+        wrmRef.current.handleSubmit();
+        break;
+      case 1:
+        operationalRef.current.handleSave();
+        break;
+      case 2:
+        technicalRef.current.handleSave();
+        break;
+      case 3:
+        dailyRef.current.postData();
+        break;
+      default:
+        break;
+    }
+  };
 
   React.useEffect(() => {
     const getViewRawPlannings = async () => {
@@ -54,7 +79,15 @@ const OperationFormsKKKS = () => {
       <Flex px={4}>
         <Heading>Job Report</Heading>
         <Box ml={"auto"}>
-          {/* <Button colorScheme="green" px={8}fontSize={18} size={"md"}>Update</Button>{" "} */}
+          <Button
+            colorScheme="green"
+            onClick={handleUpdate}
+            px={8}
+            fontSize={18}
+            size={"md"}
+          >
+            Update
+          </Button>{" "}
         </Box>
       </Flex>
       <Box mt={4} fontFamily={"Montserrat"}>
@@ -69,16 +102,36 @@ const OperationFormsKKKS = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <WRMRequirement job_id={job_id} job_actual={job_actual} />
+              <WRMRequirement
+                ref={wrmRef}
+                job_id={job_id}
+                job_actual={job_actual}
+              />
             </TabPanel>
             <TabPanel>
-              <OperationalParent job_id={job_id} DataRaw={dataViewRaw} />
+              {Object.keys(dataViewRaw).length > 0 ? (
+                <OperationalParent
+                  ref={operationalRef}
+                  job_id={job_id}
+                  DataRaw={dataViewRaw}
+                />
+              ) : (
+                <p>Loading...</p>
+              )}
             </TabPanel>
             <TabPanel>
-              <Technical job_id={job_id} />
+              {Object.keys(dataViewRaw).length > 0 ? (
+                <Technical
+                  ref={technicalRef}
+                  job_id={job_id}
+                  DataRaw={dataViewRaw}
+                />
+              ) : (
+                <p>Loading...</p>
+              )}
             </TabPanel>
             <TabPanel>
-              <DailyReport job_id={job_id} />
+              <DailyReport ref={dailyRef} job_id={job_id} />
             </TabPanel>
             <TabPanel>
               <FinishOperation />

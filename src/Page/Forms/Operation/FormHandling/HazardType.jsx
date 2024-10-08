@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import FormControlCard from "../../Components/FormControl";
 import TableComponent from "../../Components/TableComponent";
+import { SelectComponent, SelectOption } from "../../Components/SelectOption";
 
 const HazardType = ({ data, onChange }) => {
   // Mengisi tableData dan formData dengan nilai dari data yang diterima dari parent
@@ -87,13 +88,16 @@ const HazardType = ({ data, onChange }) => {
     });
   }, [formData, tableData, onChange]);
 
-  const handleDelete = useCallback((row) => {
-    const updatedTableData = tableData.filter((data) => data !== row);
-    setTableData(updatedTableData);
+  const handleDelete = useCallback(
+    (row) => {
+      const updatedTableData = tableData.filter((data) => data !== row);
+      setTableData(updatedTableData);
 
-    // Kirim perubahan ke parent
-    onChange("job_plan.job_hazards", updatedTableData);
-  }, [tableData, onChange]);
+      // Kirim perubahan ke parent
+      onChange("job_plan.job_hazards", updatedTableData);
+    },
+    [tableData, onChange]
+  );
 
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -101,20 +105,31 @@ const HazardType = ({ data, onChange }) => {
       <GridItem>
         <CardFormK3 title="Job Hazard" subtitle="">
           <Flex gap={2}>
-            <FormControlCard
+            {/* <FormControlCard
               labelForm="Hazard Type"
               placeholder="Hazard Type"
               type="text"
               value={formData.hazard_type}
               handleChange={handleChangeData("hazard_type")}
-            />
-            <FormControlCard
-              labelForm="Hazard Severity"
-              placeholder="Hazard Severity"
-              type="text"
-              value={formData.severity}
-              handleChange={handleChangeData("severity")}
-            />
+            /> */}
+
+            <SelectComponent label="Hazard Type" onChange={handleChangeData("hazard_type")} value={formData.hazard_type}>
+              {[
+                "GAS KICK",
+                "STUCK PIPE",
+                "LOST CIRCULATION",
+                "WELL CONTROL",
+                "EQUIPMENT FAILURE",
+                "OTHER",
+              ].map((option) => (
+                <SelectOption key={option} label={option} value={option} />
+              ))}
+            </SelectComponent>
+            <SelectComponent label="Hazard Severity" onChange={handleChangeData("severity")} value={formData.severity}>
+              {["LOW", "MEDIUM", "HIGH"].map((option) => (
+                <SelectOption key={option} label={option} value={option} />
+              ))}
+            </SelectComponent>
           </Flex>
           <Flex gap={2}>
             <FormControlCard
@@ -144,7 +159,7 @@ const HazardType = ({ data, onChange }) => {
             />
           </Flex>
           <Flex>
-            <Button isDisabled colorScheme="blue" variant="solid" onClick={handleAddData}>
+            <Button colorScheme="blue" variant="solid" onClick={handleAddData}>
               Add
             </Button>
           </Flex>

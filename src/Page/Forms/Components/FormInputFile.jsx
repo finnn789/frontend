@@ -30,6 +30,7 @@ const FormInputFile = ({
   acceptedFormats = ".csv,.xlsx,.xls",
   acceptedOption = [],
   onFileSelect,
+  onClearFile,
 }) => {
   const HandleOptionValue = React.useCallback(
     (value) => {
@@ -47,6 +48,14 @@ const FormInputFile = ({
       onFileSelect(file); // Pass the selected file back to the parent component
     }
   };
+
+  React.useEffect(() => {
+    if (onClearFile) {
+      onClearFile(() => {
+        setFileName("");
+      });
+    }
+  }, [onClearFile]);
 
   const handleButtonClick = () => {
     fileInputRef.current.click();

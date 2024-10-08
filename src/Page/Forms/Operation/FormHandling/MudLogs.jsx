@@ -4,7 +4,7 @@ import FormInputFile from "../../Components/FormInputFile";
 import { useToast, Button } from "@chakra-ui/react";
 import axios from "axios";
 
-const MudLogsCard = () => {
+const MudLogsCard = ({onDataChange}) => {
   const [file, setFile] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const handleFile = React.useCallback(

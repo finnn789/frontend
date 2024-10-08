@@ -50,6 +50,7 @@ const DrillingFluid = ({ handleChangeOfData }) => {
 
   const [errors, setErrors] = useState({});
 
+  console.log(errors)
   const handleChangeData = useCallback(
     (name, type) => (e) => {
       let value = e.target.value;
@@ -141,6 +142,8 @@ const DrillingFluid = ({ handleChangeOfData }) => {
     handleChangeOfData(tableData);
   }, [tableData]);
 
+  
+
   const headers = [
     { Header: "Mud Type", accessor: "mud_type" },
     { Header: "Time", accessor: "time" },
@@ -210,8 +213,8 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                 isInvalid={!!errors.mud_type}
                 errorMessage={errors.mud_type}
               >
-                <SelectOption label="Liquid" value="LIQUID" />
-                <SelectOption label="Dry" value="DRY" />
+                <SelectOption label="WATER BASED MUD" value="WATER BASED MUD" />
+                <SelectOption label="OIL BASED MUD" value="OIL BASED MUD" />
               </SelectComponent>
             </GridItem>
 
@@ -282,6 +285,226 @@ const DrillingFluid = ({ handleChangeOfData }) => {
                   handleChange={handleChangeData("visc", "number")}
                   isInvalid={!!errors.visc}
                   errorMessage={errors.visc}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="PV"
+                  placeholder="PV"
+                  type="number"
+                  value={formData.pv}
+                  handleChange={handleChangeData("pv", "number")}
+                  isInvalid={!!errors.pv}
+                  errorMessage={errors.pv}
+                />
+                <FormControlCard
+                  labelForm="YP"
+                  placeholder="YP"
+                  type="number"
+                  value={formData.yp}
+                  handleChange={handleChangeData("yp", "number")}
+                  isInvalid={!!errors.yp}
+                  errorMessage={errors.yp}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="Gels 10 Sec"
+                  placeholder="Gels 10 Sec"
+                  type="number"
+                  value={formData.gels_10_sec}
+                  handleChange={handleChangeData("gels_10_sec", "number")}
+                  isInvalid={!!errors.gels_10_sec}
+                  errorMessage={errors.gels_10_sec}
+                />
+                <FormControlCard
+                  labelForm="Gels 10 Min"
+                  placeholder="Gels 10 Min"
+                  type="number"
+                  value={formData.gels_10_min}
+                  handleChange={handleChangeData("gels_10_min", "number")}
+                  isInvalid={!!errors.gels_10_min}
+                  errorMessage={errors.gels_10_min}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="Fluid Loss"
+                  placeholder="Fluid Loss"
+                  type="number"
+                  value={formData.fluid_loss}
+                  handleChange={handleChangeData("fluid_loss", "number")}
+                  isInvalid={!!errors.fluid_loss}
+                  errorMessage={errors.fluid_loss}
+                />
+                <FormControlCard
+                  labelForm="PH"
+                  placeholder="PH"
+                  type="number"
+                  value={formData.ph}
+                  handleChange={handleChangeData("ph", "number")}
+                  isInvalid={!!errors.ph}
+                  errorMessage={errors.ph}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="Solids"
+                  placeholder="Solids"
+                  type="number"
+                  value={formData.solids}
+                  handleChange={handleChangeData("solids", "number")}
+                  isInvalid={!!errors.solids}
+                  errorMessage={errors.solids}
+                />
+                <FormControlCard
+                  labelForm="Sand"
+                  placeholder="Sand"
+                  type="number"
+                  value={formData.sand}
+                  handleChange={handleChangeData("sand", "number")}
+                  isInvalid={!!errors.sand}
+                  errorMessage={errors.sand}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="Water"
+                  placeholder="Water"
+                  type="number"
+                  value={formData.water}
+                  handleChange={handleChangeData("water", "number")}
+                  isInvalid={!!errors.water}
+                  errorMessage={errors.water}
+                />
+                <FormControlCard
+                  labelForm="OIL"
+                  placeholder="OIL"
+                  type="number"
+                  value={formData.oil}
+                  handleChange={handleChangeData("oil", "number")}
+                  isInvalid={!!errors.oil}
+                  errorMessage={errors.oil}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="HGS"
+                  placeholder="HGS"
+                  type="number"
+                  value={formData.hgs}
+                  handleChange={handleChangeData("hgs", "number")}
+                  isInvalid={!!errors.hgs}
+                  errorMessage={errors.hgs}
+                />
+                <FormControlCard
+                  labelForm="LGS"
+                  placeholder="LGS"
+                  type="number"
+                  value={formData.lgs}
+                  handleChange={handleChangeData("lgs", "number")}
+                  isInvalid={!!errors.lgs}
+                  errorMessage={errors.lgs}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="LTLP"
+                  placeholder="LTLP"
+                  type="number"
+                  value={formData.ltlp}
+                  handleChange={handleChangeData("ltlp", "number")}
+                  isInvalid={!!errors.ltlp}
+                  errorMessage={errors.ltlp}
+                />
+                <FormControlCard
+                  labelForm="HTHP"
+                  placeholder="HTHP"
+                  type="number"
+                  value={formData.hthp}
+                  handleChange={handleChangeData("hthp", "number")}
+                  isInvalid={!!errors.hthp}
+                  errorMessage={errors.hthp}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="Cake"
+                  placeholder="Cake"
+                  type="number"
+                  value={formData.cake}
+                  handleChange={handleChangeData("cake", "number")}
+                  isInvalid={!!errors.cake}
+                  errorMessage={errors.ecake}
+                />
+                <FormControlCard
+                  labelForm="E STB"
+                  placeholder="E STB"
+                  type="number"
+                  value={formData.e_stb}
+                  handleChange={handleChangeData("e_stb", "number")}
+                  isInvalid={!!errors.e_stb}
+                  errorMessage={errors.e_stb}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="PF"
+                  placeholder="PF"
+                  type="number"
+                  value={formData.pf}
+                  handleChange={handleChangeData("pf", "number")}
+                  isInvalid={!!errors.pf}
+                  errorMessage={errors.pf}
+                />
+                <FormControlCard
+                  labelForm="MF"
+                  placeholder="MF"
+                  type="number"
+                  value={formData.mf}
+                  handleChange={handleChangeData("mf", "number")}
+                  isInvalid={!!errors.mf}
+                  errorMessage={errors.mf}
+                />
+              </Flex>
+            </GridItem>
+            <GridItem colSpan={2}>
+              <Flex gap={2}>
+                <FormControlCard
+                  labelForm="PM"
+                  placeholder="PM"
+                  type="number"
+                  value={formData.pm}
+                  handleChange={handleChangeData("pm", "number")}
+                  isInvalid={!!errors.pm}
+                  errorMessage={errors.pm}
+                />
+                <FormControlCard
+                  labelForm="ECD"
+                  placeholder="ECD"
+                  type="number"
+                  value={formData.ecd}
+                  handleChange={handleChangeData("ecd", "number")}
+                  isInvalid={!!errors.ecd}
+                  errorMessage={errors.ecd}
                 />
               </Flex>
             </GridItem>

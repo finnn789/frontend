@@ -14,7 +14,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useImperativeHandle, forwardRef } from "react";
 import { PostOperationReport } from "../../../API/PostKkks";
 import SimpleButton from "../../Components/SimpleButton";
 import DailyDates from "../FormHandling/DailyDates";
@@ -37,9 +37,12 @@ import FormControlCard from "../../Components/FormControl";
 import MudVolumes from "../FormHandling/MudVolumes";
 import { IconInfoCircle } from "@tabler/icons-react";
 
-const DailyReport = ({ job_id }) => {
-
+const DailyReport = forwardRef(({ job_id }, ref) => {
   const [errors, setErrors] = React.useState({});
+
+  useImperativeHandle(ref, () => ({
+    postData,
+  }));
   // console.log(errors);
   const [handleData, setHandleData] = React.useState({
     report_date: "2024-09-20",
@@ -163,7 +166,7 @@ const DailyReport = ({ job_id }) => {
     },
   });
 
-  // console.log(handleData);
+  console.log(handleData);
   const toast = useToast();
   const postData = async () => {
     try {
@@ -194,10 +197,10 @@ const DailyReport = ({ job_id }) => {
           duration: 3000,
           isClosable: true,
         });
-        console.error(error.response.data.detail);
+        // console.error(error.response.data.message);
         const fieldErrors = {};
-        error.response.data.detail.forEach((error) => {
-          const field = error.loc[1]; 
+        error.response.data.message.forEach((error) => {
+          const field = error.loc[1];
           // console.error(field); // Gets the field name from "loc"
           fieldErrors[field] = error.msg; // Sets the error message for each field
         });
@@ -253,7 +256,10 @@ const DailyReport = ({ job_id }) => {
           </Button>
         </Flex>
         <SimpleGrid columns={1} spacing={2}>
-          <DailyDates handleChangeOfData={handleChangeNoName} messageError={errors} />
+          <DailyDates
+            handleChangeOfData={handleChangeNoName}
+            messageError={errors}
+          />
           <TimeBreakdown handleChange={handleDataWithName("time_breakdowns")} />
           <DrillingFluid
             handleChangeOfData={handleDataWithName("drilling_fluids")}
@@ -357,10 +363,22 @@ const DailyReport = ({ job_id }) => {
             }
           /> */}
 
-          <CasingOps handleChangeOfData={handleChangeNoName} messageError={errors} />
-          <MudVolumes handleChangeOfData={handleChangeNoName} messageError={errors} />
-          <GasForm handleChangeOfData={handleChangeNoName} messageError={errors} />
-          <HydraulicAnalysisForm handleChangeOfData={handleChangeNoName} messageError={errors} />
+          <CasingOps
+            handleChangeOfData={handleChangeNoName}
+            messageError={errors}
+          />
+          <MudVolumes
+            handleChangeOfData={handleChangeNoName}
+            messageError={errors}
+          />
+          <GasForm
+            handleChangeOfData={handleChangeNoName}
+            messageError={errors}
+          />
+          <HydraulicAnalysisForm
+            handleChangeOfData={handleChangeNoName}
+            messageError={errors}
+          />
           <MaterialForm
             handleChangeOfData={handleDataWithName("bulk_materials")}
           />
@@ -374,11 +392,14 @@ const DailyReport = ({ job_id }) => {
           />
           <Personel handleChangeOfData={handleDataWithName("personnel")} />
           <Pumps handleChangeOfData={handleDataWithName("pumps")} />
-          <WeatherForm data={handleDataWithName("weather")} messageError={errors}/>
+          <WeatherForm
+            data={handleDataWithName("weather")}
+            messageError={errors}
+          />
         </SimpleGrid>
       </CardFormK3>
     </>
   );
-};
+});
 
 export default DailyReport;

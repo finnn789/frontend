@@ -102,6 +102,9 @@ const DailyDates = ({ handleChangeOfData, messageError }) => {
           value={dateNow}
           placeholder="Dates"
           isDisabled
+          isInvalid={!!messageErrors?.report_date}
+          errorMessage={messageErrors?.report_date}
+          
         />
       </Flex>
 

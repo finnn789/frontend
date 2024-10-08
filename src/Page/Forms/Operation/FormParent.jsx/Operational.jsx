@@ -13,12 +13,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import HazardType from "../FormHandling/HazardType";
-import JobDocuments from "../../Planning/JobDocuments";
+import JobDocuments from "../FormHandling/JobDocuments";
 import { getViewRawPlanning } from "../../../API/APIKKKS";
 import { putPlanningUpdate } from "../../../API/PostKkks";
 import CardFormK3 from "../../Components/CardFormK3";
 
-const OperationalParent = ({ job_id, DataRaw }) => {
+const OperationalParent = forwardRef(({ job_id, DataRaw },ref) => {
   const [dataViewRaw, setDataViewRaw] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,13 +47,20 @@ const OperationalParent = ({ job_id, DataRaw }) => {
   const [dataToUpload,setDataToUpload] = React.useState({
 
   });
-
+  
   React.useEffect(()=> {
-    setDataToUpload(dataPatch.job_plan)
+    const combinedData = {
+      ...dataPatch.job_plan,
+      well: dataPatch.job_plan.well
+    };
+    setDataToUpload(combinedData);
   },[dataPatch])
 
-console.log('a,b',dataToUpload)
-
+// console.log('a,b',dataToUpload)
+// console.log('a,b',DataRaw)
+  useImperativeHandle(ref, () => ({
+    handleSave,
+  }))
 
   
 
@@ -78,8 +85,10 @@ console.log('a,b',dataToUpload)
   //   }
   // };
 
+  // console.log(DataRaw)
+
   // Fetch data when component loads
-  console.log(dataPatch);
+  // console.log(dataPatch);
   useEffect(() => {
     // fetchData();
     setDataViewRaw(DataRaw);
@@ -131,6 +140,7 @@ console.log('a,b',dataToUpload)
   };
 
   // Handle form changes, whether inside job_plan or other fields
+  console.log(dataPatch)
   const handleInputChange = (field, value) => {
     setDataPatch((prevData) => {
       // If the field is part of "job_plan"
@@ -153,13 +163,7 @@ console.log('a,b',dataToUpload)
     });
   };
 
-  if (loading) {
-    return (
-      <div>
-        <Spinner />
-      </div>
-    );
-  }
+ 
 
   if (error) {
     return (
@@ -170,7 +174,9 @@ console.log('a,b',dataToUpload)
     );
   }
 
-  if (!dataViewRaw) {
+  
+
+  if (DataRaw.length === 0) {
     return <div>No Data Available</div>;
   }
 
@@ -179,25 +185,26 @@ console.log('a,b',dataToUpload)
       
         <Grid gap={2}>
           <GridItem>
-            <AreaWell data={dataPatch} onChange={handleInputChange} />
+            <AreaWell data={DataRaw} onChange={handleInputChange} />
           </GridItem>
           <GridItem>
             <WellProfile
-              data={dataPatch} // Now WellProfile will receive dataPatch with all fields
+              data={DataRaw} // Now WellProfile will receive dataPatch with all fields
               onChange={handleInputChange}
             />
           </GridItem>
           <GridItem>
-            <WorkBreakdown data={dataViewRaw} onChange={handleInputChange} />
+            <WorkBreakdown data={DataRaw} onChange={handleInputChange} />
           </GridItem>
           <GridItem>
-            <JobOperationDays data={dataPatch} onChange={handleInputChange} />
+            <JobOperationDays data={DataRaw} onChange={handleInputChange} />
           </GridItem>
           <GridItem>
-            <HazardType data={dataPatch} onChange={handleInputChange} />
+            <HazardType data={DataRaw} onChange={handleInputChange} />
           </GridItem>
           <GridItem mt={4}>
-            <JobDocuments data={dataPatch} onChange={handleInputChange} />
+            <JobDocuments data={DataRaw} onChange={handleInputChange} />
+            
           </GridItem>
         </Grid>
    
@@ -206,6 +213,6 @@ console.log('a,b',dataToUpload)
       </Button>
     </>
   );
-};
+});
 
 export default OperationalParent;

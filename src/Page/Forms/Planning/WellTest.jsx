@@ -31,8 +31,8 @@ const WellTest = ({ onData, unitype, errorForms }) => {
     unit_type: unitype,
     depth_datum: "RT",
     zone_name: "",
-    zone_top_depth: 0,
-    zone_bottom_depth: 0,
+    top_depth: 0,
+    bottom_depth: 0,
     depth_uom: "FEET",
   });
   const [editIndex, setEditIndex] = useState(null);
@@ -68,8 +68,8 @@ const WellTest = ({ onData, unitype, errorForms }) => {
       unit_type: unitype,
       depth_datum: "RT",
       zone_name: "",
-      zone_top_depth: 0,
-      zone_bottom_depth: 0,
+      top_depth: 0,
+      bottom_depth: 0,
       depth_uom: "FEET",
     });
   };
@@ -134,9 +134,9 @@ const WellTest = ({ onData, unitype, errorForms }) => {
                   <FormLabel>Zone Top Depth</FormLabel>
                   <InputGroup>
                     <Input
-                      name="zone_top_depth"
+                      name="top_depth"
                       type="number"
-                      value={wellTest.zone_top_depth}
+                      value={wellTest.top_depth}
                       onChange={handleChange}
                       placeholder="Zone Top Depth"
                     />
@@ -149,9 +149,9 @@ const WellTest = ({ onData, unitype, errorForms }) => {
                   <FormLabel>Zone Bottom Depth</FormLabel>
                   <InputGroup>
                     <Input
-                      name="zone_bottom_depth"
+                      name="bottom_depth"
                       type="number"
-                      value={wellTest.zone_bottom_depth}
+                      value={wellTest.bottom_depth}
                       onChange={handleChange}
                       placeholder="Zone Bottom Depth"
                     />
@@ -199,17 +199,17 @@ const WellTest = ({ onData, unitype, errorForms }) => {
                           </Td>
                           <Td>
                             <Input
-                              name="zone_top_depth"
+                              name="top_depth"
                               type="number"
-                              value={editFormData.zone_top_depth}
+                              value={editFormData.top_depth}
                               onChange={handleEditChange}
                             />
                           </Td>
                           <Td>
                             <Input
-                              name="zone_bottom_depth"
+                              name="bottom_depth"
                               type="number"
-                              value={editFormData.zone_bottom_depth}
+                              value={editFormData.bottom_depth}
                               onChange={handleEditChange}
                             />
                           </Td>
@@ -237,8 +237,8 @@ const WellTest = ({ onData, unitype, errorForms }) => {
                         <>
                           
                           <Td>{data.zone_name}</Td>
-                          <Td>{data.zone_top_depth}</Td>
-                          <Td>{data.zone_bottom_depth}</Td>
+                          <Td>{data.top_depth}</Td>
+                          <Td>{data.bottom_depth}</Td>
                           
                           <Td>
                             <HStack spacing={2}>

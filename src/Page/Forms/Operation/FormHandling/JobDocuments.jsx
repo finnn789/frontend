@@ -24,9 +24,11 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { IconTable, IconFiles, IconTrash } from "@tabler/icons-react";
+import FormInputFile from "../../Components/FormInputFile";
 
 const JobDocuments = ({ data, onChange }) => {
   const [onChangeData, setOnChangeData] = useState([]);
+  const clearFileRef = useRef(null);
 
   useEffect(() => {
     if (data?.job_plan?.job_documents) {
@@ -54,8 +56,8 @@ const JobDocuments = ({ data, onChange }) => {
     }));
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+  const handleFileChange = (file) => {
+    // const file = event.target.files[0];
     if (file) {
       const allowedTypes = [
         "application/vnd.ms-excel",
@@ -72,7 +74,7 @@ const JobDocuments = ({ data, onChange }) => {
           duration: 3000,
           isClosable: true,
         });
-        event.target.value = null;
+        
       }
     }
   };
@@ -130,7 +132,7 @@ const JobDocuments = ({ data, onChange }) => {
 
       setFiles(null);
       if (fileInputRef.current) {
-        fileInputRef.current.value = "";
+        fileInputRef.current();
       }
 
       toast({
@@ -222,17 +224,8 @@ const JobDocuments = ({ data, onChange }) => {
             </FormControl>
             <FormControl>
               <FormLabel>Upload File</FormLabel>
-              <Input
-                type="file"
-                onChange={handleFileChange}
-                accept=".csv, .xls, .xlsx"
-                ref={fileInputRef}
-              />
-              {files && (
-                <Text mt={2} fontSize="sm">
-                  Selected file: {files.name}
-                </Text>
-              )}
+              <FormInputFile label="" onClearFile={(clear) => fileInputRef.current = clear} onFileSelect={handleFileChange} 
+               />
             </FormControl>
             <FormControl>
               <FormLabel>Remarks</FormLabel>

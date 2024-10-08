@@ -8,12 +8,21 @@ import WellPorePressureForm from "../Planning/WellPPFG";
 import ElevationsAndDepths from "./../Planning/ElevationsandDepths";
 import WellLocation from "./../Planning/WellLocation";
 import JobDetail from "./../Planning/JobDetail";
-import WellSummary from "./../Planning/WellSummary";
+// import WellSummary from "./../Planning/WellSummary";
+import WellSummaryForm from "../Operation/FormHandling/WellSumarry";
 import Stratigraphy from "./../Planning/Stratigraphy";
 import Seismic from "../Planning/Seismic";
 import KeyDates from "./../Planning/KeyDates";
+import WellStratigraphyForm from "../Operation/FormHandling/WellStratigraphy";
+import WellSchematic from "../Operation/FormHandling/WellSchematic";
 
-const CardFormWell = ({ onFormChange, unitType, errorForms, wellType,area_id }) => {
+const CardFormWell = ({
+  onFormChange,
+  unitType,
+  errorForms,
+  wellType,
+  area_id,
+}) => {
   const [formData, setFormData] = useState({
     unit_type: unitType,
     uwi: null,
@@ -27,25 +36,25 @@ const CardFormWell = ({ onFormChange, unitType, errorForms, wellType,area_id }) 
     well_profile_type: null,
     hydrocarbon_target: null,
     environment_type: null,
-    surface_longitude:null,
-    surface_latitude:null,
-    bottom_hole_longitude:null,
-    bottom_hole_latitude:null,
-    maximum_inclination:null,
-    azimuth:null,
+    surface_longitude: null,
+    surface_latitude: null,
+    bottom_hole_longitude: null,
+    bottom_hole_latitude: null,
+    maximum_inclination: null,
+    azimuth: null,
     line_name: null,
     spud_date: null,
     final_drill_date: null,
     completion_date: null,
-    rotary_table_elev:null,
-    kb_elev:null,
-    derrick_floor_elev:null,
-    ground_elev:null,
-    mean_sea_level:null,
+    rotary_table_elev: null,
+    kb_elev: null,
+    derrick_floor_elev: null,
+    ground_elev: null,
+    mean_sea_level: null,
     depth_datum: "RT",
-    kick_off_point:null,
-    maximum_tvd:null,
-    final_md:null,
+    kick_off_point: null,
+    maximum_tvd: null,
+    final_md: null,
     remark: null,
     well_trajectory: {
       file_id: null,
@@ -260,12 +269,20 @@ const CardFormWell = ({ onFormChange, unitType, errorForms, wellType,area_id }) 
         formData={formData}
         errorForms={errorForms}
       />
-      <WellSummary
+      {/* <WellSummary
         handleChange={(data) => {
           setFormData((prev) => ({ ...prev, well_summary: data }));
         }}
         setTableData={setTableData}
         errorForms={errorForms}
+        unittype={unitType}
+      /> */}
+
+      <WellSummaryForm
+        errorForms={errorForms}
+        onChange={(data) =>
+          setFormData((prev) => ({ ...prev, well_summary: data }))
+        }
         unittype={unitType}
       />
 
@@ -276,7 +293,7 @@ const CardFormWell = ({ onFormChange, unitType, errorForms, wellType,area_id }) 
         unittype={unitType}
         errorForms={errorForms}
       />
-      <Stratigraphy
+      {/* <Stratigraphy
         codeAreaId={area_id}
         setWellStratigraphy={setWellStratigraphy}
         WellStratigraphy={WellStratigraphy}
@@ -287,6 +304,12 @@ const CardFormWell = ({ onFormChange, unitType, errorForms, wellType,area_id }) 
         TablewellStratigraphy={TablewellStratigraphy}
         onData={(data) =>
           setFormData((prev) => ({ ...prev, well_stratigraphy: data }))
+        }
+      /> */}
+
+      <WellStratigraphyForm
+        onChange={(data, value) =>
+          setFormData((prev) => ({ ...prev, well_stratigraphy: value }))
         }
       />
 
@@ -306,6 +329,17 @@ const CardFormWell = ({ onFormChange, unitType, errorForms, wellType,area_id }) 
         onData={handleData}
         unitype={unitType}
         errorForms={errorForms}
+      />
+      <WellSchematic
+        onChange={(field, value) =>
+          setFormData((prev) => ({
+            ...prev,
+            well_schematic: {
+              ...prev.well_schematic,
+              file_id: value,
+            },
+          }))
+        }
       />
     </>
   );

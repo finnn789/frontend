@@ -285,14 +285,17 @@ export async function PostPlanningExploration(data) {
     // Jika error berasal dari response API (misalnya error 400 atau 500)
     if (error.response) {
       console.error("Response Error Data:", error.response.data);
-      return error.response.data; // Mengembalikan data error dari server
+      throw error.response; // Mengembalikan data error dari server
     } else if (error.request) {
       console.error("No Response:", error.request);
-      return { message: "No response from server." };
+      throw { message: "No response from server." };
     } else {
       console.error("Request Error:", error.message);
-      return { message: error.message };
+      throw { message: error.message };
+     
     }
+
+    
   }
 }
 

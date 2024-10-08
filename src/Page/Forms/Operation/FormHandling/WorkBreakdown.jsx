@@ -23,7 +23,7 @@ const WorkBreakdown = ({ data, onChange }) => {
     end_date: "",
     remarks: "",
   });
-
+// console.log('tableData', tableData)
   useEffect(() => {
     if (data?.job_plan?.work_breakdown_structure) {
       setTableData(data.job_plan.work_breakdown_structure);

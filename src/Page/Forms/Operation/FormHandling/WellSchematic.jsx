@@ -5,10 +5,17 @@ import FormInputFile from "../../Components/FormInputFile";
 import { Button, useToast } from "@chakra-ui/react";
 import { PostUploadFile } from "../../../API/PostKkks";
 
-const WellSchematic = () => {
+const WellSchematic = ({data,onChange}) => {
   const [files, setFiles] = React.useState(null);
   const toast = useToast();
   const [isSuccess, setIsSuccess] = React.useState(false);
+
+  const [fileInfo, setFileInfo] = React.useState({});
+  
+  React.useEffect(()=> {
+    onChange("job_plan.well.well_schematic", fileInfo);
+  }, [fileInfo]);
+
 
   React.useEffect(() => {
     setIsSuccess(false);
@@ -20,7 +27,7 @@ const WellSchematic = () => {
       file.append("file", files);
       const response = await PostUploadFile(file);
       if (response.status === 200) {
-        console.log(response.data);
+        console.log();
         toast({
           title: "Success",
           description: "File Upload Success",
@@ -28,6 +35,7 @@ const WellSchematic = () => {
           duration: 5000,
           isClosable: true,
         });
+        setFileInfo(response.data.data.file_info.id);
         setIsSuccess(true);
       }
     } catch (error) {
