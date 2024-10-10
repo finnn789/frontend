@@ -223,6 +223,7 @@ const NavbarKKKS = ({ appName = "App", nameUser }) => {
             </MenuDropdown>
             <MenuLink label="DA & ML" link="#" />
             <MenuLink label="Laporan" link="#" />
+            <MenuLink label="MAP" link="/skk/map" />
           </VStack>
         </Box>
       ) : null}

@@ -291,6 +291,13 @@ const SidebarKKS = ({ handleMenuValue }) => {
             link="#"
             tooltip="Laporan"
           />
+           <SidebarItem
+            label="Map"
+            icon={IconMap2}
+            isOpen={isOpen}
+            link="/skk/map"
+            tooltip="Map"
+          />
         </VStack>
       </Box>
     </Flex>
