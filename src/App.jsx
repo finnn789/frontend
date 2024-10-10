@@ -60,6 +60,7 @@ import OperationWSKKKS from "./Page/Components/PageWellService/OperationWSKKKS";
 import OperationDevKKKS from "./Page/Components/PageExploitasi/OperationDevKKKS";
 import SubmitP3 from "./Page/Forms/PPP/SubmitP3";
 import Map from "./Page/PageSKK/Map";
+import MachineLearning from "./Page/PageSKK/MachineLearning";
 function App() {
   const { isAuthenticated } = useAuth();
   const [showSplashScreen, setShowSplashScreen] = useState(false);
@@ -299,6 +300,15 @@ function App() {
           element: (
             <ProtectedRoute
               element={<Map/>}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
+          path: "MachineLearning",
+          element: (
+            <ProtectedRoute
+              element={<MachineLearning />}
               allowedRoles={["Admin"]}
             />
           ),
