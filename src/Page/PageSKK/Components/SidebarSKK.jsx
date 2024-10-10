@@ -22,6 +22,7 @@ import {
   IconChevronLeft,
   IconBrain,
   IconClipboardData,
+  IconMap2,
 } from "@tabler/icons-react";
 import Logo from "../../../assets/logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
