@@ -59,6 +59,7 @@ import OperationWoKKKS from "./Page/Components/PageWorkOVer/OperationExpKKKS";
 import OperationWSKKKS from "./Page/Components/PageWellService/OperationWSKKKS";
 import OperationDevKKKS from "./Page/Components/PageExploitasi/OperationDevKKKS";
 import SubmitP3 from "./Page/Forms/PPP/SubmitP3";
+import Map from "./Page/PageSKK/Map";
 function App() {
   const { isAuthenticated } = useAuth();
   const [showSplashScreen, setShowSplashScreen] = useState(false);
@@ -297,7 +298,7 @@ function App() {
           path: "map",
           element: (
             <ProtectedRoute
-              element={<Map />}
+              element={<Map/>}
               allowedRoles={["Admin"]}
             />
           ),
