@@ -22,6 +22,7 @@ import {
   IconChevronLeft,
   IconBrain,
   IconClipboardData,
+  IconMap2,
 } from "@tabler/icons-react";
 import Logo from "../../../assets/logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
@@ -290,6 +291,13 @@ const SidebarKKS = ({ handleMenuValue }) => {
             isOpen={isOpen}
             link="#"
             tooltip="Laporan"
+          />
+           <SidebarItem
+            label="Map"
+            icon={IconMap2}
+            isOpen={isOpen}
+            link="/skk/map"
+            tooltip="Map"
           />
         </VStack>
       </Box>
