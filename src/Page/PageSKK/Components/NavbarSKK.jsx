@@ -221,7 +221,7 @@ const NavbarKKKS = ({ appName = "App", nameUser }) => {
                 link="/skk/wellservice/closeoutwellservice"
               />
             </MenuDropdown>
-            <MenuLink label="DA & ML" link="#" />
+            <MenuLink label="DA & ML" link="/skk/MachineLearning" />
             <MenuLink label="Laporan" link="#" />
             <MenuLink label="MAP" link="/skk/map" />
           </VStack>

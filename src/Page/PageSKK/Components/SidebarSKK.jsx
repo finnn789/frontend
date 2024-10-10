@@ -282,7 +282,7 @@ const SidebarKKS = ({ handleMenuValue }) => {
             label="DA & ML"
             icon={IconBrain}
             isOpen={isOpen}
-            link="#"
+            link="/skk/MachineLearning"
             tooltip="Data Analytics & Machine Learning"
           />
           <SidebarItem
