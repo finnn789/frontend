@@ -294,6 +294,15 @@ function App() {
           ),
         },
         {
+          path: "map",
+          element: (
+            <ProtectedRoute
+              element={<Map />}
+              allowedRoles={["Admin"]}
+            />
+          ),
+        },
+        {
           path: "exploration",
           element: (
             <ProtectedRoute
